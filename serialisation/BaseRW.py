@@ -37,6 +37,7 @@ class BaseRW:
         self.rw_var = None
         self.rw_varlist = None
         self.rw_varobject = None
+        self.rw_readwriter = None
         self.rw_ascii = None
         self.rw_bytes = None
         self.rw_method = None
@@ -103,6 +104,15 @@ class BaseRW:
         to_write = self.pack(val, dtype, endianness)
         self.bytestream.write(to_write)
 
+    #################
+    # RW READWRITER #
+    #################
+    def read_readwriter(self, rw, *args, method=None, **kwargs):
+        rw.read(self.bytestream, *args, method=None, **kwargs)
+        
+    def write_readwriter(self, rw, *args, method=None, **kwargs):
+        rw.write(self.bytestream, *args, method=None, **kwargs)
+    
     ############
     # RW ASCII #
     ############
@@ -177,6 +187,7 @@ class BaseRW:
     def set_read_template_methods(self):
         self.rw_var = self.read_var
         self.rw_varlist = self.read_varlist
+        self.rw_readwriter = self.read_readwriter
         self.rw_ascii = self.read_ascii
         self.rw_bytes = self.read_bytes
         self.cleanup_ragged_chunk = self.cleanup_ragged_chunk_read
@@ -198,6 +209,7 @@ class BaseRW:
     def set_write_template_methods(self):
         self.rw_var = self.write_var
         self.rw_varlist = self.write_varlist
+        self.rw_readwriter = self.write_readwriter
         self.rw_ascii = self.write_ascii
         self.rw_bytes = self.write_bytes
         self.cleanup_ragged_chunk = self.cleanup_ragged_chunk_write
@@ -226,7 +238,9 @@ class BaseRW:
         self.bytestream = None
         self.rw_var = None
         self.rw_varlist = None
+        self.rw_readwriter = None
         self.rw_ascii = None
         self.rw_bytes = None
         self.cleanup_ragged_chunk = None
         self.rw_method = None
+        
