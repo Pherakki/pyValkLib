@@ -1,0 +1,232 @@
+import io
+import struct
+
+class ViolatedAssumptionError(Exception):
+    pass
+
+
+class BaseRW:
+    """
+    This is a base class for bytestream parsing, intended to be able to read/write (RW) these bytestreams to/from files.
+    """
+    pad_byte = b'\x00'
+
+    type_buffers = {
+        'x': 1,  # pad byte
+        'c': 1,  # char
+        'b': 1,  # int8
+        'B': 1,  # uint8
+        '?': 1,  # bool
+        'h': 2,  # int16
+        'H': 2,  # uint16
+        'i': 4,  # int32
+        'I': 4,  # uint32
+        'l': 4,  # int32
+        'L': 4,  # uint32
+        'q': 8,  # int64
+        'Q': 8,  # uint64
+        'e': 2,  # half-float
+        'f': 4,  # float
+        'd': 8   # double
+    }
+
+    def __init__(self, endianness=None):
+        self.bytestream = None
+        self.endianness = endianness if endianness is not None else '<'
+        
+        self.rw_var = None
+        self.rw_varlist = None
+        self.rw_varobject = None
+        self.rw_ascii = None
+        self.rw_bytes = None
+        self.rw_method = None
+        self.cleanup_ragged_chunk = None
+
+
+    ################
+    # INIT HELPERS #
+    ################
+    def set_file_rw(self, io_object):
+        assert (type(io_object) == io.BufferedReader) or (type(io_object) == io.BufferedWriter), \
+            f"Read-write object was instantiated with a {type(io_object)}, not a {io.BufferedReader} or " \
+            f"{io.BufferedWriter}. Ensure you are instantiating this object with a file opened in 'rb' or 'wb' mode."
+        self.bytestream = io_object
+        
+    def setup_rw(self, dtype, src, endianness):
+        if len(dtype) != 1:
+            raise ValueError(f"'dtype' must be a single character, received {dtype}.")
+        if src is None:
+            src = self
+        if endianness is None:
+            endianness = self.endianness
+        return src, endianness
+
+    ##################
+    # STRUCT OVERLAY #
+    ##################
+    def unpack(self, dtype, endianness=None):
+        if endianness is None:
+            endianness = self.endianness
+        buf = sum([self.type_buffers[dt] for dt in dtype])
+        return struct.unpack(f"{endianness}{dtype}", self.bytestream.read(buf))
+    
+    def pack(self, value, dtype, endianness=None):
+        if endianness is None:
+            endianness = self.endianness
+        return struct.pack(f"{endianness}{dtype}", *value)
+
+    ##########
+    # RW VAR #
+    ##########
+    def read_var(self, variable, dtype, endianness=None, src=None):
+        src, endianness = self.setup_rw(dtype, src, endianness)
+        setattr(src, variable, self.unpack(dtype, endianness)[0])
+
+    def write_var(self, variable, dtype, endianness=None, src=None):
+        src, endianness = self.setup_rw(dtype, src, endianness)
+        
+        val = getattr(src, variable)
+        to_write = self.pack((val,), dtype, endianness)
+        self.bytestream.write(to_write)
+
+    ##############
+    # RW VARLIST #
+    ##############
+    def read_varlist(self, variable, dtype, n_vars, endianness=None, src=None):
+        src, endianness = self.setup_rw(dtype, src, endianness)
+        setattr(src, variable, self.unpack(dtype*n_vars, endianness))
+
+    def write_varlist(self, variable, dtype, n_vars, endianness=None, src=None):
+        src, endianness = self.setup_rw(dtype, src, endianness)
+        
+        val = getattr(src, variable)
+        to_write = self.pack(val, dtype, endianness)
+        self.bytestream.write(to_write)
+
+    ############
+    # RW ASCII #
+    ############
+    def read_ascii(self, variable, num_bytes=None, src=None):
+        if src is None:
+            src = self
+        bytes_to_read = [] if num_bytes is None else [num_bytes]
+        val = self.bytestream.read(*bytes_to_read).decode('ascii')
+        setattr(src, variable, val)
+
+    def write_ascii(self, variable, num_bytes=None, src=None):
+        if src is None:
+            src = self
+        val = getattr(src, variable)
+        if num_bytes is not None:
+            assert len(val) == num_bytes, f"String to write [{val}] is not equal to the number of bytes [{num_bytes}]."
+        self.bytestream.write(val.encode('ascii'))
+
+    ############
+    # RW BYTES #
+    ############
+    def read_bytes(self, variable, num_bytes=None, src=None):
+        if src is None:
+            src = self
+        bytes_to_read = [] if num_bytes is None else [num_bytes]
+        val = self.bytestream.read(*bytes_to_read)
+        setattr(src, variable, val)
+
+    def write_bytes(self, variable, num_bytes=None, src=None):
+        if src is None:
+            src = self
+        val = getattr(src, variable)
+        if num_bytes is not None:
+            assert len(val) == num_bytes, "Bytes to write is not equal to the number of bytes."
+        self.bytestream.write(val)
+
+    #################
+    # CLEANUP CHUNK #
+    #################
+    def cleanup_ragged_chunk_read(self, position, chunksize, stepsize=1, bytevalue=b'\x00'):
+        """
+        If 'position' is partially through a chunk, this function will check that the remaining bytes in the chunk
+        are pad bytes.
+        """
+        bytes_read_from_final_chunk = position % chunksize
+        # The modulo maps {bytes_read_from_final_chunk == 0} to {0} rather than {chunksize}
+        num_bytes_left_to_read = (chunksize - bytes_read_from_final_chunk) % chunksize
+        should_be_value_bytes = self.bytestream.read(num_bytes_left_to_read)
+        assert should_be_value_bytes == bytevalue * (num_bytes_left_to_read // stepsize), f"Assumed padding data was not {bytevalue}: {should_be_value_bytes}"
+
+    def cleanup_ragged_chunk_write(self, position, chunksize, stepsize=1, bytevalue=b'\x00'):
+        """
+        If 'position' is partially through a chunk, this function will complete the chunk with pad bytes.
+        """
+        bytes_read_from_final_chunk = position % chunksize
+        # The modulo maps {bytes_read_from_final_chunk == 0} to {0} rather than {chunksize}
+        num_bytes_left_to_read = (chunksize - bytes_read_from_final_chunk) % chunksize
+        self.bytestream.write(bytevalue * (num_bytes_left_to_read // stepsize))
+
+    #######################
+    # INTERFACE FUNCTIONS #
+    #######################
+    def set_template_methods(self, bytestream, rw_method):
+        if rw_method == "read":
+            self.set_read_template_methods()
+        elif rw_method == "write":
+            self.set_write_template_methods()
+        else:
+            assert 0, f"Unknown rw method {rw_method}."
+        self.set_file_rw(bytestream)
+    
+    def set_read_template_methods(self):
+        self.rw_var = self.read_var
+        self.rw_varlist = self.read_varlist
+        self.rw_ascii = self.read_ascii
+        self.rw_bytes = self.read_bytes
+        self.cleanup_ragged_chunk = self.cleanup_ragged_chunk_read
+        self.rw_method = "read"
+        
+    def read(self, bytestream, *args, method=None, **kwargs):
+        if method == None:
+            method = self.read_write
+            
+        # Set Template methods
+        self.set_file_rw(bytestream)
+        self.set_read_template_methods()
+        
+        try:
+            method(*args, **kwargs)
+        finally:
+            self.reset_rw_functions()
+            
+    def set_write_template_methods(self):
+        self.rw_var = self.write_var
+        self.rw_varlist = self.write_varlist
+        self.rw_ascii = self.write_ascii
+        self.rw_bytes = self.write_bytes
+        self.cleanup_ragged_chunk = self.cleanup_ragged_chunk_write
+        self.rw_method = "write"
+        
+    def write(self, bytestream, *args, method=None, **kwargs):
+        if method == None:
+            method = self.read_write
+            
+        # Set Template methods
+        self.set_file_rw(bytestream)
+        self.set_write_template_methods()
+        
+        try:
+            method(*args, **kwargs)
+        finally:
+            self.reset_rw_functions()
+        
+    def read_write(self):
+        """
+        Virtual function to be overridden by subclasses.
+        """
+        raise NotImplementedError
+        
+    def reset_rw_functions(self):
+        self.bytestream = None
+        self.rw_var = None
+        self.rw_varlist = None
+        self.rw_ascii = None
+        self.rw_bytes = None
+        self.cleanup_ragged_chunk = None
+        self.rw_method = None
