@@ -244,3 +244,27 @@ class BaseRW:
         self.cleanup_ragged_chunk = None
         self.rw_method = None
         
+    #############################
+    # DATA VALIDATION FUNCTIONS #
+    #############################
+    def assert_file_pointer_now_at(self, location, file_pointer_location=None, use_hex=False):
+        if file_pointer_location is None:
+            file_pointer_location = self.bytestream.tell()
+        if file_pointer_location != location:
+            if use_hex:
+                size = lambda x : len(f'{x:0x}')
+                formatter = lambda x: f"0x{x:0{size(x) + (((size(x) + 1)//2) - (size(x) // 2))}x}"
+            else:
+                formatter = lambda x: x
+            raise ViolatedAssumptionError(f"File pointer at {formatter(file_pointer_location)}, not at {formatter(location)}.")
+            
+    def assert_equal(self, varname, value):
+        if getattr(self, varname) != value:
+            raise ViolatedAssumptionError(f"{varname} != {value}, value is {getattr(self, varname)}")
+
+    def assert_is_zero(self, varname):
+        self.assert_equal(varname, 0)
+
+    def assert_equal_to_any(self, varname, *values):
+        if getattr(self, varname) not in set(values):
+            raise ViolatedAssumptionError(f"{varname} is not any of {','.join([str(e) for e in values])}, value is {getattr(self, varname)}")
