@@ -9,6 +9,50 @@ class UnimplementedFiletypeError(Exception):
     def __init__(self, ftype):
         super().__init__(f'File type \'{ftype}\' not defined.')
         
+        
+class Header16B(BaseRW):
+    __slots__ = tuple("filetype", "contents_length", "header_length", "flags")
+    
+    def __init__(self, endianness=None):
+        super().__init__(endianness)
+        self.filetype = None
+        self.contents_length = None
+        self.header_length = None
+        self.flags = None     
+        
+    def read_write(self):
+        self.rw_ascii("filetype", 4)
+        self.rw_var("contents_length", "I")
+        self.rw_var("header_length", "I")
+        self.rw_var("flags", "I")
+        
+class Header32B(BaseRW):
+    __slots__ = tuple("filetype", "contents_length", "header_length", "flags",
+                      "depth", "data_length", "unknown_0x18", "unknown_0x1C")
+    
+    def __init__(self, endianness=None):
+        super().__init__(endianness)
+        self.filetype = None
+        self.contents_length = None
+        self.header_length = None
+        self.flags = None
+        
+        self.depth = None
+        self.data_length = None
+        self.unknown_0x18 = None
+        self.unknown_0x1C = None
+        
+    def read_write(self):
+        self.rw_ascii("filetype", 4)
+        self.rw_var("contents_length", "I")
+        self.rw_var("header_length", "I")
+        self.rw_var("flags", "I")
+        
+        self.rw_var("depth", "I")
+        self.rw_var("data_length", "I")
+        self.rw_var("unknown_0x18", "I")
+        self.rw_var("unknown_0x1C", "I")
+        
 class ValkyriaBaseRW(BaseRW):
     __slots__ = ("start_position", "header", "filetype")
     
@@ -61,3 +105,34 @@ class ValkyriaBaseRW(BaseRW):
     def read_write_contents(self):
         raise NotImplementedError()
     
+class ValkyriaBaseRW16BH(ValkyriaBaseRW):
+    def __init__(self, endianness=None):
+        super().__init__(endianness)
+        self.header = Header16B()
+        
+    def read_write(self):
+        self.start_position = self.global_tell()
+        
+        self.rw_readwriter(self.header)
+        self.check_header_size()
+        self.read_write_contents()
+        # Now RW the sub-containers
+        self.check_contents_size()
+        
+class ValkyriaBaseRW32BH(ValkyriaBaseRW):
+    def __init__(self, endianness=None):
+        super().__init__(endianness)
+        self.header = Header32B()
+        self.check_header_size()
+        
+    def check_data_size(self):
+        self.assert_local_file_pointer_now_at(self.local_tell(), self.header.header_length + self.header.data_length)
+        
+    def read_write(self):
+        self.start_position = self.global_tell()
+        
+        self.rw_readwriter(self.header)
+        self.read_write_contents()
+        self.check_data_size()
+        # Now RW the sub-containers
+        self.check_contents_size()
