@@ -9,6 +9,13 @@ class UnimplementedFiletypeError(Exception):
     def __init__(self, ftype):
         super().__init__(f'File type \'{ftype}\' not defined.')
         
+
+class PointerIndexableArray:
+    def __init__(self):
+        self.data = []
+        self.ptr_to_idx = {}
+        self.idx_to_ptr = []
+        
         
 class Header16B(BaseRW):
     __slots__ = tuple("filetype", "contents_length", "header_length", "flags")
