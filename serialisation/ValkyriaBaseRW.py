@@ -61,11 +61,11 @@ class Header32B(BaseRW):
         self.rw_var("unknown_0x1C", "I")
         
 class ValkyriaBaseRW(BaseRW):
-    __slots__ = ("start_position", "header", "filetype")
+    __slots__ = ("start_position", "header")
+    filetype = None
     
     def __init__(self, endianness=None):
         super().__init__(endianness)
-        self.filetype = None
         self.start_position = None
         self.header = None
         
