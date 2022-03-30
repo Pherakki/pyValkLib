@@ -48,12 +48,19 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
         # 0x00000400 -> texmerge count + ptrs_ptr enabled
         # 0x00001800 -> pvs enabled
         # 0x01000000 -> mergefile enabled
-        if not (   self.content_flags == 0x0000010
-                or self.content_flags == 0x01000500   
-                or self.content_flags == 0x00000500  
-                or self.content_flags == 0x01000100
-                or self.content_flags == 0x01001d00):
-            assert 0, self.content_flags
+        texmerge_enabled  = (self.content_flags & 0x00000100) == 0x00000100
+        unknown_enabled   = (self.content_flags & 0x00000400) == 0x00000400
+        pvs_enabled       = (self.content_flags & 0x00001800) == 0x00001800
+        mergefile_enabled = (self.content_flags & 0x01000000) == 0x01000000
+        
+        # Check we've got all the flags
+        cflags = self.content_flags
+        print(cflags)
+        cflags -= texmerge_enabled * 0x00000100
+        cflags -= unknown_enabled * 0x00000400
+        cflags -= pvs_enabled * 0x00001800
+        cflags -= mergefile_enabled * 0x01000000
+        assert cflags == 0, f"Some MXEC flags uncaught! 0x{cflags:0>8x}"
         
         self.rw_var("unknown_0x30", 'I', endianness='>')
         self.rw_var("entry_table_3_ptr", 'I', endianness='>')
