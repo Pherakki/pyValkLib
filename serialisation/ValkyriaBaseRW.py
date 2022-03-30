@@ -18,7 +18,7 @@ class PointerIndexableArray:
         
         
 class Header16B(BaseRW):
-    __slots__ = tuple("filetype", "contents_length", "header_length", "flags")
+    __slots__ = ("filetype", "contents_length", "header_length", "flags")
     
     def __init__(self, endianness=None):
         super().__init__(endianness)
@@ -34,8 +34,8 @@ class Header16B(BaseRW):
         self.rw_var("flags", "I")
         
 class Header32B(BaseRW):
-    __slots__ = tuple("filetype", "contents_length", "header_length", "flags",
-                      "depth", "data_length", "unknown_0x18", "unknown_0x1C")
+    __slots__ = ("filetype", "contents_length", "header_length", "flags",
+                 "depth", "data_length", "unknown_0x18", "unknown_0x1C")
     
     def __init__(self, endianness=None):
         super().__init__(endianness)
