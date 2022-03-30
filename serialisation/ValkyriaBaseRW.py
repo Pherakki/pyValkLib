@@ -114,6 +114,9 @@ class ValkyriaBaseRW(BaseRW):
 
     def read_write_contents(self):
         raise NotImplementedError()
+        
+    def read_write_subcontainers(self):
+        pass
     
 class ValkyriaBaseRW16BH(ValkyriaBaseRW):
     def __init__(self, endianness=None):
@@ -126,7 +129,7 @@ class ValkyriaBaseRW16BH(ValkyriaBaseRW):
         self.rw_readwriter(self.header)
         self.check_header_size()
         self.read_write_contents()
-        # Now RW the sub-containers
+        self.read_write_subcontainers()
         self.check_contents_size()
         
 class ValkyriaBaseRW32BH(ValkyriaBaseRW):
@@ -144,5 +147,5 @@ class ValkyriaBaseRW32BH(ValkyriaBaseRW):
         self.check_header_size()
         self.read_write_contents()
         self.check_data_size()
-        # Now RW the sub-containers
+        self.read_write_subcontainers()
         self.check_contents_size()
