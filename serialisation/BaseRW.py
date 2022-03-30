@@ -258,16 +258,16 @@ class BaseRW:
                 formatter = lambda x: x
             raise ViolatedAssumptionError(f"File pointer at {formatter(file_pointer_location)}, not at {formatter(location)}.")
             
-    def assert_equal(self, varname, value, obj=None):
+    def assert_equal(self, varname, value, obj=None, formatter=lambda x: x):
         if obj is None:
             obj = self
         if getattr(obj, varname) != value:
-            raise ViolatedAssumptionError(f"{varname} != {value}, value is {getattr(obj, varname)}")
+            raise ViolatedAssumptionError(f"{varname} != {formatter(value)}, value is {formatter(getattr(obj, varname))}")
 
-    def assert_is_zero(self, varname, obj=None):
+    def assert_is_zero(self, varname, obj=None, formatter=lambda x: x):
         if obj is None:
             obj = self
-        self.assert_equal(varname, 0, obj=obj)
+        self.assert_equal(varname, 0, obj=obj, formatter=formatter)
 
     def assert_equal_to_any(self, varname, *values, obj=None):
         if obj is None:
