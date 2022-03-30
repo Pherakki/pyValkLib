@@ -262,7 +262,7 @@ class BaseRW:
         if obj is None:
             obj = self
         if getattr(obj, varname) != value:
-            raise ViolatedAssumptionError(f"{varname} != {value}, value is {getattr(self, varname)}")
+            raise ViolatedAssumptionError(f"{varname} != {value}, value is {getattr(obj, varname)}")
 
     def assert_is_zero(self, varname, obj=None):
         if obj is None:
@@ -273,4 +273,4 @@ class BaseRW:
         if obj is None:
             obj = self
         if getattr(obj, varname) not in set(values):
-            raise ViolatedAssumptionError(f"{varname} is not any of {','.join([str(e) for e in values])}, value is {getattr(self, varname)}")
+            raise ViolatedAssumptionError(f"{varname} is not any of {','.join([str(e) for e in values])}, value is {getattr(obj, varname)}")
