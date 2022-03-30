@@ -133,7 +133,6 @@ class ValkyriaBaseRW32BH(ValkyriaBaseRW):
     def __init__(self, endianness=None):
         super().__init__(endianness)
         self.header = Header32B()
-        self.check_header_size()
         
     def check_data_size(self):
         self.assert_local_file_pointer_now_at(self.local_tell(), self.header.header_length + self.header.data_length)
@@ -142,6 +141,7 @@ class ValkyriaBaseRW32BH(ValkyriaBaseRW):
         self.start_position = self.global_tell()
         
         self.rw_readwriter(self.header)
+        self.check_header_size()
         self.read_write_contents()
         self.check_data_size()
         # Now RW the sub-containers
