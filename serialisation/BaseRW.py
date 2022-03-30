@@ -258,13 +258,19 @@ class BaseRW:
                 formatter = lambda x: x
             raise ViolatedAssumptionError(f"File pointer at {formatter(file_pointer_location)}, not at {formatter(location)}.")
             
-    def assert_equal(self, varname, value):
-        if getattr(self, varname) != value:
+    def assert_equal(self, varname, value, obj=None):
+        if obj is None:
+            obj = self
+        if getattr(obj, varname) != value:
             raise ViolatedAssumptionError(f"{varname} != {value}, value is {getattr(self, varname)}")
 
-    def assert_is_zero(self, varname):
-        self.assert_equal(varname, 0)
+    def assert_is_zero(self, varname, obj=None):
+        if obj is None:
+            obj = self
+        self.assert_equal(varname, 0, obj=obj)
 
-    def assert_equal_to_any(self, varname, *values):
-        if getattr(self, varname) not in set(values):
+    def assert_equal_to_any(self, varname, *values, obj=None):
+        if obj is None:
+            obj = self
+        if getattr(obj, varname) not in set(values):
             raise ViolatedAssumptionError(f"{varname} is not any of {','.join([str(e) for e in values])}, value is {getattr(self, varname)}")
