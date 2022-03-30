@@ -64,7 +64,7 @@ class Header32B(BaseRW):
         self.assert_is_zero("unknown_0x1C")
         
 class ValkyriaBaseRW(BaseRW):
-    __slots__ = ("start_position", "header", "containers")
+    __slots__ = ("start_position", "header", "containers", "subcontainers")
     filetype = None
     
     def __init__(self, containers, endianness=None):
@@ -72,6 +72,7 @@ class ValkyriaBaseRW(BaseRW):
         self.start_position = None
         self.header = None
         self.containers = containers
+        self.subcontainers = []
         
         
     def local_tell(self):
@@ -117,7 +118,8 @@ class ValkyriaBaseRW(BaseRW):
         raise NotImplementedError()
         
     def read_write_subcontainers(self):
-        pass
+        for subcontainer in self.subcontainers:
+            self.rw_readwriter(subcontainer)
     
 class ValkyriaBaseRW16BH(ValkyriaBaseRW):
     def __init__(self, containers, endianness=None):
