@@ -64,13 +64,14 @@ class Header32B(BaseRW):
         self.assert_is_zero("unknown_0x1C")
         
 class ValkyriaBaseRW(BaseRW):
-    __slots__ = ("start_position", "header")
+    __slots__ = ("start_position", "header", "containers")
     filetype = None
     
-    def __init__(self, endianness=None):
+    def __init__(self, containers, endianness=None):
         super().__init__(endianness)
         self.start_position = None
         self.header = None
+        self.containers = containers
         
         
     def local_tell(self):
@@ -119,8 +120,8 @@ class ValkyriaBaseRW(BaseRW):
         pass
     
 class ValkyriaBaseRW16BH(ValkyriaBaseRW):
-    def __init__(self, endianness=None):
-        super().__init__(endianness)
+    def __init__(self, containers, endianness=None):
+        super().__init__(containers, endianness)
         self.header = Header16B()
         
     def read_write(self):
@@ -133,8 +134,8 @@ class ValkyriaBaseRW16BH(ValkyriaBaseRW):
         self.check_contents_size()
         
 class ValkyriaBaseRW32BH(ValkyriaBaseRW):
-    def __init__(self, endianness=None):
-        super().__init__(endianness)
+    def __init__(self, containers, endianness=None):
+        super().__init__(containers, endianness)
         self.header = Header32B()
         
     def check_data_size(self):
