@@ -91,8 +91,8 @@ class ValkyriaBaseRW(BaseRW):
         except Exception as e:
             print("FUCKED UP ON", self.filetype, ":", e)
             print("Start pos: ", self.start_position)
-            print("header len:", self.header_length)
-            print("body len:  ", self.contents_length)
+            print("header len:", self.header.header_length)
+            print("body len:  ", self.header.contents_length)
             # raise e
         
     def convert_to_local_position(self, position):
