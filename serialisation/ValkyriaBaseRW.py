@@ -1,4 +1,4 @@
-from BaseRW import BaseRW, ViolatedAssumptionError
+from pyValkLib.serialisation.BaseRW import BaseRW, ViolatedAssumptionError
 
 
 class BadMagicValueError(Exception):
