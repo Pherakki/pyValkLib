@@ -139,6 +139,8 @@ class ValkyriaBaseRW32BH(ValkyriaBaseRW):
         self.start_position = self.global_tell()
         
         self.rw_readwriter(self.header)
+        self.assert_is_zero(self.header.unknown_0x18)
+        self.assert_is_zero(self.header.unknown_0x1C)
         self.read_write_contents()
         self.check_data_size()
         # Now RW the sub-containers
