@@ -141,7 +141,7 @@ class ValkyriaBaseRW32BH(ValkyriaBaseRW):
         self.header = Header32B()
         
     def check_data_size(self):
-        self.assert_local_file_pointer_now_at(self.local_tell(), self.header.header_length + self.header.data_length)
+        self.assert_local_file_pointer_now_at(self.header.header_length + self.header.data_length)
         
     def read_write(self):
         self.start_position = self.global_tell()
