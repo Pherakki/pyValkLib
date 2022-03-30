@@ -36,7 +36,7 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
     
     def read_write_contents(self):
         self.assert_equal("flags", 0x18000000, self.header, lambda x: hex(x))
-        
+        self.rw_fileinfo()
         
     def rw_fileinfo(self):
         self.rw_var("content_flags", 'I')
