@@ -60,6 +60,9 @@ class Header32B(BaseRW):
         self.rw_var("unknown_0x18", "I")
         self.rw_var("unknown_0x1C", "I")
         
+        self.assert_is_zero("unknown_0x18")
+        self.assert_is_zero("unknown_0x1C")
+        
 class ValkyriaBaseRW(BaseRW):
     __slots__ = ("start_position", "header")
     filetype = None
@@ -139,8 +142,6 @@ class ValkyriaBaseRW32BH(ValkyriaBaseRW):
         self.start_position = self.global_tell()
         
         self.rw_readwriter(self.header)
-        self.assert_is_zero(self.header.unknown_0x18)
-        self.assert_is_zero(self.header.unknown_0x1C)
         self.read_write_contents()
         self.check_data_size()
         # Now RW the sub-containers
