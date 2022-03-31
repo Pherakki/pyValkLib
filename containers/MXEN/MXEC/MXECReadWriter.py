@@ -37,6 +37,10 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
     def read_write_contents(self):
         self.assert_equal("flags", 0x18000000, self.header, lambda x: hex(x))
         self.rw_fileinfo()
+        self.rw_components_table()
+        self.rw_entities_table()
+        self.rw_batch_render_table()
+        self.rw_asset_table()
         
     def rw_fileinfo(self):
         self.rw_var("content_flags", 'I')
@@ -88,3 +92,21 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
         self.assert_equal("unknown_0x58", 0)
         self.assert_equal("unknown_0x5C", 0)
         
+    def rw_components_table(self):
+        if self.component_table_ptr != 0:
+            self.assert_local_file_pointer_now_at(self.component_table_ptr)
+            
+            
+    def rw_entities_table(self):
+        if self.entity_table_ptr != 0:
+            self.assert_local_file_pointer_now_at(self.entity_table_ptr)
+            
+            
+    def rw_batch_render_table(self):
+        if self.batch_render_table_ptr != 0:
+            self.assert_local_file_pointer_now_at(self.batch_render_table_ptr)
+            
+            
+    def rw_asset_table(self):
+        if self.asset_table_ptr != 0:
+            self.assert_local_file_pointer_now_at(self.asset_table_ptr)
