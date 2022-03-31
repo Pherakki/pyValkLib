@@ -19,6 +19,7 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
         self.component_table    = EntryTable(ComponentEntry, self.endianness)    # Component table
         self.entity_table       = EntryTable(EntityEntry, self.endianness)       # Entity table
         self.batch_render_table = EntryTable(BatchRenderEntry, self.endianness)  # Batch render table?
+        # "Batch Render" role is not confirmed; just a guess for now
         
         self.asset_table = AssetTable(self.endianness)          # Asset table
 
