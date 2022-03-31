@@ -55,10 +55,9 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
         
         # Check we've got all the flags
         cflags = self.content_flags
-        print(cflags)
-        cflags -= texmerge_enabled * 0x00000100
-        cflags -= unknown_enabled * 0x00000400
-        cflags -= pvs_enabled * 0x00001800
+        cflags -=  texmerge_enabled * 0x00000100
+        cflags -=   unknown_enabled * 0x00000400
+        cflags -=       pvs_enabled * 0x00001800
         cflags -= mergefile_enabled * 0x01000000
         assert cflags == 0, f"Some MXEC flags uncaught! 0x{cflags:0>8x}"
         
