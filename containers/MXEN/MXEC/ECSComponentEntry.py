@@ -15,10 +15,10 @@ class ComponentEntry(BaseRW):
         
 
     def read_write(self):
-        self.rw_var("ID", "I", endianness=">")
-        self.rw_var("offset_1", "I", endianness=">")
-        self.rw_var("data_size", "I", endianness=">")
-        self.rw_var("offset_2", "I", endianness=">")
+        self.rw_var("ID", "I")
+        self.rw_var("offset_1", "I")
+        self.rw_var("data_size", "I")
+        self.rw_var("offset_2", "I")
         
     def rw_data_2(self, lookup_name):
         self.rw_readwriter(self.data_2)

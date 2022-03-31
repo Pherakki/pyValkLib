@@ -62,10 +62,10 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
         cflags -= mergefile_enabled * 0x01000000
         assert cflags == 0, f"Some MXEC flags uncaught! 0x{cflags:0>8x}"
         
-        self.rw_var("unknown_0x30", 'I', endianness='>')
-        self.rw_var("entry_table_3_ptr", 'I', endianness='>')
-        self.rw_var("texmerge_count", 'I', endianness='>')
-        self.rw_var("texmerge_ptrs_ptr", 'I', endianness='>')
+        self.rw_var("unknown_0x30", 'I')
+        self.rw_var("batch_render_table_ptr", 'I')
+        self.rw_var("texmerge_count", 'I')
+        self.rw_var("texmerge_ptrs_ptr", 'I')
         
         self.assert_equal("unknown_0x30", 1)
         

@@ -15,25 +15,25 @@ class EntityEntry(BaseRW):
         
 
     def read_write(self):
-        self.rw_var("ID", "I", endianness=">")
-        self.rw_var("offset_1", "I", endianness=">")
-        self.rw_var("count", "I", endianness=">")
-        self.rw_var("offset_2", "I", endianness=">")
+        self.rw_var("ID", "I")
+        self.rw_var("offset_1", "I")
+        self.rw_var("count", "I")
+        self.rw_var("offset_2", "I")
         
-        self.rw_var("padding_0x10", "I", endianness=">")
-        self.rw_var("padding_0x14", "I", endianness=">")
-        self.rw_var("count_4", "I", endianness=">")
-        self.rw_var("padding_0x1C", "I", endianness=">")
+        self.rw_var("padding_0x10", "I")
+        self.rw_var("padding_0x14", "I")
+        self.rw_var("count_4", "I")
+        self.rw_var("padding_0x1C", "I")
         
-        self.rw_var("padding_0x20", "I", endianness=">")
-        self.rw_var("padding_0x24", "I", endianness=">")
-        self.rw_var("unknown_0x28", "I", endianness=">")  # 0 or 1?
-        self.rw_var("unknown_0x2C", "I", endianness=">")  # Ptr
+        self.rw_var("padding_0x20", "I")
+        self.rw_var("padding_0x24", "I")
+        self.rw_var("unknown_0x28", "I")  # 0 or 1?
+        self.rw_var("unknown_0x2C", "I")  # Ptr
         
-        self.rw_var("padding_0x30", "I", endianness=">")
-        self.rw_var("padding_0x34", "I", endianness=">")
-        self.rw_var("padding_0x38", "I", endianness=">")
-        self.rw_var("padding_0x3C", "I", endianness=">")
+        self.rw_var("padding_0x30", "I")
+        self.rw_var("padding_0x34", "I")
+        self.rw_var("padding_0x38", "I")
+        self.rw_var("padding_0x3C", "I")
         
         self.assert_is_zero("padding_0x10")
         self.assert_is_zero("padding_0x14")

@@ -27,25 +27,25 @@ class BatchRenderEntry(BaseRW):
         
 
     def read_write(self):
-        self.rw_var("name_offset", "I", endianness=">")
-        self.rw_var("t1_count", "I", endianness=">")
-        self.rw_var("t1_offset", "I", endianness=">")
-        self.rw_var("t2_count", "I", endianness=">")
+        self.rw_var("name_offset", "I")
+        self.rw_var("t1_count", "I")
+        self.rw_var("t1_offset", "I")
+        self.rw_var("t2_count", "I")
         
-        self.rw_var("t2_offset", "I", endianness=">")
-        self.rw_var("t3_count", "I", endianness=">")
-        self.rw_var("t3_offset", "I", endianness=">")
-        self.rw_var("t4_count", "I", endianness=">")
+        self.rw_var("t2_offset", "I")
+        self.rw_var("t3_count", "I")
+        self.rw_var("t3_offset", "I")
+        self.rw_var("t4_count", "I")
         
-        self.rw_var("t4_offset", "I", endianness=">")
-        self.rw_var("padding_0x24", "I", endianness=">")
-        self.rw_var("padding_0x28", "I", endianness=">")
-        self.rw_var("padding_0x2C", "I", endianness=">")
+        self.rw_var("t4_offset", "I")
+        self.rw_var("padding_0x24", "I")
+        self.rw_var("padding_0x28", "I")
+        self.rw_var("padding_0x2C", "I")
         
-        self.rw_var("padding_0x30", "I", endianness=">")
-        self.rw_var("padding_0x34", "I", endianness=">")
-        self.rw_var("padding_0x38", "I", endianness=">")
-        self.rw_var("padding_0x3C", "I", endianness=">")
+        self.rw_var("padding_0x30", "I")
+        self.rw_var("padding_0x34", "I")
+        self.rw_var("padding_0x38", "I")
+        self.rw_var("padding_0x3C", "I")
         
         self.assert_is_zero("padding_0x24")
         self.assert_is_zero("padding_0x28")
