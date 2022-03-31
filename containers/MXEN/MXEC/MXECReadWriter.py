@@ -40,9 +40,9 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
         
     def rw_fileinfo(self):
         self.rw_var("content_flags", 'I')
-        self.rw_var("component_table_ptr", 'I')    # Entries 1 ptr
-        self.rw_var("entity_table_ptr", 'I')       # Entries 2 ptr
-        self.rw_var("batch_render_table_ptr", 'I') # Table ptr
+        self.rw_var("component_table_ptr", 'I')
+        self.rw_var("entity_table_ptr", 'I')
+        self.rw_var("asset_table_ptr", 'I')
 
         # 0x00000100 -> texmerge count + ptrs_ptr enabled
         # 0x00000400 -> texmerge count + ptrs_ptr enabled
