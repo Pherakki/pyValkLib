@@ -91,7 +91,7 @@ class ValkyriaBaseRW(BaseRW):
         try:
             self.assert_local_file_pointer_now_at(self.header.contents_length + self.header.header_length)
         except Exception as e:
-            print("FUCKED UP ON", self.filetype, ":", e)
+            print("FUCKED UP ON", self.FILETYPE, ":", e)
             print("Start pos: ", self.start_position)
             print("header len:", self.header.header_length)
             print("body len:  ", self.header.contents_length)
