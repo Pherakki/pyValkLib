@@ -24,11 +24,6 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
         self.asset_table = AssetTable(self.endianness)          # Asset table
 
         self.texmerge_ptr = None
-        
-        self.component_table_strings = []
-        self.entity_table_strings = []
-        self.batch_render_strings = []
-        self.asset_table_strings = {}
 
         self.POF0 = containers["POF0"](containers, '<')
         #self.ENRS = containers["ENRS"](containers, endianness)
