@@ -141,6 +141,20 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
     def rw_asset_table(self):
         if self.asset_table_ptr != 0:
             self.assert_local_file_pointer_now_at(self.asset_table_ptr)
+            self.rw_readwriter(self.asset_table)
+        
+            self.assert_local_file_pointer_now_at(self.asset_table.offset_1)
+            for elem in self.asset_table.elements_1:
+                self.rw_readwriter(elem)
+                
+            self.assert_local_file_pointer_now_at(self.asset_table.offset_2)
+            self.run_rw_method(self.asset_table.rw_unknown_offsets)
+    
+            if self.texmerge_ptrs_ptr != 0:
+                self.assert_local_file_pointer_now_at(self.texmerge_ptrs_ptr)
+                self.rw_varlist("texmerge_ptr", 'I', self.texmerge_count)
+            self.cleanup_ragged_chunk(self.local_tell(), 0x10)
+        
             
 def read_null_terminated_string(bytestream):
     string = b''
