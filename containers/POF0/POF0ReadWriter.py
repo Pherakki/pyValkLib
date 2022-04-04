@@ -19,7 +19,7 @@ class POF0ReadWriter(ValkyriaBaseRW32BH):
         self.rw_vararray("data", 'B', (self.data_size - 4))
         self.cleanup_ragged_chunk(self.local_tell(), 16)
 
-class POF0Interface:
+class POF0Handler:
     """
     The POF0 stores offsets of pointers within the container it is attached to.
     Specifically, each entry stores the number of bytes you need to skip to 
@@ -49,27 +49,30 @@ class POF0Interface:
     This means that the data at 0x04, 0x08, and 0x10 within the container
     the POF0 is attached to are pointers.
     """
-    __slots__ = ("pointer_offsets",)
+    __slots__ = ("pointer_offsets", "containers", "endianness")
     
-    def __init__(self):
-        self.pointer_offsets = None
+    def __init__(self, containers, endianness):
+        self.pointer_offsets = []
+        self.containers = containers
+        self.endianness = endianness
         
-    @classmethod
-    def from_subfile(cls, pof0_rw):
+    def read(self, bytestream):
+        pof0_rw = POF0ReadWriter(self.containers, self.endianness)
+        pof0_rw.read(self.bytestream)
+        
         num_bytes = pof0_rw.data_size - 4
         POF0_data = pof0_rw.data
         
-        offsets = decode_POF0(POF0_data, num_bytes)
-           
-        instance = cls()
-        instance.pointer_offsets = offsets
-        
-        return instance
+        self.pointer_offsets = decode_POF0(POF0_data, num_bytes)
+
     
-    def to_subfile(self, pof0_rw):
+    def write(self, bytestream):
         POF0_data = encode_POF0(self.pointer_offsets)
+        
+        pof0_rw = POF0ReadWriter(self.containers, self.endianness)
         pof0_rw.data = POF0_data
         pof0_rw.data_size = len(POF0_data) + 4
+        pof0_rw.write()
         
 def decode_POF0(POF0_data, num_offsets):
     offset = 0

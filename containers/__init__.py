@@ -1,9 +1,9 @@
 from .MXEN.MXENReadWriter import MXENReadWriter
 from .MXEN.MXEC.MXECReadWriter import MXECReadWriter
-from .POF0.POF0ReadWriter import POF0ReadWriter
+from .POF0.POF0ReadWriter import POF0Handler
 
 containers = {
     "MXEN": MXENReadWriter,
     "MXEC": MXECReadWriter,
-    "POF0": POF0ReadWriter
+    "POF0": POF0Handler
 }
