@@ -107,11 +107,11 @@ class BaseRW:
     #################
     # RW READWRITER #
     #################
-    def read_readwriter(self, rw, *args, method=None, **kwargs):
-        rw.read(self.bytestream, *args, method=None, **kwargs)
+    def read_readwriter(self, rw):
+        rw.read(self.bytestream)
         
-    def write_readwriter(self, rw, *args, method=None, **kwargs):
-        rw.write(self.bytestream, *args, method=None, **kwargs)
+    def write_readwriter(self, rw):
+        rw.write(self.bytestream)
     
     ############
     # RW ASCII #
