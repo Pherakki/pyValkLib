@@ -4,8 +4,8 @@ from pyValkLib.serialisation.BaseRW import BaseRW
 class EntityEntry(BaseRW):
     __slots__ = ("ID", "offset_1", "count", "offset_2")
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, endianness):
+        super().__init__(endianness)
         self.ID = 0
         self.offset_1 = 0
         self.count = 0

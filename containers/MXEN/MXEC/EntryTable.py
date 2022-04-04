@@ -48,7 +48,7 @@ class EntryTable(BaseRW):
         self.assert_equal("padding_0x3C", 0)
         
         if self.rw_method == "read":
-            self.entries.data = [self.entry_cls() for _ in range(self.entry_count)]
+            self.entries.data = [self.entry_cls(self.endianness) for _ in range(self.entry_count)]
             
     def rw_entry_headers(self, glob_tell, loc_tell):
         for entry in self.entries.data:
