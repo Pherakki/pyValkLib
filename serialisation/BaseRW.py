@@ -243,7 +243,18 @@ class BaseRW:
         self.rw_bytes = None
         self.cleanup_ragged_chunk = None
         self.rw_method = None
+                
+    def run_rw_method(self, method, *args, **kwargs):
+        # Set Template methods
+        obj = method.__self__
+        obj.set_file_rw(self.bytestream)
+        obj.set_template_methods(self.bytestream, self.rw_method)
         
+        try:
+            method(*args, **kwargs)
+        finally:
+            obj.reset_rw_functions()
+            
     #############################
     # DATA VALIDATION FUNCTIONS #
     #############################
