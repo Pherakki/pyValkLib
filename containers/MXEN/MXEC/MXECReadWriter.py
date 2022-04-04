@@ -30,10 +30,24 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
         self.batch_render_strings = []
         self.asset_table_strings = {}
 
-        #self.POF0 = containers["POF0"](containers, endianness)
+        self.POF0 = containers["POF0"](containers, '<')
         #self.ENRS = containers["ENRS"](containers, endianness)
         #self.CCRS = containers["CCRS"](containers, endianness)
         #self.EOFC = containers["EOFC"](containers, endianness)
+            
+    def check_string(self, offset, prnt=False):
+        curr_offset = self.local_tell()
+        self.local_seek(offset)
+        lookup_type = read_null_terminated_string(self.bytestream)
+        self.local_seek(curr_offset)
+        return lookup_type
+    
+    def check_struct_type(self, offset, prnt=False):
+        curr_offset = self.local_tell()
+        self.local_seek(offset)
+        lookup_type = read_struct_type_string(self.bytestream)
+        self.local_seek(curr_offset)
+        return lookup_type
     
     def read_write_contents(self):
         self.assert_equal("flags", 0x18000000, self.header, lambda x: hex(x))
@@ -96,18 +110,46 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
     def rw_components_table(self):
         if self.component_table_ptr != 0:
             self.assert_local_file_pointer_now_at(self.component_table_ptr)
+            self.rw_readwriter(self.component_table)
+            self.assert_local_file_pointer_now_at(self.component_table.entry_ptr)
+            getattr(self.component_table, self.rw_method)(self.bytestream, self.global_tell(), self.local_tell(), method=self.component_table.rw_entry_headers)
+            
+            for entry in sorted([entry for entry in self.component_table.entries.data], key=lambda x: x.data_offset):
+                self.assert_local_file_pointer_now_at(entry.data_offset)
+                component_type = self.check_struct_type(entry.name_offset)
+                print(component_type)
             
             
     def rw_entities_table(self):
         if self.entity_table_ptr != 0:
             self.assert_local_file_pointer_now_at(self.entity_table_ptr)
+            self.rw_readwriter(self.entity_table)
             
             
     def rw_batch_render_table(self):
         if self.batch_render_table_ptr != 0:
             self.assert_local_file_pointer_now_at(self.batch_render_table_ptr)
+            self.rw_readwriter(self.batch_render_table)
             
             
     def rw_asset_table(self):
         if self.asset_table_ptr != 0:
             self.assert_local_file_pointer_now_at(self.asset_table_ptr)
+            
+def read_null_terminated_string(bytestream):
+    string = b''
+    char = bytestream.read(1)
+    while char != b'\x00':
+        string += char
+        char = bytestream.read(1)
+    string = string.decode('cp932', errors="ignore")  
+    return string   
+
+def read_struct_type_string(bytestream):
+    string = b''
+    char = bytestream.read(1)
+    while char != b':':
+        string += char
+        char = bytestream.read(1)
+    string = string.decode('cp932', errors="ignore")  
+    return string.lstrip("+").split("@")[-1]
