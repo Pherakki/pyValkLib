@@ -1,4 +1,4 @@
-from pyValkLib.serialisation.ValkyriaBaseRW import ValkyriaBaseRW32BH
+from pyValkLib.serialisation.ValkyriaBaseRW import ValkyriaBaseRW32BH, PointerIndexableArray
 from pyValkLib.containers.MXEN.MXEC.EntryTable import EntryTable 
 from pyValkLib.containers.MXEN.MXEC.ECSComponentEntry import ComponentEntry
 from pyValkLib.containers.MXEN.MXEC.ECSEntityEntry import EntityEntry
@@ -24,6 +24,7 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
         self.asset_table = AssetTable(self.endianness)          # Asset table
 
         self.texmerge_ptr = None
+        self.strings = PointerIndexableArray()
 
         self.POF0 = containers["POF0"](containers, '<')
         #self.ENRS = containers["ENRS"](containers, endianness)
@@ -51,6 +52,7 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
         self.rw_entities_table()
         self.rw_batch_render_table()
         self.rw_asset_table()
+        self.rw_strings()
         
     def rw_fileinfo(self):
         self.rw_var("content_flags", 'I')
@@ -155,7 +157,28 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
                 self.rw_varlist("texmerge_ptr", 'I', self.texmerge_count)
             self.cleanup_ragged_chunk(self.local_tell(), 0x10)
         
+    def rw_strings(self):
+        strn = None
+        string_blob = iter(self.bytestream.read(self.header.header_length + self.header.data_length - self.local_tell()))
+
+        n_entries = 0
+        while not (strn == "\x00" or strn == ""):
+            curpos = self.local_tell()
+            self.strings.ptr_to_idx[curpos] = n_entries
             
+            try:
+                strn = parse_null_terminated_string(string_blob)
+                if strn == "\x00" or strn == "":
+                    break
+            except StopIteration:
+                break
+            
+            self.strings.data.append(strn)
+            self.strings.idx_to_ptr.append(curpos)
+            n_entries += 1
+            
+        self.cleanup_ragged_chunk(self.local_tell(), 0x10)
+
 def read_null_terminated_string(bytestream):
     string = b''
     char = bytestream.read(1)
@@ -164,6 +187,15 @@ def read_null_terminated_string(bytestream):
         char = bytestream.read(1)
     string = string.decode('cp932', errors="ignore")  
     return string   
+
+def parse_null_terminated_string(data):
+    string = b''
+    char = next(data).to_bytes(1, 'big')
+    while char != b'\x00':
+        string += char
+        char = next(data).to_bytes(1, 'big')
+    string = string.decode('cp932', errors="ignore")  
+    return string  
 
 def read_struct_type_string(bytestream):
     string = b''
