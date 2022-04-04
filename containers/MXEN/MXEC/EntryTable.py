@@ -1,6 +1,6 @@
 from pyValkLib.serialisation.BaseRW import BaseRW
 from pyValkLib.serialisation.ValkyriaBaseRW import PointerIndexableArray
-
+from pyValkLib.containers.MXEN.MXEC.StructureList import data_types
 
 class EntryTable(BaseRW):
     def __init__(self, entry_cls, endianness):
