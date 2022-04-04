@@ -79,8 +79,8 @@ def decode_POF0(POF0_data, num_offsets):
     bytes_to_parse = iter(range(num_offsets))
     for loop in bytes_to_parse:
         elem = next(data)
-        power_val = elem & 0xc0
-        value = elem & 0x3f
+        power_val = elem & 0xC0
+        value = elem & 0x3F
         if power_val == 0x40:
             offset += 4*value
             offsets.append(offset)
