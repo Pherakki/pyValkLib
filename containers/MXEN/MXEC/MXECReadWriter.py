@@ -123,6 +123,14 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
             self.assert_local_file_pointer_now_at(self.entity_table_ptr)
             self.rw_readwriter(self.entity_table)
             
+            self.assert_local_file_pointer_now_at(self.entity_table.entry_ptr)
+            self.run_rw_method(self.entity_table.rw_entry_headers, self.global_tell(), self.local_tell())
+            
+            for entry in sorted([entry for entry in self.entity_table.entries.data], key=lambda x: x.data_offset):
+                self.assert_local_file_pointer_now_at(entry.data_offset)
+                self.run_rw_method(entry.rw_data, self.local_tell())
+
+            self.cleanup_ragged_chunk(self.local_tell(), 0x10)
             
     def rw_batch_render_table(self):
         if self.batch_render_table_ptr != 0:
