@@ -10506,29 +10506,28 @@ class SlgEnGlowFlyParam(BaseRW):
     def enrs_offsets(self):
         return [ ]
     
-class UnknownEntryType(BaseRW):
-    def __init__(self, count, offset, global_to_local_offset):
+class EntityData(BaseRW):
+    def __init__(self, count, global_to_local_offset):
         self.count = count
-        self.offset = offset
         self.global_to_local_offset = global_to_local_offset
         self.subentries = []
         self.data = []
     
     def read_write(self):
         if self.rw_method == "read":
-            self.subentries = [SubEntry() for _ in range(self.count)]
+            self.subentries = [EntitySubEntry() for _ in range(self.count)]
         
         for subentry in self.subentries:
             getattr(subentry, self.rw_method)(self.bytestream)
             
         # Should make this a PointerIndexableArray
         n_to_rw = sum([subentry.count for subentry in self.subentries])
-        self.rw_vararray('data', 'I', n_to_rw, endianness='>')
+        self.rw_varlist('data', 'I', n_to_rw, endianness='>')
     
     def get_data(self):
         return ( self.subentries, self.data, )
     
-class SubEntry(BaseRW):
+class EntitySubEntry(BaseRW):
     def __init__(self):
         super().__init__()
         
@@ -10681,7 +10680,6 @@ data_types = {clas.__name__: clas for clas in
                  VlMxWeaponBringOnUnwholesomeInfo,
                  VlMxWeaponCommonInfo,
                  VlMxWeaponInfo,
-                 VlMxUnitResourceInfo,
-                 UnknownEntryType
+                 VlMxUnitResourceInfo
               ]}
 
