@@ -106,13 +106,16 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
         if self.component_table_ptr != 0:
             self.assert_local_file_pointer_now_at(self.component_table_ptr)
             self.rw_readwriter(self.component_table)
+            
             self.assert_local_file_pointer_now_at(self.component_table.entry_ptr)
-            getattr(self.component_table, self.rw_method)(self.bytestream, self.global_tell(), self.local_tell(), method=self.component_table.rw_entry_headers)
+            self.run_rw_method(self.component_table.rw_entry_headers, self.global_tell(), self.local_tell())
             
             for entry in sorted([entry for entry in self.component_table.entries.data], key=lambda x: x.data_offset):
-                self.assert_local_file_pointer_now_at(entry.data_offset)
                 component_type = self.check_struct_type(entry.name_offset)
-                print(component_type)
+                if entry.data_offset:
+                    self.assert_local_file_pointer_now_at(entry.data_offset)
+                    self.run_rw_method(entry.rw_data, component_type)
+                    self.cleanup_ragged_chunk(self.local_tell(), 0x10)
             
             
     def rw_entities_table(self):
