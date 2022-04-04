@@ -65,7 +65,7 @@ class Header32B(BaseRW):
         
 class ValkyriaBaseRW(BaseRW):
     __slots__ = ("start_position", "header", "containers", "subcontainers")
-    filetype = None
+    FILETYPE = None
     
     def __init__(self, containers, endianness=None):
         super().__init__(endianness)
@@ -130,6 +130,8 @@ class ValkyriaBaseRW16BH(ValkyriaBaseRW):
         self.start_position = self.global_tell()
         
         self.rw_readwriter(self.header)
+        if self.FILETYPE != self.header.filetype:
+            raise TypeError(f"Container is {self.header.filetype}, expected {self.FILETYPE}.")
         self.check_header_size()
         self.read_write_contents()
         self.read_write_subcontainers()
@@ -147,6 +149,8 @@ class ValkyriaBaseRW32BH(ValkyriaBaseRW):
         self.start_position = self.global_tell()
         
         self.rw_readwriter(self.header)
+        if self.FILETYPE != self.header.filetype:
+            raise TypeError(f"Container is {self.header.filetype}, expected {self.FILETYPE}.")
         self.check_header_size()
         self.read_write_contents()
         self.check_data_size()
