@@ -14,9 +14,9 @@ class POF0ReadWriter(ValkyriaBaseRW32BH):
         self.data = None
         
     def read_write_contents(self):
-        self.assert_equal("flags", 0x10000000)
+        self.assert_equal("flags", 0x10000000, self.header, lambda x: hex(x))
         self.rw_var("data_size", 'I', endianness='<')
-        self.rw_vararray("data", 'B', (self.data_size - 4))
+        self.rw_varlist("data", 'B', (self.data_size - 4))
         self.cleanup_ragged_chunk(self.local_tell(), 16)
 
 class POF0Handler:
@@ -58,7 +58,7 @@ class POF0Handler:
         
     def read(self, bytestream):
         pof0_rw = POF0ReadWriter(self.containers, self.endianness)
-        pof0_rw.read(self.bytestream)
+        pof0_rw.read(bytestream)
         
         num_bytes = pof0_rw.data_size - 4
         POF0_data = pof0_rw.data
@@ -72,7 +72,7 @@ class POF0Handler:
         pof0_rw = POF0ReadWriter(self.containers, self.endianness)
         pof0_rw.data = POF0_data
         pof0_rw.data_size = len(POF0_data) + 4
-        pof0_rw.write()
+        pof0_rw.write(bytestream)
         
 def decode_POF0(POF0_data, num_offsets):
     offset = 0
