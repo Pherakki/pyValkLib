@@ -24,6 +24,12 @@ def decompressSubStencilDef(ENRS_iter):
     
     return pull_bytecode(ENRS_iter, byte_power, bytecode_value), array_byte_power
 
+class ENRSSubStencil:
+    __slots__ = ("data", "dsize")
+    def __init__(self, dsize):
+        self.data = []
+        self.dsize = dsize
+    
 
 def decode_ENRS(num_groups, data):
     offset = 0
@@ -48,17 +54,18 @@ def decode_ENRS(num_groups, data):
             saved_offset = working_offset + stencil_size
             stencil = []
             for j in range(num_sub_stencils):
-                sub_stencils = []
                 jump_from_previous_substencil, elem_byte_power, elem_count = sub_stencil_defs[j]
                 working_offset += jump_from_previous_substencil
-                
+
+                    
                 diff = 2 << elem_byte_power
+                sub_stencil = ENRSSubStencil(diff)
                 for k in range(elem_count):
                     flat_offsets.append(working_offset)
-                    sub_stencils.append(working_offset)
+                    sub_stencil.data.append(working_offset)
                     working_offset += diff
 
-                stencil.append(sub_stencils)
+                stencil.append(sub_stencil)
             stencil_group.append(stencil)
             working_offset = saved_offset
         offsets.append(stencil_group)
