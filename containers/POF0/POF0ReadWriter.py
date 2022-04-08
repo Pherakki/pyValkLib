@@ -63,18 +63,18 @@ class POF0Handler:
         num_bytes = pof0_rw.data_size - 4
         POF0_data = pof0_rw.data
         
-        self.pointer_offsets = decode_POF0(POF0_data, num_bytes)
+        self.pointer_offsets = decompressPOF0(POF0_data, num_bytes)
 
     
     def write(self, bytestream):
-        POF0_data = encode_POF0(self.pointer_offsets)
+        POF0_data = compressPOF0(self.pointer_offsets)
         
         pof0_rw = POF0ReadWriter(self.containers, self.endianness)
         pof0_rw.data = POF0_data
         pof0_rw.data_size = len(POF0_data) + 4
         pof0_rw.write(bytestream)
         
-def decode_POF0(POF0_data, num_offsets):
+def decompressPOF0(POF0_data, num_offsets):
     offset = 0
     offsets = []  
     data = iter(POF0_data)
@@ -103,7 +103,7 @@ def decode_POF0(POF0_data, num_offsets):
             continue
     return offsets
         
-def encode_POF0(offsets):
+def compressPOF0(offsets):
     data = []
     previous_offset = 0
     for offset in offsets:
