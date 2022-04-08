@@ -28,10 +28,10 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
 
         self.POF0 = containers["POF0"](containers, '<')
         self.ENRS = containers["ENRS"](containers, '<')
-        #self.CCRS = containers["CCRS"](containers, endianness)
+        self.CCRS = containers["CCRS"](containers, endianness)
         #self.EOFC = containers["EOFC"](containers, endianness)
         
-        self.subcontainers.extend([self.POF0, self.ENRS])
+        self.subcontainers.extend([self.POF0, self.ENRS, self.CCRS])
             
     def check_string(self, offset, prnt=False):
         curr_offset = self.local_tell()
