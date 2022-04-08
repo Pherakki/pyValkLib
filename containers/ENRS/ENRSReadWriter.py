@@ -4,6 +4,8 @@ from pyValkLib.serialisation.ValkyriaBaseRW import ValkyriaBaseRW32BH
 class ENRSReadWriter(ValkyriaBaseRW32BH):
     FILETYPE = "ENRS"
     
+    __slots__ = ("num_groups", "data")
+    
     def __init__(self, containers, endianness=None):
         super().__init__(containers, endianness)
 
@@ -16,7 +18,7 @@ class ENRSReadWriter(ValkyriaBaseRW32BH):
         self.cleanup_ragged_chunk(self.local_tell(), 0x10)
         self.assert_equal("padding_0x20", 0)
         
-        self.rw_varlist('data', 'B', self.header.contents_length - 0x10)
+        self.rw_varlist('data', 'B', self.header.data_length - 0x10)
 
 class ENRSHandler:
     __slots__ = ("pointer_offsets", "containers", "endianness")
