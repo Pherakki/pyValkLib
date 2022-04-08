@@ -150,7 +150,7 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
 
                 if entry.t2_offset:
                     self.assert_local_file_pointer_now_at(entry.t2_offset)
-                    self.run_rw_method(entry.rw_2_data)
+                    self.run_rw_method(entry.rw_t2_data)
                 
                 for t1 in entry.t1_data:
                     if t1.offset_1:

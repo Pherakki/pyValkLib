@@ -79,7 +79,7 @@ class BatchRenderEntry(BaseRW):
             #getattr(t3, self.rw_method)(self.bytestream)
             
     def rw_t4_data(self):
-        self.rw_vararray("t4_data", "I", self.t4_count)
+        self.rw_varlist("t4_data", "I", self.t4_count)
         
 class BatchRender_T1(BaseRW):
     def __init__(self, endianness):
@@ -111,10 +111,10 @@ class BatchRender_T1(BaseRW):
         
         
     def rw_data_1(self):
-        self.rw_vararray("data_1", "I", self.count_1)
+        self.rw_varlist("data_1", "I", self.count_1)
         
     def rw_data_2(self):
-        self.rw_vararray("data_2", "I", self.count_2)
+        self.rw_varlist("data_2", "I", self.count_2)
         
 
 class BatchRender_T2(BaseRW):
@@ -136,7 +136,7 @@ class BatchRender_T2(BaseRW):
         self.assert_equal("count", self.offset > 0)
 
     def rw_data(self):
-        self.rw_vararray("data", "I", self.count)
+        self.rw_varlist("data", "I", self.count)
         
 
 class BatchRender_T3(BaseRW):
@@ -185,14 +185,14 @@ class BatchRender_T3(BaseRW):
         self.assert_is_zero("padding_0x3C")
 
     def rw_data_1(self):
-        self.rw_vararray("data_1", "I", self.count_1)
+        self.rw_varlist("data_1", "I", self.count_1)
         
     def rw_data_2(self):
-        self.rw_vararray("data_2", "I", self.count_2)
+        self.rw_varlist("data_2", "I", self.count_2)
         
     def rw_data_3(self):
-        self.rw_vararray("data_3", "I", self.count_3)
+        self.rw_varlist("data_3", "I", self.count_3)
         
     def rw_data_4(self):
-        self.rw_vararray("data_4", "I", self.count_4)
+        self.rw_varlist("data_4", "I", self.count_4)
         
