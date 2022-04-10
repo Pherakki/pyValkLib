@@ -2741,14 +2741,14 @@ class EnHeightMapParam(BaseRW):
         
         self.assert_is_zero("unknown_0xF8")
         
-        self.rw_var("unknown_0x100", "q", endianness='>')  # Padding
-        self.rw_var("unknown_0x108", "q", endianness='>')  # Padding
+        self.rw_var("unknown_0x0100", "q", endianness='>')  # Padding
+        self.rw_var("unknown_0x0108", "q", endianness='>')  # Padding
         
-        self.assert_is_zero("unknown_0x100")
-        self.assert_is_zero("unknown_0x108")
+        self.assert_is_zero("unknown_0x0100")
+        self.assert_is_zero("unknown_0x0108")
         
-        self.rw_var("unknown_0x110", "q", endianness='>')
-        self.rw_var("unknown_0x118", "q", endianness='>')
+        self.rw_var("unknown_0x0110", "q", endianness='>')
+        self.rw_var("unknown_0x0118", "q", endianness='>')
         
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C,
@@ -2767,8 +2767,8 @@ class EnHeightMapParam(BaseRW):
                  self.unknown_0xD0,  self.unknown_0xD8,  
                  self.unknown_0xE0,  self.unknown_0xE8,
                  self.unknown_0xF0,  self.unknown_0xF8,
-                 self.unknown_0x100, self.unknown_0x108,
-                 self.unknown_0x110, self.unknown_0x118)
+                 self.unknown_0x0100, self.unknown_0x0108,
+                 self.unknown_0x0110, self.unknown_0x0118)
     
 
     def asset_table_offsets(self):
