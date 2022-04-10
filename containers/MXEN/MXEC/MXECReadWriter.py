@@ -39,7 +39,7 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
                f"[{len(self.entity_table.entries.data)}] Entities.\n"\
                f"[{len(self.batch_render_table.entries.data)}] Batch Render Entries.\n"\
                f"[{len(self.asset_table.entries.data)}] Asset References.\n"\
-               f"[{len(self.asset_table.elements_2)}] Asset Pointers.\n"\
+               f"[{len(self.asset_table.asset_slot_offsets)}] Asset Pointers.\n"\
                 "Contains POF0, ENRS, CCRS, EOFC."
         
     def check_string(self, offset, prnt=False):
