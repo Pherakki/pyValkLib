@@ -221,23 +221,29 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
         
     def rw_strings(self):
         strn = None
+        curpos = self.local_tell()
         string_blob = iter(self.bytestream.read(self.header.header_length + self.header.data_length - self.local_tell()))
-
+        
         n_entries = 0
-        while not (strn == "\x00" or strn == ""):
-            curpos = self.local_tell()
-            self.strings.ptr_to_idx[curpos] = n_entries
-            
+        while True:
             try:
-                strn = parse_null_terminated_string(string_blob)
+                strn, size = parse_null_terminated_string(string_blob)
                 if strn == "\x00" or strn == "":
-                    break
+                    continue
             except StopIteration:
+                if not(strn == "\x00" or strn == ""):
+                    self.strings.data.append(strn)
+                    self.strings.ptr_to_idx[curpos] = n_entries
+                    self.strings.idx_to_ptr.append(curpos)
+                    n_entries += 1
+                    curpos += size
                 break
             
             self.strings.data.append(strn)
+            self.strings.ptr_to_idx[curpos] = n_entries
             self.strings.idx_to_ptr.append(curpos)
             n_entries += 1
+            curpos += size
             
         self.cleanup_ragged_chunk(self.local_tell(), 0x10)
 
@@ -252,12 +258,14 @@ def read_null_terminated_string(bytestream):
 
 def parse_null_terminated_string(data):
     string = b''
+    size = 0
     char = next(data).to_bytes(1, 'big')
     while char != b'\x00':
         string += char
         char = next(data).to_bytes(1, 'big')
+        size += 1
     string = string.decode('cp932', errors="ignore")  
-    return string  
+    return string, size+1
 
 def read_struct_type_string(bytestream):
     string = b''
