@@ -1,5 +1,4 @@
 from pyValkLib.serialisation.ValkyriaBaseRW import BaseRW, PointerIndexableArray
-from pyValkLib.containers.MXEN.MXEC.StructureList import EntityData
 
 
     
@@ -70,7 +69,7 @@ class EntityData(BaseRW):
             self.subentries.data = [EntitySubEntry() for _ in range(self.count)]
         
         for i, subentry in enumerate(self.subentries.data):
-            curpos = self.bytestream.tell() - self.global_to_local_offset
+            curpos = self.bytestream.tell() + self.global_to_local_offset
             self.subentries.ptr_to_idx[curpos] = i
             self.subentries.idx_to_ptr.append(curpos)
             getattr(subentry, self.rw_method)(self.bytestream)
