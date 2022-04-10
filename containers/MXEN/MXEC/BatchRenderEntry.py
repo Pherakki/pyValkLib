@@ -66,7 +66,7 @@ class BatchRenderEntry(BaseRW):
 
     def rw_t2_data(self):
         if self.rw_method == "read":
-            self.t2_data = [BatchRender_T2(self.endianness) for _ in range(self.t2_count)]
+            self.t2_data = [ComponentReference(self.endianness) for _ in range(self.t2_count)]
         for t2 in self.t2_data:
             self.rw_readwriter(t2)
             #getattr(t2, self.rw_method)(self.bytestream)
@@ -117,7 +117,7 @@ class BatchRender_T1(BaseRW):
         self.rw_varlist("data_2", "I", self.count_2)
         
 
-class BatchRender_T2(BaseRW):
+class ComponentReference(BaseRW):
     def __init__(self, endianness):
         super().__init__(endianness)
         
@@ -125,7 +125,7 @@ class BatchRender_T2(BaseRW):
         self.ID_2 = 0
         self.count = 0
         self.offset = 0
-        self.data = []
+        self.component_indices = []
     
     def read_write(self):
         self.rw_var("ID_1", "I")
@@ -136,7 +136,7 @@ class BatchRender_T2(BaseRW):
         self.assert_equal("count", self.offset > 0)
 
     def rw_data(self):
-        self.rw_varlist("data", "I", self.count)
+        self.rw_varlist("component_indices", "I", self.count)
         
 
 class BatchRender_T3(BaseRW):
