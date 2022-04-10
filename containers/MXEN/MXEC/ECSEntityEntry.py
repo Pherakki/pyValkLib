@@ -1,5 +1,6 @@
-from pyValkLib.serialisation.BaseRW import BaseRW
+from pyValkLib.serialisation.ValkyriaBaseRW import BaseRW, PointerIndexableArray
 from pyValkLib.containers.MXEN.MXEC.StructureList import EntityData
+
 
     
 class EntityEntry(BaseRW):
@@ -54,3 +55,45 @@ class EntityEntry(BaseRW):
         
         self.rw_readwriter(self.data)
         
+    def __repr__(self):
+        return f"::Entity Entry:: ID: [{self.ID}], Components: [{self.count}], Count4: [{self.count_4}], Unk_0x28: [{self.unknown_0x28}], Unk_0x2C: [{self.unknown_0x2C}]"
+       
+class EntityData(BaseRW):
+    def __init__(self, count, global_to_local_offset):
+        self.count = count
+        self.global_to_local_offset = global_to_local_offset
+        self.subentries = PointerIndexableArray()
+        self.data = []
+    
+    def read_write(self):
+        if self.rw_method == "read":
+            self.subentries.data = [EntitySubEntry() for _ in range(self.count)]
+        
+        for i, subentry in enumerate(self.subentries.data):
+            curpos = self.bytestream.tell() - self.global_to_local_offset
+            self.subentries.ptr_to_idx[curpos] = i
+            self.subentries.idx_to_ptr.append(curpos)
+            getattr(subentry, self.rw_method)(self.bytestream)
+            
+        # Should make this a PointerIndexableArray
+        n_to_rw = sum([subentry.count for subentry in self.subentries.data])
+        self.rw_varlist('data', 'I', n_to_rw, endianness='>')
+    
+    def get_data(self):
+        return ( self.subentries, self.data, )
+    
+    
+class EntitySubEntry(BaseRW):
+    def __init__(self):
+        super().__init__()
+        
+    def read_write(self):
+        self.rw_var("name_ptr", "I", endianness='>')
+        self.rw_var("count", "I", endianness='>')
+        self.rw_var("offset", "I", endianness='>')
+        self.rw_var("padding_0x0C", "I", endianness='>')
+        
+    def __repr__(self):
+        return f"::EntitySubEntry:: Name: {self.name_ptr}, Count: {self.count}, Offset: {self.offset}"
+        
+         

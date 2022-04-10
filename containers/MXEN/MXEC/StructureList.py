@@ -1,5 +1,4 @@
-from pyValkLib.serialisation.ValkyriaBaseRW import ValkyriaBaseRW, BaseRW, PointerIndexableArray
-import struct
+from pyValkLib.serialisation.ValkyriaBaseRW import BaseRW
 
         
 ##############
@@ -10505,39 +10504,7 @@ class SlgEnGlowFlyParam(BaseRW):
     
     def enrs_offsets(self):
         return [ ]
-    
-class EntityData(BaseRW):
-    def __init__(self, count, global_to_local_offset):
-        self.count = count
-        self.global_to_local_offset = global_to_local_offset
-        self.subentries = []
-        self.data = []
-    
-    def read_write(self):
-        if self.rw_method == "read":
-            self.subentries = [EntitySubEntry() for _ in range(self.count)]
-        
-        for subentry in self.subentries:
-            getattr(subentry, self.rw_method)(self.bytestream)
-            
-        # Should make this a PointerIndexableArray
-        n_to_rw = sum([subentry.count for subentry in self.subentries])
-        self.rw_varlist('data', 'I', n_to_rw, endianness='>')
-    
-    def get_data(self):
-        return ( self.subentries, self.data, )
-    
-class EntitySubEntry(BaseRW):
-    def __init__(self):
-        super().__init__()
-        
-    def read_write(self):
-        self.rw_var("name_ptr", "I", endianness='>')
-        self.rw_var("count", "I", endianness='>')
-        self.rw_var("offset", "I", endianness='>')
-        self.rw_var("padding_0x0C", "I", endianness='>')
-        
-    
+
 # TYPES ARE ALPHABETICALLY ORDERED
 data_types = {clas.__name__: clas for clas in
               [
