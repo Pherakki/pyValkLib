@@ -23,7 +23,7 @@ class EntityEntry(BaseRW):
         
         self.rw_var("padding_0x10", "I")
         self.rw_var("padding_0x14", "I")
-        self.rw_var("count_4", "I")
+        self.rw_var("controller_entity_id", "I")
         self.rw_var("padding_0x1C", "I")
         
         self.rw_var("padding_0x20", "I")
@@ -55,7 +55,7 @@ class EntityEntry(BaseRW):
         self.rw_readwriter(self.data)
         
     def __repr__(self):
-        return f"::Entity Entry:: ID: [{self.ID}], Components: [{self.count}], Count4: [{self.count_4}], Unk_0x28: [{self.unknown_0x28}], Unk_0x2C: [{self.unknown_0x2C}]"
+        return f"::Entity Entry:: ID: [{self.ID}], Components: [{self.count}], Controller ID: [{self.controller_entity_id}], Unk_0x28: [{self.unknown_0x28}], Unk_0x2C: [{self.unknown_0x2C}]"
        
 class EntityData(BaseRW):
     def __init__(self, count, global_to_local_offset):
