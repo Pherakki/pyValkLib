@@ -33,6 +33,9 @@ class Header16B(BaseRW):
         self.rw_var("header_length", "I")
         self.rw_var("flags", "I")
         
+    def __repr__(self):
+        return f"::0x10 Header:: Filetype: {self.filetype}, Contents Size: {self.contents_length}, Header Size: {self.header_length}, Flags: 0x{self.flags:0>8x}"
+        
 class Header32B(BaseRW):
     __slots__ = ("filetype", "contents_length", "header_length", "flags",
                  "depth", "data_length", "unknown_0x18", "unknown_0x1C")
@@ -62,6 +65,9 @@ class Header32B(BaseRW):
         
         self.assert_is_zero("unknown_0x18")
         self.assert_is_zero("unknown_0x1C")
+                
+    def __repr__(self):
+        return f"::0x20 Header:: Filetype: {self.filetype}, Contents Size: {self.contents_length}, Header Size: {self.header_length}, Flags: 0x{self.flags:0>8x}, Depth: {self.depth}, Data Size: {self.data_length}"
         
 class ValkyriaBaseRW(BaseRW):
     __slots__ = ("start_position", "header", "containers", "subcontainers")

@@ -57,7 +57,6 @@ class EntryTable(BaseRW):
             self.entries.idx_to_ptr.append(curpos)
             
             self.rw_readwriter(entry)
-            #getattr(entry, self.rw_method)(self.bytestream)
             
 
 

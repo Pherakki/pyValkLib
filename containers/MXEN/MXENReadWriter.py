@@ -12,3 +12,6 @@ class MXENReadWriter(ValkyriaBaseRW32BH):
     
     def read_write_contents(self):
         self.assert_equal("flags", 0x10000005, self.header, lambda x: hex(x))
+        
+    def __repr__(self):
+        return f"MXEN Object [{self.header.depth}] [0x{self.header.flags:0>8x}]: Contains MXEC."
