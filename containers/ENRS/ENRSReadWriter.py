@@ -78,6 +78,9 @@ class ENRSSubStencil:
     def __init__(self, dsize):
         self.data = []
         self.dsize = dsize
+        
+    def __repr__(self):
+        return (f"ENRS SubStencil [size: {self.dsize}]: {self.data[0]}--{self.data[-1]}")
     
 
 skip_groups = list(range(0))
