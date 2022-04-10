@@ -4,6 +4,7 @@ from pyValkLib.containers.MXEN.MXEC.ECSComponentEntry import ComponentEntry
 from pyValkLib.containers.MXEN.MXEC.ECSEntityEntry import EntityEntry
 from pyValkLib.containers.MXEN.MXEC.BatchRenderEntry import BatchRenderEntry
 from pyValkLib.containers.MXEN.MXEC.AssetTable import AssetTable
+import struct
 
 class MXECReadWriter(ValkyriaBaseRW32BH):
     FILETYPE = "MXEC"
@@ -25,6 +26,7 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
 
         self.texmerge_ptr = None
         self.strings = PointerIndexableArray()
+        self.unknowns = PointerIndexableArray()
 
         self.POF0 = containers["POF0"](containers, '<')
         self.ENRS = containers["ENRS"](containers, '<')
@@ -64,6 +66,7 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
         self.rw_batch_render_table()
         self.rw_asset_table()
         self.rw_strings()
+        self.rw_unknowns()
         
     def rw_fileinfo(self):
         self.rw_var("content_flags", 'I')
@@ -226,7 +229,9 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
     def rw_strings(self):
         strn = None
         curpos = self.local_tell()
-        string_blob = iter(self.bytestream.read(self.header.header_length + self.header.data_length - self.local_tell()))
+        entity_data_offsets = [elem.unknown_0x2C for elem in self.entity_table.entries.data if elem.unknown_0x2C > 0]
+        end_point = min(entity_data_offsets) if len(entity_data_offsets) else self.header.header_length + self.header.data_length
+        string_blob = iter(self.bytestream.read(end_point - self.local_tell()))
         
         n_entries = 0
         while True:
@@ -250,7 +255,17 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
             curpos += size
             
         self.cleanup_ragged_chunk(self.local_tell(), 0x10)
+        
+    def rw_unknowns(self):
+        entity_data_offsets = sorted([elem.unknown_0x2C for elem in self.entity_table.entries.data if elem.unknown_0x2C > 0])
+        for offset in entity_data_offsets:
+            self.assert_local_file_pointer_now_at(offset)
+            self.unknowns.ptr_to_idx[offset] = len(self.unknowns.idx_to_ptr)
+            self.unknowns.idx_to_ptr.append(offset)
+            self.unknowns.data.append((struct.unpack('BBBBBBBB', self.bytestream.read(8))))
 
+        self.cleanup_ragged_chunk(self.local_tell(), 0x10)
+        
 def read_null_terminated_string(bytestream):
     string = b''
     char = bytestream.read(1)
