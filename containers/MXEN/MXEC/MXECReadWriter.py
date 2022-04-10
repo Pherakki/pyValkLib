@@ -101,22 +101,22 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
         
         self.rw_var("pvs_record_ptr", 'I')
         self.rw_var("mergefile_record_ptr", "I")
-        self.rw_var("unknown_0x48", 'I')
-        self.rw_var("unknown_0x4C", 'I')
+        self.rw_var("padding_0x48", 'I')
+        self.rw_var("padding_0x4C", 'I')
         
-        self.assert_equal("unknown_0x48", 0)
-        self.assert_equal("unknown_0x4C", 0)
+        self.assert_equal("padding_0x48", 0)
+        self.assert_equal("padding_0x4C", 0)
 
         
-        self.rw_var("unknown_0x50", 'I')
-        self.rw_var("unknown_0x54", 'I')
-        self.rw_var("unknown_0x58", 'I')
-        self.rw_var("unknown_0x5C", 'I')
+        self.rw_var("padding_0x50", 'I')
+        self.rw_var("padding_0x54", 'I')
+        self.rw_var("padding_0x58", 'I')
+        self.rw_var("padding_0x5C", 'I')
         
-        self.assert_equal("unknown_0x50", 0)
-        self.assert_equal("unknown_0x54", 0)
-        self.assert_equal("unknown_0x58", 0)
-        self.assert_equal("unknown_0x5C", 0)
+        self.assert_equal("padding_0x50", 0)
+        self.assert_equal("padding_0x54", 0)
+        self.assert_equal("padding_0x58", 0)
+        self.assert_equal("padding_0x5C", 0)
         
     def rw_components_table(self):
         if self.component_table_ptr != 0:
