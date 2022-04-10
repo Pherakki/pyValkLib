@@ -38,7 +38,7 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
                f"[{len(self.component_table.entries.data)}] Components.\n"\
                f"[{len(self.entity_table.entries.data)}] Entities.\n"\
                f"[{len(self.batch_render_table.entries.data)}] Batch Render Entries.\n"\
-               f"[{len(self.asset_table.elements_1)}] Asset References.\n"\
+               f"[{len(self.asset_table.entries.data)}] Asset References.\n"\
                f"[{len(self.asset_table.elements_2)}] Asset Pointers.\n"\
                 "Contains POF0, ENRS, CCRS, EOFC."
         
@@ -207,12 +207,16 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
             self.assert_local_file_pointer_now_at(self.asset_table_ptr)
             self.rw_readwriter(self.asset_table)
         
-            self.assert_local_file_pointer_now_at(self.asset_table.offset_1)
-            for elem in self.asset_table.elements_1:
+            self.assert_local_file_pointer_now_at(self.asset_table.asset_references_offset)
+            n_entries = 0
+            for elem in self.asset_table.entries.data:
+                self.asset_table.entries.ptr_to_idx[self.local_tell()] = n_entries
+                self.asset_table.entries.idx_to_ptr.append(self.local_tell())
                 self.rw_readwriter(elem)
+                n_entries += 1
                 
-            self.assert_local_file_pointer_now_at(self.asset_table.offset_2)
-            self.run_rw_method(self.asset_table.rw_unknown_offsets)
+            self.assert_local_file_pointer_now_at(self.asset_table.asset_use_offset)
+            self.run_rw_method(self.asset_table.rw_asset_slot_offsets)
     
             if self.texmerge_ptrs_ptr != 0:
                 self.assert_local_file_pointer_now_at(self.texmerge_ptrs_ptr)

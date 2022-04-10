@@ -6,7 +6,7 @@ class AssetEntry(BaseRW):
     def __init__(self, endianness):
         super().__init__(endianness)
         
-        self.padding_0x00 = None
+        self.flags = None
         self.ID = None
         self.folder_name_ptr = None
         self.file_name_ptr = None
@@ -29,11 +29,28 @@ class AssetEntry(BaseRW):
     def read_write(self): 
         # Contents_flags? 
         # 0x000 = all -1
-        # 0x100 = something in unknown_0x24
-        # 0x200 = something in unknown_0x14, unknown_0x20
+        # 0x100 = something in unknown_0x14, unknown_0x20
+        # 0x200 = something in unknown_0x24
         # Unknown0x14 appears to be another ID
-        # Unknown_0x20 also appears to be another ID
-        self.rw_var("padding_0x00", "I") 
+        # Unknown_0x20 is always 0
+        # Unknown_0x24 also appears to be another ID
+        
+        # Filetypes?
+        # - HMD: 1
+        # - HTX: 2, 21
+        # - HMT: 3
+        # - MCL: 6
+        # - MLX: 8
+        # - ABR: 9
+        # - ABD: 10
+        # - CVD: 12
+        # - HST: 12
+        # - BHV: 12
+        # - PVS: 20
+        # - HTR: 22
+        # - MMF: 24
+        # - MMR: 25
+        self.rw_var("flags", "I") 
         self.rw_var("ID", "I")
         self.rw_var("folder_name_ptr", "I")
         self.rw_var("file_name_ptr", "I")
