@@ -21,9 +21,9 @@ class BatchRenderEntry(BaseRW):
         self.t4_offset = 0
 
         self.t1_data = []
-        self.t2_data = []
+        self.component_references = []
         self.t3_data = []
-        self.t4_data = []
+        self.unused_ids = []
         
 
     def read_write(self):
@@ -66,8 +66,8 @@ class BatchRenderEntry(BaseRW):
 
     def rw_t2_data(self):
         if self.rw_method == "read":
-            self.t2_data = [ComponentReference(self.endianness) for _ in range(self.t2_count)]
-        for t2 in self.t2_data:
+            self.component_references = [ComponentReference(self.endianness) for _ in range(self.t2_count)]
+        for t2 in self.component_references:
             self.rw_readwriter(t2)
             #getattr(t2, self.rw_method)(self.bytestream)
             
@@ -79,7 +79,7 @@ class BatchRenderEntry(BaseRW):
             #getattr(t3, self.rw_method)(self.bytestream)
             
     def rw_t4_data(self):
-        self.rw_varlist("t4_data", "I", self.t4_count)
+        self.rw_varlist("unused_ids", "I", self.t4_count)
         
 class BatchRender_T1(BaseRW):
     def __init__(self, endianness):
@@ -91,8 +91,8 @@ class BatchRender_T1(BaseRW):
         self.offset_2 = 0
         self.ID = 0
         
-        self.data_1 = []
-        self.data_2 = []
+        self.local_component_ids_1 = []
+        self.local_component_ids_2 = []
 
     def read_write(self):
         self.rw_var("count_1", "I")
@@ -111,25 +111,25 @@ class BatchRender_T1(BaseRW):
         
         
     def rw_data_1(self):
-        self.rw_varlist("data_1", "I", self.count_1)
+        self.rw_varlist("local_component_ids_1", "I", self.count_1)
         
     def rw_data_2(self):
-        self.rw_varlist("data_2", "I", self.count_2)
+        self.rw_varlist("local_component_ids_2", "I", self.count_2)
         
 
 class ComponentReference(BaseRW):
     def __init__(self, endianness):
         super().__init__(endianness)
         
-        self.ID_1 = 0
-        self.ID_2 = 0
+        self.table_component_id_1 = 0
+        self.table_component_id_2 = 0
         self.count = 0
         self.offset = 0
         self.component_indices = []
     
     def read_write(self):
-        self.rw_var("ID_1", "I")
-        self.rw_var("ID_2", "I")
+        self.rw_var("table_component_id_1", "I")
+        self.rw_var("table_component_id_2", "I")
         self.rw_var("count", "I")
         self.rw_var("offset", "I")
         
@@ -185,10 +185,10 @@ class BatchRender_T3(BaseRW):
         self.assert_is_zero("padding_0x3C")
 
     def rw_data_1(self):
-        self.rw_varlist("data_1", "I", self.count_1)
+        self.rw_varlist("table_component_id", "I", self.count_1)
         
     def rw_data_2(self):
-        self.rw_varlist("data_2", "I", self.count_2)
+        self.rw_varlist("local_component_id", "I", self.count_2)
         
     def rw_data_3(self):
         self.rw_varlist("data_3", "I", self.count_3)
