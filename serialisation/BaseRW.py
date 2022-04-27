@@ -101,7 +101,7 @@ class BaseRW:
         src, endianness = self.setup_rw(dtype, src, endianness)
         
         val = getattr(src, variable)
-        to_write = self.pack(val, dtype, endianness)
+        to_write = self.pack(val, dtype*n_vars, endianness)
         self.bytestream.write(to_write)
 
     #################
