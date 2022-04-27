@@ -127,7 +127,11 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
             self.run_rw_method(self.component_table.rw_entry_headers, self.global_tell(), self.local_tell())
             
             for entry in sorted([entry for entry in self.component_table.entries.data], key=lambda x: x.data_offset):
-                component_type = self.check_struct_type(entry.name_offset)
+                if self.rw_method == "read":
+                    component_type = self.check_struct_type(entry.name_offset)
+                    setattr(entry, "component_type", component_type)
+                else:
+                    component_type = entry.component_type
                 if entry.data_offset:
                     self.assert_local_file_pointer_now_at(entry.data_offset)
                     self.run_rw_method(entry.rw_data, component_type)
@@ -177,7 +181,7 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
                         self.assert_local_file_pointer_now_at(t2.offset)
                         self.run_rw_method(t2.rw_data)
                     
-                self.cleanup_ragged_chunk_read(self.local_tell(), 0x10)
+                self.cleanup_ragged_chunk(self.local_tell(), 0x10)
                 
                 if entry.t3_offset:
                     self.assert_local_file_pointer_now_at(entry.t3_offset)
@@ -201,7 +205,7 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
                     self.assert_local_file_pointer_now_at(entry.t4_offset)
                     self.run_rw_method(entry.rw_t4_data)
 
-                self.cleanup_ragged_chunk_read(self.local_tell(), 0x10)
+                self.cleanup_ragged_chunk(self.local_tell(), 0x10)
                   
       
             
@@ -227,6 +231,14 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
             self.cleanup_ragged_chunk(self.local_tell(), 0x10)
         
     def rw_strings(self):
+        if (self.rw_method == "read"):
+            self.read_strings()
+        elif (self.rw_method == "write"):
+            self.write_strings()
+            
+        self.cleanup_ragged_chunk(self.local_tell(), 0x10)
+        
+    def read_strings(self):
         strn = None
         curpos = self.local_tell()
         entity_data_offsets = [elem.unknown_0x2C for elem in self.entity_table.entries.data if elem.unknown_0x2C > 0]
@@ -253,10 +265,13 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
             self.strings.idx_to_ptr.append(curpos)
             n_entries += 1
             curpos += size
-            
-        self.cleanup_ragged_chunk(self.local_tell(), 0x10)
         
-    def rw_unknowns(self):
+    def write_strings(self):
+        for string in self.strings.data:
+            self.bytestream.write(string.encode("cp932"))
+            self.bytestream.write(b"\x00")
+        
+    def read_unknowns(self):
         entity_data_offsets = sorted([elem.unknown_0x2C for elem in self.entity_table.entries.data if elem.unknown_0x2C > 0])
         for offset in entity_data_offsets:
             self.assert_local_file_pointer_now_at(offset)
@@ -264,6 +279,15 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
             self.unknowns.idx_to_ptr.append(offset)
             self.unknowns.data.append((struct.unpack('BBBBBBBB', self.bytestream.read(8))))
 
+    def write_unknowns(self):
+        for data in self.unknowns.data:
+            self.bytestream.write(struct.pack('BBBBBBBB', *data))
+
+    def rw_unknowns(self):
+        if (self.rw_method == "read"):
+            self.read_unknowns()
+        else:
+            self.write_unknowns()
         self.cleanup_ragged_chunk(self.local_tell(), 0x10)
         
 def read_null_terminated_string(bytestream):
