@@ -198,7 +198,7 @@ class Reader(ReadWriterBase):
     def _rw_single(self, typecode, size, value, endianness=None):
         if endianness is None:
             endianness = self.context.endianness
-        return struct.unpack(endianness + typecode, self.bytestream.read(size))
+        return struct.unpack(endianness + typecode, self.bytestream.read(size))[0]
         
     def _rw_multiple(self, typecode, size, value, shape, endianness=None):
         if endianness is None:
