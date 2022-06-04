@@ -1,8 +1,7 @@
-from pyValkLib.serialisation.ValkyriaBaseRW import BaseRW, PointerIndexableArray
-
-
+from pyValkLib.serialisation.Serializable import Serializable
+from pyValkLib.serialisation.PointerIndexableArray import PointerIndexableArray
     
-class EntityEntry(BaseRW):
+class EntityEntry(Serializable):
     __slots__ = ("ID", "name_offset", "count", "data_offset")
 
     def __init__(self, endianness):
@@ -15,38 +14,38 @@ class EntityEntry(BaseRW):
         self.data = None
         
 
-    def read_write(self):
-        self.rw_var("ID", "I")
-        self.rw_var("name_offset", "I")
-        self.rw_var("count", "I")
-        self.rw_var("data_offset", "I")
+    def read_write(self, rw):
+        self.ID                    = rw.rw_uint32(self.ID)
+        self.name_offset           = rw.rw_uint32(self.name_offset)
+        self.count                 = rw.rw_uint32(self.count)
+        self.data_offset           = rw.rw_uint32(self.data_offset)
         
-        self.rw_var("padding_0x10", "I")
-        self.rw_var("padding_0x14", "I")
-        self.rw_var("controller_entity_id", "I")
-        self.rw_var("padding_0x1C", "I")
+        self.padding_0x10          = rw.rw_uint32(self.padding_0x10)
+        self.padding_0x14          = rw.rw_uint32(self.padding_0x14)
+        self.controller_entity_id  = rw.rw_uint32(self.controller_entity_id)
+        self.padding_0x1C          = rw.rw_uint32(self.padding_0x1C)
         
-        self.rw_var("padding_0x20", "I")
-        self.rw_var("padding_0x24", "I")
-        self.rw_var("unknown_0x28", "I")  # 0 or 1?
-        self.rw_var("unknown_0x2C", "I")  # Ptr
+        self.padding_0x20          = rw.rw_uint32(self.padding_0x20)
+        self.padding_0x24          = rw.rw_uint32(self.padding_0x24)
+        self.unknown_0x28          = rw.rw_uint32(self.unknown_0x28) # 0 or 1
+        self.unknown_0x2C          = rw.rw_uint32(self.unknown_0x2C) # Ptr
         
-        self.rw_var("padding_0x30", "I")
-        self.rw_var("padding_0x34", "I")
-        self.rw_var("padding_0x38", "I")
-        self.rw_var("padding_0x3C", "I")
+        self.padding_0x30          = rw.rw_uint32(self.padding_0x30)
+        self.padding_0x34          = rw.rw_uint32(self.padding_0x34)
+        self.unknown_0x38          = rw.rw_uint32(self.unknown_0x38)
+        self.unknown_0x3C          = rw.rw_uint32(self.unknown_0x3C)
         
-        self.assert_is_zero("padding_0x10")
-        self.assert_is_zero("padding_0x14")
-        self.assert_is_zero("padding_0x1C")
+        rw.assert_is_zero(self.padding_0x10)
+        rw.assert_is_zero(self.padding_0x14)
+        rw.assert_is_zero(self.padding_0x1C)
         
-        self.assert_is_zero("padding_0x20")
-        self.assert_is_zero("padding_0x24")
+        rw.assert_is_zero(self.padding_0x20)
+        rw.assert_is_zero(self.padding_0x24)
         
-        self.assert_is_zero("padding_0x30")
-        self.assert_is_zero("padding_0x34")
-        self.assert_is_zero("padding_0x38")
-        self.assert_is_zero("padding_0x3C")
+        rw.assert_is_zero(self.padding_0x30)
+        rw.assert_is_zero(self.padding_0x34)
+        rw.assert_is_zero(self.padding_0x38)
+        rw.assert_is_zero(self.padding_0x3C)
         
     def rw_data(self, local_tell):
         if self.rw_method == "read":
@@ -57,14 +56,14 @@ class EntityEntry(BaseRW):
     def __repr__(self):
         return f"::Entity Entry:: ID: [{self.ID}], Components: [{self.count}], Controller ID: [{self.controller_entity_id}], Unk_0x28: [{self.unknown_0x28}], Unk_0x2C: [{self.unknown_0x2C}]"
        
-class EntityData(BaseRW):
+class EntityData(Serializable):
     def __init__(self, count, global_to_local_offset):
         self.count = count
         self.global_to_local_offset = global_to_local_offset
         self.subentries = PointerIndexableArray()
         self.data = []
     
-    def read_write(self):
+    def read_write(self, rw):
         if self.rw_method == "read":
             self.subentries.data = [EntitySubEntry() for _ in range(self.count)]
         
@@ -82,17 +81,18 @@ class EntityData(BaseRW):
         return ( self.subentries, self.data, )
     
     
-class EntitySubEntry(BaseRW):
+class EntitySubEntry(Serializable):
     def __init__(self):
         super().__init__()
         
-    def read_write(self):
-        self.rw_var("name_ptr", "I", endianness='>')
-        self.rw_var("count", "I", endianness='>')
-        self.rw_var("offset", "I", endianness='>')
-        self.rw_var("padding_0x0C", "I", endianness='>')
+    def read_write(self, rw):
+        self.name_offset  = rw.rw_uint32(self.name_offset)
+        self.count        = rw.rw_uint32(self.count)
+        self.offset       = rw.rw_uint32(self.offset)
+        self.padding_0x0C = rw.rw_uint32(self.padding_0x0C)
+        rw.assert_is_zero(self.padding_0x0C)
         
     def __repr__(self):
-        return f"::EntitySubEntry:: Name: {self.name_ptr}, Count: {self.count}, Offset: {self.offset}"
+        return f"::EntitySubEntry:: Name: {self.name_offset}, Count: {self.count}, Offset: {self.offset}"
         
          
