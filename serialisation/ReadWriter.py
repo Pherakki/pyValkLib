@@ -91,7 +91,7 @@ class ReadWriterBase:
         raise NotImplementedError
         
     # RW functions (should be defined in a loop...)
-    def rw_int8  (self, value, endianness=None): self._rw_single('b', 1, value, endianness)
+    def rw_int8   (self, value, endianness=None): self._rw_single('b', 1, value, endianness)
     def rw_uint8  (self, value, endianness=None): self._rw_single('B', 1, value, endianness)
     def rw_int16  (self, value, endianness=None): self._rw_single('h', 2, value, endianness)
     def rw_uint16 (self, value, endianness=None): self._rw_single('H', 2, value, endianness)
