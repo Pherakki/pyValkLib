@@ -202,7 +202,7 @@ class Reader(ReadWriterBase):
         
     def _rw_multiple(self, typecode, size, value, shape, endianness=None):
         if endianness is None:
-            endianness = self.endianness
+            endianness = self.context.endianness
             
         if not hasattr(shape, "__getitem__"):
             shape = (shape,)
@@ -243,13 +243,13 @@ class Writer(ReadWriterBase):
     
     def _rw_single(self, typecode, size, value, endianness=None):
         if endianness is None:
-            endianness = self.endianness
+            endianness = self.context.endianness
         self.bytestream.write(struct.pack(endianness + typecode, value))
         return value
             
     def _rw_multiple(self, typecode, size, value, shape, endianness=None):
         if endianness is None:
-            endianness = self.endianness
+            endianness = self.context.endianness
         
         if not hasattr(shape, "__getitem__"):
             shape = (shape,)

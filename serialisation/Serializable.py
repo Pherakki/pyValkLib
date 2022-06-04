@@ -10,8 +10,9 @@ class Serializable:
     """
     __slots__ = ("context",)
     
-    def __init__(self):
+    def __init__(self, endianness="<"):
         self.context = Context()
+        self.context.endianness = endianness
     
     def read(self, filepath):
         with Reader(filepath) as rw:
