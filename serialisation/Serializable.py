@@ -1,7 +1,4 @@
-if (__name__ == "__main__"):
-    from ReadWriter import Reader, Writer, Context
-else:
-    from .ReadWriter import Reader, Writer, Context
+from .ReadWriter import Reader, Writer, Context
 
 
 class Serializable:
@@ -26,4 +23,6 @@ class Serializable:
             
     def read_write(self, rw):
         raise NotImplementedError
-
+        
+    def inherit_context(self, obj):
+        self.context = obj.context
