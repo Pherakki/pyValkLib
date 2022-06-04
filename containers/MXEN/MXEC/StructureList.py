@@ -1,20 +1,20 @@
-from pyValkLib.serialisation.ValkyriaBaseRW import BaseRW
+from pyValkLib.serialisation.Serializable import Serializable
 
         
 ##############
 # DATA TYPES #
 ##############
         
-class MxParameterFog(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "f", endianness='>')
-        self.rw_var("unknown_0x04", "f", endianness='>')
-        self.rw_var("unknown_0x08", "f", endianness='>')
-        self.rw_var("unknown_0x0C", "f", endianness='>')
-        self.rw_var("unknown_0x10", "f", endianness='>')
-        self.rw_var("unknown_0x14", "f", endianness='>')
-        self.rw_var("unknown_0x18", "f", endianness='>')
-        self.rw_var("unknown_0x1C", "f", endianness='>')
+class MxParameterFog(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_float32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_float32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_float32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_float32(self.unknown_0x0C)
+        self.unknown_0x10 = rw.rw_float32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_float32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_float32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_float32(self.unknown_0x1C)
         
     def get_data(self):
         return (self.unknown_0x00, self.unknown_0x04, self.unknown_0x08, self.unknown_0x0C,
@@ -29,12 +29,12 @@ class MxParameterFog(BaseRW):
     def enrs_offsets(self):
         return [ 0x00,  0x04,  0x08,  0x0C,  0x10,  0x14,  0x18,  0x1C ]
     
-class HyColor(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "f", endianness='>')
-        self.rw_var("unknown_0x04", "f", endianness='>')
-        self.rw_var("unknown_0x08", "f", endianness='>')
-        self.rw_var("unknown_0x0C", "f", endianness='>')
+class HyColor(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_float32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_float32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_float32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_float32(self.unknown_0x0C)
         
     def get_data(self):
         return (self.unknown_0x00, self.unknown_0x04, self.unknown_0x08, self.unknown_0x0C)
@@ -49,41 +49,41 @@ class HyColor(BaseRW):
     def enrs_offsets(self):
         return [ 0x00,  0x04,  0x08,  0x0C ]
     
-class MxParameterLight(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class MxParameterLight(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "f", endianness='>')
-        self.rw_var("unknown_0x34", "f", endianness='>')
-        self.rw_var("unknown_0x38", "f", endianness='>')
-        self.rw_var("unknown_0x3C", "f", endianness='>')
+        self.unknown_0x30 = rw.rw_float32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_float32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_float32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_float32(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "f", endianness='>')
-        self.rw_var("unknown_0x44", "f", endianness='>')
-        self.rw_var("unknown_0x48", "f", endianness='>')
-        self.rw_var("unknown_0x4C", "f", endianness='>')
+        self.unknown_0x40 = rw.rw_float32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_float32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_float32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_float32(self.unknown_0x4C)
         
-        self.rw_var("unknown_ptr_1", "I", endianness='>')
-        self.rw_var("unknown_0x54", "I", endianness='>')
-        self.rw_var("unknown_0x58", "I", endianness='>')
-        self.rw_var("unknown_0x5C", "I", endianness='>')
+        self.unknown_ptr_1 = rw.rw_uint32(self.unknown_ptr_1)
+        self.unknown_0x54 = rw.rw_uint32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_uint32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_uint32(self.unknown_0x5C)
         
-        self.assert_is_zero("unknown_0x54")
-        self.assert_is_zero("unknown_0x58")
-        self.assert_is_zero("unknown_0x5C")
+        rw.assert_is_zero(self.unknown_0x54)
+        rw.assert_is_zero(self.unknown_0x58)
+        rw.assert_is_zero(self.unknown_0x5C)
         
     def get_data(self):
         return (self.unknown_0x00, self.unknown_0x04, self.unknown_0x08, self.unknown_0x0C,
@@ -104,19 +104,19 @@ class MxParameterLight(BaseRW):
                  0x20,  0x24,  0x28,  0x2C , 0x30,  0x34,  0x38,  0x3C,
                  0x40,  0x44,  0x48,  0x4C,  0x50 ]
         
-class MxParameterStaticLight(BaseRW):
+class MxParameterStaticLight(Serializable):
     def __init__(self):
         super().__init__()
         self.lights = []
         
-    def read_write(self):
-        self.rw_var("light_count", "I", endianness='>')
-        self.rw_var("unknown_ptr", "I", endianness='>')
-        self.rw_var("padding_0x08", "I", endianness='>')
-        self.rw_var("padding_0x0C", "I", endianness='>')
+    def read_write(self, rw):
+        self.light_count = rw.rw_uint32(self.light_count)
+        self.unknown_ptr = rw.rw_uint32(self.unknown_ptr)
+        self.padding_0x08 = rw.rw_uint32(self.padding_0x08)
+        self.padding_0x0C = rw.rw_uint32(self.padding_0x0C)
         
-        self.assert_is_zero("padding_0x08")
-        self.assert_is_zero("padding_0x0C")
+        rw.assert_is_zero(self.padding_0x08)
+        rw.assert_is_zero(self.padding_0x0C)
         
         if self.rw_method == "read":
             self.lights = [MxParameterLight() for _ in range(self.light_count)]
@@ -136,15 +136,15 @@ class MxParameterStaticLight(BaseRW):
     def enrs_offsets(self):
         return [ 0x00,  0x04 ]
     
-class VlMxFogParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
-        self.rw_var("unknown_0x08", "f", endianness='>')
-        self.rw_var("unknown_0x0C", "f", endianness='>')
+class VlMxFogParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_float32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_float32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "f", endianness='>')
-        self.rw_var("unknown_0x14", "I", endianness='<')
+        self.unknown_0x10 = rw.rw_float32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
         
         
         
@@ -163,12 +163,12 @@ class VlMxFogParam(BaseRW):
     def enrs_offsets(self):
         return [ 0x00,  0x04,  0x08,  0x0C,  0x10 ]
     
-class VlMxShaderParamSetId(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
-        self.rw_var("unknown_0x08", "f", endianness='>')
-        self.rw_var("unknown_0x0C", "f", endianness='>')
+class VlMxShaderParamSetId(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_float32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_float32(self.unknown_0x0C)
         
     def get_data(self):
         return (self.unknown_0x00, self.unknown_0x04, self.unknown_0x08, self.unknown_0x0C)
@@ -182,53 +182,53 @@ class VlMxShaderParamSetId(BaseRW):
     def enrs_offsets(self):
         return [  0x00,  0x04,  0x08,  0x0C ]
     
-class VlMxStandardLightParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "f", endianness='>')
-        self.rw_var("unknown_0x04", "f", endianness='>')
-        self.rw_var("unknown_0x08", "f", endianness='>')
-        self.rw_var("unknown_0x0C", "f", endianness='>')
+class VlMxStandardLightParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_float32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_float32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_float32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_float32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "f", endianness='>')
-        self.rw_var("unknown_0x14", "f", endianness='>')
-        self.rw_var("unknown_0x18", "f", endianness='>')
-        self.rw_var("unknown_0x1C", "f", endianness='>')
+        self.unknown_0x10 = rw.rw_float32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_float32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_float32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_float32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "f", endianness='>')
-        self.rw_var("unknown_0x24", "f", endianness='>')
-        self.rw_var("unknown_0x28", "f", endianness='>')
-        self.rw_var("unknown_0x2C", "f", endianness='>')
-        self.assert_is_zero("unknown_0x2C")
+        self.unknown_0x20 = rw.rw_float32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_float32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_float32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_float32(self.unknown_0x2C)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "f", endianness='>')
-        self.rw_var("unknown_0x34", "f", endianness='>')
-        self.rw_var("unknown_0x38", "f", endianness='>')
-        self.rw_var("unknown_0x3C", "f", endianness='>')
+        self.unknown_0x30 = rw.rw_float32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_float32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_float32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_float32(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "f", endianness='>')
-        self.rw_var("unknown_0x44", "f", endianness='>')
-        self.rw_var("unknown_0x48", "f", endianness='>')
-        self.rw_var("unknown_0x4C", "f", endianness='>')
+        self.unknown_0x40 = rw.rw_float32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_float32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_float32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_float32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "I", endianness='>')
-        self.rw_var("unknown_0x54", "I", endianness='>')
-        self.rw_var("unknown_0x58", "I", endianness='>')
-        self.rw_var("unknown_0x5C", "I", endianness='>')
+        self.unknown_0x50 = rw.rw_uint32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_uint32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_uint32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_uint32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "f", endianness='>')
-        self.rw_var("unknown_0x64", "f", endianness='>')
-        self.rw_var("unknown_0x68", "f", endianness='>')
-        self.rw_var("unknown_0x6C", "f", endianness='>')
+        self.unknown_0x60 = rw.rw_float32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_float32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_float32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_float32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "f", endianness='>')
-        self.rw_var("unknown_0x74", "f", endianness='>')
-        self.rw_var("unknown_0x78", "f", endianness='>')
-        self.rw_var("unknown_0x7C", "f", endianness='>')
+        self.unknown_0x70 = rw.rw_float32(self.unknown_0x70)
+        self.unknown_0x74 = rw.rw_float32(self.unknown_0x74)
+        self.unknown_0x78 = rw.rw_float32(self.unknown_0x78)
+        self.unknown_0x7C = rw.rw_float32(self.unknown_0x7C)
         
-        self.rw_var("unknown_0x80", "I", endianness='>')
-        self.rw_var("unknown_0x84", "I", endianness='>')
-        self.rw_var("unknown_0x88", "I", endianness='>')
-        self.rw_var("unknown_0x8C", "I", endianness='>')
+        self.unknown_0x80 = rw.rw_uint32(self.unknown_0x80)
+        self.unknown_0x84 = rw.rw_uint32(self.unknown_0x84)
+        self.unknown_0x88 = rw.rw_uint32(self.unknown_0x88)
+        self.unknown_0x8C = rw.rw_uint32(self.unknown_0x8C)
         
     def get_data(self):
         return (self.unknown_0x00, self.unknown_0x04, self.unknown_0x08, self.unknown_0x0C,
@@ -255,84 +255,84 @@ class VlMxStandardLightParam(BaseRW):
                   0x80,  0x84,  0x88,  0x8C
                ]
 
-class EnTalkEventMapParam(BaseRW):
-    def read_write(self):
+class EnTalkEventMapParam(Serializable):
+    def read_write(self, rw):
         # THESE ALL SEEM TO BE FLAGS
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')  # Padding
-        self.rw_var("unknown_0x2C", "i", endianness='>')  # Padding
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)  # Padding
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)  # Padding
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')  # Padding
-        self.rw_var("unknown_0x34", "i", endianness='>')  # Padding
-        self.rw_var("unknown_0x38", "i", endianness='>')  # Padding
-        self.rw_var("unknown_0x3C", "i", endianness='>')  # Padding
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)  # Padding
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)  # Padding
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)  # Padding
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)  # Padding
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')  # Padding
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)  # Padding
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')  # Padding
-        self.rw_var("unknown_0x0108", "q", endianness='>')  # Padding
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)  # Padding
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)  # Padding
         
-        self.rw_var("unknown_0x0110", "q", endianness='>')
-        self.rw_var("unknown_0x0118", "q", endianness='>')
+        self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
+        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
         
     
     def get_data(self):
@@ -377,10 +377,10 @@ class EnTalkEventMapParam(BaseRW):
                  0x110, 0x118
                ]
 
-class VlMxAddEsdInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
+class VlMxAddEsdInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04)
@@ -394,11 +394,11 @@ class VlMxAddEsdInfo(BaseRW):
     def enrs_offsets(self):
         return [ 0x00,  0x04 ]
     
-class VlMxCharacterAffinityInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
-        self.rw_var("unknown_0x08", "I", endianness='>')
+class VlMxCharacterAffinityInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08)
@@ -412,35 +412,35 @@ class VlMxCharacterAffinityInfo(BaseRW):
     def enrs_offsets(self):
         return [ 0x00,  0x04,  0x08 ]
 
-class VlMxCharacterCommonInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "f", endianness='>')
+class VlMxCharacterCommonInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_float32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "f", endianness='>')
-        self.rw_var("unknown_0x14", "f", endianness='>')
-        self.rw_var("unknown_0x18", "f", endianness='>')
-        self.rw_var("unknown_0x1C", "f", endianness='>')
+        self.unknown_0x10 = rw.rw_float32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_float32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_float32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_float32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "f", endianness='>')
-        self.rw_var("unknown_0x24", "f", endianness='>')
-        self.rw_var("unknown_0x28", "f", endianness='>')
-        self.rw_var("unknown_0x2C", "f", endianness='>')
+        self.unknown_0x20 = rw.rw_float32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_float32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_float32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_float32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "I", endianness='>')
-        self.rw_var("unknown_0x34", "f", endianness='>')
-        self.rw_var("unknown_0x38", "f", endianness='>')
-        self.rw_var("unknown_0x3C", "f", endianness='>')
+        self.unknown_0x30 = rw.rw_uint32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_float32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_float32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_float32(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "f", endianness='>')
-        self.rw_var("unknown_0x44", "f", endianness='>')
-        self.rw_var("unknown_0x48", "f", endianness='>')
-        self.rw_var("unknown_0x4C", "f", endianness='>')
+        self.unknown_0x40 = rw.rw_float32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_float32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_float32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_float32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "f", endianness='>')
-        self.rw_var("unknown_0x54", "f", endianness='>')
+        self.unknown_0x50 = rw.rw_float32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_float32(self.unknown_0x54)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -462,174 +462,174 @@ class VlMxCharacterCommonInfo(BaseRW):
                  0x40,  0x44,  0x48,  0x4C,  0x50,  0x54
                ]
 
-class VlMxCharacterEachInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class VlMxCharacterEachInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "f", endianness='>')
-        self.rw_var("unknown_0x2C", "f", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_float32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_float32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "f", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "I", endianness='>')
-        self.rw_var("unknown_0x3C", "I", endianness='>')
+        self.unknown_0x30 = rw.rw_float32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_uint32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_uint32(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "I", endianness='>')
-        self.rw_var("unknown_0x44", "I", endianness='>')
-        self.rw_var("unknown_0x48", "I", endianness='>')
-        self.rw_var("unknown_0x4C", "f", endianness='>')
+        self.unknown_0x40 = rw.rw_uint32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_uint32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_uint32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_float32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "f", endianness='>')
-        self.rw_var("unknown_0x54", "f", endianness='>')
-        self.rw_var("unknown_0x58", "f", endianness='>')
-        self.rw_var("unknown_0x5C", "f", endianness='>')
+        self.unknown_0x50 = rw.rw_float32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_float32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_float32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_float32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "f", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_float32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "i", endianness='>')
-        self.rw_var("unknown_0x74", "i", endianness='>')
-        self.rw_var("unknown_0x78", "i", endianness='>')
-        self.rw_var("unknown_0x7C", "i", endianness='>')
+        self.unknown_0x70 = rw.rw_int32(self.unknown_0x70)
+        self.unknown_0x74 = rw.rw_int32(self.unknown_0x74)
+        self.unknown_0x78 = rw.rw_int32(self.unknown_0x78)
+        self.unknown_0x7C = rw.rw_int32(self.unknown_0x7C)
         
-        self.rw_var("unknown_0x80", "i", endianness='>')
-        self.rw_var("unknown_0x84", "i", endianness='>')
-        self.rw_var("unknown_0x88", "i", endianness='>')
-        self.rw_var("unknown_0x8C", "i", endianness='>')
+        self.unknown_0x80 = rw.rw_int32(self.unknown_0x80)
+        self.unknown_0x84 = rw.rw_int32(self.unknown_0x84)
+        self.unknown_0x88 = rw.rw_int32(self.unknown_0x88)
+        self.unknown_0x8C = rw.rw_int32(self.unknown_0x8C)
         
-        self.rw_var("unknown_0x90", "i", endianness='>')
-        self.rw_var("unknown_0x94", "i", endianness='>')
-        self.rw_var("unknown_0x98", "i", endianness='>')
-        self.rw_var("unknown_0x9C", "i", endianness='>')
+        self.unknown_0x90 = rw.rw_int32(self.unknown_0x90)
+        self.unknown_0x94 = rw.rw_int32(self.unknown_0x94)
+        self.unknown_0x98 = rw.rw_int32(self.unknown_0x98)
+        self.unknown_0x9C = rw.rw_int32(self.unknown_0x9C)
         
-        self.rw_var("unknown_0xA0", "i", endianness='>')
-        self.rw_var("unknown_0xA4", "i", endianness='>')
-        self.rw_var("unknown_0xA8", "i", endianness='>')
-        self.rw_var("unknown_0xAC", "i", endianness='>')
+        self.unknown_0xA0 = rw.rw_int32(self.unknown_0xA0)
+        self.unknown_0xA4 = rw.rw_int32(self.unknown_0xA4)
+        self.unknown_0xA8 = rw.rw_int32(self.unknown_0xA8)
+        self.unknown_0xAC = rw.rw_int32(self.unknown_0xAC)
         
-        self.rw_var("unknown_0xB0", "i", endianness='>')
-        self.rw_var("unknown_0xB4", "i", endianness='>')
-        self.rw_var("unknown_0xB8", "i", endianness='>')
-        self.rw_var("unknown_0xBC", "i", endianness='>')
+        self.unknown_0xB0 = rw.rw_int32(self.unknown_0xB0)
+        self.unknown_0xB4 = rw.rw_int32(self.unknown_0xB4)
+        self.unknown_0xB8 = rw.rw_int32(self.unknown_0xB8)
+        self.unknown_0xBC = rw.rw_int32(self.unknown_0xBC)
         
-        self.rw_var("unknown_0xC0", "i", endianness='>')
-        self.rw_var("unknown_0xC4", "i", endianness='>')
-        self.rw_var("unknown_0xC8", "i", endianness='>')
-        self.rw_var("unknown_0xCC", "i", endianness='>')
+        self.unknown_0xC0 = rw.rw_int32(self.unknown_0xC0)
+        self.unknown_0xC4 = rw.rw_int32(self.unknown_0xC4)
+        self.unknown_0xC8 = rw.rw_int32(self.unknown_0xC8)
+        self.unknown_0xCC = rw.rw_int32(self.unknown_0xCC)
         
-        self.rw_var("unknown_0xD0", "i", endianness='>')
-        self.rw_var("unknown_0xD4", "i", endianness='>')
-        self.rw_var("unknown_0xD8", "i", endianness='>')
-        self.rw_var("unknown_0xDC", "i", endianness='>')
+        self.unknown_0xD0 = rw.rw_int32(self.unknown_0xD0)
+        self.unknown_0xD4 = rw.rw_int32(self.unknown_0xD4)
+        self.unknown_0xD8 = rw.rw_int32(self.unknown_0xD8)
+        self.unknown_0xDC = rw.rw_int32(self.unknown_0xDC)
         
-        self.rw_var("unknown_0xE0", "i", endianness='>')
-        self.rw_var("unknown_0xE4", "i", endianness='>')
-        self.rw_var("unknown_0xE8", "i", endianness='>')
-        self.rw_var("unknown_0xEC", "i", endianness='>')
+        self.unknown_0xE0 = rw.rw_int32(self.unknown_0xE0)
+        self.unknown_0xE4 = rw.rw_int32(self.unknown_0xE4)
+        self.unknown_0xE8 = rw.rw_int32(self.unknown_0xE8)
+        self.unknown_0xEC = rw.rw_int32(self.unknown_0xEC)
         
-        self.rw_var("unknown_0xF0", "i", endianness='>')
-        self.rw_var("unknown_0xF4", "i", endianness='>')
-        self.rw_var("unknown_0xF8", "i", endianness='>')
-        self.rw_var("unknown_0xFC", "i", endianness='>')
+        self.unknown_0xF0 = rw.rw_int32(self.unknown_0xF0)
+        self.unknown_0xF4 = rw.rw_int32(self.unknown_0xF4)
+        self.unknown_0xF8 = rw.rw_int32(self.unknown_0xF8)
+        self.unknown_0xFC = rw.rw_int32(self.unknown_0xFC)
         
-        self.rw_var("unknown_0x0100", "i", endianness='>')
-        self.rw_var("unknown_0x0104", "i", endianness='>')
-        self.rw_var("unknown_0x0108", "i", endianness='>')
-        self.rw_var("unknown_0x010C", "i", endianness='>')
+        self.unknown_0x0100 = rw.rw_int32(self.unknown_0x0100)
+        self.unknown_0x0104 = rw.rw_int32(self.unknown_0x0104)
+        self.unknown_0x0108 = rw.rw_int32(self.unknown_0x0108)
+        self.unknown_0x010C = rw.rw_int32(self.unknown_0x010C)
         
-        self.rw_var("unknown_0x0110", "i", endianness='>')
-        self.rw_var("unknown_0x0114", "i", endianness='>')
-        self.rw_var("unknown_0x0118", "i", endianness='>')
-        self.rw_var("unknown_0x011C", "i", endianness='>')
+        self.unknown_0x0110 = rw.rw_int32(self.unknown_0x0110)
+        self.unknown_0x0114 = rw.rw_int32(self.unknown_0x0114)
+        self.unknown_0x0118 = rw.rw_int32(self.unknown_0x0118)
+        self.unknown_0x011C = rw.rw_int32(self.unknown_0x011C)
         
-        self.rw_var("unknown_0x0120", "i", endianness='>')
-        self.rw_var("unknown_0x0124", "i", endianness='>')
-        self.rw_var("unknown_0x0128", "i", endianness='>')
-        self.rw_var("unknown_0x012C", "i", endianness='>')
+        self.unknown_0x0120 = rw.rw_int32(self.unknown_0x0120)
+        self.unknown_0x0124 = rw.rw_int32(self.unknown_0x0124)
+        self.unknown_0x0128 = rw.rw_int32(self.unknown_0x0128)
+        self.unknown_0x012C = rw.rw_int32(self.unknown_0x012C)
         
-        self.rw_var("unknown_0x0130", "i", endianness='>')
-        self.rw_var("unknown_0x0134", "i", endianness='>')
-        self.rw_var("unknown_0x0138", "i", endianness='>')
-        self.rw_var("unknown_0x013C", "i", endianness='>')
+        self.unknown_0x0130 = rw.rw_int32(self.unknown_0x0130)
+        self.unknown_0x0134 = rw.rw_int32(self.unknown_0x0134)
+        self.unknown_0x0138 = rw.rw_int32(self.unknown_0x0138)
+        self.unknown_0x013C = rw.rw_int32(self.unknown_0x013C)
         
-        self.rw_var("unknown_0x0140", "i", endianness='>')
-        self.rw_var("unknown_0x0144", "i", endianness='>')
-        self.rw_var("unknown_0x0148", "i", endianness='>')
-        self.rw_var("unknown_0x014C", "i", endianness='>')
+        self.unknown_0x0140 = rw.rw_int32(self.unknown_0x0140)
+        self.unknown_0x0144 = rw.rw_int32(self.unknown_0x0144)
+        self.unknown_0x0148 = rw.rw_int32(self.unknown_0x0148)
+        self.unknown_0x014C = rw.rw_int32(self.unknown_0x014C)
         
-        self.rw_var("unknown_0x0150", "i", endianness='>')
-        self.rw_var("unknown_0x0154", "i", endianness='>')
-        self.rw_var("unknown_0x0158", "i", endianness='>')
-        self.rw_var("unknown_0x015C", "i", endianness='>')
+        self.unknown_0x0150 = rw.rw_int32(self.unknown_0x0150)
+        self.unknown_0x0154 = rw.rw_int32(self.unknown_0x0154)
+        self.unknown_0x0158 = rw.rw_int32(self.unknown_0x0158)
+        self.unknown_0x015C = rw.rw_int32(self.unknown_0x015C)
         
-        self.rw_var("unknown_0x0160", "i", endianness='>')
-        self.rw_var("unknown_0x0164", "i", endianness='>')
-        self.rw_var("unknown_0x0168", "i", endianness='>')
-        self.rw_var("unknown_0x016C", "i", endianness='>')
+        self.unknown_0x0160 = rw.rw_int32(self.unknown_0x0160)
+        self.unknown_0x0164 = rw.rw_int32(self.unknown_0x0164)
+        self.unknown_0x0168 = rw.rw_int32(self.unknown_0x0168)
+        self.unknown_0x016C = rw.rw_int32(self.unknown_0x016C)
         
-        self.rw_var("unknown_0x0170", "i", endianness='>')
-        self.rw_var("unknown_0x0174", "i", endianness='>')
-        self.rw_var("unknown_0x0178", "i", endianness='>')
-        self.rw_var("unknown_0x017C", "i", endianness='>')
+        self.unknown_0x0170 = rw.rw_int32(self.unknown_0x0170)
+        self.unknown_0x0174 = rw.rw_int32(self.unknown_0x0174)
+        self.unknown_0x0178 = rw.rw_int32(self.unknown_0x0178)
+        self.unknown_0x017C = rw.rw_int32(self.unknown_0x017C)
         
-        self.rw_var("unknown_0x0180", "i", endianness='>')
-        self.rw_var("unknown_0x0184", "i", endianness='>')
-        self.rw_var("unknown_0x0188", "i", endianness='>')
-        self.rw_var("unknown_0x018C", "i", endianness='>')
+        self.unknown_0x0180 = rw.rw_int32(self.unknown_0x0180)
+        self.unknown_0x0184 = rw.rw_int32(self.unknown_0x0184)
+        self.unknown_0x0188 = rw.rw_int32(self.unknown_0x0188)
+        self.unknown_0x018C = rw.rw_int32(self.unknown_0x018C)
         
-        self.rw_var("unknown_0x0190", "i", endianness='>')
-        self.rw_var("unknown_0x0194", "i", endianness='>')
-        self.rw_var("unknown_0x0198", "i", endianness='>')
-        self.rw_var("unknown_0x019C", "i", endianness='>')
+        self.unknown_0x0190 = rw.rw_int32(self.unknown_0x0190)
+        self.unknown_0x0194 = rw.rw_int32(self.unknown_0x0194)
+        self.unknown_0x0198 = rw.rw_int32(self.unknown_0x0198)
+        self.unknown_0x019C = rw.rw_int32(self.unknown_0x019C)
         
-        self.rw_var("unknown_0x01A0", "i", endianness='>')
-        self.rw_var("unknown_0x01A4", "i", endianness='>')
-        self.rw_var("unknown_0x01A8", "i", endianness='>')
-        self.rw_var("unknown_0x01AC", "i", endianness='>')
+        self.unknown_0x01A0 = rw.rw_int32(self.unknown_0x01A0)
+        self.unknown_0x01A4 = rw.rw_int32(self.unknown_0x01A4)
+        self.unknown_0x01A8 = rw.rw_int32(self.unknown_0x01A8)
+        self.unknown_0x01AC = rw.rw_int32(self.unknown_0x01AC)
         
-        self.rw_var("unknown_0x01A0", "i", endianness='>')
-        self.rw_var("unknown_0x01A4", "i", endianness='>')
-        self.rw_var("unknown_0x01A8", "i", endianness='>')
-        self.rw_var("unknown_0x01AC", "i", endianness='>')
+        self.unknown_0x01A0 = rw.rw_int32(self.unknown_0x01A0)
+        self.unknown_0x01A4 = rw.rw_int32(self.unknown_0x01A4)
+        self.unknown_0x01A8 = rw.rw_int32(self.unknown_0x01A8)
+        self.unknown_0x01AC = rw.rw_int32(self.unknown_0x01AC)
         
-        self.rw_var("unknown_0x01B0", "i", endianness='>')
-        self.rw_var("unknown_0x01B4", "i", endianness='>')
-        self.rw_var("unknown_0x01B8", "i", endianness='>')
-        self.rw_var("unknown_0x01BC", "i", endianness='>')
+        self.unknown_0x01B0 = rw.rw_int32(self.unknown_0x01B0)
+        self.unknown_0x01B4 = rw.rw_int32(self.unknown_0x01B4)
+        self.unknown_0x01B8 = rw.rw_int32(self.unknown_0x01B8)
+        self.unknown_0x01BC = rw.rw_int32(self.unknown_0x01BC)
         
-        self.rw_var("unknown_0x01C0", "i", endianness='>')
-        self.rw_var("unknown_0x01C4", "i", endianness='>')
-        self.rw_var("unknown_0x01C8", "i", endianness='>')
-        self.rw_var("unknown_0x01CC", "i", endianness='>')
+        self.unknown_0x01C0 = rw.rw_int32(self.unknown_0x01C0)
+        self.unknown_0x01C4 = rw.rw_int32(self.unknown_0x01C4)
+        self.unknown_0x01C8 = rw.rw_int32(self.unknown_0x01C8)
+        self.unknown_0x01CC = rw.rw_int32(self.unknown_0x01CC)
         
-        self.rw_var("unknown_0x01D0", "i", endianness='>')
-        self.rw_var("unknown_0x01D4", "i", endianness='>')
-        self.rw_var("unknown_0x01D8", "i", endianness='>')
-        self.rw_var("unknown_0x01DC", "i", endianness='>')
+        self.unknown_0x01D0 = rw.rw_int32(self.unknown_0x01D0)
+        self.unknown_0x01D4 = rw.rw_int32(self.unknown_0x01D4)
+        self.unknown_0x01D8 = rw.rw_int32(self.unknown_0x01D8)
+        self.unknown_0x01DC = rw.rw_int32(self.unknown_0x01DC)
         
-        self.rw_var("unknown_0x01E0", "i", endianness='>')
-        self.rw_var("unknown_0x01E4", "i", endianness='>')
-        self.rw_var("unknown_0x01E8", "i", endianness='>')
-        self.rw_var("unknown_0x01EC", "i", endianness='>')
+        self.unknown_0x01E0 = rw.rw_int32(self.unknown_0x01E0)
+        self.unknown_0x01E4 = rw.rw_int32(self.unknown_0x01E4)
+        self.unknown_0x01E8 = rw.rw_int32(self.unknown_0x01E8)
+        self.unknown_0x01EC = rw.rw_int32(self.unknown_0x01EC)
         
-        self.rw_var("unknown_0x01F0", "i", endianness='>')
-        self.rw_var("unknown_0x01F4", "i", endianness='>')
-        self.rw_var("unknown_0x01F8", "i", endianness='>')
-        self.rw_var("unknown_0x01FC", "i", endianness='>')
+        self.unknown_0x01F0 = rw.rw_int32(self.unknown_0x01F0)
+        self.unknown_0x01F4 = rw.rw_int32(self.unknown_0x01F4)
+        self.unknown_0x01F8 = rw.rw_int32(self.unknown_0x01F8)
+        self.unknown_0x01FC = rw.rw_int32(self.unknown_0x01FC)
         
-        self.rw_var("unknown_0x0200", "i", endianness='>')
+        self.unknown_0x0200 = rw.rw_int32(self.unknown_0x0200)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -697,32 +697,32 @@ class VlMxCharacterEachInfo(BaseRW):
                 0x200, 0x204, 0x208, 0x20C, 0x210
                ]
 
-class VlMxCharacterInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
-        self.rw_var("unknown_0x08", "I", endianness='>')
-        self.rw_var("unknown_0x0C", "I", endianness='>')
+class VlMxCharacterInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "I", endianness='>')
-        self.rw_var("unknown_0x14", "I", endianness='>')
-        self.rw_var("unknown_0x18", "I", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_uint32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -743,19 +743,19 @@ class VlMxCharacterInfo(BaseRW):
                  0x40,  0x44,  0x48,  0x4C
                ]
     
-class VlMxClothesInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class VlMxClothesInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "f", endianness='>')
+        self.unknown_0x20 = rw.rw_float32(self.unknown_0x20)
       
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -773,14 +773,14 @@ class VlMxClothesInfo(BaseRW):
                  0x20
                ]
     
-class VlMxExplosiveInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='<')
-        self.rw_var("unknown_0x08", "f", endianness='>')
-        self.rw_var("unknown_0x0C", "f", endianness='>')
+class VlMxExplosiveInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_float32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_float32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "f", endianness='>')  
+        self.unknown_0x10 = rw.rw_float32(self.unknown_0x10)  
           
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04, self.unknown_0x08,  
@@ -795,19 +795,19 @@ class VlMxExplosiveInfo(BaseRW):
     def enrs_offsets(self):
         return [ 0x00,  0x08,  0x0C,  0x10 ]
         
-class VlMxForceInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class VlMxForceInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
       
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -825,18 +825,18 @@ class VlMxForceInfo(BaseRW):
                  0x20
                ]
     
-class VlMxGalliaRareWeaponCandidateInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='<')
-        self.rw_var("unknown_0x04", "I", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class VlMxGalliaRareWeaponCandidateInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "h", endianness='>')  
-        self.rw_var("unknown_0x16", "h", endianness='>') 
-        self.rw_var("unknown_0x18", "h", endianness='>') 
-        self.rw_var("unknown_0x1A", "h", endianness='>')  
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int16(self.unknown_0x14)  
+        self.unknown_0x16 = rw.rw_int16(self.unknown_0x16) 
+        self.unknown_0x18 = rw.rw_int16(self.unknown_0x18) 
+        self.unknown_0x1A = rw.rw_int16(self.unknown_0x1A)  
           
     def get_data(self):
         return ( self.unknown_0x00, self.unknown_0x04, self.unknown_0x08, self.unknown_0x0C, 
@@ -852,138 +852,138 @@ class VlMxGalliaRareWeaponCandidateInfo(BaseRW):
     def enrs_offsets(self):
         return [ 0x04,  0x08,  0x0C,  0x10,  0x14,  0x16, 0x18,  0x1A ]
   
-class VlMxGeneralCharInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
-        self.rw_var("unknown_0x08", "I", endianness='>')
-        self.rw_var("unknown_0x0C", "I", endianness='>')
+class VlMxGeneralCharInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "I", endianness='>')
-        self.rw_var("unknown_0x14", "I", endianness='>')
-        self.rw_var("unknown_0x18", "I", endianness='>')
-        self.rw_var("unknown_0x1C", "I", endianness='>')
+        self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_uint32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_uint32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "I", endianness='>')
-        self.rw_var("unknown_0x24", "I", endianness='>')
-        self.rw_var("unknown_0x28", "I", endianness='>')
-        self.rw_var("unknown_0x2C", "I", endianness='>')
+        self.unknown_0x20 = rw.rw_uint32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_uint32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_uint32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_uint32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "I", endianness='>')
-        self.rw_var("unknown_0x34", "I", endianness='>')
-        self.rw_var("unknown_0x38", "I", endianness='>')
-        self.rw_var("unknown_0x3C", "I", endianness='>')
+        self.unknown_0x30 = rw.rw_uint32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_uint32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_uint32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_uint32(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "I", endianness='>')
-        self.rw_var("unknown_0x44", "I", endianness='>')
-        self.rw_var("unknown_0x48", "I", endianness='>')
-        self.rw_var("unknown_0x4C", "I", endianness='>')
+        self.unknown_0x40 = rw.rw_uint32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_uint32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_uint32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_uint32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "I", endianness='>')
-        self.rw_var("unknown_0x54", "I", endianness='>')
-        self.rw_var("unknown_0x58", "I", endianness='>')
-        self.rw_var("unknown_0x5C", "I", endianness='>')
+        self.unknown_0x50 = rw.rw_uint32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_uint32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_uint32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_uint32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "I", endianness='>')
-        self.rw_var("unknown_0x64", "I", endianness='>')
-        self.rw_var("unknown_0x68", "I", endianness='>')
-        self.rw_var("unknown_0x6C", "I", endianness='>')
+        self.unknown_0x60 = rw.rw_uint32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_uint32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_uint32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_uint32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "I", endianness='>')
-        self.rw_var("unknown_0x74", "I", endianness='>')
-        self.rw_var("unknown_0x78", "I", endianness='>')
-        self.rw_var("unknown_0x7C", "I", endianness='>')
+        self.unknown_0x70 = rw.rw_uint32(self.unknown_0x70)
+        self.unknown_0x74 = rw.rw_uint32(self.unknown_0x74)
+        self.unknown_0x78 = rw.rw_uint32(self.unknown_0x78)
+        self.unknown_0x7C = rw.rw_uint32(self.unknown_0x7C)
         
-        self.rw_var("unknown_0x80", "I", endianness='>')
-        self.rw_var("unknown_0x84", "I", endianness='>')
-        self.rw_var("unknown_0x88", "I", endianness='>')
-        self.rw_var("unknown_0x8C", "I", endianness='>')
+        self.unknown_0x80 = rw.rw_uint32(self.unknown_0x80)
+        self.unknown_0x84 = rw.rw_uint32(self.unknown_0x84)
+        self.unknown_0x88 = rw.rw_uint32(self.unknown_0x88)
+        self.unknown_0x8C = rw.rw_uint32(self.unknown_0x8C)
         
-        self.rw_var("unknown_0x90", "I", endianness='>')
-        self.rw_var("unknown_0x94", "I", endianness='>')
-        self.rw_var("unknown_0x98", "I", endianness='>')
-        self.rw_var("unknown_0x9C", "I", endianness='>')
+        self.unknown_0x90 = rw.rw_uint32(self.unknown_0x90)
+        self.unknown_0x94 = rw.rw_uint32(self.unknown_0x94)
+        self.unknown_0x98 = rw.rw_uint32(self.unknown_0x98)
+        self.unknown_0x9C = rw.rw_uint32(self.unknown_0x9C)
         
-        self.rw_var("unknown_0xA0", "I", endianness='>')
-        self.rw_var("unknown_0xA4", "I", endianness='>')
-        self.rw_var("unknown_0xA8", "I", endianness='>')
-        self.rw_var("unknown_0xAC", "I", endianness='>')
+        self.unknown_0xA0 = rw.rw_uint32(self.unknown_0xA0)
+        self.unknown_0xA4 = rw.rw_uint32(self.unknown_0xA4)
+        self.unknown_0xA8 = rw.rw_uint32(self.unknown_0xA8)
+        self.unknown_0xAC = rw.rw_uint32(self.unknown_0xAC)
         
-        self.rw_var("unknown_0xB0", "I", endianness='>')
-        self.rw_var("unknown_0xB4", "I", endianness='>')
-        self.rw_var("unknown_0xB8", "I", endianness='>')
-        self.rw_var("unknown_0xBC", "I", endianness='>')
+        self.unknown_0xB0 = rw.rw_uint32(self.unknown_0xB0)
+        self.unknown_0xB4 = rw.rw_uint32(self.unknown_0xB4)
+        self.unknown_0xB8 = rw.rw_uint32(self.unknown_0xB8)
+        self.unknown_0xBC = rw.rw_uint32(self.unknown_0xBC)
         
-        self.rw_var("unknown_0xC0", "I", endianness='>')
-        self.rw_var("unknown_0xC4", "I", endianness='>')
-        self.rw_var("unknown_0xC8", "I", endianness='>')
-        self.rw_var("unknown_0xCC", "I", endianness='>')
+        self.unknown_0xC0 = rw.rw_uint32(self.unknown_0xC0)
+        self.unknown_0xC4 = rw.rw_uint32(self.unknown_0xC4)
+        self.unknown_0xC8 = rw.rw_uint32(self.unknown_0xC8)
+        self.unknown_0xCC = rw.rw_uint32(self.unknown_0xCC)
         
-        self.rw_var("unknown_0xD0", "I", endianness='>')
-        self.rw_var("unknown_0xD4", "I", endianness='>')
-        self.rw_var("unknown_0xD8", "I", endianness='>')
-        self.rw_var("unknown_0xDC", "I", endianness='>')
+        self.unknown_0xD0 = rw.rw_uint32(self.unknown_0xD0)
+        self.unknown_0xD4 = rw.rw_uint32(self.unknown_0xD4)
+        self.unknown_0xD8 = rw.rw_uint32(self.unknown_0xD8)
+        self.unknown_0xDC = rw.rw_uint32(self.unknown_0xDC)
         
-        self.rw_var("unknown_0xE0", "I", endianness='>')
-        self.rw_var("unknown_0xE4", "I", endianness='>')
-        self.rw_var("unknown_0xE8", "I", endianness='>')
-        self.rw_var("unknown_0xEC", "I", endianness='>')
+        self.unknown_0xE0 = rw.rw_uint32(self.unknown_0xE0)
+        self.unknown_0xE4 = rw.rw_uint32(self.unknown_0xE4)
+        self.unknown_0xE8 = rw.rw_uint32(self.unknown_0xE8)
+        self.unknown_0xEC = rw.rw_uint32(self.unknown_0xEC)
         
-        self.rw_var("unknown_0xF0", "I", endianness='>')
-        self.rw_var("unknown_0xF4", "I", endianness='>')
-        self.rw_var("unknown_0xF8", "I", endianness='>')
-        self.rw_var("unknown_0xFC", "I", endianness='>')
+        self.unknown_0xF0 = rw.rw_uint32(self.unknown_0xF0)
+        self.unknown_0xF4 = rw.rw_uint32(self.unknown_0xF4)
+        self.unknown_0xF8 = rw.rw_uint32(self.unknown_0xF8)
+        self.unknown_0xFC = rw.rw_uint32(self.unknown_0xFC)
         
-        self.rw_var("unknown_0x0100", "I", endianness='>')
-        self.rw_var("unknown_0x0104", "I", endianness='>')
-        self.rw_var("unknown_0x0108", "I", endianness='>')
-        self.rw_var("unknown_0x010C", "I", endianness='>')
+        self.unknown_0x0100 = rw.rw_uint32(self.unknown_0x0100)
+        self.unknown_0x0104 = rw.rw_uint32(self.unknown_0x0104)
+        self.unknown_0x0108 = rw.rw_uint32(self.unknown_0x0108)
+        self.unknown_0x010C = rw.rw_uint32(self.unknown_0x010C)
         
-        self.rw_var("unknown_0x0110", "I", endianness='>')
-        self.rw_var("unknown_0x0114", "I", endianness='>')
-        self.rw_var("unknown_0x0118", "I", endianness='>')
-        self.rw_var("unknown_0x011C", "I", endianness='>')
+        self.unknown_0x0110 = rw.rw_uint32(self.unknown_0x0110)
+        self.unknown_0x0114 = rw.rw_uint32(self.unknown_0x0114)
+        self.unknown_0x0118 = rw.rw_uint32(self.unknown_0x0118)
+        self.unknown_0x011C = rw.rw_uint32(self.unknown_0x011C)
         
-        self.rw_var("unknown_0x0120", "I", endianness='>')
-        self.rw_var("unknown_0x0124", "I", endianness='>')
-        self.rw_var("unknown_0x0128", "I", endianness='>')
-        self.rw_var("unknown_0x012C", "I", endianness='>')
+        self.unknown_0x0120 = rw.rw_uint32(self.unknown_0x0120)
+        self.unknown_0x0124 = rw.rw_uint32(self.unknown_0x0124)
+        self.unknown_0x0128 = rw.rw_uint32(self.unknown_0x0128)
+        self.unknown_0x012C = rw.rw_uint32(self.unknown_0x012C)
         
-        self.rw_var("unknown_0x0130", "I", endianness='>')
-        self.rw_var("unknown_0x0134", "I", endianness='>')
-        self.rw_var("unknown_0x0138", "I", endianness='>')
-        self.rw_var("unknown_0x013C", "I", endianness='>')
+        self.unknown_0x0130 = rw.rw_uint32(self.unknown_0x0130)
+        self.unknown_0x0134 = rw.rw_uint32(self.unknown_0x0134)
+        self.unknown_0x0138 = rw.rw_uint32(self.unknown_0x0138)
+        self.unknown_0x013C = rw.rw_uint32(self.unknown_0x013C)
         
-        self.rw_var("unknown_0x0140", "I", endianness='>')
-        self.rw_var("unknown_0x0144", "I", endianness='>')
-        self.rw_var("unknown_0x0148", "I", endianness='>')
-        self.rw_var("unknown_0x014C", "I", endianness='>')
+        self.unknown_0x0140 = rw.rw_uint32(self.unknown_0x0140)
+        self.unknown_0x0144 = rw.rw_uint32(self.unknown_0x0144)
+        self.unknown_0x0148 = rw.rw_uint32(self.unknown_0x0148)
+        self.unknown_0x014C = rw.rw_uint32(self.unknown_0x014C)
         
-        self.rw_var("unknown_0x0150", "I", endianness='>')
-        self.rw_var("unknown_0x0154", "I", endianness='>')
-        self.rw_var("unknown_0x0158", "I", endianness='>')
-        self.rw_var("unknown_0x015C", "I", endianness='>')
+        self.unknown_0x0150 = rw.rw_uint32(self.unknown_0x0150)
+        self.unknown_0x0154 = rw.rw_uint32(self.unknown_0x0154)
+        self.unknown_0x0158 = rw.rw_uint32(self.unknown_0x0158)
+        self.unknown_0x015C = rw.rw_uint32(self.unknown_0x015C)
         
-        self.rw_var("unknown_0x0160", "I", endianness='>')
-        self.rw_var("unknown_0x0164", "I", endianness='>')
-        self.rw_var("unknown_0x0168", "I", endianness='>')
-        self.rw_var("unknown_0x016C", "I", endianness='>')
+        self.unknown_0x0160 = rw.rw_uint32(self.unknown_0x0160)
+        self.unknown_0x0164 = rw.rw_uint32(self.unknown_0x0164)
+        self.unknown_0x0168 = rw.rw_uint32(self.unknown_0x0168)
+        self.unknown_0x016C = rw.rw_uint32(self.unknown_0x016C)
         
-        self.rw_var("unknown_0x0170", "I", endianness='>')
-        self.rw_var("unknown_0x0174", "I", endianness='>')
-        self.rw_var("unknown_0x0178", "I", endianness='>')
-        self.rw_var("unknown_0x017C", "I", endianness='>')
+        self.unknown_0x0170 = rw.rw_uint32(self.unknown_0x0170)
+        self.unknown_0x0174 = rw.rw_uint32(self.unknown_0x0174)
+        self.unknown_0x0178 = rw.rw_uint32(self.unknown_0x0178)
+        self.unknown_0x017C = rw.rw_uint32(self.unknown_0x017C)
         
-        self.rw_var("unknown_0x0180", "I", endianness='>')
-        self.rw_var("unknown_0x0184", "I", endianness='>')
-        self.rw_var("unknown_0x0188", "I", endianness='>')
-        self.rw_var("unknown_0x018C", "I", endianness='>')
+        self.unknown_0x0180 = rw.rw_uint32(self.unknown_0x0180)
+        self.unknown_0x0184 = rw.rw_uint32(self.unknown_0x0184)
+        self.unknown_0x0188 = rw.rw_uint32(self.unknown_0x0188)
+        self.unknown_0x018C = rw.rw_uint32(self.unknown_0x018C)
         
-        self.rw_var("unknown_0x0190", "I", endianness='>')
-        self.rw_var("unknown_0x0194", "I", endianness='>')
-        self.rw_var("unknown_0x0198", "I", endianness='>')
+        self.unknown_0x0190 = rw.rw_uint32(self.unknown_0x0190)
+        self.unknown_0x0194 = rw.rw_uint32(self.unknown_0x0194)
+        self.unknown_0x0198 = rw.rw_uint32(self.unknown_0x0198)
         
-        self.assert_is_zero("unknown_0x0198")
+        rw.assert_is_zero(self.unknown_0x0198)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -1051,36 +1051,36 @@ class VlMxGeneralCharInfo(BaseRW):
                  0x180, 0x184, 0x188, 0x18C, 0x190, 0x194
                ]
     
-class VlMxGeneralCharParamSetInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class VlMxGeneralCharParamSetInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
         
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -1102,101 +1102,101 @@ class VlMxGeneralCharParamSetInfo(BaseRW):
                   0x40,  0x44,  0x48,  0x4C,  0x50,  0x54,  0x58
                ]
     
-class VlMxJobInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "I", endianness='>')
-        self.rw_var("unknown_0x0C", "I", endianness='>')
+class VlMxJobInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "I", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "i", endianness='>')
-        self.rw_var("unknown_0x74", "i", endianness='>')
-        self.rw_var("unknown_0x78", "i", endianness='>')
-        self.rw_var("unknown_0x7C", "i", endianness='>')
+        self.unknown_0x70 = rw.rw_int32(self.unknown_0x70)
+        self.unknown_0x74 = rw.rw_int32(self.unknown_0x74)
+        self.unknown_0x78 = rw.rw_int32(self.unknown_0x78)
+        self.unknown_0x7C = rw.rw_int32(self.unknown_0x7C)
         
-        self.rw_var("unknown_0x80", "i", endianness='>')
-        self.rw_var("unknown_0x84", "i", endianness='>')
-        self.rw_var("unknown_0x88", "i", endianness='>')
-        self.rw_var("unknown_0x8C", "i", endianness='>')
+        self.unknown_0x80 = rw.rw_int32(self.unknown_0x80)
+        self.unknown_0x84 = rw.rw_int32(self.unknown_0x84)
+        self.unknown_0x88 = rw.rw_int32(self.unknown_0x88)
+        self.unknown_0x8C = rw.rw_int32(self.unknown_0x8C)
         
-        self.rw_var("unknown_0x90", "i", endianness='>')
-        self.rw_var("unknown_0x94", "i", endianness='>')
-        self.rw_var("unknown_0x98", "i", endianness='>')
-        self.rw_var("unknown_0x9C", "i", endianness='>')
+        self.unknown_0x90 = rw.rw_int32(self.unknown_0x90)
+        self.unknown_0x94 = rw.rw_int32(self.unknown_0x94)
+        self.unknown_0x98 = rw.rw_int32(self.unknown_0x98)
+        self.unknown_0x9C = rw.rw_int32(self.unknown_0x9C)
         
-        self.rw_var("unknown_0xA0", "i", endianness='>')
-        self.rw_var("unknown_0xA4", "i", endianness='>')
-        self.rw_var("unknown_0xA8", "i", endianness='>')
-        self.rw_var("unknown_0xAC", "i", endianness='>')
+        self.unknown_0xA0 = rw.rw_int32(self.unknown_0xA0)
+        self.unknown_0xA4 = rw.rw_int32(self.unknown_0xA4)
+        self.unknown_0xA8 = rw.rw_int32(self.unknown_0xA8)
+        self.unknown_0xAC = rw.rw_int32(self.unknown_0xAC)
         
-        self.rw_var("unknown_0xB0", "i", endianness='>')
-        self.rw_var("unknown_0xB4", "i", endianness='>')
-        self.rw_var("unknown_0xB8", "i", endianness='>')
-        self.rw_var("unknown_0xBC", "i", endianness='>')
+        self.unknown_0xB0 = rw.rw_int32(self.unknown_0xB0)
+        self.unknown_0xB4 = rw.rw_int32(self.unknown_0xB4)
+        self.unknown_0xB8 = rw.rw_int32(self.unknown_0xB8)
+        self.unknown_0xBC = rw.rw_int32(self.unknown_0xBC)
         
-        self.rw_var("unknown_0xC0", "i", endianness='>')
-        self.rw_var("unknown_0xC4", "i", endianness='>')
-        self.rw_var("unknown_0xC8", "i", endianness='>')
-        self.rw_var("unknown_0xCC", "i", endianness='>')
+        self.unknown_0xC0 = rw.rw_int32(self.unknown_0xC0)
+        self.unknown_0xC4 = rw.rw_int32(self.unknown_0xC4)
+        self.unknown_0xC8 = rw.rw_int32(self.unknown_0xC8)
+        self.unknown_0xCC = rw.rw_int32(self.unknown_0xCC)
         
-        self.rw_var("unknown_0xD0", "i", endianness='>')
-        self.rw_var("unknown_0xD4", "i", endianness='>')
-        self.rw_var("unknown_0xD8", "i", endianness='>')
-        self.rw_var("unknown_0xDC", "i", endianness='>')
+        self.unknown_0xD0 = rw.rw_int32(self.unknown_0xD0)
+        self.unknown_0xD4 = rw.rw_int32(self.unknown_0xD4)
+        self.unknown_0xD8 = rw.rw_int32(self.unknown_0xD8)
+        self.unknown_0xDC = rw.rw_int32(self.unknown_0xDC)
         
-        self.rw_var("unknown_0xE0", "i", endianness='>')
-        self.rw_var("unknown_0xE4", "i", endianness='>')
-        self.rw_var("unknown_0xE8", "i", endianness='>')
-        self.rw_var("unknown_0xEC", "i", endianness='>')
+        self.unknown_0xE0 = rw.rw_int32(self.unknown_0xE0)
+        self.unknown_0xE4 = rw.rw_int32(self.unknown_0xE4)
+        self.unknown_0xE8 = rw.rw_int32(self.unknown_0xE8)
+        self.unknown_0xEC = rw.rw_int32(self.unknown_0xEC)
         
-        self.rw_var("unknown_0xF0", "i", endianness='>')
-        self.rw_var("unknown_0xF4", "i", endianness='>')
-        self.rw_var("unknown_0xF8", "i", endianness='>')
-        self.rw_var("unknown_0xFC", "i", endianness='>')
+        self.unknown_0xF0 = rw.rw_int32(self.unknown_0xF0)
+        self.unknown_0xF4 = rw.rw_int32(self.unknown_0xF4)
+        self.unknown_0xF8 = rw.rw_int32(self.unknown_0xF8)
+        self.unknown_0xFC = rw.rw_int32(self.unknown_0xFC)
         
-        self.rw_var("unknown_0x0100", "i", endianness='>')
-        self.rw_var("unknown_0x0104", "i", endianness='>')
-        self.rw_var("unknown_0x0108", "i", endianness='>')
-        self.rw_var("unknown_0x010C", "i", endianness='>')
+        self.unknown_0x0100 = rw.rw_int32(self.unknown_0x0100)
+        self.unknown_0x0104 = rw.rw_int32(self.unknown_0x0104)
+        self.unknown_0x0108 = rw.rw_int32(self.unknown_0x0108)
+        self.unknown_0x010C = rw.rw_int32(self.unknown_0x010C)
         
-        self.rw_var("unknown_0x0110", "i", endianness='>')
-        self.rw_var("unknown_0x0114", "i", endianness='>')
-        self.rw_var("unknown_0x0118", "i", endianness='>')
-        self.rw_var("unknown_0x011C", "i", endianness='>')
+        self.unknown_0x0110 = rw.rw_int32(self.unknown_0x0110)
+        self.unknown_0x0114 = rw.rw_int32(self.unknown_0x0114)
+        self.unknown_0x0118 = rw.rw_int32(self.unknown_0x0118)
+        self.unknown_0x011C = rw.rw_int32(self.unknown_0x011C)
         
-        self.rw_var("unknown_0x0120", "i", endianness='>')
-        self.rw_var("unknown_0x0124", "i", endianness='>')
-        self.rw_var("unknown_0x0128", "i", endianness='>')
+        self.unknown_0x0120 = rw.rw_int32(self.unknown_0x0120)
+        self.unknown_0x0124 = rw.rw_int32(self.unknown_0x0124)
+        self.unknown_0x0128 = rw.rw_int32(self.unknown_0x0128)
         
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -1240,9 +1240,9 @@ class VlMxJobInfo(BaseRW):
                  0x120, 0x124, 0x128
                ]
     
-class VlMxMapObjectCommonInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
+class VlMxMapObjectCommonInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
     
     def get_data(self):
         return ( self.unknown_0x00, )
@@ -1256,20 +1256,20 @@ class VlMxMapObjectCommonInfo(BaseRW):
     def enrs_offsets(self):
         return [ 0x00 ]
     
-class VlMxMapObjectInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class VlMxMapObjectInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
         
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -1287,15 +1287,15 @@ class VlMxMapObjectInfo(BaseRW):
                   0x20,  0x24
                ]
     
-class VlMxNewsPaperInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
-        self.rw_var("unknown_0x08", "I", endianness='>')
-        self.rw_var("unknown_0x0C", "I", endianness='>')
+class VlMxNewsPaperInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "I", endianness='>')
-        self.rw_var("unknown_0x14", "I", endianness='>')
+        self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
         
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -1310,11 +1310,11 @@ class VlMxNewsPaperInfo(BaseRW):
     def enrs_offsets(self):
         return [  0x00,  0x04,  0x08,  0x0C,  0x10,  0x14  ]
     
-class VlMxOrderDirectionInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
-        self.rw_var("unknown_0x08", "q", endianness='>')
+class VlMxOrderDirectionInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int64(self.unknown_0x08)
         
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08, )
@@ -1328,39 +1328,39 @@ class VlMxOrderDirectionInfo(BaseRW):
     def enrs_offsets(self):
         return [  0x00,  0x04,  0x08  ]
     
-class VlMxOrderInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
-        self.rw_var("unknown_0x08", "I", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class VlMxOrderInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1A", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1A = rw.rw_int32(self.unknown_0x1A)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='<')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "I", endianness='>')
-        self.rw_var("unknown_0x44", "I", endianness='>')
-        self.rw_var("unknown_0x48", "I", endianness='<')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_uint32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_uint32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_uint32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
         
-        self.assert_is_zero("unknown_0x54")
+        rw.assert_is_zero(self.unknown_0x54)
         
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -1382,67 +1382,67 @@ class VlMxOrderInfo(BaseRW):
                   0x40,  0x44,         0x4C,  0x50
                ]
     
-class VlMxParameterConvertTable(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "f", endianness='>')
-        self.rw_var("unknown_0x04", "f", endianness='>')
-        self.rw_var("unknown_0x08", "f", endianness='>')
-        self.rw_var("unknown_0x0C", "f", endianness='>')
+class VlMxParameterConvertTable(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_float32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_float32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_float32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_float32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "f", endianness='>')
-        self.rw_var("unknown_0x14", "f", endianness='>')
-        self.rw_var("unknown_0x18", "f", endianness='>')
-        self.rw_var("unknown_0x1C", "f", endianness='>')
+        self.unknown_0x10 = rw.rw_float32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_float32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_float32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_float32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "f", endianness='>')
-        self.rw_var("unknown_0x24", "f", endianness='>')
-        self.rw_var("unknown_0x28", "f", endianness='>')
-        self.rw_var("unknown_0x2C", "f", endianness='>')
+        self.unknown_0x20 = rw.rw_float32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_float32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_float32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_float32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "f", endianness='>')
-        self.rw_var("unknown_0x34", "f", endianness='>')
-        self.rw_var("unknown_0x38", "f", endianness='>')
-        self.rw_var("unknown_0x3C", "f", endianness='>')
+        self.unknown_0x30 = rw.rw_float32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_float32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_float32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_float32(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "f", endianness='>')
-        self.rw_var("unknown_0x44", "f", endianness='>')
-        self.rw_var("unknown_0x48", "f", endianness='>')
-        self.rw_var("unknown_0x4C", "f", endianness='>')
+        self.unknown_0x40 = rw.rw_float32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_float32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_float32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_float32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "f", endianness='>')
-        self.rw_var("unknown_0x54", "f", endianness='>')
-        self.rw_var("unknown_0x58", "f", endianness='>')
-        self.rw_var("unknown_0x5C", "f", endianness='>')
+        self.unknown_0x50 = rw.rw_float32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_float32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_float32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_float32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "f", endianness='>')
-        self.rw_var("unknown_0x64", "f", endianness='>')
-        self.rw_var("unknown_0x68", "f", endianness='>')
-        self.rw_var("unknown_0x6C", "f", endianness='>')
+        self.unknown_0x60 = rw.rw_float32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_float32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_float32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_float32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "f", endianness='>')
-        self.rw_var("unknown_0x74", "f", endianness='>')
-        self.rw_var("unknown_0x78", "f", endianness='>')
-        self.rw_var("unknown_0x7C", "f", endianness='>')
+        self.unknown_0x70 = rw.rw_float32(self.unknown_0x70)
+        self.unknown_0x74 = rw.rw_float32(self.unknown_0x74)
+        self.unknown_0x78 = rw.rw_float32(self.unknown_0x78)
+        self.unknown_0x7C = rw.rw_float32(self.unknown_0x7C)
         
-        self.rw_var("unknown_0x80", "f", endianness='>')
-        self.rw_var("unknown_0x84", "f", endianness='>')
-        self.rw_var("unknown_0x88", "f", endianness='>')
-        self.rw_var("unknown_0x8C", "f", endianness='>')
+        self.unknown_0x80 = rw.rw_float32(self.unknown_0x80)
+        self.unknown_0x84 = rw.rw_float32(self.unknown_0x84)
+        self.unknown_0x88 = rw.rw_float32(self.unknown_0x88)
+        self.unknown_0x8C = rw.rw_float32(self.unknown_0x8C)
         
-        self.rw_var("unknown_0x90", "f", endianness='>')
-        self.rw_var("unknown_0x94", "f", endianness='>')
-        self.rw_var("unknown_0x98", "f", endianness='>')
-        self.rw_var("unknown_0x9C", "f", endianness='>')
+        self.unknown_0x90 = rw.rw_float32(self.unknown_0x90)
+        self.unknown_0x94 = rw.rw_float32(self.unknown_0x94)
+        self.unknown_0x98 = rw.rw_float32(self.unknown_0x98)
+        self.unknown_0x9C = rw.rw_float32(self.unknown_0x9C)
         
-        self.rw_var("unknown_0xA0", "f", endianness='>')
-        self.rw_var("unknown_0xA4", "f", endianness='>')
-        self.rw_var("unknown_0xA8", "f", endianness='>')
-        self.rw_var("unknown_0xAC", "f", endianness='>')
+        self.unknown_0xA0 = rw.rw_float32(self.unknown_0xA0)
+        self.unknown_0xA4 = rw.rw_float32(self.unknown_0xA4)
+        self.unknown_0xA8 = rw.rw_float32(self.unknown_0xA8)
+        self.unknown_0xAC = rw.rw_float32(self.unknown_0xAC)
         
-        self.rw_var("unknown_0xB0", "f", endianness='>')
-        self.rw_var("unknown_0xB4", "f", endianness='>')
+        self.unknown_0xB0 = rw.rw_float32(self.unknown_0xB0)
+        self.unknown_0xB4 = rw.rw_float32(self.unknown_0xB4)
         
-        self.assert_is_zero("unknown_0xB4")
+        rw.assert_is_zero(self.unknown_0xB4)
     
         
     def get_data(self):
@@ -1475,24 +1475,24 @@ class VlMxParameterConvertTable(BaseRW):
                   0xA0,  0xA4,  0xA8,  0xAC,  0xB0
                ]
     
-class VlMxPotentialInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
-        self.rw_var("unknown_0x08", "I", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='<')
+class VlMxPotentialInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
         
-        self.rw_var("unknown_0x10", "i", endianness='<')
-        self.rw_var("unknown_0x14", "i", endianness='<')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
             
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -1510,18 +1510,18 @@ class VlMxPotentialInfo(BaseRW):
                   0x20,  0x24,  0x28,  0x2C,
                ]
     
-class VlMxSlgInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
-        self.rw_var("unknown_0x08", "I", endianness='>')
-        self.rw_var("unknown_0x0C", "I", endianness='>')
+class VlMxSlgInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "I", endianness='>')
-        self.rw_var("unknown_0x14", "I", endianness='>')
-        self.rw_var("unknown_0x18", "q", endianness='>')
+        self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int64(self.unknown_0x18)
         
-        self.rw_var("unknown_0x20", "q", endianness='>')
+        self.unknown_0x20 = rw.rw_int64(self.unknown_0x20)
                 
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -1539,14 +1539,14 @@ class VlMxSlgInfo(BaseRW):
                   0x20
                ]
         
-class VlMxSlgLandformInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
-        self.rw_var("unknown_0x08", "I", endianness='>')
-        self.rw_var("unknown_0x0C", "I", endianness='>')
+class VlMxSlgLandformInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "I", endianness='>')
+        self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
                 
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -1561,21 +1561,21 @@ class VlMxSlgLandformInfo(BaseRW):
     def enrs_offsets(self):
         return [  0x00,  0x04,  0x08,  0x0C,  0x10  ]
 
-class VlMxSlgStrongholdCommonInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
-        self.rw_var("unknown_0x08", "I", endianness='>')
-        self.rw_var("unknown_0x0C", "I", endianness='>')
+class VlMxSlgStrongholdCommonInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "I", endianness='>')
-        self.rw_var("unknown_0x14", "I", endianness='>')
-        self.rw_var("unknown_0x18", "I", endianness='>')
-        self.rw_var("unknown_0x1C", "I", endianness='>')
+        self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_uint32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_uint32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "I", endianness='>')
-        self.rw_var("unknown_0x24", "I", endianness='>')
-        self.rw_var("unknown_0x28", "I", endianness='>')
+        self.unknown_0x20 = rw.rw_uint32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_uint32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_uint32(self.unknown_0x28)
                 
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -1593,39 +1593,39 @@ class VlMxSlgStrongholdCommonInfo(BaseRW):
                   0x20,  0x24,  0x28
                ]
   
-class VlMxUnitCommonInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "f", endianness='>')
-        self.rw_var("unknown_0x04", "f", endianness='>')
-        self.rw_var("unknown_0x08", "f", endianness='>')
-        self.rw_var("unknown_0x0C", "f", endianness='>')
+class VlMxUnitCommonInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_float32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_float32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_float32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_float32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "f", endianness='>')
-        self.rw_var("unknown_0x14", "f", endianness='>')
-        self.rw_var("unknown_0x18", "f", endianness='>')
-        self.rw_var("unknown_0x1C", "f", endianness='>')
+        self.unknown_0x10 = rw.rw_float32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_float32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_float32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_float32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "f", endianness='>')
-        self.rw_var("unknown_0x24", "f", endianness='>')
-        self.rw_var("unknown_0x28", "f", endianness='>')
-        self.rw_var("unknown_0x2C", "f", endianness='>')
+        self.unknown_0x20 = rw.rw_float32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_float32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_float32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_float32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "f", endianness='>')
-        self.rw_var("unknown_0x34", "f", endianness='>')
-        self.rw_var("unknown_0x38", "f", endianness='>')
-        self.rw_var("unknown_0x3C", "f", endianness='>')
+        self.unknown_0x30 = rw.rw_float32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_float32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_float32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_float32(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "f", endianness='>')
-        self.rw_var("unknown_0x44", "f", endianness='>')
-        self.rw_var("unknown_0x48", "f", endianness='>')
-        self.rw_var("unknown_0x4C", "f", endianness='>')
+        self.unknown_0x40 = rw.rw_float32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_float32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_float32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_float32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "f", endianness='>')
-        self.rw_var("unknown_0x54", "f", endianness='>')
-        self.rw_var("unknown_0x58", "f", endianness='>')
-        self.rw_var("unknown_0x5C", "f", endianness='>')
+        self.unknown_0x50 = rw.rw_float32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_float32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_float32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_float32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "f", endianness='>')
+        self.unknown_0x60 = rw.rw_float32(self.unknown_0x60)
             
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -1649,12 +1649,12 @@ class VlMxUnitCommonInfo(BaseRW):
                   0x60
                ]
     
-class VlMxUnitGrowthTypeInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
-        self.rw_var("unknown_0x08", "I", endianness='>')
-        self.rw_var("unknown_0x0C", "I", endianness='>')
+class VlMxUnitGrowthTypeInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
                 
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C)
@@ -1668,19 +1668,19 @@ class VlMxUnitGrowthTypeInfo(BaseRW):
     def enrs_offsets(self):
         return [  0x00,  0x04,  0x08,  0x0C  ]
     
-class VlMxVehicleCommonInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
-        self.rw_var("unknown_0x08", "I", endianness='>')
-        self.rw_var("unknown_0x0C", "I", endianness='>')
+class VlMxVehicleCommonInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "I", endianness='>')
-        self.rw_var("unknown_0x14", "I", endianness='>')
-        self.rw_var("unknown_0x18", "I", endianness='>')
-        self.rw_var("unknown_0x1C", "I", endianness='>')
+        self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_uint32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_uint32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "I", endianness='>')
+        self.unknown_0x20 = rw.rw_uint32(self.unknown_0x20)
             
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -1698,10 +1698,10 @@ class VlMxVehicleCommonInfo(BaseRW):
                   0x20
                ]
     
-class VlMxVehicleDevChangeParamInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
+class VlMxVehicleDevChangeParamInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
             
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04 )
@@ -1716,50 +1716,50 @@ class VlMxVehicleDevChangeParamInfo(BaseRW):
         return [  0x00,  0x04  ]
     
 
-class VlMxVehicleDevInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
-        self.rw_var("unknown_0x08", "I", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class VlMxVehicleDevInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "h", endianness='>')
-        self.rw_var("unknown_0x2E", "h", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int16(self.unknown_0x2C)
+        self.unknown_0x2E = rw.rw_int16(self.unknown_0x2E)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='<')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
-        
-        
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='<')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
         
-        self.rw_var("unknown_0x50", "i", endianness='<')
-        self.rw_var("unknown_0x54", "h", endianness='<')
-        self.rw_var("unknown_0x56", "h", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int16(self.unknown_0x54)
+        self.unknown_0x56 = rw.rw_int16(self.unknown_0x56)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x70", "i", endianness='>')
-        self.rw_var("unknown_0x74", "i", endianness='<')
+        
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
+        
+        self.unknown_0x70 = rw.rw_int32(self.unknown_0x70)
+        self.unknown_0x74 = rw.rw_int32(self.unknown_0x74)
         
         
     def get_data(self):
@@ -1787,120 +1787,120 @@ class VlMxVehicleDevInfo(BaseRW):
                   0x60,  0x64,  0x68,  0x6C,  0x70
                ]
     
-class VlMxVehicleEachInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
-        self.rw_var("unknown_0x08", "I", endianness='>')
-        self.rw_var("unknown_0x0C", "I", endianness='>')
+class VlMxVehicleEachInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "I", endianness='>')
-        self.rw_var("unknown_0x14", "I", endianness='>')
-        self.rw_var("unknown_0x18", "I", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_uint32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "f", endianness='>')
-        self.rw_var("unknown_0x2C", "f", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_float32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_float32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "f", endianness='>')
-        self.rw_var("unknown_0x34", "I", endianness='>')
-        self.rw_var("unknown_0x38", "I", endianness='>')
-        self.rw_var("unknown_0x3C", "I", endianness='>')
+        self.unknown_0x30 = rw.rw_float32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_uint32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_uint32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_uint32(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "f", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_float32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "f", endianness='>')
-        self.rw_var("unknown_0x54", "f", endianness='>')
-        self.rw_var("unknown_0x58", "f", endianness='>')
-        self.rw_var("unknown_0x5C", "f", endianness='>')
+        self.unknown_0x50 = rw.rw_float32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_float32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_float32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_float32(self.unknown_0x5C)
         
-        self.assert_is_zero("unknown_0x50")
-        self.assert_is_zero("unknown_0x54")
-        self.assert_is_zero("unknown_0x58")
+        rw.assert_is_zero(self.unknown_0x50)
+        rw.assert_is_zero(self.unknown_0x54)
+        rw.assert_is_zero(self.unknown_0x58)
         
-        self.rw_var("unknown_0x60", "f", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_float32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "i", endianness='>')
-        self.rw_var("unknown_0x74", "i", endianness='>')
-        self.rw_var("unknown_0x78", "i", endianness='>')
-        self.rw_var("unknown_0x7C", "i", endianness='>')
+        self.unknown_0x70 = rw.rw_int32(self.unknown_0x70)
+        self.unknown_0x74 = rw.rw_int32(self.unknown_0x74)
+        self.unknown_0x78 = rw.rw_int32(self.unknown_0x78)
+        self.unknown_0x7C = rw.rw_int32(self.unknown_0x7C)
         
-        self.rw_var("unknown_0x80", "i", endianness='>')
-        self.rw_var("unknown_0x84", "i", endianness='>')
-        self.rw_var("unknown_0x88", "i", endianness='>')
-        self.rw_var("unknown_0x8C", "i", endianness='>')
+        self.unknown_0x80 = rw.rw_int32(self.unknown_0x80)
+        self.unknown_0x84 = rw.rw_int32(self.unknown_0x84)
+        self.unknown_0x88 = rw.rw_int32(self.unknown_0x88)
+        self.unknown_0x8C = rw.rw_int32(self.unknown_0x8C)
         
-        self.rw_var("unknown_0x90", "i", endianness='>')
-        self.rw_var("unknown_0x94", "i", endianness='>')
-        self.rw_var("unknown_0x98", "i", endianness='>')
-        self.rw_var("unknown_0x9C", "i", endianness='>')
+        self.unknown_0x90 = rw.rw_int32(self.unknown_0x90)
+        self.unknown_0x94 = rw.rw_int32(self.unknown_0x94)
+        self.unknown_0x98 = rw.rw_int32(self.unknown_0x98)
+        self.unknown_0x9C = rw.rw_int32(self.unknown_0x9C)
         
-        self.rw_var("unknown_0xA0", "i", endianness='>')
-        self.rw_var("unknown_0xA4", "i", endianness='>')
-        self.rw_var("unknown_0xA8", "i", endianness='>')
-        self.rw_var("unknown_0xAC", "i", endianness='>')
+        self.unknown_0xA0 = rw.rw_int32(self.unknown_0xA0)
+        self.unknown_0xA4 = rw.rw_int32(self.unknown_0xA4)
+        self.unknown_0xA8 = rw.rw_int32(self.unknown_0xA8)
+        self.unknown_0xAC = rw.rw_int32(self.unknown_0xAC)
         
-        self.rw_var("unknown_0xB0", "i", endianness='>')
-        self.rw_var("unknown_0xB4", "i", endianness='>')
-        self.rw_var("unknown_0xB8", "i", endianness='>')
-        self.rw_var("unknown_0xBC", "i", endianness='>')
+        self.unknown_0xB0 = rw.rw_int32(self.unknown_0xB0)
+        self.unknown_0xB4 = rw.rw_int32(self.unknown_0xB4)
+        self.unknown_0xB8 = rw.rw_int32(self.unknown_0xB8)
+        self.unknown_0xBC = rw.rw_int32(self.unknown_0xBC)
         
-        self.rw_var("unknown_0xC0", "i", endianness='>')
-        self.rw_var("unknown_0xC4", "i", endianness='>')
-        self.rw_var("unknown_0xC8", "i", endianness='>')
-        self.rw_var("unknown_0xCC", "i", endianness='>')
+        self.unknown_0xC0 = rw.rw_int32(self.unknown_0xC0)
+        self.unknown_0xC4 = rw.rw_int32(self.unknown_0xC4)
+        self.unknown_0xC8 = rw.rw_int32(self.unknown_0xC8)
+        self.unknown_0xCC = rw.rw_int32(self.unknown_0xCC)
         
-        self.rw_var("unknown_0xD0", "i", endianness='>')
-        self.rw_var("unknown_0xD4", "i", endianness='>')
-        self.rw_var("unknown_0xD8", "i", endianness='>')
-        self.rw_var("unknown_0xDC", "i", endianness='>')
+        self.unknown_0xD0 = rw.rw_int32(self.unknown_0xD0)
+        self.unknown_0xD4 = rw.rw_int32(self.unknown_0xD4)
+        self.unknown_0xD8 = rw.rw_int32(self.unknown_0xD8)
+        self.unknown_0xDC = rw.rw_int32(self.unknown_0xDC)
         
-        self.rw_var("unknown_0xE0", "i", endianness='>')
-        self.rw_var("unknown_0xE4", "i", endianness='>')
-        self.rw_var("unknown_0xE8", "i", endianness='>')
-        self.rw_var("unknown_0xEC", "i", endianness='>')
+        self.unknown_0xE0 = rw.rw_int32(self.unknown_0xE0)
+        self.unknown_0xE4 = rw.rw_int32(self.unknown_0xE4)
+        self.unknown_0xE8 = rw.rw_int32(self.unknown_0xE8)
+        self.unknown_0xEC = rw.rw_int32(self.unknown_0xEC)
         
-        self.rw_var("unknown_0xF0", "i", endianness='>')
-        self.rw_var("unknown_0xF4", "i", endianness='>')
-        self.rw_var("unknown_0xF8", "i", endianness='>')
-        self.rw_var("unknown_0xFC", "i", endianness='>')
+        self.unknown_0xF0 = rw.rw_int32(self.unknown_0xF0)
+        self.unknown_0xF4 = rw.rw_int32(self.unknown_0xF4)
+        self.unknown_0xF8 = rw.rw_int32(self.unknown_0xF8)
+        self.unknown_0xFC = rw.rw_int32(self.unknown_0xFC)
         
-        self.rw_var("unknown_0x0100", "i", endianness='>')
-        self.rw_var("unknown_0x0104", "i", endianness='>')
-        self.rw_var("unknown_0x0108", "i", endianness='>')
-        self.rw_var("unknown_0x010C", "i", endianness='>')
+        self.unknown_0x0100 = rw.rw_int32(self.unknown_0x0100)
+        self.unknown_0x0104 = rw.rw_int32(self.unknown_0x0104)
+        self.unknown_0x0108 = rw.rw_int32(self.unknown_0x0108)
+        self.unknown_0x010C = rw.rw_int32(self.unknown_0x010C)
         
-        self.rw_var("unknown_0x0110", "i", endianness='>')
-        self.rw_var("unknown_0x0114", "i", endianness='>')
-        self.rw_var("unknown_0x0118", "i", endianness='>')
-        self.rw_var("unknown_0x011C", "i", endianness='>')
+        self.unknown_0x0110 = rw.rw_int32(self.unknown_0x0110)
+        self.unknown_0x0114 = rw.rw_int32(self.unknown_0x0114)
+        self.unknown_0x0118 = rw.rw_int32(self.unknown_0x0118)
+        self.unknown_0x011C = rw.rw_int32(self.unknown_0x011C)
         
-        self.rw_var("unknown_0x0120", "i", endianness='>')
-        self.rw_var("unknown_0x0124", "i", endianness='>')
-        self.rw_var("unknown_0x0128", "i", endianness='>')
-        self.rw_var("unknown_0x012C", "i", endianness='>')
+        self.unknown_0x0120 = rw.rw_int32(self.unknown_0x0120)
+        self.unknown_0x0124 = rw.rw_int32(self.unknown_0x0124)
+        self.unknown_0x0128 = rw.rw_int32(self.unknown_0x0128)
+        self.unknown_0x012C = rw.rw_int32(self.unknown_0x012C)
         
-        self.rw_var("unknown_0x0130", "i", endianness='>')
-        self.rw_var("unknown_0x0134", "i", endianness='>')
-        self.rw_var("unknown_0x0138", "i", endianness='>')
-        self.rw_var("unknown_0x013C", "i", endianness='>')
+        self.unknown_0x0130 = rw.rw_int32(self.unknown_0x0130)
+        self.unknown_0x0134 = rw.rw_int32(self.unknown_0x0134)
+        self.unknown_0x0138 = rw.rw_int32(self.unknown_0x0138)
+        self.unknown_0x013C = rw.rw_int32(self.unknown_0x013C)
         
-        self.rw_var("unknown_0x0140", "i", endianness='>')
-        self.rw_var("unknown_0x0144", "i", endianness='>')
-        self.rw_var("unknown_0x0148", "i", endianness='>')
-        self.rw_var("unknown_0x014C", "i", endianness='>')
+        self.unknown_0x0140 = rw.rw_int32(self.unknown_0x0140)
+        self.unknown_0x0144 = rw.rw_int32(self.unknown_0x0144)
+        self.unknown_0x0148 = rw.rw_int32(self.unknown_0x0148)
+        self.unknown_0x014C = rw.rw_int32(self.unknown_0x014C)
         
-        self.rw_var("unknown_0x0150", "i", endianness='>')
-        self.rw_var("unknown_0x0154", "i", endianness='>')
-        self.rw_var("unknown_0x0158", "i", endianness='>')
+        self.unknown_0x0150 = rw.rw_int32(self.unknown_0x0150)
+        self.unknown_0x0154 = rw.rw_int32(self.unknown_0x0154)
+        self.unknown_0x0158 = rw.rw_int32(self.unknown_0x0158)
         
     
     def get_data(self):
@@ -1949,72 +1949,72 @@ class VlMxVehicleEachInfo(BaseRW):
                  0x140, 0x144, 0x148, 0x14C, 0x150, 0x154, 0x158
                ]
 
-class VlMxVehicleInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
-        self.rw_var("unknown_0x08", "I", endianness='>')
-        self.rw_var("unknown_0x0C", "I", endianness='>')
+class VlMxVehicleInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "I", endianness='>')
-        self.rw_var("unknown_0x14", "I", endianness='>')
-        self.rw_var("unknown_0x18", "I", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_uint32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "I", endianness='>')
-        self.rw_var("unknown_0x2C", "f", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_uint32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_float32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "f", endianness='>')
-        self.rw_var("unknown_0x34", "I", endianness='>')
-        self.rw_var("unknown_0x38", "I", endianness='>')
-        self.rw_var("unknown_0x3C", "I", endianness='>')
+        self.unknown_0x30 = rw.rw_float32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_uint32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_uint32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_uint32(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "f", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_float32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "f", endianness='>')
-        self.rw_var("unknown_0x54", "f", endianness='>')
-        self.rw_var("unknown_0x58", "f", endianness='>')
-        self.rw_var("unknown_0x5C", "f", endianness='>')
+        self.unknown_0x50 = rw.rw_float32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_float32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_float32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_float32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "f", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_float32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "i", endianness='>')
-        self.rw_var("unknown_0x84", "i", endianness='>')
-        self.rw_var("unknown_0x88", "i", endianness='>')
-        self.rw_var("unknown_0x8C", "i", endianness='>')
+        self.unknown_0x80 = rw.rw_int32(self.unknown_0x80)
+        self.unknown_0x84 = rw.rw_int32(self.unknown_0x84)
+        self.unknown_0x88 = rw.rw_int32(self.unknown_0x88)
+        self.unknown_0x8C = rw.rw_int32(self.unknown_0x8C)
         
-        self.rw_var("unknown_0x90", "i", endianness='>')
-        self.rw_var("unknown_0x94", "i", endianness='>')
-        self.rw_var("unknown_0x98", "i", endianness='>')
-        self.rw_var("unknown_0x9C", "i", endianness='>')
+        self.unknown_0x90 = rw.rw_int32(self.unknown_0x90)
+        self.unknown_0x94 = rw.rw_int32(self.unknown_0x94)
+        self.unknown_0x98 = rw.rw_int32(self.unknown_0x98)
+        self.unknown_0x9C = rw.rw_int32(self.unknown_0x9C)
         
-        self.rw_var("unknown_0xA0", "i", endianness='>')
-        self.rw_var("unknown_0xA4", "i", endianness='>')
-        self.rw_var("unknown_0xA8", "i", endianness='>')
-        self.rw_var("unknown_0xAC", "i", endianness='<')
+        self.unknown_0xA0 = rw.rw_int32(self.unknown_0xA0)
+        self.unknown_0xA4 = rw.rw_int32(self.unknown_0xA4)
+        self.unknown_0xA8 = rw.rw_int32(self.unknown_0xA8)
+        self.unknown_0xAC = rw.rw_int32(self.unknown_0xAC)
         
         
-        self.rw_var("unknown_0xB0", "i", endianness='<')
-        self.rw_var("unknown_0xB4", "i", endianness='<')
-        self.rw_var("unknown_0xB8", "i", endianness='>')
-        self.rw_var("unknown_0xBC", "i", endianness='>')
+        self.unknown_0xB0 = rw.rw_int32(self.unknown_0xB0)
+        self.unknown_0xB4 = rw.rw_int32(self.unknown_0xB4)
+        self.unknown_0xB8 = rw.rw_int32(self.unknown_0xB8)
+        self.unknown_0xBC = rw.rw_int32(self.unknown_0xBC)
   
   
-        self.rw_var("unknown_0xC0", "i", endianness='>')
-        self.rw_var("unknown_0xC4", "i", endianness='>')
-        self.rw_var("unknown_0xC8", "i", endianness='>')
-        self.rw_var("unknown_0xCC", "i", endianness='<')
+        self.unknown_0xC0 = rw.rw_int32(self.unknown_0xC0)
+        self.unknown_0xC4 = rw.rw_int32(self.unknown_0xC4)
+        self.unknown_0xC8 = rw.rw_int32(self.unknown_0xC8)
+        self.unknown_0xCC = rw.rw_int32(self.unknown_0xCC)
         
     
     def get_data(self):
@@ -2049,14 +2049,14 @@ class VlMxVehicleInfo(BaseRW):
                   0xC0,  0xC4,  0xC8
                ]
     
-class VlMxWeaponBringOnUnwholesomeInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
-        self.rw_var("unknown_0x08", "I", endianness='>')
-        self.rw_var("unknown_0x0C", "I", endianness='>')
+class VlMxWeaponBringOnUnwholesomeInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "I", endianness='>')
+        self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
         
     
     def get_data(self):
@@ -2072,10 +2072,10 @@ class VlMxWeaponBringOnUnwholesomeInfo(BaseRW):
     def enrs_offsets(self):
         return [  0x00,  0x04,  0x08,  0x0C,  0x10  ]
 
-class VlMxWeaponCommonInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
+class VlMxWeaponCommonInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
         
     
     def get_data(self):
@@ -2090,83 +2090,83 @@ class VlMxWeaponCommonInfo(BaseRW):
     def enrs_offsets(self):
         return [  0x00,  0x04  ]
 
-class VlMxWeaponInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
-        self.rw_var("unknown_0x08", "q", endianness='>')
+class VlMxWeaponInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int64(self.unknown_0x08)
         
-        self.rw_var("unknown_0x10", "q", endianness='>')
-        self.rw_var("unknown_0x18", "I", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int64(self.unknown_0x10)
+        self.unknown_0x18 = rw.rw_uint32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "f", endianness='>')
-        self.rw_var("unknown_0x2C", "f", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_float32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_float32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "f", endianness='>')
-        self.rw_var("unknown_0x34", "I", endianness='>')
-        self.rw_var("unknown_0x38", "I", endianness='>')
-        self.rw_var("unknown_0x3C", "I", endianness='>')
+        self.unknown_0x30 = rw.rw_float32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_uint32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_uint32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_uint32(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "f", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_float32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "f", endianness='>')
-        self.rw_var("unknown_0x54", "f", endianness='>')
-        self.rw_var("unknown_0x58", "f", endianness='>')
-        self.rw_var("unknown_0x5C", "f", endianness='>')
+        self.unknown_0x50 = rw.rw_float32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_float32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_float32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_float32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "f", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_float32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "i", endianness='>')
-        self.rw_var("unknown_0x74", "i", endianness='>')
-        self.rw_var("unknown_0x78", "i", endianness='>')
-        self.rw_var("unknown_0x7C", "i", endianness='>')
+        self.unknown_0x70 = rw.rw_int32(self.unknown_0x70)
+        self.unknown_0x74 = rw.rw_int32(self.unknown_0x74)
+        self.unknown_0x78 = rw.rw_int32(self.unknown_0x78)
+        self.unknown_0x7C = rw.rw_int32(self.unknown_0x7C)
         
-        self.rw_var("unknown_0x80", "i", endianness='>')
-        self.rw_var("unknown_0x84", "i", endianness='>')
-        self.rw_var("unknown_0x88", "i", endianness='>')
-        self.rw_var("unknown_0x8C", "i", endianness='>')
+        self.unknown_0x80 = rw.rw_int32(self.unknown_0x80)
+        self.unknown_0x84 = rw.rw_int32(self.unknown_0x84)
+        self.unknown_0x88 = rw.rw_int32(self.unknown_0x88)
+        self.unknown_0x8C = rw.rw_int32(self.unknown_0x8C)
         
-        self.rw_var("unknown_0x90", "i", endianness='>')
-        self.rw_var("unknown_0x94", "i", endianness='>')
-        self.rw_var("unknown_0x98", "i", endianness='>')
-        self.rw_var("unknown_0x9C", "i", endianness='>')
+        self.unknown_0x90 = rw.rw_int32(self.unknown_0x90)
+        self.unknown_0x94 = rw.rw_int32(self.unknown_0x94)
+        self.unknown_0x98 = rw.rw_int32(self.unknown_0x98)
+        self.unknown_0x9C = rw.rw_int32(self.unknown_0x9C)
         
-        self.rw_var("unknown_0xA0", "i", endianness='>')
-        self.rw_var("unknown_0xA4", "i", endianness='>')
-        self.rw_var("unknown_0xA8", "i", endianness='>')
-        self.rw_var("unknown_0xAC", "i", endianness='>')
+        self.unknown_0xA0 = rw.rw_int32(self.unknown_0xA0)
+        self.unknown_0xA4 = rw.rw_int32(self.unknown_0xA4)
+        self.unknown_0xA8 = rw.rw_int32(self.unknown_0xA8)
+        self.unknown_0xAC = rw.rw_int32(self.unknown_0xAC)
         
-        self.rw_var("unknown_0xB0", "i", endianness='>')
-        self.rw_var("unknown_0xB4", "i", endianness='>')
-        self.rw_var("unknown_0xB8", "i", endianness='>')
-        self.rw_var("unknown_0xBC", "i", endianness='>')
+        self.unknown_0xB0 = rw.rw_int32(self.unknown_0xB0)
+        self.unknown_0xB4 = rw.rw_int32(self.unknown_0xB4)
+        self.unknown_0xB8 = rw.rw_int32(self.unknown_0xB8)
+        self.unknown_0xBC = rw.rw_int32(self.unknown_0xBC)
         
-        self.rw_var("unknown_0xC0", "i", endianness='>')
-        self.rw_var("unknown_0xC4", "i", endianness='>')
-        self.rw_var("unknown_0xC8", "i", endianness='>')
-        self.rw_var("unknown_0xCC", "i", endianness='>')
+        self.unknown_0xC0 = rw.rw_int32(self.unknown_0xC0)
+        self.unknown_0xC4 = rw.rw_int32(self.unknown_0xC4)
+        self.unknown_0xC8 = rw.rw_int32(self.unknown_0xC8)
+        self.unknown_0xCC = rw.rw_int32(self.unknown_0xCC)
         
-        self.rw_var("unknown_0xD0", "i", endianness='>')
-        self.rw_var("unknown_0xD4", "i", endianness='>')
-        self.rw_var("unknown_0xD8", "i", endianness='>')
-        self.rw_var("unknown_0xDC", "i", endianness='>')
+        self.unknown_0xD0 = rw.rw_int32(self.unknown_0xD0)
+        self.unknown_0xD4 = rw.rw_int32(self.unknown_0xD4)
+        self.unknown_0xD8 = rw.rw_int32(self.unknown_0xD8)
+        self.unknown_0xDC = rw.rw_int32(self.unknown_0xDC)
         
-        self.rw_var("unknown_0xE0", "i", endianness='>')
-        self.rw_var("unknown_0xE4", "i", endianness='>')
-        self.rw_var("unknown_0xE8", "i", endianness='>')
-        self.rw_var("unknown_0xEC", "i", endianness='>')
+        self.unknown_0xE0 = rw.rw_int32(self.unknown_0xE0)
+        self.unknown_0xE4 = rw.rw_int32(self.unknown_0xE4)
+        self.unknown_0xE8 = rw.rw_int32(self.unknown_0xE8)
+        self.unknown_0xEC = rw.rw_int32(self.unknown_0xEC)
         
-        self.rw_var("unknown_0xF0", "i", endianness='>')
-        self.rw_var("unknown_0xF4", "i", endianness='>')
+        self.unknown_0xF0 = rw.rw_int32(self.unknown_0xF0)
+        self.unknown_0xF4 = rw.rw_int32(self.unknown_0xF4)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08, 
@@ -2204,49 +2204,49 @@ class VlMxWeaponInfo(BaseRW):
                   0xE0,  0xE4,  0xE8,  0xEC,  0xF0,  0xF4
                ]
 
-class VlMxBookDecorationInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
-        self.rw_var("unknown_0x08", "I", endianness='>')
-        self.rw_var("unknown_0x0C", "I", endianness='>')
+class VlMxBookDecorationInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "I", endianness='>')
-        self.rw_var("unknown_0x14", "I", endianness='>')
+        self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
                  self.unknown_0x10,  self.unknown_0x14, )
 
-class VlMxBookHistoryInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
-        self.rw_var("unknown_0x08", "I", endianness='>')
-        self.rw_var("unknown_0x0C", "I", endianness='>')
+class VlMxBookHistoryInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "I", endianness='>')
-        self.rw_var("unknown_0x14", "I", endianness='>')
-        self.rw_var("unknown_0x18", "I", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_uint32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "f", endianness='>')
-        self.rw_var("unknown_0x2C", "f", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_float32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_float32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "f", endianness='>')
-        self.rw_var("unknown_0x34", "I", endianness='>')
-        self.rw_var("unknown_0x38", "I", endianness='>')
-        self.rw_var("unknown_0x3C", "I", endianness='>')
+        self.unknown_0x30 = rw.rw_float32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_uint32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_uint32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_uint32(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "f", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_float32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "f", endianness='>')
-        self.rw_var("unknown_0x54", "f", endianness='>')
+        self.unknown_0x50 = rw.rw_float32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_float32(self.unknown_0x54)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -2257,140 +2257,140 @@ class VlMxBookHistoryInfo(BaseRW):
                  self.unknown_0x50,  self.unknown_0x54 )
 
   
-class VlMxBookPersonInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
-        self.rw_var("unknown_0x08", "I", endianness='>')
-        self.rw_var("unknown_0x0C", "I", endianness='>')
+class VlMxBookPersonInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "I", endianness='>')
-        self.rw_var("unknown_0x14", "I", endianness='>')
-        self.rw_var("unknown_0x18", "I", endianness='>')
-        self.rw_var("unknown_0x1C", "I", endianness='>')
+        self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_uint32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_uint32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "I", endianness='>')
-        self.rw_var("unknown_0x24", "I", endianness='>')
-        self.rw_var("unknown_0x28", "I", endianness='>')
-        self.rw_var("unknown_0x2C", "I", endianness='>')
+        self.unknown_0x20 = rw.rw_uint32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_uint32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_uint32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_uint32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "I", endianness='>')
-        self.rw_var("unknown_0x34", "I", endianness='>')
-        self.rw_var("unknown_0x38", "I", endianness='>')
-        self.rw_var("unknown_0x3C", "I", endianness='>')
+        self.unknown_0x30 = rw.rw_uint32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_uint32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_uint32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_uint32(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "I", endianness='>')
-        self.rw_var("unknown_0x44", "I", endianness='>')
-        self.rw_var("unknown_0x48", "I", endianness='>')
-        self.rw_var("unknown_0x4C", "I", endianness='>')
+        self.unknown_0x40 = rw.rw_uint32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_uint32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_uint32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_uint32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "I", endianness='>')
-        self.rw_var("unknown_0x54", "I", endianness='>')
-        self.rw_var("unknown_0x58", "I", endianness='>')
-        self.rw_var("unknown_0x5C", "I", endianness='>')
+        self.unknown_0x50 = rw.rw_uint32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_uint32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_uint32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_uint32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "I", endianness='>')
-        self.rw_var("unknown_0x64", "I", endianness='>')
-        self.rw_var("unknown_0x68", "I", endianness='>')
-        self.rw_var("unknown_0x6C", "I", endianness='>')
+        self.unknown_0x60 = rw.rw_uint32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_uint32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_uint32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_uint32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "I", endianness='>')
-        self.rw_var("unknown_0x74", "I", endianness='>')
-        self.rw_var("unknown_0x78", "I", endianness='>')
-        self.rw_var("unknown_0x7C", "I", endianness='>')
+        self.unknown_0x70 = rw.rw_uint32(self.unknown_0x70)
+        self.unknown_0x74 = rw.rw_uint32(self.unknown_0x74)
+        self.unknown_0x78 = rw.rw_uint32(self.unknown_0x78)
+        self.unknown_0x7C = rw.rw_uint32(self.unknown_0x7C)
         
-        self.rw_var("unknown_0x80", "I", endianness='>')
-        self.rw_var("unknown_0x84", "I", endianness='>')
-        self.rw_var("unknown_0x88", "I", endianness='>')
-        self.rw_var("unknown_0x8C", "I", endianness='>')
+        self.unknown_0x80 = rw.rw_uint32(self.unknown_0x80)
+        self.unknown_0x84 = rw.rw_uint32(self.unknown_0x84)
+        self.unknown_0x88 = rw.rw_uint32(self.unknown_0x88)
+        self.unknown_0x8C = rw.rw_uint32(self.unknown_0x8C)
         
-        self.rw_var("unknown_0x90", "I", endianness='>')
-        self.rw_var("unknown_0x94", "I", endianness='>')
-        self.rw_var("unknown_0x98", "I", endianness='>')
-        self.rw_var("unknown_0x9C", "I", endianness='>')
+        self.unknown_0x90 = rw.rw_uint32(self.unknown_0x90)
+        self.unknown_0x94 = rw.rw_uint32(self.unknown_0x94)
+        self.unknown_0x98 = rw.rw_uint32(self.unknown_0x98)
+        self.unknown_0x9C = rw.rw_uint32(self.unknown_0x9C)
         
-        self.rw_var("unknown_0xA0", "I", endianness='>')
-        self.rw_var("unknown_0xA4", "I", endianness='>')
-        self.rw_var("unknown_0xA8", "I", endianness='>')
-        self.rw_var("unknown_0xAC", "I", endianness='>')
+        self.unknown_0xA0 = rw.rw_uint32(self.unknown_0xA0)
+        self.unknown_0xA4 = rw.rw_uint32(self.unknown_0xA4)
+        self.unknown_0xA8 = rw.rw_uint32(self.unknown_0xA8)
+        self.unknown_0xAC = rw.rw_uint32(self.unknown_0xAC)
         
-        self.rw_var("unknown_0xB0", "I", endianness='>')
-        self.rw_var("unknown_0xB4", "I", endianness='>')
-        self.rw_var("unknown_0xB8", "I", endianness='>')
-        self.rw_var("unknown_0xBC", "I", endianness='>')
+        self.unknown_0xB0 = rw.rw_uint32(self.unknown_0xB0)
+        self.unknown_0xB4 = rw.rw_uint32(self.unknown_0xB4)
+        self.unknown_0xB8 = rw.rw_uint32(self.unknown_0xB8)
+        self.unknown_0xBC = rw.rw_uint32(self.unknown_0xBC)
         
-        self.rw_var("unknown_0xC0", "I", endianness='>')
-        self.rw_var("unknown_0xC4", "I", endianness='>')
-        self.rw_var("unknown_0xC8", "I", endianness='>')
-        self.rw_var("unknown_0xCC", "I", endianness='>')
+        self.unknown_0xC0 = rw.rw_uint32(self.unknown_0xC0)
+        self.unknown_0xC4 = rw.rw_uint32(self.unknown_0xC4)
+        self.unknown_0xC8 = rw.rw_uint32(self.unknown_0xC8)
+        self.unknown_0xCC = rw.rw_uint32(self.unknown_0xCC)
         
-        self.rw_var("unknown_0xD0", "I", endianness='>')
-        self.rw_var("unknown_0xD4", "I", endianness='>')
-        self.rw_var("unknown_0xD8", "I", endianness='>')
-        self.rw_var("unknown_0xDC", "I", endianness='>')
+        self.unknown_0xD0 = rw.rw_uint32(self.unknown_0xD0)
+        self.unknown_0xD4 = rw.rw_uint32(self.unknown_0xD4)
+        self.unknown_0xD8 = rw.rw_uint32(self.unknown_0xD8)
+        self.unknown_0xDC = rw.rw_uint32(self.unknown_0xDC)
         
-        self.rw_var("unknown_0xE0", "I", endianness='>')
-        self.rw_var("unknown_0xE4", "I", endianness='>')
-        self.rw_var("unknown_0xE8", "I", endianness='>')
-        self.rw_var("unknown_0xEC", "I", endianness='>')
+        self.unknown_0xE0 = rw.rw_uint32(self.unknown_0xE0)
+        self.unknown_0xE4 = rw.rw_uint32(self.unknown_0xE4)
+        self.unknown_0xE8 = rw.rw_uint32(self.unknown_0xE8)
+        self.unknown_0xEC = rw.rw_uint32(self.unknown_0xEC)
         
-        self.rw_var("unknown_0xF0", "I", endianness='>')
-        self.rw_var("unknown_0xF4", "I", endianness='>')
-        self.rw_var("unknown_0xF8", "I", endianness='>')
-        self.rw_var("unknown_0xFC", "I", endianness='>')
+        self.unknown_0xF0 = rw.rw_uint32(self.unknown_0xF0)
+        self.unknown_0xF4 = rw.rw_uint32(self.unknown_0xF4)
+        self.unknown_0xF8 = rw.rw_uint32(self.unknown_0xF8)
+        self.unknown_0xFC = rw.rw_uint32(self.unknown_0xFC)
         
-        self.rw_var("unknown_0x0100", "I", endianness='>')
-        self.rw_var("unknown_0x0104", "I", endianness='>')
-        self.rw_var("unknown_0x0108", "I", endianness='>')
-        self.rw_var("unknown_0x010C", "I", endianness='>')
+        self.unknown_0x0100 = rw.rw_uint32(self.unknown_0x0100)
+        self.unknown_0x0104 = rw.rw_uint32(self.unknown_0x0104)
+        self.unknown_0x0108 = rw.rw_uint32(self.unknown_0x0108)
+        self.unknown_0x010C = rw.rw_uint32(self.unknown_0x010C)
         
-        self.rw_var("unknown_0x0110", "I", endianness='>')
-        self.rw_var("unknown_0x0114", "I", endianness='>')
-        self.rw_var("unknown_0x0118", "I", endianness='>')
-        self.rw_var("unknown_0x011C", "I", endianness='>')
+        self.unknown_0x0110 = rw.rw_uint32(self.unknown_0x0110)
+        self.unknown_0x0114 = rw.rw_uint32(self.unknown_0x0114)
+        self.unknown_0x0118 = rw.rw_uint32(self.unknown_0x0118)
+        self.unknown_0x011C = rw.rw_uint32(self.unknown_0x011C)
         
-        self.rw_var("unknown_0x0120", "I", endianness='>')
-        self.rw_var("unknown_0x0124", "I", endianness='>')
-        self.rw_var("unknown_0x0128", "I", endianness='>')
-        self.rw_var("unknown_0x012C", "I", endianness='>')
+        self.unknown_0x0120 = rw.rw_uint32(self.unknown_0x0120)
+        self.unknown_0x0124 = rw.rw_uint32(self.unknown_0x0124)
+        self.unknown_0x0128 = rw.rw_uint32(self.unknown_0x0128)
+        self.unknown_0x012C = rw.rw_uint32(self.unknown_0x012C)
         
-        self.rw_var("unknown_0x0130", "I", endianness='>')
-        self.rw_var("unknown_0x0134", "I", endianness='>')
-        self.rw_var("unknown_0x0138", "I", endianness='>')
-        self.rw_var("unknown_0x013C", "I", endianness='>')
+        self.unknown_0x0130 = rw.rw_uint32(self.unknown_0x0130)
+        self.unknown_0x0134 = rw.rw_uint32(self.unknown_0x0134)
+        self.unknown_0x0138 = rw.rw_uint32(self.unknown_0x0138)
+        self.unknown_0x013C = rw.rw_uint32(self.unknown_0x013C)
         
-        self.rw_var("unknown_0x0140", "I", endianness='>')
-        self.rw_var("unknown_0x0144", "I", endianness='>')
-        self.rw_var("unknown_0x0148", "I", endianness='>')
-        self.rw_var("unknown_0x014C", "I", endianness='>')
+        self.unknown_0x0140 = rw.rw_uint32(self.unknown_0x0140)
+        self.unknown_0x0144 = rw.rw_uint32(self.unknown_0x0144)
+        self.unknown_0x0148 = rw.rw_uint32(self.unknown_0x0148)
+        self.unknown_0x014C = rw.rw_uint32(self.unknown_0x014C)
         
-        self.rw_var("unknown_0x0150", "I", endianness='>')
-        self.rw_var("unknown_0x0154", "I", endianness='>')
-        self.rw_var("unknown_0x0158", "I", endianness='>')
-        self.rw_var("unknown_0x015C", "I", endianness='>')
+        self.unknown_0x0150 = rw.rw_uint32(self.unknown_0x0150)
+        self.unknown_0x0154 = rw.rw_uint32(self.unknown_0x0154)
+        self.unknown_0x0158 = rw.rw_uint32(self.unknown_0x0158)
+        self.unknown_0x015C = rw.rw_uint32(self.unknown_0x015C)
         
-        self.rw_var("unknown_0x0160", "I", endianness='>')
-        self.rw_var("unknown_0x0164", "I", endianness='>')
-        self.rw_var("unknown_0x0168", "I", endianness='>')
-        self.rw_var("unknown_0x016C", "I", endianness='>')
+        self.unknown_0x0160 = rw.rw_uint32(self.unknown_0x0160)
+        self.unknown_0x0164 = rw.rw_uint32(self.unknown_0x0164)
+        self.unknown_0x0168 = rw.rw_uint32(self.unknown_0x0168)
+        self.unknown_0x016C = rw.rw_uint32(self.unknown_0x016C)
         
-        self.rw_var("unknown_0x0170", "I", endianness='>')
-        self.rw_var("unknown_0x0174", "I", endianness='>')
-        self.rw_var("unknown_0x0178", "I", endianness='>')
-        self.rw_var("unknown_0x017C", "I", endianness='>')
+        self.unknown_0x0170 = rw.rw_uint32(self.unknown_0x0170)
+        self.unknown_0x0174 = rw.rw_uint32(self.unknown_0x0174)
+        self.unknown_0x0178 = rw.rw_uint32(self.unknown_0x0178)
+        self.unknown_0x017C = rw.rw_uint32(self.unknown_0x017C)
         
-        self.rw_var("unknown_0x0180", "I", endianness='>')
-        self.rw_var("unknown_0x0184", "I", endianness='>')
-        self.rw_var("unknown_0x0188", "I", endianness='>')
-        self.rw_var("unknown_0x018C", "I", endianness='>')
+        self.unknown_0x0180 = rw.rw_uint32(self.unknown_0x0180)
+        self.unknown_0x0184 = rw.rw_uint32(self.unknown_0x0184)
+        self.unknown_0x0188 = rw.rw_uint32(self.unknown_0x0188)
+        self.unknown_0x018C = rw.rw_uint32(self.unknown_0x018C)
         
-        self.rw_var("unknown_0x0190", "I", endianness='>')
-        self.rw_var("unknown_0x0194", "I", endianness='>')
-        self.rw_var("unknown_0x0198", "I", endianness='>')
-        self.rw_var("unknown_0x019C", "I", endianness='>')
+        self.unknown_0x0190 = rw.rw_uint32(self.unknown_0x0190)
+        self.unknown_0x0194 = rw.rw_uint32(self.unknown_0x0194)
+        self.unknown_0x0198 = rw.rw_uint32(self.unknown_0x0198)
+        self.unknown_0x019C = rw.rw_uint32(self.unknown_0x019C)
         
-        self.rw_var("unknown_0x01A0", "I", endianness='>')
-        self.rw_var("unknown_0x01A4", "I", endianness='>')
+        self.unknown_0x01A0 = rw.rw_uint32(self.unknown_0x01A0)
+        self.unknown_0x01A4 = rw.rw_uint32(self.unknown_0x01A4)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -2424,94 +2424,94 @@ class VlMxBookPersonInfo(BaseRW):
                  self.unknown_0x0190,  self.unknown_0x0194,  self.unknown_0x0198,  self.unknown_0x019C,
                  self.unknown_0x01A0,  self.unknown_0x01A4, )   
     
-class VlMxBookSoundInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
-        self.rw_var("unknown_0x08", "I", endianness='>')
+class VlMxBookSoundInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08, )
     
     
-class EnTalkEventObjParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class EnTalkEventObjParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "q", endianness='>')
-        self.rw_var("unknown_0x38", "q", endianness='>')
+        self.unknown_0x30 = rw.rw_int64(self.unknown_0x30)
+        self.unknown_0x38 = rw.rw_int64(self.unknown_0x38)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x38")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x38)
         
-        self.rw_var("unknown_0x40", "I", endianness='>')
-        self.rw_var("unknown_0x44", "I", endianness='>')
-        self.rw_var("unknown_0x48", "I", endianness='>')
-        self.rw_var("unknown_0x4C", "I", endianness='>')
+        self.unknown_0x40 = rw.rw_uint32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_uint32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_uint32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_uint32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "I", endianness='>')
-        self.rw_var("unknown_0x54", "I", endianness='>')
-        self.rw_var("unknown_0x58", "I", endianness='>')
-        self.rw_var("unknown_0x5C", "I", endianness='>')
+        self.unknown_0x50 = rw.rw_uint32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_uint32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_uint32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_uint32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "I", endianness='>')
-        self.rw_var("unknown_0x64", "I", endianness='>')
-        self.rw_var("unknown_0x68", "I", endianness='>')
-        self.rw_var("unknown_0x6C", "I", endianness='>')
+        self.unknown_0x60 = rw.rw_uint32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_uint32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_uint32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_uint32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')  # Padding
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)  # Padding
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')  # Padding
-        self.rw_var("unknown_0x0108", "q", endianness='>')  # Padding
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)  # Padding
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)  # Padding
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "q", endianness='>')
-        self.rw_var("unknown_0x0118", "q", endianness='>')
+        self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
+        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
         
     
     def get_data(self):
@@ -2556,83 +2556,83 @@ class EnTalkEventObjParam(BaseRW):
                 0x110, 0x118
               ]
     
-class EnEventDecorParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class EnEventDecorParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "I", endianness='>')  # Padding
-        self.rw_var("unknown_0x2C", "I", endianness='>')  # Padding
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_uint32(self.unknown_0x28)  # Padding
+        self.unknown_0x2C = rw.rw_uint32(self.unknown_0x2C)  # Padding
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "I", endianness='>')  # Padding
-        self.rw_var("unknown_0x34", "I", endianness='>')  # Padding
-        self.rw_var("unknown_0x38", "I", endianness='>')  # Padding
-        self.rw_var("unknown_0x3C", "I", endianness='>')  # Padding
+        self.unknown_0x30 = rw.rw_uint32(self.unknown_0x30)  # Padding
+        self.unknown_0x34 = rw.rw_uint32(self.unknown_0x34)  # Padding
+        self.unknown_0x38 = rw.rw_uint32(self.unknown_0x38)  # Padding
+        self.unknown_0x3C = rw.rw_uint32(self.unknown_0x3C)  # Padding
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "I", endianness='>')
-        self.rw_var("unknown_0x44", "I", endianness='>')
-        self.rw_var("unknown_0x48", "I", endianness='>')
-        self.rw_var("unknown_0x4C", "I", endianness='>')
+        self.unknown_0x40 = rw.rw_uint32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_uint32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_uint32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_uint32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "I", endianness='>')
-        self.rw_var("unknown_0x54", "I", endianness='>')
-        self.rw_var("unknown_0x58", "I", endianness='>')
-        self.rw_var("unknown_0x5C", "I", endianness='>')
+        self.unknown_0x50 = rw.rw_uint32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_uint32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_uint32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_uint32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "I", endianness='>')
-        self.rw_var("unknown_0x64", "I", endianness='>')
-        self.rw_var("unknown_0x68", "I", endianness='>')
-        self.rw_var("unknown_0x6C", "I", endianness='>')
+        self.unknown_0x60 = rw.rw_uint32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_uint32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_uint32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_uint32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')  # Padding
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)  # Padding
         
-        self.rw_var("unknown_0x100", "q", endianness='>')  # Padding
-        self.rw_var("unknown_0x108", "q", endianness='>')  # Padding
+        self.unknown_0x100 = rw.rw_int64(self.unknown_0x100)  # Padding
+        self.unknown_0x108 = rw.rw_int64(self.unknown_0x108)  # Padding
         
-        self.rw_var("unknown_0x110", "q", endianness='>')
-        self.rw_var("unknown_0x118", "q", endianness='>')  # Padding
+        self.unknown_0x110 = rw.rw_int64(self.unknown_0x110)
+        self.unknown_0x118 = rw.rw_int64(self.unknown_0x118)  # Padding
         
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C,
@@ -2673,81 +2673,81 @@ class EnEventDecorParam(BaseRW):
                  0xE0,  0xE8,  0xF0,
                 0x110,]
     
-class EnHeightMapParam(BaseRW):
-    def read_write(self):
+class EnHeightMapParam(Serializable):
+    def read_write(self, rw):
         # THESE ALL SEEM TO BE FLAGS
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "I", endianness='>')  # Padding
-        self.rw_var("unknown_0x2C", "I", endianness='>')  # Padding
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_uint32(self.unknown_0x28)  # Padding
+        self.unknown_0x2C = rw.rw_uint32(self.unknown_0x2C)  # Padding
         
-        self.rw_var("unknown_0x30", "I", endianness='>')  # Padding
-        self.rw_var("unknown_0x34", "I", endianness='>')  # Padding
-        self.rw_var("unknown_0x38", "I", endianness='>')  # Padding
-        self.rw_var("unknown_0x3C", "I", endianness='>')  # Padding
+        self.unknown_0x30 = rw.rw_uint32(self.unknown_0x30)  # Padding
+        self.unknown_0x34 = rw.rw_uint32(self.unknown_0x34)  # Padding
+        self.unknown_0x38 = rw.rw_uint32(self.unknown_0x38)  # Padding
+        self.unknown_0x3C = rw.rw_uint32(self.unknown_0x3C)  # Padding
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')  # Padding
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)  # Padding
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')  # Padding
-        self.rw_var("unknown_0x0108", "q", endianness='>')  # Padding
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)  # Padding
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)  # Padding
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "q", endianness='>')
-        self.rw_var("unknown_0x0118", "q", endianness='>')
+        self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
+        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
         
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C,
@@ -2789,79 +2789,79 @@ class EnHeightMapParam(BaseRW):
                  0x110, 0x118,
                  ]
       
-class EnSkyParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class EnSkyParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "q", endianness='>')
-        self.rw_var("unknown_0x38", "q", endianness='>')
+        self.unknown_0x30 = rw.rw_int64(self.unknown_0x30)
+        self.unknown_0x38 = rw.rw_int64(self.unknown_0x38)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x38")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x38)
         
-        self.rw_var("unknown_0x40", "I", endianness='>')
-        self.rw_var("unknown_0x44", "I", endianness='>')
-        self.rw_var("unknown_0x48", "I", endianness='>')
-        self.rw_var("unknown_0x4C", "I", endianness='>')
+        self.unknown_0x40 = rw.rw_uint32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_uint32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_uint32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_uint32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "I", endianness='>')
-        self.rw_var("unknown_0x54", "I", endianness='>')
-        self.rw_var("unknown_0x58", "I", endianness='>')
-        self.rw_var("unknown_0x5C", "I", endianness='>')
+        self.unknown_0x50 = rw.rw_uint32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_uint32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_uint32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_uint32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "I", endianness='>')
-        self.rw_var("unknown_0x64", "I", endianness='>')
-        self.rw_var("unknown_0x68", "I", endianness='>')
-        self.rw_var("unknown_0x6C", "I", endianness='>')
+        self.unknown_0x60 = rw.rw_uint32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_uint32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_uint32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_uint32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')  # Padding
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)  # Padding
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')  # Padding
-        self.rw_var("unknown_0x0108", "q", endianness='>')  # Padding
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)  # Padding
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)  # Padding
         
-        self.rw_var("unknown_0x0110", "q", endianness='>')
-        self.rw_var("unknown_0x0118", "q", endianness='>')  # Padding
+        self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
+        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)  # Padding
         
     
     def get_data(self):
@@ -2905,57 +2905,57 @@ class EnSkyParam(BaseRW):
                  0xE0,  0xE8,  0xF0,
                 0x110, 0x114 ]
       
-class VlMxBookWeaponInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
-        self.rw_var("unknown_0x08", "I", endianness='>')
-        self.rw_var("unknown_0x0C", "I", endianness='>')
+class VlMxBookWeaponInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "I", endianness='>')
-        self.rw_var("unknown_0x14", "I", endianness='>')
-        self.rw_var("unknown_0x18", "I", endianness='>')
-        self.rw_var("unknown_0x1C", "I", endianness='>')
+        self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_uint32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_uint32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "I", endianness='>')
-        self.rw_var("unknown_0x24", "I", endianness='>')
-        self.rw_var("unknown_0x28", "I", endianness='>')
-        self.rw_var("unknown_0x2C", "I", endianness='>')
+        self.unknown_0x20 = rw.rw_uint32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_uint32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_uint32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_uint32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "I", endianness='>')
-        self.rw_var("unknown_0x34", "I", endianness='>')
-        self.rw_var("unknown_0x38", "I", endianness='>')
-        self.rw_var("unknown_0x3C", "I", endianness='>')
+        self.unknown_0x30 = rw.rw_uint32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_uint32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_uint32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_uint32(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "I", endianness='>')
-        self.rw_var("unknown_0x44", "I", endianness='>')
-        self.rw_var("unknown_0x48", "I", endianness='>')
-        self.rw_var("unknown_0x4C", "I", endianness='>')
+        self.unknown_0x40 = rw.rw_uint32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_uint32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_uint32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_uint32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "I", endianness='>')
-        self.rw_var("unknown_0x54", "I", endianness='>')
-        self.rw_var("unknown_0x58", "I", endianness='>')
-        self.rw_var("unknown_0x5C", "I", endianness='>')
+        self.unknown_0x50 = rw.rw_uint32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_uint32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_uint32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_uint32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "I", endianness='>')
-        self.rw_var("unknown_0x64", "I", endianness='>')
-        self.rw_var("unknown_0x68", "I", endianness='>')
-        self.rw_var("unknown_0x6C", "I", endianness='>')
+        self.unknown_0x60 = rw.rw_uint32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_uint32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_uint32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_uint32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "I", endianness='>')
-        self.rw_var("unknown_0x74", "I", endianness='>')
-        self.rw_var("unknown_0x78", "I", endianness='>')
-        self.rw_var("unknown_0x7C", "I", endianness='>')
+        self.unknown_0x70 = rw.rw_uint32(self.unknown_0x70)
+        self.unknown_0x74 = rw.rw_uint32(self.unknown_0x74)
+        self.unknown_0x78 = rw.rw_uint32(self.unknown_0x78)
+        self.unknown_0x7C = rw.rw_uint32(self.unknown_0x7C)
         
-        self.rw_var("unknown_0x80", "I", endianness='>')
-        self.rw_var("unknown_0x84", "I", endianness='>')
-        self.rw_var("unknown_0x88", "I", endianness='>')
-        self.rw_var("unknown_0x8C", "I", endianness='>')
+        self.unknown_0x80 = rw.rw_uint32(self.unknown_0x80)
+        self.unknown_0x84 = rw.rw_uint32(self.unknown_0x84)
+        self.unknown_0x88 = rw.rw_uint32(self.unknown_0x88)
+        self.unknown_0x8C = rw.rw_uint32(self.unknown_0x8C)
         
-        self.rw_var("unknown_0x90", "I", endianness='>')
-        self.rw_var("unknown_0x94", "I", endianness='>')
-        self.rw_var("unknown_0x98", "I", endianness='>')
-        self.rw_var("unknown_0x9C", "I", endianness='>')
+        self.unknown_0x90 = rw.rw_uint32(self.unknown_0x90)
+        self.unknown_0x94 = rw.rw_uint32(self.unknown_0x94)
+        self.unknown_0x98 = rw.rw_uint32(self.unknown_0x98)
+        self.unknown_0x9C = rw.rw_uint32(self.unknown_0x9C)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -2971,130 +2971,130 @@ class VlMxBookWeaponInfo(BaseRW):
                  self.unknown_0x90,  self.unknown_0x94,  self.unknown_0x98,  self.unknown_0x9C )   
     
   
-class VlMxCanvasShaderParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
-        self.rw_var("unknown_0x08", "I", endianness='>')
-        self.rw_var("unknown_0x0C", "I", endianness='>')
+class VlMxCanvasShaderParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "I", endianness='>')
-        self.rw_var("unknown_0x14", "I", endianness='>')
-        self.rw_var("unknown_0x18", "I", endianness='>')
-        self.rw_var("unknown_0x1C", "I", endianness='>')
+        self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_uint32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_uint32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "I", endianness='>')
-        self.rw_var("unknown_0x24", "I", endianness='>')
-        self.rw_var("unknown_0x28", "I", endianness='>')
-        self.rw_var("unknown_0x2C", "I", endianness='>')
+        self.unknown_0x20 = rw.rw_uint32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_uint32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_uint32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_uint32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "I", endianness='>')
-        self.rw_var("unknown_0x34", "I", endianness='>')
-        self.rw_var("unknown_0x38", "I", endianness='>')
-        self.rw_var("unknown_0x3C", "I", endianness='>')
+        self.unknown_0x30 = rw.rw_uint32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_uint32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_uint32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_uint32(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "I", endianness='>')
-        self.rw_var("unknown_0x44", "I", endianness='>')
-        self.rw_var("unknown_0x48", "I", endianness='>')
-        self.rw_var("unknown_0x4C", "I", endianness='>')
+        self.unknown_0x40 = rw.rw_uint32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_uint32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_uint32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_uint32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "I", endianness='>')
-        self.rw_var("unknown_0x54", "I", endianness='>')
-        self.rw_var("unknown_0x58", "I", endianness='>')
-        self.rw_var("unknown_0x5C", "I", endianness='>')
+        self.unknown_0x50 = rw.rw_uint32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_uint32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_uint32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_uint32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "I", endianness='>')
-        self.rw_var("unknown_0x64", "I", endianness='>')
-        self.rw_var("unknown_0x68", "I", endianness='>')
-        self.rw_var("unknown_0x6C", "I", endianness='>')
+        self.unknown_0x60 = rw.rw_uint32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_uint32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_uint32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_uint32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "I", endianness='>')
-        self.rw_var("unknown_0x74", "I", endianness='>')
-        self.rw_var("unknown_0x78", "I", endianness='>')
-        self.rw_var("unknown_0x7C", "I", endianness='>')
+        self.unknown_0x70 = rw.rw_uint32(self.unknown_0x70)
+        self.unknown_0x74 = rw.rw_uint32(self.unknown_0x74)
+        self.unknown_0x78 = rw.rw_uint32(self.unknown_0x78)
+        self.unknown_0x7C = rw.rw_uint32(self.unknown_0x7C)
         
-        self.rw_var("unknown_0x80", "I", endianness='>')
-        self.rw_var("unknown_0x84", "I", endianness='>')
-        self.rw_var("unknown_0x88", "I", endianness='>')
-        self.rw_var("unknown_0x8C", "I", endianness='>')
+        self.unknown_0x80 = rw.rw_uint32(self.unknown_0x80)
+        self.unknown_0x84 = rw.rw_uint32(self.unknown_0x84)
+        self.unknown_0x88 = rw.rw_uint32(self.unknown_0x88)
+        self.unknown_0x8C = rw.rw_uint32(self.unknown_0x8C)
         
-        self.rw_var("unknown_0x90", "I", endianness='>')
-        self.rw_var("unknown_0x94", "I", endianness='>')
-        self.rw_var("unknown_0x98", "I", endianness='>')
-        self.rw_var("unknown_0x9C", "I", endianness='>')
+        self.unknown_0x90 = rw.rw_uint32(self.unknown_0x90)
+        self.unknown_0x94 = rw.rw_uint32(self.unknown_0x94)
+        self.unknown_0x98 = rw.rw_uint32(self.unknown_0x98)
+        self.unknown_0x9C = rw.rw_uint32(self.unknown_0x9C)
         
-        self.rw_var("unknown_0xA0", "I", endianness='>')
-        self.rw_var("unknown_0xA4", "I", endianness='>')
-        self.rw_var("unknown_0xA8", "I", endianness='>')
-        self.rw_var("unknown_0xAC", "I", endianness='>')
+        self.unknown_0xA0 = rw.rw_uint32(self.unknown_0xA0)
+        self.unknown_0xA4 = rw.rw_uint32(self.unknown_0xA4)
+        self.unknown_0xA8 = rw.rw_uint32(self.unknown_0xA8)
+        self.unknown_0xAC = rw.rw_uint32(self.unknown_0xAC)
         
-        self.rw_var("unknown_0xB0", "I", endianness='>')
-        self.rw_var("unknown_0xB4", "I", endianness='>')
-        self.rw_var("unknown_0xB8", "I", endianness='>')
-        self.rw_var("unknown_0xBC", "I", endianness='>')
+        self.unknown_0xB0 = rw.rw_uint32(self.unknown_0xB0)
+        self.unknown_0xB4 = rw.rw_uint32(self.unknown_0xB4)
+        self.unknown_0xB8 = rw.rw_uint32(self.unknown_0xB8)
+        self.unknown_0xBC = rw.rw_uint32(self.unknown_0xBC)
         
-        self.rw_var("unknown_0xC0", "I", endianness='>')
-        self.rw_var("unknown_0xC4", "I", endianness='>')
-        self.rw_var("unknown_0xC8", "I", endianness='>')
-        self.rw_var("unknown_0xCC", "I", endianness='>')
+        self.unknown_0xC0 = rw.rw_uint32(self.unknown_0xC0)
+        self.unknown_0xC4 = rw.rw_uint32(self.unknown_0xC4)
+        self.unknown_0xC8 = rw.rw_uint32(self.unknown_0xC8)
+        self.unknown_0xCC = rw.rw_uint32(self.unknown_0xCC)
         
-        self.rw_var("unknown_0xD0", "I", endianness='>')
-        self.rw_var("unknown_0xD4", "I", endianness='>')
-        self.rw_var("unknown_0xD8", "I", endianness='>')
-        self.rw_var("unknown_0xDC", "I", endianness='>')
+        self.unknown_0xD0 = rw.rw_uint32(self.unknown_0xD0)
+        self.unknown_0xD4 = rw.rw_uint32(self.unknown_0xD4)
+        self.unknown_0xD8 = rw.rw_uint32(self.unknown_0xD8)
+        self.unknown_0xDC = rw.rw_uint32(self.unknown_0xDC)
         
-        self.rw_var("unknown_0xE0", "I", endianness='>')
-        self.rw_var("unknown_0xE4", "I", endianness='>')
-        self.rw_var("unknown_0xE8", "I", endianness='>')
-        self.rw_var("unknown_0xEC", "I", endianness='>')
+        self.unknown_0xE0 = rw.rw_uint32(self.unknown_0xE0)
+        self.unknown_0xE4 = rw.rw_uint32(self.unknown_0xE4)
+        self.unknown_0xE8 = rw.rw_uint32(self.unknown_0xE8)
+        self.unknown_0xEC = rw.rw_uint32(self.unknown_0xEC)
         
-        self.rw_var("unknown_0xF0", "I", endianness='>')
-        self.rw_var("unknown_0xF4", "I", endianness='>')
-        self.rw_var("unknown_0xF8", "I", endianness='>')
-        self.rw_var("unknown_0xFC", "I", endianness='>')
+        self.unknown_0xF0 = rw.rw_uint32(self.unknown_0xF0)
+        self.unknown_0xF4 = rw.rw_uint32(self.unknown_0xF4)
+        self.unknown_0xF8 = rw.rw_uint32(self.unknown_0xF8)
+        self.unknown_0xFC = rw.rw_uint32(self.unknown_0xFC)
         
-        self.rw_var("unknown_0x0100", "I", endianness='>')
-        self.rw_var("unknown_0x0104", "I", endianness='>')
-        self.rw_var("unknown_0x0108", "I", endianness='>')
-        self.rw_var("unknown_0x010C", "I", endianness='>')
+        self.unknown_0x0100 = rw.rw_uint32(self.unknown_0x0100)
+        self.unknown_0x0104 = rw.rw_uint32(self.unknown_0x0104)
+        self.unknown_0x0108 = rw.rw_uint32(self.unknown_0x0108)
+        self.unknown_0x010C = rw.rw_uint32(self.unknown_0x010C)
         
-        self.rw_var("unknown_0x0110", "I", endianness='>')
-        self.rw_var("unknown_0x0114", "I", endianness='>')
-        self.rw_var("unknown_0x0118", "I", endianness='>')
-        self.rw_var("unknown_0x011C", "I", endianness='>')
+        self.unknown_0x0110 = rw.rw_uint32(self.unknown_0x0110)
+        self.unknown_0x0114 = rw.rw_uint32(self.unknown_0x0114)
+        self.unknown_0x0118 = rw.rw_uint32(self.unknown_0x0118)
+        self.unknown_0x011C = rw.rw_uint32(self.unknown_0x011C)
         
-        self.rw_var("unknown_0x0120", "I", endianness='>')
-        self.rw_var("unknown_0x0124", "I", endianness='>')
-        self.rw_var("unknown_0x0128", "I", endianness='>')
-        self.rw_var("unknown_0x012C", "I", endianness='>')
+        self.unknown_0x0120 = rw.rw_uint32(self.unknown_0x0120)
+        self.unknown_0x0124 = rw.rw_uint32(self.unknown_0x0124)
+        self.unknown_0x0128 = rw.rw_uint32(self.unknown_0x0128)
+        self.unknown_0x012C = rw.rw_uint32(self.unknown_0x012C)
         
-        self.rw_var("unknown_0x0130", "I", endianness='>')
-        self.rw_var("unknown_0x0134", "I", endianness='>')
-        self.rw_var("unknown_0x0138", "I", endianness='>')
-        self.rw_var("unknown_0x013C", "I", endianness='>')
+        self.unknown_0x0130 = rw.rw_uint32(self.unknown_0x0130)
+        self.unknown_0x0134 = rw.rw_uint32(self.unknown_0x0134)
+        self.unknown_0x0138 = rw.rw_uint32(self.unknown_0x0138)
+        self.unknown_0x013C = rw.rw_uint32(self.unknown_0x013C)
         
-        self.rw_var("unknown_0x0140", "I", endianness='>')
-        self.rw_var("unknown_0x0144", "I", endianness='>')
-        self.rw_var("unknown_0x0148", "I", endianness='>')
-        self.rw_var("unknown_0x014C", "I", endianness='>')
+        self.unknown_0x0140 = rw.rw_uint32(self.unknown_0x0140)
+        self.unknown_0x0144 = rw.rw_uint32(self.unknown_0x0144)
+        self.unknown_0x0148 = rw.rw_uint32(self.unknown_0x0148)
+        self.unknown_0x014C = rw.rw_uint32(self.unknown_0x014C)
         
-        self.rw_var("unknown_0x0150", "I", endianness='>')
-        self.rw_var("unknown_0x0154", "I", endianness='>')
-        self.rw_var("unknown_0x0158", "I", endianness='>')
-        self.rw_var("unknown_0x015C", "I", endianness='>')
+        self.unknown_0x0150 = rw.rw_uint32(self.unknown_0x0150)
+        self.unknown_0x0154 = rw.rw_uint32(self.unknown_0x0154)
+        self.unknown_0x0158 = rw.rw_uint32(self.unknown_0x0158)
+        self.unknown_0x015C = rw.rw_uint32(self.unknown_0x015C)
         
-        self.rw_var("unknown_0x0160", "I", endianness='>')
-        self.rw_var("unknown_0x0164", "I", endianness='>')
-        self.rw_var("unknown_0x0168", "I", endianness='>')
-        self.rw_var("unknown_0x016C", "I", endianness='>')
+        self.unknown_0x0160 = rw.rw_uint32(self.unknown_0x0160)
+        self.unknown_0x0164 = rw.rw_uint32(self.unknown_0x0164)
+        self.unknown_0x0168 = rw.rw_uint32(self.unknown_0x0168)
+        self.unknown_0x016C = rw.rw_uint32(self.unknown_0x016C)
         
-        self.rw_var("unknown_0x0170", "I", endianness='>')
-        self.rw_var("unknown_0x0174", "I", endianness='>')
-        self.rw_var("unknown_0x0178", "I", endianness='>')
-        self.rw_var("unknown_0x017C", "I", endianness='>')
+        self.unknown_0x0170 = rw.rw_uint32(self.unknown_0x0170)
+        self.unknown_0x0174 = rw.rw_uint32(self.unknown_0x0174)
+        self.unknown_0x0178 = rw.rw_uint32(self.unknown_0x0178)
+        self.unknown_0x017C = rw.rw_uint32(self.unknown_0x017C)
         
-        self.rw_var("unknown_0x0180", "I", endianness='>')
-        self.rw_var("unknown_0x0184", "I", endianness='>')
+        self.unknown_0x0180 = rw.rw_uint32(self.unknown_0x0180)
+        self.unknown_0x0184 = rw.rw_uint32(self.unknown_0x0184)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -3127,13 +3127,13 @@ class VlMxCanvasShaderParam(BaseRW):
                  self.unknown_0x0180,  self.unknown_0x0184,  )   
     
  
-class MxParameterTextureMerge(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "q", endianness='>')
-        self.rw_var("unknown_0x08", "q", endianness='>')
+class MxParameterTextureMerge(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int64(self.unknown_0x00)
+        self.unknown_0x08 = rw.rw_int64(self.unknown_0x08)
         
-        self.rw_var("unknown_0x10", "q", endianness='>')
-        self.rw_var("unknown_0x18", "q", endianness='>')
+        self.unknown_0x10 = rw.rw_int64(self.unknown_0x10)
+        self.unknown_0x18 = rw.rw_int64(self.unknown_0x18)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x08, 
@@ -3149,16 +3149,16 @@ class MxParameterTextureMerge(BaseRW):
     def enrs_offsets(self):
         return [ 0x00,  0x08 ]
     
-class MxParameterMergeFile(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "q", endianness='>')
-        self.rw_var("unknown_0x08", "q", endianness='>')
+class MxParameterMergeFile(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int64(self.unknown_0x00)
+        self.unknown_0x08 = rw.rw_int64(self.unknown_0x08)
         
-        self.rw_var("unknown_0x10", "q", endianness='>')
-        self.rw_var("unknown_0x18", "q", endianness='>')
+        self.unknown_0x10 = rw.rw_int64(self.unknown_0x10)
+        self.unknown_0x18 = rw.rw_int64(self.unknown_0x18)
         
-        self.assert_is_zero("unknown_0x10")
-        self.assert_is_zero("unknown_0x18")
+        rw.assert_is_zero(self.unknown_0x10)
+        rw.assert_is_zero(self.unknown_0x18)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x08, 
@@ -3192,15 +3192,15 @@ class MxParameterMergeFile(BaseRW):
                 0x120, 0x128, 0x12C,
                 0x130, 0x134, 0x138]
     
-class VlMxDrawModelLodParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
-        self.rw_var("unknown_0x08", "I", endianness='>')
-        self.rw_var("unknown_0x0C", "I", endianness='>')
+class VlMxDrawModelLodParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "I", endianness='>')
-        self.rw_var("unknown_0x14", "I", endianness='>')
+        self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -3215,9 +3215,9 @@ class VlMxDrawModelLodParam(BaseRW):
     def enrs_offsets(self):
         return [ 0x00,  0x04,  0x08,  0x0C,  0x10,  0x14 ]
     
-class VlMapObjectParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
+class VlMapObjectParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
     
     def get_data(self):
         return ( self.unknown_0x00,)
@@ -3232,99 +3232,99 @@ class VlMapObjectParam(BaseRW):
         return [ 0x00 ]
     
     
-class EnTreeParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class EnTreeParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')  # Padding
-        self.rw_var("unknown_0x2C", "i", endianness='>')  # Padding
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)  # Padding
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)  # Padding
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')  # Padding
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)  # Padding
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "q", endianness='>')
-        self.rw_var("unknown_0x0118", "q", endianness='>')
+        self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
+        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
         
-        self.rw_var("unknown_0x0120", "q", endianness='>')
-        self.rw_var("unknown_0x0128", "i", endianness='>')
-        self.rw_var("unknown_0x012C", 'i', endianness='>')
+        self.unknown_0x0120 = rw.rw_int64(self.unknown_0x0120)
+        self.unknown_0x0128 = rw.rw_int32(self.unknown_0x0128)
+        self.unknown_0x012C = rw.rw_int32(self.unknown_0x012C)
         
-        self.rw_var("unknown_0x0130", "i", endianness='>')
-        self.rw_var("unknown_0x0134", "i", endianness='>')
-        self.rw_var("unknown_0x0138", "i", endianness='>')
-        self.rw_var("unknown_0x013C", "i", endianness='>')
+        self.unknown_0x0130 = rw.rw_int32(self.unknown_0x0130)
+        self.unknown_0x0134 = rw.rw_int32(self.unknown_0x0134)
+        self.unknown_0x0138 = rw.rw_int32(self.unknown_0x0138)
+        self.unknown_0x013C = rw.rw_int32(self.unknown_0x013C)
         
-        self.assert_is_zero("unknown_0x013C")
+        rw.assert_is_zero(self.unknown_0x013C)
         
     
     def get_data(self):
@@ -3371,25 +3371,25 @@ class EnTreeParam(BaseRW):
                 0x120, 0x128, 0x12C,
                 0x130, 0x134, 0x138]
 
-class EnWaterSurfaceParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class EnWaterSurfaceParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
         
     
     def get_data(self):
@@ -3409,80 +3409,80 @@ class EnWaterSurfaceParam(BaseRW):
         return [ 0x00,  0x04,  0x08,  0x0C,  0x10,  0x14,  0x18,  0x1C,
                  0x20,  0x24,  0x28,  0x2C,  0x30,  0x34]
   
-class SlgEnGrassPathNodeParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnGrassPathNodeParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
                 
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
     
     def get_data(self):
@@ -3526,17 +3526,17 @@ class SlgEnGrassPathNodeParam(BaseRW):
                  0xE0,  0xE8,  0xF0
                ]
     
-class SlgMapObjectParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "q", endianness='>')
+class SlgMapObjectParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int64(self.unknown_0x08)
         
-        self.assert_is_zero("unknown_0x04")
+        rw.assert_is_zero(self.unknown_0x04)
         
-        self.rw_var("unknown_0x10", "q", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int64(self.unknown_0x10)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08, 
@@ -3551,103 +3551,103 @@ class SlgMapObjectParam(BaseRW):
     def enrs_offsets(self):
         return [ 0x00,  0x08,  0x10,  0x18,  0x1C ]
   
-class SlgEnGrassParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnGrassParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "i", endianness='>')
-        self.rw_var("unknown_0x0114", "i", endianness='>')
-        self.rw_var("unknown_0x0118", "q", endianness='>')
+        self.unknown_0x0110 = rw.rw_int32(self.unknown_0x0110)
+        self.unknown_0x0114 = rw.rw_int32(self.unknown_0x0114)
+        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
         
-        self.rw_var("unknown_0x0120", "i", endianness='>')
-        self.rw_var("unknown_0x0124", "i", endianness='>')
-        self.rw_var("unknown_0x0128", "i", endianness='>')
-        self.rw_var("unknown_0x012C", "i", endianness='>')
+        self.unknown_0x0120 = rw.rw_int32(self.unknown_0x0120)
+        self.unknown_0x0124 = rw.rw_int32(self.unknown_0x0124)
+        self.unknown_0x0128 = rw.rw_int32(self.unknown_0x0128)
+        self.unknown_0x012C = rw.rw_int32(self.unknown_0x012C)
         
-        self.rw_var("unknown_0x0130", "i", endianness='>')
-        self.rw_var("unknown_0x0134", "i", endianness='>')
-        self.rw_var("unknown_0x0138", "i", endianness='>')
-        self.rw_var("unknown_0x013C", "i", endianness='>')
+        self.unknown_0x0130 = rw.rw_int32(self.unknown_0x0130)
+        self.unknown_0x0134 = rw.rw_int32(self.unknown_0x0134)
+        self.unknown_0x0138 = rw.rw_int32(self.unknown_0x0138)
+        self.unknown_0x013C = rw.rw_int32(self.unknown_0x013C)
         
-        self.rw_var("unknown_0x0140", "i", endianness='>')
-        self.rw_var("unknown_0x0144", "i", endianness='>')
-        self.rw_var("unknown_0x0148", "q", endianness='>')
+        self.unknown_0x0140 = rw.rw_int32(self.unknown_0x0140)
+        self.unknown_0x0144 = rw.rw_int32(self.unknown_0x0144)
+        self.unknown_0x0148 = rw.rw_int64(self.unknown_0x0148)
         
     
     def get_data(self):
@@ -3698,37 +3698,37 @@ class SlgEnGrassParam(BaseRW):
                 0x130, 0x134, 0x138, 0x13C,
                 0x140, 0x144]
     
-class StaticBox(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "f", endianness='>')
-        self.rw_var("unknown_0x04", "f", endianness='>')
-        self.rw_var("unknown_0x08", "f", endianness='>')
-        self.rw_var("unknown_0x0C", "f", endianness='>')
+class StaticBox(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_float32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_float32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_float32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_float32(self.unknown_0x0C)
         
         
-        self.rw_var("unknown_0x10", "f", endianness='>')
-        self.rw_var("unknown_0x14", "f", endianness='>')
-        self.rw_var("unknown_0x18", "f", endianness='>')
-        self.rw_var("unknown_0x1C", "f", endianness='>')
+        self.unknown_0x10 = rw.rw_float32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_float32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_float32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_float32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "f", endianness='>')
-        self.rw_var("unknown_0x24", "f", endianness='>')
-        self.rw_var("unknown_0x28", "f", endianness='>')
-        self.rw_var("unknown_0x2C", "f", endianness='>')
+        self.unknown_0x20 = rw.rw_float32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_float32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_float32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_float32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "f", endianness='>')
-        self.rw_var("unknown_0x34", "f", endianness='>')
-        self.rw_var("unknown_0x38", "f", endianness='>')
-        self.rw_var("unknown_0x3C", "f", endianness='>')
+        self.unknown_0x30 = rw.rw_float32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_float32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_float32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_float32(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "f", endianness='>')
-        self.rw_var("unknown_0x44", "I", endianness='>')
-        self.rw_var("unknown_0x48", "I", endianness='>')
-        self.rw_var("unknown_0x4C", "I", endianness='>')
+        self.unknown_0x40 = rw.rw_float32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_uint32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_uint32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_uint32(self.unknown_0x4C)
         
-        self.assert_is_zero("unknown_0x44")
-        self.assert_is_zero("unknown_0x48")
-        self.assert_is_zero("unknown_0x4C")
+        rw.assert_is_zero(self.unknown_0x44)
+        rw.assert_is_zero(self.unknown_0x48)
+        rw.assert_is_zero(self.unknown_0x4C)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -3748,90 +3748,90 @@ class StaticBox(BaseRW):
                 0x20, 0x24, 0x28, 0x2C, 0x30, 0x34, 0x38, 0x3C,
                 0x40]
     
-class EnUvScrollParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class EnUvScrollParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')  # Padding
-        self.rw_var("unknown_0x2C", "i", endianness='>')  # Padding
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)  # Padding
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)  # Padding
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')  # Padding
-        self.rw_var("unknown_0x34", "i", endianness='>')  # Padding
-        self.rw_var("unknown_0x38", "i", endianness='>')  # Padding
-        self.rw_var("unknown_0x3C", "i", endianness='>')  # Padding
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)  # Padding
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)  # Padding
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)  # Padding
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)  # Padding
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "q", endianness='>')
-        self.rw_var("unknown_0x0118", "q", endianness='>')
+        self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
+        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
         
-        self.assert_is_zero("unknown_0x0118")
+        rw.assert_is_zero(self.unknown_0x0118)
         
     
     def get_data(self):
@@ -3876,94 +3876,94 @@ class EnUvScrollParam(BaseRW):
                 0x110,]
     
     
-class SlgEnBreakableStructureParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnBreakableStructureParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "q", endianness='>')
-        self.rw_var("unknown_0x0118", "q", endianness='>')
+        self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
+        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
         
-        self.rw_var("unknown_0x0120", "q", endianness='>')
-        self.rw_var("unknown_0x0128", "q", endianness='>')
+        self.unknown_0x0120 = rw.rw_int64(self.unknown_0x0120)
+        self.unknown_0x0128 = rw.rw_int64(self.unknown_0x0128)
         
-        self.rw_var("unknown_0x0130", "i", endianness='>')
-        self.rw_var("unknown_0x0134", "i", endianness='>')
-        self.rw_var("unknown_0x0138", "i", endianness='>')
-        self.rw_var("unknown_0x013C", "i", endianness='>')
+        self.unknown_0x0130 = rw.rw_int32(self.unknown_0x0130)
+        self.unknown_0x0134 = rw.rw_int32(self.unknown_0x0134)
+        self.unknown_0x0138 = rw.rw_int32(self.unknown_0x0138)
+        self.unknown_0x013C = rw.rw_int32(self.unknown_0x013C)
         
-        self.rw_var("unknown_0x0140", "q", endianness='>')
-        self.rw_var("unknown_0x0148", "q", endianness='>')
+        self.unknown_0x0140 = rw.rw_int64(self.unknown_0x0140)
+        self.unknown_0x0148 = rw.rw_int64(self.unknown_0x0148)
         
     
     def get_data(self):
@@ -4014,81 +4014,81 @@ class SlgEnBreakableStructureParam(BaseRW):
                 0x130, 0x134, 0x138, 0x13C,
                 0x140, 0x148]
     
-class EnConvexParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class EnConvexParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')  # Padding
-        self.rw_var("unknown_0x2C", "i", endianness='>')  # Padding
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)  # Padding
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)  # Padding
         
-        self.rw_var("unknown_0x30", "i", endianness='>')  # Padding
-        self.rw_var("unknown_0x34", "i", endianness='>')  # Padding
-        self.rw_var("unknown_0x38", "i", endianness='>')  # Padding
-        self.rw_var("unknown_0x3C", "i", endianness='>')  # Padding
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)  # Padding
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)  # Padding
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)  # Padding
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)  # Padding
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')  # Padding
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)  # Padding
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')  # Padding
-        self.rw_var("unknown_0x0108", "q", endianness='>')  # Padding
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)  # Padding
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)  # Padding
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "i", endianness='>')
-        self.rw_var("unknown_0x0114", "i", endianness='>')
-        self.rw_var("unknown_0x0118", "q", endianness='>')
+        self.unknown_0x0110 = rw.rw_int32(self.unknown_0x0110)
+        self.unknown_0x0114 = rw.rw_int32(self.unknown_0x0114)
+        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -4130,93 +4130,93 @@ class EnConvexParam(BaseRW):
                  0xE0,  0xE8,  0xF0,
                 0x110, 0x114, 0x118]
        
-class EnCEffectParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class EnCEffectParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')  # Padding
-        self.rw_var("unknown_0x2C", "i", endianness='>')  # Padding
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)  # Padding
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)  # Padding
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')  # Padding
-        self.rw_var("unknown_0x34", "i", endianness='>')  # Padding
-        self.rw_var("unknown_0x38", "i", endianness='>')  # Padding
-        self.rw_var("unknown_0x3C", "i", endianness='>')  # Padding
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)  # Padding
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)  # Padding
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)  # Padding
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)  # Padding
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')  # Padding
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)  # Padding
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')  # Padding
-        self.rw_var("unknown_0x0108", "q", endianness='>')  # Padding
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)  # Padding
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)  # Padding
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "q", endianness='>')
-        self.rw_var("unknown_0x0118", "q", endianness='>')
+        self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
+        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
     
-        self.rw_var("unknown_0x0120", "q", endianness='>')
-        self.rw_var("unknown_0x0128", "q", endianness='>')  # Padding
+        self.unknown_0x0120 = rw.rw_int64(self.unknown_0x0120)
+        self.unknown_0x0128 = rw.rw_int64(self.unknown_0x0128)  # Padding
         
-        self.assert_is_zero("unknown_0x0128")
+        rw.assert_is_zero(self.unknown_0x0128)
         
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -4260,87 +4260,87 @@ class EnCEffectParam(BaseRW):
                 0x110, 0x118,
                 0x120,]
     
-class VlMxBriefingInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='<')
-        self.rw_var("unknown_0x08", "I", endianness='>')
-        self.rw_var("unknown_0x0C", "I", endianness='>')
+class VlMxBriefingInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "I", endianness='>')
-        self.rw_var("unknown_0x14", "I", endianness='>')
-        self.rw_var("unknown_0x18", "I", endianness='>')
-        self.rw_var("unknown_0x1C", "I", endianness='>')
+        self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_uint32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_uint32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "I", endianness='>')
-        self.rw_var("unknown_0x24", "I", endianness='>')
-        self.rw_var("unknown_0x28", "I", endianness='>')
-        self.rw_var("unknown_0x2C", "I", endianness='>')
+        self.unknown_0x20 = rw.rw_uint32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_uint32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_uint32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_uint32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "I", endianness='>')
-        self.rw_var("unknown_0x34", "I", endianness='>')
-        self.rw_var("unknown_0x38", "I", endianness='>')
-        self.rw_var("unknown_0x3C", "I", endianness='>')
+        self.unknown_0x30 = rw.rw_uint32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_uint32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_uint32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_uint32(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "I", endianness='>')
-        self.rw_var("unknown_0x44", "I", endianness='>')
-        self.rw_var("unknown_0x48", "I", endianness='>')
-        self.rw_var("unknown_0x4C", "I", endianness='>')
+        self.unknown_0x40 = rw.rw_uint32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_uint32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_uint32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_uint32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "I", endianness='>')
-        self.rw_var("unknown_0x54", "I", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_uint32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_uint32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "i", endianness='>')
-        self.rw_var("unknown_0x74", "i", endianness='>')
-        self.rw_var("unknown_0x78", "i", endianness='>')
-        self.rw_var("unknown_0x7C", "i", endianness='>')
+        self.unknown_0x70 = rw.rw_int32(self.unknown_0x70)
+        self.unknown_0x74 = rw.rw_int32(self.unknown_0x74)
+        self.unknown_0x78 = rw.rw_int32(self.unknown_0x78)
+        self.unknown_0x7C = rw.rw_int32(self.unknown_0x7C)
         
-        self.rw_var("unknown_0x80", "i", endianness='>')
-        self.rw_var("unknown_0x84", "i", endianness='>')
-        self.rw_var("unknown_0x88", "i", endianness='>')
-        self.rw_var("unknown_0x8C", "i", endianness='>')
+        self.unknown_0x80 = rw.rw_int32(self.unknown_0x80)
+        self.unknown_0x84 = rw.rw_int32(self.unknown_0x84)
+        self.unknown_0x88 = rw.rw_int32(self.unknown_0x88)
+        self.unknown_0x8C = rw.rw_int32(self.unknown_0x8C)
         
-        self.rw_var("unknown_0x90", "i", endianness='>')
-        self.rw_var("unknown_0x94", "i", endianness='>')
-        self.rw_var("unknown_0x98", "i", endianness='>')
-        self.rw_var("unknown_0x9C", "i", endianness='>')
+        self.unknown_0x90 = rw.rw_int32(self.unknown_0x90)
+        self.unknown_0x94 = rw.rw_int32(self.unknown_0x94)
+        self.unknown_0x98 = rw.rw_int32(self.unknown_0x98)
+        self.unknown_0x9C = rw.rw_int32(self.unknown_0x9C)
         
-        self.rw_var("unknown_0xA0", "i", endianness='>')
-        self.rw_var("unknown_0xA4", "i", endianness='>')
-        self.rw_var("unknown_0xA8", "i", endianness='>')
-        self.rw_var("unknown_0xAC", "i", endianness='>')
+        self.unknown_0xA0 = rw.rw_int32(self.unknown_0xA0)
+        self.unknown_0xA4 = rw.rw_int32(self.unknown_0xA4)
+        self.unknown_0xA8 = rw.rw_int32(self.unknown_0xA8)
+        self.unknown_0xAC = rw.rw_int32(self.unknown_0xAC)
         
-        self.rw_var("unknown_0xB0", "i", endianness='>')
-        self.rw_var("unknown_0xB4", "i", endianness='>')
-        self.rw_var("unknown_0xB8", "i", endianness='>')
-        self.rw_var("unknown_0xBC", "i", endianness='>')
+        self.unknown_0xB0 = rw.rw_int32(self.unknown_0xB0)
+        self.unknown_0xB4 = rw.rw_int32(self.unknown_0xB4)
+        self.unknown_0xB8 = rw.rw_int32(self.unknown_0xB8)
+        self.unknown_0xBC = rw.rw_int32(self.unknown_0xBC)
         
-        self.rw_var("unknown_0xC0", "i", endianness='>')
-        self.rw_var("unknown_0xC4", "i", endianness='>')
-        self.rw_var("unknown_0xC8", "i", endianness='>')
-        self.rw_var("unknown_0xCC", "i", endianness='>')
+        self.unknown_0xC0 = rw.rw_int32(self.unknown_0xC0)
+        self.unknown_0xC4 = rw.rw_int32(self.unknown_0xC4)
+        self.unknown_0xC8 = rw.rw_int32(self.unknown_0xC8)
+        self.unknown_0xCC = rw.rw_int32(self.unknown_0xCC)
         
-        self.rw_var("unknown_0xD0", "i", endianness='>')
-        self.rw_var("unknown_0xD4", "i", endianness='>')
-        self.rw_var("unknown_0xD8", "i", endianness='>')
-        self.rw_var("unknown_0xDC", "i", endianness='>')
+        self.unknown_0xD0 = rw.rw_int32(self.unknown_0xD0)
+        self.unknown_0xD4 = rw.rw_int32(self.unknown_0xD4)
+        self.unknown_0xD8 = rw.rw_int32(self.unknown_0xD8)
+        self.unknown_0xDC = rw.rw_int32(self.unknown_0xDC)
         
-        self.rw_var("unknown_0xE0", "i", endianness='>')
-        self.rw_var("unknown_0xE4", "i", endianness='>')
-        self.rw_var("unknown_0xE8", "i", endianness='>')
-        self.rw_var("unknown_0xEC", "i", endianness='>')
+        self.unknown_0xE0 = rw.rw_int32(self.unknown_0xE0)
+        self.unknown_0xE4 = rw.rw_int32(self.unknown_0xE4)
+        self.unknown_0xE8 = rw.rw_int32(self.unknown_0xE8)
+        self.unknown_0xEC = rw.rw_int32(self.unknown_0xEC)
         
-        self.rw_var("unknown_0xF0", "i", endianness='>')
-        self.rw_var("unknown_0xF4", "i", endianness='>')
-        self.rw_var("unknown_0xF8", "I", endianness='>')
-        self.rw_var("unknown_0xFC", "i", endianness='>')
+        self.unknown_0xF0 = rw.rw_int32(self.unknown_0xF0)
+        self.unknown_0xF4 = rw.rw_int32(self.unknown_0xF4)
+        self.unknown_0xF8 = rw.rw_uint32(self.unknown_0xF8)
+        self.unknown_0xFC = rw.rw_int32(self.unknown_0xFC)
         
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -4382,31 +4382,31 @@ class VlMxBriefingInfo(BaseRW):
                  0xE0,  0xE4,  0xE8,  0xEC,  0xF0,  0xF4,  0xF8,  0xFC
                ]
 
-class VlMxFieldInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "q", endianness='>')
+class VlMxFieldInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int64(self.unknown_0x08)
         
-        self.rw_var("unknown_0x10", "q", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int64(self.unknown_0x10)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "q", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int64(self.unknown_0x38)
         
-        self.rw_var("unknown_0x40", "q", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int64(self.unknown_0x40)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08, 
@@ -4429,43 +4429,43 @@ class VlMxFieldInfo(BaseRW):
                  0x40,  0x48,  0x4C,  0x50,  0x54
                ]
           
-class VlMxResultInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='<')
-        self.rw_var("unknown_0x08", "I", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class VlMxResultInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
         
     def get_data(self):
@@ -4491,245 +4491,245 @@ class VlMxResultInfo(BaseRW):
                ]
   
     
-class VlMxStageInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='<')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class VlMxStageInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "q", endianness='>')
-        self.rw_var("unknown_0x18", "q", endianness='>')
+        self.unknown_0x10 = rw.rw_int64(self.unknown_0x10)
+        self.unknown_0x18 = rw.rw_int64(self.unknown_0x18)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "I", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_uint32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "I", endianness='>')
-        self.rw_var("unknown_0x64", "I", endianness='>')
-        self.rw_var("unknown_0x68", "I", endianness='>')
-        self.rw_var("unknown_0x6C", "I", endianness='>')
+        self.unknown_0x60 = rw.rw_uint32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_uint32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_uint32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_uint32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "I", endianness='>')
-        self.rw_var("unknown_0x74", "I", endianness='>')
-        self.rw_var("unknown_0x78", "I", endianness='>')
-        self.rw_var("unknown_0x7C", "i", endianness='>')
+        self.unknown_0x70 = rw.rw_uint32(self.unknown_0x70)
+        self.unknown_0x74 = rw.rw_uint32(self.unknown_0x74)
+        self.unknown_0x78 = rw.rw_uint32(self.unknown_0x78)
+        self.unknown_0x7C = rw.rw_int32(self.unknown_0x7C)
         
-        self.rw_var("unknown_0x80", "i", endianness='>')
-        self.rw_var("unknown_0x84", "i", endianness='>')
-        self.rw_var("unknown_0x88", "i", endianness='>')
-        self.rw_var("unknown_0x8C", "i", endianness='>')
+        self.unknown_0x80 = rw.rw_int32(self.unknown_0x80)
+        self.unknown_0x84 = rw.rw_int32(self.unknown_0x84)
+        self.unknown_0x88 = rw.rw_int32(self.unknown_0x88)
+        self.unknown_0x8C = rw.rw_int32(self.unknown_0x8C)
         
-        self.rw_var("unknown_0x90", "i", endianness='>')
-        self.rw_var("unknown_0x94", "i", endianness='>')
-        self.rw_var("unknown_0x98", "i", endianness='>')
-        self.rw_var("unknown_0x9C", "i", endianness='>')
+        self.unknown_0x90 = rw.rw_int32(self.unknown_0x90)
+        self.unknown_0x94 = rw.rw_int32(self.unknown_0x94)
+        self.unknown_0x98 = rw.rw_int32(self.unknown_0x98)
+        self.unknown_0x9C = rw.rw_int32(self.unknown_0x9C)
         
-        self.rw_var("unknown_0xA0", "i", endianness='>')
-        self.rw_var("unknown_0xA4", "i", endianness='>')
-        self.rw_var("unknown_0xA8", "I", endianness='>')
-        self.rw_var("unknown_0xAC", "i", endianness='>')
+        self.unknown_0xA0 = rw.rw_int32(self.unknown_0xA0)
+        self.unknown_0xA4 = rw.rw_int32(self.unknown_0xA4)
+        self.unknown_0xA8 = rw.rw_uint32(self.unknown_0xA8)
+        self.unknown_0xAC = rw.rw_int32(self.unknown_0xAC)
         
-        self.rw_var("unknown_0xB0", "i", endianness='>')
-        self.rw_var("unknown_0xB4", "i", endianness='>')
-        self.rw_var("unknown_0xB8", "i", endianness='>')
-        self.rw_var("unknown_0xBC", "i", endianness='>')
+        self.unknown_0xB0 = rw.rw_int32(self.unknown_0xB0)
+        self.unknown_0xB4 = rw.rw_int32(self.unknown_0xB4)
+        self.unknown_0xB8 = rw.rw_int32(self.unknown_0xB8)
+        self.unknown_0xBC = rw.rw_int32(self.unknown_0xBC)
         
-        self.rw_var("unknown_0xC0", "i", endianness='>')
-        self.rw_var("unknown_0xC4", "i", endianness='>')
-        self.rw_var("unknown_0xC8", "I", endianness='>')
-        self.rw_var("unknown_0xCC", "I", endianness='>')
+        self.unknown_0xC0 = rw.rw_int32(self.unknown_0xC0)
+        self.unknown_0xC4 = rw.rw_int32(self.unknown_0xC4)
+        self.unknown_0xC8 = rw.rw_uint32(self.unknown_0xC8)
+        self.unknown_0xCC = rw.rw_uint32(self.unknown_0xCC)
         
-        self.rw_var("unknown_0xD0", "I", endianness='>')
-        self.rw_var("unknown_0xD4", "i", endianness='>')
-        self.rw_var("unknown_0xD8", "i", endianness='>')
-        self.rw_var("unknown_0xDC", "i", endianness='>')
+        self.unknown_0xD0 = rw.rw_uint32(self.unknown_0xD0)
+        self.unknown_0xD4 = rw.rw_int32(self.unknown_0xD4)
+        self.unknown_0xD8 = rw.rw_int32(self.unknown_0xD8)
+        self.unknown_0xDC = rw.rw_int32(self.unknown_0xDC)
         
-        self.rw_var("unknown_0xE0", "i", endianness='>')
-        self.rw_var("unknown_0xE4", "i", endianness='>')
-        self.rw_var("unknown_0xE8", "i", endianness='>')
-        self.rw_var("unknown_0xEC", "i", endianness='>')
+        self.unknown_0xE0 = rw.rw_int32(self.unknown_0xE0)
+        self.unknown_0xE4 = rw.rw_int32(self.unknown_0xE4)
+        self.unknown_0xE8 = rw.rw_int32(self.unknown_0xE8)
+        self.unknown_0xEC = rw.rw_int32(self.unknown_0xEC)
         
-        self.rw_var("unknown_0xF0", "i", endianness='>')
-        self.rw_var("unknown_0xF4", "i", endianness='>')
-        self.rw_var("unknown_0xF8", "i", endianness='>')
-        self.rw_var("unknown_0xFC", "i", endianness='>')
+        self.unknown_0xF0 = rw.rw_int32(self.unknown_0xF0)
+        self.unknown_0xF4 = rw.rw_int32(self.unknown_0xF4)
+        self.unknown_0xF8 = rw.rw_int32(self.unknown_0xF8)
+        self.unknown_0xFC = rw.rw_int32(self.unknown_0xFC)
         
-        self.rw_var("unknown_0x0100", "i", endianness='>')
-        self.rw_var("unknown_0x0104", "i", endianness='>')
-        self.rw_var("unknown_0x0108", "i", endianness='>')
-        self.rw_var("unknown_0x010C", "i", endianness='>')
+        self.unknown_0x0100 = rw.rw_int32(self.unknown_0x0100)
+        self.unknown_0x0104 = rw.rw_int32(self.unknown_0x0104)
+        self.unknown_0x0108 = rw.rw_int32(self.unknown_0x0108)
+        self.unknown_0x010C = rw.rw_int32(self.unknown_0x010C)
         
-        self.rw_var("unknown_0x0110", "i", endianness='>')
-        self.rw_var("unknown_0x0114", "i", endianness='>')
-        self.rw_var("unknown_0x0118", "i", endianness='>')
-        self.rw_var("unknown_0x011C", "i", endianness='>')
+        self.unknown_0x0110 = rw.rw_int32(self.unknown_0x0110)
+        self.unknown_0x0114 = rw.rw_int32(self.unknown_0x0114)
+        self.unknown_0x0118 = rw.rw_int32(self.unknown_0x0118)
+        self.unknown_0x011C = rw.rw_int32(self.unknown_0x011C)
         
-        self.rw_var("unknown_0x0120", "i", endianness='>')
-        self.rw_var("unknown_0x0124", "i", endianness='>')
-        self.rw_var("unknown_0x0128", "i", endianness='>')
-        self.rw_var("unknown_0x012C", "i", endianness='>')
+        self.unknown_0x0120 = rw.rw_int32(self.unknown_0x0120)
+        self.unknown_0x0124 = rw.rw_int32(self.unknown_0x0124)
+        self.unknown_0x0128 = rw.rw_int32(self.unknown_0x0128)
+        self.unknown_0x012C = rw.rw_int32(self.unknown_0x012C)
         
-        self.rw_var("unknown_0x0130", "i", endianness='>')
-        self.rw_var("unknown_0x0134", "i", endianness='>')
-        self.rw_var("unknown_0x0138", "i", endianness='>')
-        self.rw_var("unknown_0x013C", "i", endianness='>')
+        self.unknown_0x0130 = rw.rw_int32(self.unknown_0x0130)
+        self.unknown_0x0134 = rw.rw_int32(self.unknown_0x0134)
+        self.unknown_0x0138 = rw.rw_int32(self.unknown_0x0138)
+        self.unknown_0x013C = rw.rw_int32(self.unknown_0x013C)
         
-        self.rw_var("unknown_0x0140", "i", endianness='>')
-        self.rw_var("unknown_0x0144", "i", endianness='>')
-        self.rw_var("unknown_0x0148", "i", endianness='>')
-        self.rw_var("unknown_0x014C", "i", endianness='>')
+        self.unknown_0x0140 = rw.rw_int32(self.unknown_0x0140)
+        self.unknown_0x0144 = rw.rw_int32(self.unknown_0x0144)
+        self.unknown_0x0148 = rw.rw_int32(self.unknown_0x0148)
+        self.unknown_0x014C = rw.rw_int32(self.unknown_0x014C)
         
-        self.rw_var("unknown_0x0150", "i", endianness='>')
-        self.rw_var("unknown_0x0154", "i", endianness='>')
-        self.rw_var("unknown_0x0158", "i", endianness='>')
-        self.rw_var("unknown_0x015C", "i", endianness='>')
+        self.unknown_0x0150 = rw.rw_int32(self.unknown_0x0150)
+        self.unknown_0x0154 = rw.rw_int32(self.unknown_0x0154)
+        self.unknown_0x0158 = rw.rw_int32(self.unknown_0x0158)
+        self.unknown_0x015C = rw.rw_int32(self.unknown_0x015C)
         
-        self.rw_var("unknown_0x0160", "i", endianness='>')
-        self.rw_var("unknown_0x0164", "i", endianness='>')
-        self.rw_var("unknown_0x0168", "i", endianness='>')
-        self.rw_var("unknown_0x016C", "i", endianness='>')
+        self.unknown_0x0160 = rw.rw_int32(self.unknown_0x0160)
+        self.unknown_0x0164 = rw.rw_int32(self.unknown_0x0164)
+        self.unknown_0x0168 = rw.rw_int32(self.unknown_0x0168)
+        self.unknown_0x016C = rw.rw_int32(self.unknown_0x016C)
         
-        self.rw_var("unknown_0x0170", "i", endianness='>')
-        self.rw_var("unknown_0x0174", "i", endianness='>')
-        self.rw_var("unknown_0x0178", "i", endianness='>')
-        self.rw_var("unknown_0x017C", "i", endianness='>')
+        self.unknown_0x0170 = rw.rw_int32(self.unknown_0x0170)
+        self.unknown_0x0174 = rw.rw_int32(self.unknown_0x0174)
+        self.unknown_0x0178 = rw.rw_int32(self.unknown_0x0178)
+        self.unknown_0x017C = rw.rw_int32(self.unknown_0x017C)
         
-        self.rw_var("unknown_0x0180", "i", endianness='>')
-        self.rw_var("unknown_0x0184", "i", endianness='>')
-        self.rw_var("unknown_0x0188", "i", endianness='>')
-        self.rw_var("unknown_0x018C", "h", endianness='>')
-        self.rw_var("unknown_0x018E", "h", endianness='>')
+        self.unknown_0x0180 = rw.rw_int32(self.unknown_0x0180)
+        self.unknown_0x0184 = rw.rw_int32(self.unknown_0x0184)
+        self.unknown_0x0188 = rw.rw_int32(self.unknown_0x0188)
+        self.unknown_0x018C = rw.rw_int16(self.unknown_0x018C)
+        self.unknown_0x018E = rw.rw_int16(self.unknown_0x018E)
         
-        self.rw_var("unknown_0x0190", "i", endianness='>')
-        self.rw_var("unknown_0x0194", "i", endianness='>')
-        self.rw_var("unknown_0x0198", "i", endianness='>')
-        self.rw_var("unknown_0x019C", "i", endianness='>')
+        self.unknown_0x0190 = rw.rw_int32(self.unknown_0x0190)
+        self.unknown_0x0194 = rw.rw_int32(self.unknown_0x0194)
+        self.unknown_0x0198 = rw.rw_int32(self.unknown_0x0198)
+        self.unknown_0x019C = rw.rw_int32(self.unknown_0x019C)
         
-        self.rw_var("unknown_0x01A0", "i", endianness='>')
-        self.rw_var("unknown_0x01A4", "i", endianness='>')
-        self.rw_var("unknown_0x01A8", "i", endianness='>')
-        self.rw_var("unknown_0x01AC", "i", endianness='>')
+        self.unknown_0x01A0 = rw.rw_int32(self.unknown_0x01A0)
+        self.unknown_0x01A4 = rw.rw_int32(self.unknown_0x01A4)
+        self.unknown_0x01A8 = rw.rw_int32(self.unknown_0x01A8)
+        self.unknown_0x01AC = rw.rw_int32(self.unknown_0x01AC)
         
-        self.rw_var("unknown_0x01B0", "i", endianness='>')
-        self.rw_var("unknown_0x01B4", "i", endianness='>')
-        self.rw_var("unknown_0x01B8", "i", endianness='>')
-        self.rw_var("unknown_0x01BC", "i", endianness='>')
+        self.unknown_0x01B0 = rw.rw_int32(self.unknown_0x01B0)
+        self.unknown_0x01B4 = rw.rw_int32(self.unknown_0x01B4)
+        self.unknown_0x01B8 = rw.rw_int32(self.unknown_0x01B8)
+        self.unknown_0x01BC = rw.rw_int32(self.unknown_0x01BC)
         
-        self.rw_var("unknown_0x01C0", "i", endianness='>')
-        self.rw_var("unknown_0x01C4", "i", endianness='>')
-        self.rw_var("unknown_0x01C8", "i", endianness='>')
-        self.rw_var("unknown_0x01CC", "i", endianness='>')
+        self.unknown_0x01C0 = rw.rw_int32(self.unknown_0x01C0)
+        self.unknown_0x01C4 = rw.rw_int32(self.unknown_0x01C4)
+        self.unknown_0x01C8 = rw.rw_int32(self.unknown_0x01C8)
+        self.unknown_0x01CC = rw.rw_int32(self.unknown_0x01CC)
         
-        self.rw_var("unknown_0x01D0", "i", endianness='>')
-        self.rw_var("unknown_0x01D4", "i", endianness='>')
-        self.rw_var("unknown_0x01D8", "i", endianness='>')
-        self.rw_var("unknown_0x01DC", "i", endianness='>')
+        self.unknown_0x01D0 = rw.rw_int32(self.unknown_0x01D0)
+        self.unknown_0x01D4 = rw.rw_int32(self.unknown_0x01D4)
+        self.unknown_0x01D8 = rw.rw_int32(self.unknown_0x01D8)
+        self.unknown_0x01DC = rw.rw_int32(self.unknown_0x01DC)
         
-        self.rw_var("unknown_0x01E0", "i", endianness='>')
-        self.rw_var("unknown_0x01E4", "h", endianness='>')
-        self.rw_var("unknown_0x01E6", "h", endianness='>')
-        self.rw_var("unknown_0x01E8", "h", endianness='>')
-        self.rw_var("unknown_0x01EA", "h", endianness='>')
-        self.rw_var("unknown_0x01EC", "h", endianness='>')
-        self.rw_var("unknown_0x01EE", "h", endianness='>')
+        self.unknown_0x01E0 = rw.rw_int32(self.unknown_0x01E0)
+        self.unknown_0x01E4 = rw.rw_int16(self.unknown_0x01E4)
+        self.unknown_0x01E6 = rw.rw_int16(self.unknown_0x01E6)
+        self.unknown_0x01E8 = rw.rw_int16(self.unknown_0x01E8)
+        self.unknown_0x01EA = rw.rw_int16(self.unknown_0x01EA)
+        self.unknown_0x01EC = rw.rw_int16(self.unknown_0x01EC)
+        self.unknown_0x01EE = rw.rw_int16(self.unknown_0x01EE)
         
-        self.rw_var("unknown_0x01F0", "h", endianness='>')
-        self.rw_var("unknown_0x01F2", "h", endianness='>')
-        self.rw_var("unknown_0x01F4", "h", endianness='>')
-        self.rw_var("unknown_0x01F6", "h", endianness='>')
-        self.rw_var("unknown_0x01F8", "h", endianness='>')
-        self.rw_var("unknown_0x01FA", "h", endianness='>')
-        self.rw_var("unknown_0x01FC", "h", endianness='>')
-        self.rw_var("unknown_0x01FE", "h", endianness='>')
+        self.unknown_0x01F0 = rw.rw_int16(self.unknown_0x01F0)
+        self.unknown_0x01F2 = rw.rw_int16(self.unknown_0x01F2)
+        self.unknown_0x01F4 = rw.rw_int16(self.unknown_0x01F4)
+        self.unknown_0x01F6 = rw.rw_int16(self.unknown_0x01F6)
+        self.unknown_0x01F8 = rw.rw_int16(self.unknown_0x01F8)
+        self.unknown_0x01FA = rw.rw_int16(self.unknown_0x01FA)
+        self.unknown_0x01FC = rw.rw_int16(self.unknown_0x01FC)
+        self.unknown_0x01FE = rw.rw_int16(self.unknown_0x01FE)
         
-        self.rw_var("unknown_0x0200", "h", endianness='>')
-        self.rw_var("unknown_0x0202", "h", endianness='>')
-        self.rw_var("unknown_0x0204", "h", endianness='>')
-        self.rw_var("unknown_0x0206", "h", endianness='>')
-        self.rw_var("unknown_0x0208", "h", endianness='>')
-        self.rw_var("unknown_0x020A", "h", endianness='>')
-        self.rw_var("unknown_0x020C", "i", endianness='>')
+        self.unknown_0x0200 = rw.rw_int16(self.unknown_0x0200)
+        self.unknown_0x0202 = rw.rw_int16(self.unknown_0x0202)
+        self.unknown_0x0204 = rw.rw_int16(self.unknown_0x0204)
+        self.unknown_0x0206 = rw.rw_int16(self.unknown_0x0206)
+        self.unknown_0x0208 = rw.rw_int16(self.unknown_0x0208)
+        self.unknown_0x020A = rw.rw_int16(self.unknown_0x020A)
+        self.unknown_0x020C = rw.rw_int32(self.unknown_0x020C)
         
-        self.rw_var("unknown_0x0210", "i", endianness='>')
-        self.rw_var("unknown_0x0214", "h", endianness='>')
-        self.rw_var("unknown_0x0216", "h", endianness='>')
-        self.rw_var("unknown_0x0218", "i", endianness='>')
-        self.rw_var("unknown_0x021C", "i", endianness='>')
+        self.unknown_0x0210 = rw.rw_int32(self.unknown_0x0210)
+        self.unknown_0x0214 = rw.rw_int16(self.unknown_0x0214)
+        self.unknown_0x0216 = rw.rw_int16(self.unknown_0x0216)
+        self.unknown_0x0218 = rw.rw_int32(self.unknown_0x0218)
+        self.unknown_0x021C = rw.rw_int32(self.unknown_0x021C)
         
-        self.rw_var("unknown_0x0220", "i", endianness='>')
-        self.rw_var("unknown_0x0224", "i", endianness='>')
-        self.rw_var("unknown_0x0228", "i", endianness='>')
-        self.rw_var("unknown_0x022C", "i", endianness='>')
+        self.unknown_0x0220 = rw.rw_int32(self.unknown_0x0220)
+        self.unknown_0x0224 = rw.rw_int32(self.unknown_0x0224)
+        self.unknown_0x0228 = rw.rw_int32(self.unknown_0x0228)
+        self.unknown_0x022C = rw.rw_int32(self.unknown_0x022C)
         
-        self.rw_var("unknown_0x0230", "i", endianness='>')
-        self.rw_var("unknown_0x0234", "i", endianness='>')
-        self.rw_var("unknown_0x0238", "i", endianness='>')
-        self.rw_var("unknown_0x023C", "i", endianness='>')
+        self.unknown_0x0230 = rw.rw_int32(self.unknown_0x0230)
+        self.unknown_0x0234 = rw.rw_int32(self.unknown_0x0234)
+        self.unknown_0x0238 = rw.rw_int32(self.unknown_0x0238)
+        self.unknown_0x023C = rw.rw_int32(self.unknown_0x023C)
         
-        self.rw_var("unknown_0x0240", "i", endianness='>')
-        self.rw_var("unknown_0x0244", "i", endianness='>')
-        self.rw_var("unknown_0x0248", "i", endianness='>')
-        self.rw_var("unknown_0x024C", "i", endianness='>')
+        self.unknown_0x0240 = rw.rw_int32(self.unknown_0x0240)
+        self.unknown_0x0244 = rw.rw_int32(self.unknown_0x0244)
+        self.unknown_0x0248 = rw.rw_int32(self.unknown_0x0248)
+        self.unknown_0x024C = rw.rw_int32(self.unknown_0x024C)
         
-        self.rw_var("unknown_0x0250", "i", endianness='>')
-        self.rw_var("unknown_0x0254", "i", endianness='>')
-        self.rw_var("unknown_0x0258", "i", endianness='>')
-        self.rw_var("unknown_0x025C", "i", endianness='>')
+        self.unknown_0x0250 = rw.rw_int32(self.unknown_0x0250)
+        self.unknown_0x0254 = rw.rw_int32(self.unknown_0x0254)
+        self.unknown_0x0258 = rw.rw_int32(self.unknown_0x0258)
+        self.unknown_0x025C = rw.rw_int32(self.unknown_0x025C)
         
-        self.rw_var("unknown_0x0260", "i", endianness='>')
-        self.rw_var("unknown_0x0264", "i", endianness='>')
-        self.rw_var("unknown_0x0268", "i", endianness='>')
-        self.rw_var("unknown_0x026C", "h", endianness='>')
-        self.rw_var("unknown_0x026E", "h", endianness='>')
+        self.unknown_0x0260 = rw.rw_int32(self.unknown_0x0260)
+        self.unknown_0x0264 = rw.rw_int32(self.unknown_0x0264)
+        self.unknown_0x0268 = rw.rw_int32(self.unknown_0x0268)
+        self.unknown_0x026C = rw.rw_int16(self.unknown_0x026C)
+        self.unknown_0x026E = rw.rw_int16(self.unknown_0x026E)
         
-        self.rw_var("unknown_0x0270", "h", endianness='>')
-        self.rw_var("unknown_0x0272", "h", endianness='>')
-        self.rw_var("unknown_0x0274", "h", endianness='>')
-        self.rw_var("unknown_0x0276", "h", endianness='>')
-        self.rw_var("unknown_0x0278", "h", endianness='>')
-        self.rw_var("unknown_0x027A", "h", endianness='>')
-        self.rw_var("unknown_0x027C", "h", endianness='>')
-        self.rw_var("unknown_0x027E", "h", endianness='>')
+        self.unknown_0x0270 = rw.rw_int16(self.unknown_0x0270)
+        self.unknown_0x0272 = rw.rw_int16(self.unknown_0x0272)
+        self.unknown_0x0274 = rw.rw_int16(self.unknown_0x0274)
+        self.unknown_0x0276 = rw.rw_int16(self.unknown_0x0276)
+        self.unknown_0x0278 = rw.rw_int16(self.unknown_0x0278)
+        self.unknown_0x027A = rw.rw_int16(self.unknown_0x027A)
+        self.unknown_0x027C = rw.rw_int16(self.unknown_0x027C)
+        self.unknown_0x027E = rw.rw_int16(self.unknown_0x027E)
         
-        self.rw_var("unknown_0x0280", "h", endianness='>')
-        self.rw_var("unknown_0x0282", "h", endianness='>')
-        self.rw_var("unknown_0x0284", "h", endianness='>')
-        self.rw_var("unknown_0x0286", "h", endianness='>')
-        self.rw_var("unknown_0x0288", "h", endianness='>')
-        self.rw_var("unknown_0x028A", "h", endianness='>')
-        self.rw_var("unknown_0x028C", "h", endianness='>')
-        self.rw_var("unknown_0x028E", "h", endianness='>')
+        self.unknown_0x0280 = rw.rw_int16(self.unknown_0x0280)
+        self.unknown_0x0282 = rw.rw_int16(self.unknown_0x0282)
+        self.unknown_0x0284 = rw.rw_int16(self.unknown_0x0284)
+        self.unknown_0x0286 = rw.rw_int16(self.unknown_0x0286)
+        self.unknown_0x0288 = rw.rw_int16(self.unknown_0x0288)
+        self.unknown_0x028A = rw.rw_int16(self.unknown_0x028A)
+        self.unknown_0x028C = rw.rw_int16(self.unknown_0x028C)
+        self.unknown_0x028E = rw.rw_int16(self.unknown_0x028E)
         
-        self.rw_var("unknown_0x0290", "h", endianness='>')
-        self.rw_var("unknown_0x0292", "h", endianness='>')
-        self.rw_var("unknown_0x0294", "i", endianness='>')
-        self.rw_var("unknown_0x0298", "i", endianness='>')
-        self.rw_var("unknown_0x029C", "i", endianness='>')
+        self.unknown_0x0290 = rw.rw_int16(self.unknown_0x0290)
+        self.unknown_0x0292 = rw.rw_int16(self.unknown_0x0292)
+        self.unknown_0x0294 = rw.rw_int32(self.unknown_0x0294)
+        self.unknown_0x0298 = rw.rw_int32(self.unknown_0x0298)
+        self.unknown_0x029C = rw.rw_int32(self.unknown_0x029C)
         
-        self.rw_var("unknown_0x02A0", "i", endianness='>')
-        self.rw_var("unknown_0x02A4", "i", endianness='>')
-        self.rw_var("unknown_0x02A8", "i", endianness='>')
-        self.rw_var("unknown_0x02AC", "i", endianness='>')
+        self.unknown_0x02A0 = rw.rw_int32(self.unknown_0x02A0)
+        self.unknown_0x02A4 = rw.rw_int32(self.unknown_0x02A4)
+        self.unknown_0x02A8 = rw.rw_int32(self.unknown_0x02A8)
+        self.unknown_0x02AC = rw.rw_int32(self.unknown_0x02AC)
         
-        self.rw_var("unknown_0x02B0", "i", endianness='>')
-        self.rw_var("unknown_0x02B4", "i", endianness='>')
+        self.unknown_0x02B0 = rw.rw_int32(self.unknown_0x02B0)
+        self.unknown_0x02B4 = rw.rw_int32(self.unknown_0x02B4)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -4831,39 +4831,39 @@ class VlMxStageInfo(BaseRW):
                  0x2A0, 0x2A4, 0x2A8, 0x2AC, 0x2B0, 0x2B4
                ]
     
-class VlMxCountryInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
+class VlMxCountryInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
         
         
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08)
         
-class VlMxSlgCameraInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class VlMxSlgCameraInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
         
         
     def get_data(self):
@@ -4874,36 +4874,36 @@ class VlMxSlgCameraInfo(BaseRW):
                  self.unknown_0x40,  )
   
     
-class VlMxSlgCommandCursorInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class VlMxSlgCommandCursorInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
         
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C )
    
     
-class VlMxTargetModeGazeFixedInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class VlMxTargetModeGazeFixedInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
         
         
     def get_data(self):
@@ -4912,39 +4912,39 @@ class VlMxTargetModeGazeFixedInfo(BaseRW):
                  self.unknown_0x20,  self.unknown_0x24,  self.unknown_0x28,  self.unknown_0x2C, 
                  self.unknown_0x30 )
   
-class VlMxPhysicsMaterialInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class VlMxPhysicsMaterialInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
         
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
                  self.unknown_0x10,  self.unknown_0x14,  self.unknown_0x18,  self.unknown_0x1C )
     
-class VlMxSurroundInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class VlMxSurroundInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
         
         
@@ -4954,13 +4954,13 @@ class VlMxSurroundInfo(BaseRW):
                  self.unknown_0x20,  self.unknown_0x24,  self.unknown_0x28,  self.unknown_0x2C )  
 
 
-class MxParameterPvs(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "q", endianness='>')
-        self.rw_var("unknown_0x08", "q", endianness='>')
+class MxParameterPvs(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int64(self.unknown_0x00)
+        self.unknown_0x08 = rw.rw_int64(self.unknown_0x08)
         
-        self.rw_var("unknown_0x10", "q", endianness='>')
-        self.rw_var("unknown_0x18", "q", endianness='>')
+        self.unknown_0x10 = rw.rw_int64(self.unknown_0x10)
+        self.unknown_0x18 = rw.rw_int64(self.unknown_0x18)
         
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x08, 
@@ -4976,85 +4976,85 @@ class MxParameterPvs(BaseRW):
     def enrs_offsets(self):
         return [ 0x00, ]
     
-class SlgEnStrongholdPathNodeParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnStrongholdPathNodeParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -5097,102 +5097,102 @@ class SlgEnStrongholdPathNodeParam(BaseRW):
                  0xE0,  0xE8,  0xF0
                ]
     
-class SlgEnStrongholdParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnStrongholdParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "q", endianness='>')
-        self.rw_var("unknown_0x0118", "q", endianness='>')
+        self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
+        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
         
-        self.rw_var("unknown_0x0120", "q", endianness='>')
-        self.rw_var("unknown_0x0128", "q", endianness='>')
+        self.unknown_0x0120 = rw.rw_int64(self.unknown_0x0120)
+        self.unknown_0x0128 = rw.rw_int64(self.unknown_0x0128)
         
-        self.rw_var("unknown_0x0130", "q", endianness='>')
-        self.rw_var("unknown_0x0138", "q", endianness='>')
+        self.unknown_0x0130 = rw.rw_int64(self.unknown_0x0130)
+        self.unknown_0x0138 = rw.rw_int64(self.unknown_0x0138)
         
-        self.rw_var("unknown_0x0140", "q", endianness='>')
-        self.rw_var("unknown_0x0148", "i", endianness='>')
-        self.rw_var("unknown_0x014C", "i", endianness='>')
+        self.unknown_0x0140 = rw.rw_int64(self.unknown_0x0140)
+        self.unknown_0x0148 = rw.rw_int32(self.unknown_0x0148)
+        self.unknown_0x014C = rw.rw_int32(self.unknown_0x014C)
         
-        self.rw_var("unknown_0x0150", "i", endianness='>')
-        self.rw_var("unknown_0x0154", "i", endianness='>')
-        self.rw_var("unknown_0x0158", "q", endianness='>')
+        self.unknown_0x0150 = rw.rw_int32(self.unknown_0x0150)
+        self.unknown_0x0154 = rw.rw_int32(self.unknown_0x0154)
+        self.unknown_0x0158 = rw.rw_int64(self.unknown_0x0158)
         
     
     def get_data(self):
@@ -5246,110 +5246,110 @@ class SlgEnStrongholdParam(BaseRW):
                 0x150, 0x154, 0x158
                ]
 
-class EnWindmillParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class EnWindmillParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "q", endianness='>')
-        self.rw_var("unknown_0x0118", "i", endianness='>')
-        self.rw_var("unknown_0x011C", "i", endianness='>')
+        self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
+        self.unknown_0x0118 = rw.rw_int32(self.unknown_0x0118)
+        self.unknown_0x011C = rw.rw_int32(self.unknown_0x011C)
         
         
-        self.rw_var("unknown_0x0120", "i", endianness='>')
-        self.rw_var("unknown_0x0124", "i", endianness='>')
-        self.rw_var("unknown_0x0128", "i", endianness='>')
-        self.rw_var("unknown_0x012C", "i", endianness='>')
+        self.unknown_0x0120 = rw.rw_int32(self.unknown_0x0120)
+        self.unknown_0x0124 = rw.rw_int32(self.unknown_0x0124)
+        self.unknown_0x0128 = rw.rw_int32(self.unknown_0x0128)
+        self.unknown_0x012C = rw.rw_int32(self.unknown_0x012C)
         
-        self.rw_var("unknown_0x0130", "i", endianness='>')
-        self.rw_var("unknown_0x0134", "i", endianness='>')
-        self.rw_var("unknown_0x0138", "i", endianness='>')
-        self.rw_var("unknown_0x013C", "i", endianness='>')
+        self.unknown_0x0130 = rw.rw_int32(self.unknown_0x0130)
+        self.unknown_0x0134 = rw.rw_int32(self.unknown_0x0134)
+        self.unknown_0x0138 = rw.rw_int32(self.unknown_0x0138)
+        self.unknown_0x013C = rw.rw_int32(self.unknown_0x013C)
         
-        self.rw_var("unknown_0x0140", "i", endianness='>')
-        self.rw_var("unknown_0x0144", "i", endianness='>')
-        self.rw_var("unknown_0x0148", "i", endianness='>')
-        self.rw_var("unknown_0x014C", "i", endianness='>')
+        self.unknown_0x0140 = rw.rw_int32(self.unknown_0x0140)
+        self.unknown_0x0144 = rw.rw_int32(self.unknown_0x0144)
+        self.unknown_0x0148 = rw.rw_int32(self.unknown_0x0148)
+        self.unknown_0x014C = rw.rw_int32(self.unknown_0x014C)
         
-        self.rw_var("unknown_0x0150", "i", endianness='>')
-        self.rw_var("unknown_0x0154", "i", endianness='>')
-        self.rw_var("unknown_0x0158", "i", endianness='>')
-        self.rw_var("unknown_0x015C", "i", endianness='>')
+        self.unknown_0x0150 = rw.rw_int32(self.unknown_0x0150)
+        self.unknown_0x0154 = rw.rw_int32(self.unknown_0x0154)
+        self.unknown_0x0158 = rw.rw_int32(self.unknown_0x0158)
+        self.unknown_0x015C = rw.rw_int32(self.unknown_0x015C)
         
     
     def get_data(self):
@@ -5401,100 +5401,100 @@ class EnWindmillParam(BaseRW):
                 0x140, 0x144, 0x148, 0x14C,
                 0x150, 0x154]
     
-class AISlgUnitMxParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')  # Ptr
-        self.rw_var("unknown_0x04", "I", endianness='>')  # Ptr
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class AISlgUnitMxParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)  # Ptr
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)  # Ptr
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "i", endianness='>')
-        self.rw_var("unknown_0x74", "i", endianness='>')
-        self.rw_var("unknown_0x78", "i", endianness='>')
-        self.rw_var("unknown_0x7C", "i", endianness='>')
+        self.unknown_0x70 = rw.rw_int32(self.unknown_0x70)
+        self.unknown_0x74 = rw.rw_int32(self.unknown_0x74)
+        self.unknown_0x78 = rw.rw_int32(self.unknown_0x78)
+        self.unknown_0x7C = rw.rw_int32(self.unknown_0x7C)
         
-        self.rw_var("unknown_0x80", "i", endianness='>')
-        self.rw_var("unknown_0x84", "i", endianness='>')
-        self.rw_var("unknown_0x88", "i", endianness='>')
-        self.rw_var("unknown_0x8C", "i", endianness='>')
+        self.unknown_0x80 = rw.rw_int32(self.unknown_0x80)
+        self.unknown_0x84 = rw.rw_int32(self.unknown_0x84)
+        self.unknown_0x88 = rw.rw_int32(self.unknown_0x88)
+        self.unknown_0x8C = rw.rw_int32(self.unknown_0x8C)
         
-        self.rw_var("unknown_0x90", "i", endianness='>')
-        self.rw_var("unknown_0x94", "i", endianness='>')
-        self.rw_var("unknown_0x98", "i", endianness='>')
-        self.rw_var("unknown_0x9C", "i", endianness='>')
+        self.unknown_0x90 = rw.rw_int32(self.unknown_0x90)
+        self.unknown_0x94 = rw.rw_int32(self.unknown_0x94)
+        self.unknown_0x98 = rw.rw_int32(self.unknown_0x98)
+        self.unknown_0x9C = rw.rw_int32(self.unknown_0x9C)
         
-        self.rw_var("unknown_0xA0", "i", endianness='>')
-        self.rw_var("unknown_0xA4", "i", endianness='>')
-        self.rw_var("unknown_0xA8", "i", endianness='>')
-        self.rw_var("unknown_0xAC", "i", endianness='>')
+        self.unknown_0xA0 = rw.rw_int32(self.unknown_0xA0)
+        self.unknown_0xA4 = rw.rw_int32(self.unknown_0xA4)
+        self.unknown_0xA8 = rw.rw_int32(self.unknown_0xA8)
+        self.unknown_0xAC = rw.rw_int32(self.unknown_0xAC)
         
-        self.rw_var("unknown_0xB0", "i", endianness='>')
-        self.rw_var("unknown_0xB4", "i", endianness='>')
-        self.rw_var("unknown_0xB8", "i", endianness='>')
-        self.rw_var("unknown_0xBC", "i", endianness='>')
+        self.unknown_0xB0 = rw.rw_int32(self.unknown_0xB0)
+        self.unknown_0xB4 = rw.rw_int32(self.unknown_0xB4)
+        self.unknown_0xB8 = rw.rw_int32(self.unknown_0xB8)
+        self.unknown_0xBC = rw.rw_int32(self.unknown_0xBC)
         
-        self.rw_var("unknown_0xC0", "i", endianness='>')
-        self.rw_var("unknown_0xC4", "i", endianness='>')
-        self.rw_var("unknown_0xC8", "i", endianness='>')
-        self.rw_var("unknown_0xCC", "i", endianness='>')
+        self.unknown_0xC0 = rw.rw_int32(self.unknown_0xC0)
+        self.unknown_0xC4 = rw.rw_int32(self.unknown_0xC4)
+        self.unknown_0xC8 = rw.rw_int32(self.unknown_0xC8)
+        self.unknown_0xCC = rw.rw_int32(self.unknown_0xCC)
         
-        self.rw_var("unknown_0xD0", "i", endianness='>')
-        self.rw_var("unknown_0xD4", "i", endianness='>')
-        self.rw_var("unknown_0xD8", "i", endianness='>')
-        self.rw_var("unknown_0xDC", "i", endianness='>')
+        self.unknown_0xD0 = rw.rw_int32(self.unknown_0xD0)
+        self.unknown_0xD4 = rw.rw_int32(self.unknown_0xD4)
+        self.unknown_0xD8 = rw.rw_int32(self.unknown_0xD8)
+        self.unknown_0xDC = rw.rw_int32(self.unknown_0xDC)
         
-        self.rw_var("unknown_0xE0", "i", endianness='>')
-        self.rw_var("unknown_0xE4", "i", endianness='>')
-        self.rw_var("unknown_0xE8", "i", endianness='>')
-        self.rw_var("unknown_0xEC", "i", endianness='>')
+        self.unknown_0xE0 = rw.rw_int32(self.unknown_0xE0)
+        self.unknown_0xE4 = rw.rw_int32(self.unknown_0xE4)
+        self.unknown_0xE8 = rw.rw_int32(self.unknown_0xE8)
+        self.unknown_0xEC = rw.rw_int32(self.unknown_0xEC)
         
-        self.rw_var("unknown_0xF0", "i", endianness='>')
-        self.rw_var("unknown_0xF4", "i", endianness='>')
-        self.rw_var("unknown_0xF8", "i", endianness='>')
-        self.rw_var("unknown_0xFC", "i", endianness='>')
+        self.unknown_0xF0 = rw.rw_int32(self.unknown_0xF0)
+        self.unknown_0xF4 = rw.rw_int32(self.unknown_0xF4)
+        self.unknown_0xF8 = rw.rw_int32(self.unknown_0xF8)
+        self.unknown_0xFC = rw.rw_int32(self.unknown_0xFC)
         
-        self.rw_var("unknown_0x0100", "i", endianness='>')
-        self.rw_var("unknown_0x0104", "i", endianness='>')
-        self.rw_var("unknown_0x0108", "i", endianness='>')
-        self.rw_var("unknown_0x010C", "i", endianness='>')
+        self.unknown_0x0100 = rw.rw_int32(self.unknown_0x0100)
+        self.unknown_0x0104 = rw.rw_int32(self.unknown_0x0104)
+        self.unknown_0x0108 = rw.rw_int32(self.unknown_0x0108)
+        self.unknown_0x010C = rw.rw_int32(self.unknown_0x010C)
         
-        self.rw_var("unknown_0x0110", "i", endianness='>')
-        self.rw_var("unknown_0x0114", "i", endianness='>')
-        self.rw_var("unknown_0x0118", "i", endianness='>')
-        self.rw_var("unknown_0x011C", "i", endianness='>')
+        self.unknown_0x0110 = rw.rw_int32(self.unknown_0x0110)
+        self.unknown_0x0114 = rw.rw_int32(self.unknown_0x0114)
+        self.unknown_0x0118 = rw.rw_int32(self.unknown_0x0118)
+        self.unknown_0x011C = rw.rw_int32(self.unknown_0x011C)
         
-        self.rw_var("unknown_0x0120", "i", endianness='>')
-        self.rw_var("unknown_0x0124", "i", endianness='>')
+        self.unknown_0x0120 = rw.rw_int32(self.unknown_0x0120)
+        self.unknown_0x0124 = rw.rw_int32(self.unknown_0x0124)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -5538,104 +5538,104 @@ class AISlgUnitMxParam(BaseRW):
                 0x100, 0x104, 0x108, 0x10C, 0x110, 0x114, 0x118, 0x11C,
                 0x120, 0x124]
     
-class SlgEnUnitPlacementPointParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnUnitPlacementPointParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
                 
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "i", endianness='>')
-        self.rw_var("unknown_0x0114", "i", endianness='>')
-        self.rw_var("unknown_0x0118", "i", endianness='>')
-        self.rw_var("unknown_0x011C", "i", endianness='>')
+        self.unknown_0x0110 = rw.rw_int32(self.unknown_0x0110)
+        self.unknown_0x0114 = rw.rw_int32(self.unknown_0x0114)
+        self.unknown_0x0118 = rw.rw_int32(self.unknown_0x0118)
+        self.unknown_0x011C = rw.rw_int32(self.unknown_0x011C)
         
-        self.rw_var("unknown_0x0120", "i", endianness='>')
-        self.rw_var("unknown_0x0124", "i", endianness='>')
-        self.rw_var("unknown_0x0128", "i", endianness='>')
-        self.rw_var("unknown_0x012C", "i", endianness='>')
+        self.unknown_0x0120 = rw.rw_int32(self.unknown_0x0120)
+        self.unknown_0x0124 = rw.rw_int32(self.unknown_0x0124)
+        self.unknown_0x0128 = rw.rw_int32(self.unknown_0x0128)
+        self.unknown_0x012C = rw.rw_int32(self.unknown_0x012C)
         
-        self.rw_var("unknown_0x0130", "i", endianness='>')
-        self.rw_var("unknown_0x0134", "i", endianness='>')
-        self.rw_var("unknown_0x0138", "i", endianness='>')
-        self.rw_var("unknown_0x013C", "i", endianness='>')
+        self.unknown_0x0130 = rw.rw_int32(self.unknown_0x0130)
+        self.unknown_0x0134 = rw.rw_int32(self.unknown_0x0134)
+        self.unknown_0x0138 = rw.rw_int32(self.unknown_0x0138)
+        self.unknown_0x013C = rw.rw_int32(self.unknown_0x013C)
         
-        self.rw_var("unknown_0x0140", "i", endianness='>')
-        self.rw_var("unknown_0x0144", "i", endianness='>')
-        self.rw_var("unknown_0x0148", "q", endianness='>')
+        self.unknown_0x0140 = rw.rw_int32(self.unknown_0x0140)
+        self.unknown_0x0144 = rw.rw_int32(self.unknown_0x0144)
+        self.unknown_0x0148 = rw.rw_int64(self.unknown_0x0148)
         
     
     def get_data(self):
@@ -5686,85 +5686,85 @@ class SlgEnUnitPlacementPointParam(BaseRW):
                 0x140, 0x144, 0x148
                ]
     
-class SlgEnMedicPointParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnMedicPointParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
     
     def get_data(self):
@@ -5807,130 +5807,130 @@ class SlgEnMedicPointParam(BaseRW):
                  0xE0,  0xE8,  0xF0
                ]
     
-class SlgEnWarpPointParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnWarpPointParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
                 
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "i", endianness='>')
-        self.rw_var("unknown_0x0114", "i", endianness='>')
-        self.rw_var("unknown_0x0118", "i", endianness='>')
-        self.rw_var("unknown_0x011C", "i", endianness='>')
+        self.unknown_0x0110 = rw.rw_int32(self.unknown_0x0110)
+        self.unknown_0x0114 = rw.rw_int32(self.unknown_0x0114)
+        self.unknown_0x0118 = rw.rw_int32(self.unknown_0x0118)
+        self.unknown_0x011C = rw.rw_int32(self.unknown_0x011C)
         
-        self.rw_var("unknown_0x0120", "q", endianness='>')
-        self.rw_var("unknown_0x0128", "q", endianness='>')
+        self.unknown_0x0120 = rw.rw_int64(self.unknown_0x0120)
+        self.unknown_0x0128 = rw.rw_int64(self.unknown_0x0128)
         
-        self.assert_is_zero("unknown_0x0128")
+        rw.assert_is_zero(self.unknown_0x0128)
         
-        self.rw_var("unknown_0x0130", "i", endianness='>')
-        self.rw_var("unknown_0x0134", "i", endianness='>')
-        self.rw_var("unknown_0x0138", "i", endianness='>')
-        self.rw_var("unknown_0x013C", "i", endianness='>')
+        self.unknown_0x0130 = rw.rw_int32(self.unknown_0x0130)
+        self.unknown_0x0134 = rw.rw_int32(self.unknown_0x0134)
+        self.unknown_0x0138 = rw.rw_int32(self.unknown_0x0138)
+        self.unknown_0x013C = rw.rw_int32(self.unknown_0x013C)
         
-        self.rw_var("unknown_0x0140", "q", endianness='>')
-        self.rw_var("unknown_0x0148", "q", endianness='>')
+        self.unknown_0x0140 = rw.rw_int64(self.unknown_0x0140)
+        self.unknown_0x0148 = rw.rw_int64(self.unknown_0x0148)
         
-        self.assert_is_zero("unknown_0x0148")
+        rw.assert_is_zero(self.unknown_0x0148)
         
-        self.rw_var("unknown_0x0150", "i", endianness='>')
-        self.rw_var("unknown_0x0154", "i", endianness='>')
-        self.rw_var("unknown_0x0158", "i", endianness='>')
-        self.rw_var("unknown_0x015C", "i", endianness='>')
+        self.unknown_0x0150 = rw.rw_int32(self.unknown_0x0150)
+        self.unknown_0x0154 = rw.rw_int32(self.unknown_0x0154)
+        self.unknown_0x0158 = rw.rw_int32(self.unknown_0x0158)
+        self.unknown_0x015C = rw.rw_int32(self.unknown_0x015C)
         
-        self.rw_var("unknown_0x0160", "q", endianness='>')
-        self.rw_var("unknown_0x0168", "q", endianness='>')
+        self.unknown_0x0160 = rw.rw_int64(self.unknown_0x0160)
+        self.unknown_0x0168 = rw.rw_int64(self.unknown_0x0168)
         
-        self.assert_is_zero("unknown_0x0168")
+        rw.assert_is_zero(self.unknown_0x0168)
         
-        self.rw_var("unknown_0x0170", "i", endianness='>')
-        self.rw_var("unknown_0x0174", "i", endianness='>')
-        self.rw_var("unknown_0x0178", "i", endianness='>')
-        self.rw_var("unknown_0x017C", "i", endianness='>')
+        self.unknown_0x0170 = rw.rw_int32(self.unknown_0x0170)
+        self.unknown_0x0174 = rw.rw_int32(self.unknown_0x0174)
+        self.unknown_0x0178 = rw.rw_int32(self.unknown_0x0178)
+        self.unknown_0x017C = rw.rw_int32(self.unknown_0x017C)
         
-        self.rw_var("unknown_0x0180", "q", endianness='>')
-        self.rw_var("unknown_0x0188", "q", endianness='>')
+        self.unknown_0x0180 = rw.rw_int64(self.unknown_0x0180)
+        self.unknown_0x0188 = rw.rw_int64(self.unknown_0x0188)
         
-        self.assert_is_zero("unknown_0x0188")
+        rw.assert_is_zero(self.unknown_0x0188)
         
-        self.rw_var("unknown_0x0190", "i", endianness='>')
-        self.rw_var("unknown_0x0194", "i", endianness='>')
-        self.rw_var("unknown_0x0198", "i", endianness='>')
-        self.rw_var("unknown_0x019C", "i", endianness='>')
+        self.unknown_0x0190 = rw.rw_int32(self.unknown_0x0190)
+        self.unknown_0x0194 = rw.rw_int32(self.unknown_0x0194)
+        self.unknown_0x0198 = rw.rw_int32(self.unknown_0x0198)
+        self.unknown_0x019C = rw.rw_int32(self.unknown_0x019C)
         
     
     def get_data(self):
@@ -5991,9 +5991,9 @@ class SlgEnWarpPointParam(BaseRW):
                 0x190, 0x194, 0x198, 0x19C
                ]
     
-class SlgEnExplosiveParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
+class SlgEnExplosiveParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         
         
     def get_data(self):
@@ -6009,95 +6009,95 @@ class SlgEnExplosiveParam(BaseRW):
     def enrs_offsets(self):
         return [ 0x00 ]
     
-class SlgEnTriggerBaseParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnTriggerBaseParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
                 
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "q", endianness='>')
-        self.rw_var("unknown_0x0118", "q", endianness='>')
+        self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
+        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
         
-        self.rw_var("unknown_0x0120", "q", endianness='>')
-        self.rw_var("unknown_0x0128", "q", endianness='>')
+        self.unknown_0x0120 = rw.rw_int64(self.unknown_0x0120)
+        self.unknown_0x0128 = rw.rw_int64(self.unknown_0x0128)
         
-        self.rw_var("unknown_0x0130", "i", endianness='>')
-        self.rw_var("unknown_0x0134", "i", endianness='>')
-        self.rw_var("unknown_0x0138", "i", endianness='>')
-        self.rw_var("unknown_0x013C", "i", endianness='>')
+        self.unknown_0x0130 = rw.rw_int32(self.unknown_0x0130)
+        self.unknown_0x0134 = rw.rw_int32(self.unknown_0x0134)
+        self.unknown_0x0138 = rw.rw_int32(self.unknown_0x0138)
+        self.unknown_0x013C = rw.rw_int32(self.unknown_0x013C)
         
-        self.rw_var("unknown_0x0140", "i", endianness='>')
-        self.rw_var("unknown_0x0144", "i", endianness='>')
-        self.rw_var("unknown_0x0148", "q", endianness='>')
+        self.unknown_0x0140 = rw.rw_int32(self.unknown_0x0140)
+        self.unknown_0x0144 = rw.rw_int32(self.unknown_0x0144)
+        self.unknown_0x0148 = rw.rw_int64(self.unknown_0x0148)
         
     
     def get_data(self):
@@ -6149,16 +6149,16 @@ class SlgEnTriggerBaseParam(BaseRW):
                 0x140, 0x144, 0x148
                ]
     
-class SlgEnMineParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "q", endianness='>')
+class SlgEnMineParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int64(self.unknown_0x08)
         
-        self.assert_is_zero("unknown_0x04")
+        rw.assert_is_zero(self.unknown_0x04)
         
-        self.rw_var("unknown_0x10", "q", endianness='>')
-        self.rw_var("unknown_0x18", "q", endianness='>')
+        self.unknown_0x10 = rw.rw_int64(self.unknown_0x10)
+        self.unknown_0x18 = rw.rw_int64(self.unknown_0x18)
         
         
     def get_data(self):
@@ -6176,85 +6176,85 @@ class SlgEnMineParam(BaseRW):
         return [ 0x00,  0x08,  0x10,  0x18
                ]
 
-class SlgEnAreaSurveillancePathNodeParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnAreaSurveillancePathNodeParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
     
     def get_data(self):
@@ -6298,90 +6298,90 @@ class SlgEnAreaSurveillancePathNodeParam(BaseRW):
                  0xE0,  0xE8,  0xF0]
     
 
-class SlgEnAreaSurveillanceParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnAreaSurveillanceParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "q", endianness='>')
-        self.rw_var("unknown_0x0118", "q", endianness='>')
+        self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
+        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
         
-        self.assert_is_zero("unknown_0x0118")
+        rw.assert_is_zero(self.unknown_0x0118)
         
     
     def get_data(self):
@@ -6426,85 +6426,85 @@ class SlgEnAreaSurveillanceParam(BaseRW):
                  0xE0,  0xE8,  0xF0,  
                 0x110]
     
-class EnMovePathNodeParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class EnMovePathNodeParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')  # Padding
-        self.rw_var("unknown_0x2C", "i", endianness='>')  # Padding
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)  # Padding
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)  # Padding
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')  # Padding
-        self.rw_var("unknown_0x34", "i", endianness='>')  # Padding
-        self.rw_var("unknown_0x38", "i", endianness='>')  # Padding
-        self.rw_var("unknown_0x3C", "i", endianness='>')  # Padding
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)  # Padding
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)  # Padding
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)  # Padding
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)  # Padding
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')  # Padding
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)  # Padding
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
     
     def get_data(self):
@@ -6547,84 +6547,84 @@ class EnMovePathNodeParam(BaseRW):
                  0xE0,  0xE8,  0xF0
                ]
     
-class EnMovePathParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class EnMovePathParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')  # Padding
-        self.rw_var("unknown_0x2C", "i", endianness='>')  # Padding
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)  # Padding
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)  # Padding
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')  # Padding
-        self.rw_var("unknown_0x34", "i", endianness='>')  # Padding
-        self.rw_var("unknown_0x38", "i", endianness='>')  # Padding
-        self.rw_var("unknown_0x3C", "i", endianness='>')  # Padding
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)  # Padding
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)  # Padding
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)  # Padding
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)  # Padding
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>') # Padding 
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8) # Padding 
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')  # Padding
-        self.rw_var("unknown_0x0108", "q", endianness='>')  # Padding
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)  # Padding
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)  # Padding
         
-        self.rw_var("unknown_0x0110", "i", endianness='>')
-        self.rw_var("unknown_0x0114", "i", endianness='>')
-        self.rw_var("unknown_0x0118", "q", endianness='>')
+        self.unknown_0x0110 = rw.rw_int32(self.unknown_0x0110)
+        self.unknown_0x0114 = rw.rw_int32(self.unknown_0x0114)
+        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
         
     
     def get_data(self):
@@ -6670,98 +6670,98 @@ class EnMovePathParam(BaseRW):
                ]
     
     
-class SlgEnReinforcePointParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnReinforcePointParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "i", endianness='>')
-        self.rw_var("unknown_0x0114", "i", endianness='>')
-        self.rw_var("unknown_0x0118", "i", endianness='>')
-        self.rw_var("unknown_0x011C", "i", endianness='>')
+        self.unknown_0x0110 = rw.rw_int32(self.unknown_0x0110)
+        self.unknown_0x0114 = rw.rw_int32(self.unknown_0x0114)
+        self.unknown_0x0118 = rw.rw_int32(self.unknown_0x0118)
+        self.unknown_0x011C = rw.rw_int32(self.unknown_0x011C)
         
-        self.rw_var("unknown_0x0120", "q", endianness='>')
-        self.rw_var("unknown_0x0128", "q", endianness='>')
+        self.unknown_0x0120 = rw.rw_int64(self.unknown_0x0120)
+        self.unknown_0x0128 = rw.rw_int64(self.unknown_0x0128)
         
-        self.rw_var("unknown_0x0130", "q", endianness='>')
-        self.rw_var("unknown_0x0138", "q", endianness='>')
+        self.unknown_0x0130 = rw.rw_int64(self.unknown_0x0130)
+        self.unknown_0x0138 = rw.rw_int64(self.unknown_0x0138)
         
-        self.assert_is_zero("unknown_0x0138")
+        rw.assert_is_zero(self.unknown_0x0138)
         
     
     def get_data(self):
@@ -6811,90 +6811,90 @@ class SlgEnReinforcePointParam(BaseRW):
                 0x130
                ]
 
-class SlgEnGregoalStayPointParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnGregoalStayPointParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "q", endianness='>')
-        self.rw_var("unknown_0x0118", "q", endianness='>')
+        self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
+        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
         
-        self.assert_is_zero("unknown_0x0118")
+        rw.assert_is_zero(self.unknown_0x0118)
         
     
     def get_data(self):
@@ -6940,105 +6940,105 @@ class SlgEnGregoalStayPointParam(BaseRW):
                 0x110
               ]
       
-class SlgEnGregoalParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnGregoalParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "q", endianness='>')
-        self.rw_var("unknown_0x0118", "q", endianness='>')
+        self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
+        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
         
-        self.rw_var("unknown_0x0120", "q", endianness='>')
-        self.rw_var("unknown_0x0128", "q", endianness='>')
+        self.unknown_0x0120 = rw.rw_int64(self.unknown_0x0120)
+        self.unknown_0x0128 = rw.rw_int64(self.unknown_0x0128)
         
-        self.rw_var("unknown_0x0130", "q", endianness='>')
-        self.rw_var("unknown_0x0138", "q", endianness='>')
+        self.unknown_0x0130 = rw.rw_int64(self.unknown_0x0130)
+        self.unknown_0x0138 = rw.rw_int64(self.unknown_0x0138)
         
-        self.rw_var("unknown_0x0140", "q", endianness='>')
-        self.rw_var("unknown_0x0148", "q", endianness='>')
+        self.unknown_0x0140 = rw.rw_int64(self.unknown_0x0140)
+        self.unknown_0x0148 = rw.rw_int64(self.unknown_0x0148)
         
-        self.rw_var("unknown_0x0150", "q", endianness='>')
-        self.rw_var("unknown_0x0158", "q", endianness='>')
+        self.unknown_0x0150 = rw.rw_int64(self.unknown_0x0150)
+        self.unknown_0x0158 = rw.rw_int64(self.unknown_0x0158)
         
-        self.rw_var("unknown_0x0160", "q", endianness=">")
-        self.rw_var("unknown_0x0168", "q", endianness=">")
+        self.unknown_0x0160 = rw.rw_int64(self.unknown_0x0160)
+        self.unknown_0x0168 = rw.rw_int64(self.unknown_0x0168)
         
-        self.assert_is_zero("unknown_0x0168")
+        rw.assert_is_zero(self.unknown_0x0168)
         
     
     def get_data(self):
@@ -7095,9 +7095,9 @@ class SlgEnGregoalParam(BaseRW):
                 0x160
               ]
 
-class SlgEnDummyTankParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
+class SlgEnDummyTankParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         
         
     def get_data(self):
@@ -7112,9 +7112,9 @@ class SlgEnDummyTankParam(BaseRW):
     def enrs_offsets(self):
         return [ 0x00 ]
 
-class SlgEnBreakableBridgeParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
+class SlgEnBreakableBridgeParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         
         
     def get_data(self):
@@ -7131,12 +7131,12 @@ class SlgEnBreakableBridgeParam(BaseRW):
         return [ 0x00 ]
     
 
-class SlgEnControlLancePieceParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnControlLancePieceParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
         
     def get_data(self):
@@ -7152,11 +7152,11 @@ class SlgEnControlLancePieceParam(BaseRW):
     def enrs_offsets(self):
         return [ 0x00,  0x04,  0x08,  0x0C ]
 
-class SlgEnDefenseWallParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "h", endianness='>')
-        self.rw_var("unknown_0x02", "h", endianness='>')
-        self.rw_var("unknown_0x04", "h", endianness='>')
+class SlgEnDefenseWallParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int16(self.unknown_0x00)
+        self.unknown_0x02 = rw.rw_int16(self.unknown_0x02)
+        self.unknown_0x04 = rw.rw_int16(self.unknown_0x04)
         
         
     def get_data(self):
@@ -7172,14 +7172,14 @@ class SlgEnDefenseWallParam(BaseRW):
     def enrs_offsets(self):
         return [ 0x00,  0x02, 0x04, ]
     
-class SlgEnTemplePartsParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "q", endianness='>')
+class SlgEnTemplePartsParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int64(self.unknown_0x08)
         
-        self.rw_var("unknown_0x10", "q", endianness='>')
-        self.rw_var("unknown_0x18", "q", endianness='>')
+        self.unknown_0x10 = rw.rw_int64(self.unknown_0x10)
+        self.unknown_0x18 = rw.rw_int64(self.unknown_0x18)
         
         
     def get_data(self):
@@ -7197,12 +7197,12 @@ class SlgEnTemplePartsParam(BaseRW):
         return [ 0x00,  0x04,  0x08,  0x10,  0x18 ]
     
 
-class SlgEnLancePieceParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnLancePieceParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
         
     def get_data(self):
@@ -7218,11 +7218,11 @@ class SlgEnLancePieceParam(BaseRW):
     def enrs_offsets(self):
         return [ 0x00,  0x04,  0x08,  0x0C ]
     
-class SlgEnTowerParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
+class SlgEnTowerParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
         
         
     def get_data(self):
@@ -7237,29 +7237,29 @@ class SlgEnTowerParam(BaseRW):
         return [ 0x00,  0x04,  0x08 ]
     
       
-class VlMxUnitResourceInfo(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class VlMxUnitResourceInfo(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "q", endianness='>')
-        self.rw_var("unknown_0x18", "q", endianness='>')
+        self.unknown_0x10 = rw.rw_int64(self.unknown_0x10)
+        self.unknown_0x18 = rw.rw_int64(self.unknown_0x18)
         
-        self.rw_var("unknown_0x20", "q", endianness='>')
-        self.rw_var("unknown_0x28", "q", endianness='>')
+        self.unknown_0x20 = rw.rw_int64(self.unknown_0x20)
+        self.unknown_0x28 = rw.rw_int64(self.unknown_0x28)
         
-        self.rw_var("unknown_0x30", "q", endianness='>')
-        self.rw_var("unknown_0x38", "q", endianness='>')
+        self.unknown_0x30 = rw.rw_int64(self.unknown_0x30)
+        self.unknown_0x38 = rw.rw_int64(self.unknown_0x38)
         
-        self.rw_var("unknown_0x40", "q", endianness='>')
-        self.rw_var("unknown_0x48", "q", endianness='>')
+        self.unknown_0x40 = rw.rw_int64(self.unknown_0x40)
+        self.unknown_0x48 = rw.rw_int64(self.unknown_0x48)
         
-        self.rw_var("unknown_0x50", "q", endianness='>')
-        self.rw_var("unknown_0x58", "q", endianness='>')
+        self.unknown_0x50 = rw.rw_int64(self.unknown_0x50)
+        self.unknown_0x58 = rw.rw_int64(self.unknown_0x58)
         
-        self.rw_var("unknown_0x60", "q", endianness='>')
+        self.unknown_0x60 = rw.rw_int64(self.unknown_0x60)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -7282,83 +7282,83 @@ class VlMxUnitResourceInfo(BaseRW):
                   0x60
                ]
 
-class EnSimpleWallParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class EnSimpleWallParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')  # Padding
-        self.rw_var("unknown_0x2C", "i", endianness='>')  # Padding
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)  # Padding
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)  # Padding
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')  # Padding
-        self.rw_var("unknown_0x34", "i", endianness='>')  # Padding
-        self.rw_var("unknown_0x38", "i", endianness='>')  # Padding
-        self.rw_var("unknown_0x3C", "i", endianness='>')  # Padding
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)  # Padding
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)  # Padding
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)  # Padding
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)  # Padding
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')  # Padding
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)  # Padding
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')  # Padding
-        self.rw_var("unknown_0x0108", "q", endianness='>')  # Padding
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)  # Padding
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)  # Padding
         
-        self.rw_var("unknown_0x0110", "q", endianness='>')
-        self.rw_var("unknown_0x0118", "q", endianness='>')  # Padding
+        self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
+        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)  # Padding
         
     
     def get_data(self):
@@ -7403,88 +7403,88 @@ class EnSimpleWallParam(BaseRW):
                 0x110,
                ]
 
-class SlgEnProduceBorderParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnProduceBorderParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "q", endianness='>')
-        self.rw_var("unknown_0x0118", "q", endianness='>')
+        self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
+        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
         
         
     
@@ -7530,87 +7530,87 @@ class SlgEnProduceBorderParam(BaseRW):
                 0x110, 0x118,
                ]
     
-class SlgEnProduceGndParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnProduceGndParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='<')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='<')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "i", endianness='>')
-        self.rw_var("unknown_0x0114", "i", endianness='>')
-        self.rw_var("unknown_0x0118", "q", endianness='>')
+        self.unknown_0x0110 = rw.rw_int32(self.unknown_0x0110)
+        self.unknown_0x0114 = rw.rw_int32(self.unknown_0x0114)
+        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
         
     
     def get_data(self):
@@ -7656,10 +7656,10 @@ class SlgEnProduceGndParam(BaseRW):
                 0x110, 0x114, 0x118
                ]
     
-class SlgEnBreakableGateParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
+class SlgEnBreakableGateParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
         
         
     def get_data(self):
@@ -7675,91 +7675,91 @@ class SlgEnBreakableGateParam(BaseRW):
         return [ 0x00,  0x04 ]
 
       
-class SlgEnChainBreakdownParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnChainBreakdownParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "q", endianness='>')
-        self.rw_var("unknown_0x0118", "q", endianness='>')
+        self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
+        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
         
-        self.rw_var("unknown_0x0120", "q", endianness='>')
-        self.rw_var("unknown_0x0128", "i", endianness='>')
-        self.rw_var("unknown_0x012C", "i", endianness='>')
+        self.unknown_0x0120 = rw.rw_int64(self.unknown_0x0120)
+        self.unknown_0x0128 = rw.rw_int32(self.unknown_0x0128)
+        self.unknown_0x012C = rw.rw_int32(self.unknown_0x012C)
         
-        self.rw_var("unknown_0x0130", "i", endianness='>')
-        self.rw_var("unknown_0x0134", "i", endianness='>')
-        self.rw_var("unknown_0x0138", "q", endianness='>')
+        self.unknown_0x0130 = rw.rw_int32(self.unknown_0x0130)
+        self.unknown_0x0134 = rw.rw_int32(self.unknown_0x0134)
+        self.unknown_0x0138 = rw.rw_int64(self.unknown_0x0138)
         
     
     def get_data(self):
@@ -7808,36 +7808,36 @@ class SlgEnChainBreakdownParam(BaseRW):
                 0x130, 0x134, 0x138]
       
       
-class SlgEnSlayingAreaParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnSlayingAreaParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.assert_is_zero("unknown_0x44")
-        self.assert_is_zero("unknown_0x48")
-        self.assert_is_zero("unknown_0x4C")
+        rw.assert_is_zero(self.unknown_0x44)
+        rw.assert_is_zero(self.unknown_0x48)
+        rw.assert_is_zero(self.unknown_0x4C)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -7860,85 +7860,85 @@ class SlgEnSlayingAreaParam(BaseRW):
                  0x40,  
                ]
     
-class SlgEnSurroundPathNodeParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnSurroundPathNodeParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
                 
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -7981,80 +7981,80 @@ class SlgEnSurroundPathNodeParam(BaseRW):
                  0xE0,  0xE8,  0xF0
                ]
     
-class SlgEnOrderAllAttackPointParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnOrderAllAttackPointParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
     
     def get_data(self):
@@ -8097,99 +8097,99 @@ class SlgEnOrderAllAttackPointParam(BaseRW):
                  0xE0,  0xE8,  0xF0
                ]
     
-class SlgEnSurroundParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnSurroundParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "i", endianness='>')
-        self.rw_var("unknown_0x0114", "i", endianness='>')
-        self.rw_var("unknown_0x0118", "i", endianness='>')
-        self.rw_var("unknown_0x011C", "i", endianness='>')
+        self.unknown_0x0110 = rw.rw_int32(self.unknown_0x0110)
+        self.unknown_0x0114 = rw.rw_int32(self.unknown_0x0114)
+        self.unknown_0x0118 = rw.rw_int32(self.unknown_0x0118)
+        self.unknown_0x011C = rw.rw_int32(self.unknown_0x011C)
         
-        self.rw_var("unknown_0x0120", "i", endianness='>')
-        self.rw_var("unknown_0x0124", "i", endianness='>')
-        self.rw_var("unknown_0x0128", "i", endianness='>')
-        self.rw_var("unknown_0x012C", "i", endianness='>')
+        self.unknown_0x0120 = rw.rw_int32(self.unknown_0x0120)
+        self.unknown_0x0124 = rw.rw_int32(self.unknown_0x0124)
+        self.unknown_0x0128 = rw.rw_int32(self.unknown_0x0128)
+        self.unknown_0x012C = rw.rw_int32(self.unknown_0x012C)
         
-        self.rw_var("unknown_0x0130", "i", endianness='>')
-        self.rw_var("unknown_0x0134", "i", endianness='>')
-        self.rw_var("unknown_0x0138", "q", endianness='>')
+        self.unknown_0x0130 = rw.rw_int32(self.unknown_0x0130)
+        self.unknown_0x0134 = rw.rw_int32(self.unknown_0x0134)
+        self.unknown_0x0138 = rw.rw_int64(self.unknown_0x0138)
         
     
     def get_data(self):
@@ -8239,41 +8239,41 @@ class SlgEnSurroundParam(BaseRW):
                 0x130, 0x134, 0x138
                ]
     
-class SlgEnTriggerEnterParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnTriggerEnterParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.assert_is_zero("unknown_0x54")
-        self.assert_is_zero("unknown_0x58")
-        self.assert_is_zero("unknown_0x5C")
+        rw.assert_is_zero(self.unknown_0x54)
+        rw.assert_is_zero(self.unknown_0x58)
+        rw.assert_is_zero(self.unknown_0x5C)
         
     
     def get_data(self):
@@ -8296,17 +8296,17 @@ class SlgEnTriggerEnterParam(BaseRW):
                  0x40,  0x44,  0x48,  0x4C,  0x50
                ]
     
-class SlgEnAlterOperationMapParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "q", endianness='>')
-        self.rw_var("unknown_0x08", "q", endianness='>')
+class SlgEnAlterOperationMapParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int64(self.unknown_0x00)
+        self.unknown_0x08 = rw.rw_int64(self.unknown_0x08)
         
-        self.rw_var("unknown_0x10", "q", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int64(self.unknown_0x10)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
         
     
     def get_data(self):
@@ -8326,9 +8326,9 @@ class SlgEnAlterOperationMapParam(BaseRW):
                  0x20,  0x24
                ]
     
-class SlgEnSandstormParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
+class SlgEnSandstormParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         
     
     def get_data(self):
@@ -8344,83 +8344,83 @@ class SlgEnSandstormParam(BaseRW):
     def enrs_offsets(self):
         return [ 0x00 ]
 
-class SlgEnTerrainParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnTerrainParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
                 
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "q", endianness='>')
-        self.rw_var("unknown_0x0118", "q", endianness='>')
+        self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
+        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
         
     
     def get_data(self):
@@ -8465,30 +8465,30 @@ class SlgEnTerrainParam(BaseRW):
                 0x110, 0x118
                ]
     
-class StaticSphere(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "f", endianness='>')
-        self.rw_var("unknown_0x04", "f", endianness='>')
-        self.rw_var("unknown_0x08", "f", endianness='>')
-        self.rw_var("unknown_0x0C", "f", endianness='>')
+class StaticSphere(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_float32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_float32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_float32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_float32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "f", endianness='>')
-        self.rw_var("unknown_0x14", "I", endianness='>')
-        self.rw_var("unknown_0x18", "I", endianness='>')
-        self.rw_var("unknown_0x1C", "I", endianness='>')
+        self.unknown_0x10 = rw.rw_float32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_uint32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_uint32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "f", endianness='>')
-        self.rw_var("unknown_0x24", "I", endianness='>')
-        self.rw_var("unknown_0x28", "I", endianness='>')
-        self.rw_var("unknown_0x2C", "I", endianness='>')
+        self.unknown_0x20 = rw.rw_float32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_uint32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_uint32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_uint32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x14")
-        self.assert_is_zero("unknown_0x18")
-        self.assert_is_zero("unknown_0x1C")
+        rw.assert_is_zero(self.unknown_0x14)
+        rw.assert_is_zero(self.unknown_0x18)
+        rw.assert_is_zero(self.unknown_0x1C)
         
-        self.assert_is_zero("unknown_0x24")
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x24)
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -8504,90 +8504,90 @@ class StaticSphere(BaseRW):
     def enrs_offsets(self):
         return [0x00, 0x04, 0x08, 0x0C, 0x10, 0x20]
     
-class SlgEnSearchLightPathNodeParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnSearchLightPathNodeParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "q", endianness='>')
-        self.rw_var("unknown_0x0118", "q", endianness='>')
+        self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
+        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
         
-        self.assert_is_zero("unknown_0x0118")
+        rw.assert_is_zero(self.unknown_0x0118)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -8631,83 +8631,83 @@ class SlgEnSearchLightPathNodeParam(BaseRW):
                 0x110
                ]
     
-class SlgEnLongRangeHEProposedImpactParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnLongRangeHEProposedImpactParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "q", endianness='>')
-        self.rw_var("unknown_0x0118", "q", endianness='>')
+        self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
+        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
         
     
     def get_data(self):
@@ -8753,12 +8753,12 @@ class SlgEnLongRangeHEProposedImpactParam(BaseRW):
                 0x110,
                ]
 
-class SlgEnSearchLightJointParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
-        self.rw_var("unknown_0x08", "I", endianness='>')
-        self.rw_var("unknown_0x0C", "I", endianness='>')
+class SlgEnSearchLightJointParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, ) 
@@ -8773,36 +8773,36 @@ class SlgEnSearchLightJointParam(BaseRW):
         return [ 0x00,  0x04,  0x08,  0x0C ]
 
 
-class SlgEnTriggerHerbParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
-        self.rw_var("unknown_0x08", "I", endianness='>')
-        self.rw_var("unknown_0x0C", "I", endianness='>')
+class SlgEnTriggerHerbParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "I", endianness='>')
-        self.rw_var("unknown_0x14", "I", endianness='>')
-        self.rw_var("unknown_0x18", "I", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_uint32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "f", endianness='>')
-        self.rw_var("unknown_0x2C", "f", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_float32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_float32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "f", endianness='>')
-        self.rw_var("unknown_0x3C", "f", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_float32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_float32(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "I", endianness='>')
-        self.rw_var("unknown_0x48", "I", endianness='>')
-        self.rw_var("unknown_0x4C", "I", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_uint32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_uint32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_uint32(self.unknown_0x4C)
 
-        self.assert_is_zero("unknown_0x44")
-        self.assert_is_zero("unknown_0x48")
-        self.assert_is_zero("unknown_0x4C")
+        rw.assert_is_zero(self.unknown_0x44)
+        rw.assert_is_zero(self.unknown_0x48)
+        rw.assert_is_zero(self.unknown_0x4C)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -8824,94 +8824,94 @@ class SlgEnTriggerHerbParam(BaseRW):
                ]
 
     
-class SlgEnSearchLightParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnSearchLightParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "i", endianness='>')
-        self.rw_var("unknown_0x0114", "i", endianness='>')
-        self.rw_var("unknown_0x0118", "i", endianness='>')
-        self.rw_var("unknown_0x011C", "i", endianness='>')
+        self.unknown_0x0110 = rw.rw_int32(self.unknown_0x0110)
+        self.unknown_0x0114 = rw.rw_int32(self.unknown_0x0114)
+        self.unknown_0x0118 = rw.rw_int32(self.unknown_0x0118)
+        self.unknown_0x011C = rw.rw_int32(self.unknown_0x011C)
         
-        self.rw_var("unknown_0x0120", "i", endianness='>')
-        self.rw_var("unknown_0x0124", "i", endianness='>')
-        self.rw_var("unknown_0x0128", "q", endianness='>')
+        self.unknown_0x0120 = rw.rw_int32(self.unknown_0x0120)
+        self.unknown_0x0124 = rw.rw_int32(self.unknown_0x0124)
+        self.unknown_0x0128 = rw.rw_int64(self.unknown_0x0128)
         
     
     def get_data(self):
@@ -8958,10 +8958,10 @@ class SlgEnSearchLightParam(BaseRW):
                 0x120, 0x124
                ]
 
-class SlgEnCentralLorryParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
+class SlgEnCentralLorryParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04, ) 
@@ -8977,92 +8977,92 @@ class SlgEnCentralLorryParam(BaseRW):
         return [ 0x00,  0x04 ]
 
     
-class SlgEnLorryParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnLorryParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "q", endianness='>')
-        self.rw_var("unknown_0x0118", "q", endianness='>')
+        self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
+        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
         
-        self.rw_var("unknown_0x0120", "q", endianness='>')
-        self.rw_var("unknown_0x0128", "i", endianness='>')
-        self.rw_var("unknown_0x012C", "i", endianness='>')
+        self.unknown_0x0120 = rw.rw_int64(self.unknown_0x0120)
+        self.unknown_0x0128 = rw.rw_int32(self.unknown_0x0128)
+        self.unknown_0x012C = rw.rw_int32(self.unknown_0x012C)
         
-        self.rw_var("unknown_0x0130", "i", endianness='>')
-        self.rw_var("unknown_0x0134", "i", endianness='>')
-        self.rw_var("unknown_0x0138", "i", endianness='>')
-        self.rw_var("unknown_0x013C", "i", endianness='>')
+        self.unknown_0x0130 = rw.rw_int32(self.unknown_0x0130)
+        self.unknown_0x0134 = rw.rw_int32(self.unknown_0x0134)
+        self.unknown_0x0138 = rw.rw_int32(self.unknown_0x0138)
+        self.unknown_0x013C = rw.rw_int32(self.unknown_0x013C)
         
     
     def get_data(self):
@@ -9112,10 +9112,10 @@ class SlgEnLorryParam(BaseRW):
                 0x130, 0x134, 0x138, 0x13C
                ]
 
-class SlgEnLiftJointParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
+class SlgEnLiftJointParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04, )
@@ -9130,27 +9130,27 @@ class SlgEnLiftJointParam(BaseRW):
     def enrs_offsets(self):
         return [ 0x00,  0x04 ]
     
-class SlgEnLiftSwitchParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "I", endianness='>')
-        self.rw_var("unknown_0x04", "I", endianness='>')
-        self.rw_var("unknown_0x08", "I", endianness='>')
-        self.rw_var("unknown_0x0C", "I", endianness='>')
+class SlgEnLiftSwitchParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "I", endianness='>')
-        self.rw_var("unknown_0x14", "I", endianness='>')
-        self.rw_var("unknown_0x18", "I", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_uint32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "f", endianness='>')
-        self.rw_var("unknown_0x2C", "f", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_float32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_float32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "f", endianness='>')
-        self.rw_var("unknown_0x3C", "f", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_float32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_float32(self.unknown_0x3C)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -9169,88 +9169,88 @@ class SlgEnLiftSwitchParam(BaseRW):
                  0x20,  0x24,  0x28,  0x2C,  0x30,  0x34,  0x38,  0x3C
                ]
     
-class SlgEnSteepleBarrierParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnSteepleBarrierParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "q", endianness='>')
-        self.rw_var("unknown_0x0118", "q", endianness='>')
+        self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
+        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
         
     
     def get_data(self):
@@ -9296,90 +9296,90 @@ class SlgEnSteepleBarrierParam(BaseRW):
                 0x110, 0x118
                ]
     
-class SlgEnLiftParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnLiftParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "i", endianness='>')
-        self.rw_var("unknown_0x0114", "i", endianness='>')
-        self.rw_var("unknown_0x0118", "i", endianness='>')
-        self.rw_var("unknown_0x011C", "i", endianness='>')
+        self.unknown_0x0110 = rw.rw_int32(self.unknown_0x0110)
+        self.unknown_0x0114 = rw.rw_int32(self.unknown_0x0114)
+        self.unknown_0x0118 = rw.rw_int32(self.unknown_0x0118)
+        self.unknown_0x011C = rw.rw_int32(self.unknown_0x011C)
         
     
     def get_data(self):
@@ -9424,91 +9424,91 @@ class SlgEnLiftParam(BaseRW):
                 0x110, 0x114, 0x118, 0x11C
                ]
 
-class SlgEnBunkerCannonParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnBunkerCannonParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "q", endianness='>')
-        self.rw_var("unknown_0x0118", "q", endianness='>')
+        self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
+        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
         
-        self.rw_var("unknown_0x0120", "q", endianness='>')
-        self.rw_var("unknown_0x0128", "q", endianness='>')
+        self.unknown_0x0120 = rw.rw_int64(self.unknown_0x0120)
+        self.unknown_0x0128 = rw.rw_int64(self.unknown_0x0128)
         
     
     def get_data(self):
@@ -9556,93 +9556,93 @@ class SlgEnBunkerCannonParam(BaseRW):
                 0x120, 0x128
                ]
     
-class SlgEnReplaceModelParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnReplaceModelParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "q", endianness='>')
-        self.rw_var("unknown_0x0118", "q", endianness='>')
+        self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
+        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
         
-        self.rw_var("unknown_0x0120", "q", endianness='>')
-        self.rw_var("unknown_0x0128", "q", endianness='>')
+        self.unknown_0x0120 = rw.rw_int64(self.unknown_0x0120)
+        self.unknown_0x0128 = rw.rw_int64(self.unknown_0x0128)
         
-        self.assert_is_zero("unknown_0x0128")
+        rw.assert_is_zero(self.unknown_0x0128)
         
     
     def get_data(self):
@@ -9690,27 +9690,27 @@ class SlgEnReplaceModelParam(BaseRW):
                 0x120
                ]
 
-class SlgEnRailWaySwitchParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnRailWaySwitchParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "f", endianness='>')
-        self.rw_var("unknown_0x2C", "f", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_float32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_float32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "f", endianness='>')
-        self.rw_var("unknown_0x3C", "f", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_float32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_float32(self.unknown_0x3C)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -9729,42 +9729,42 @@ class SlgEnRailWaySwitchParam(BaseRW):
                  0x20,  0x24,  0x28,  0x2C,  0x30,  0x34,  0x38,  0x3C
                ]
     
-class SlgEnSwitchDoorParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "q", endianness='>')
-        self.rw_var("unknown_0x08", "I", endianness='>')
-        self.rw_var("unknown_0x0C", "I", endianness='>')
+class SlgEnSwitchDoorParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int64(self.unknown_0x00)
+        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
         
-        self.assert_is_zero("unknown_0x08")
-        self.assert_is_zero("unknown_0x0C")
+        rw.assert_is_zero(self.unknown_0x08)
+        rw.assert_is_zero(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "I", endianness='>')
-        self.rw_var("unknown_0x14", "I", endianness='>')
-        self.rw_var("unknown_0x18", "I", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_uint32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "f", endianness='>')
-        self.rw_var("unknown_0x2C", "f", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_float32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_float32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "f", endianness='>')
-        self.rw_var("unknown_0x3C", "f", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_float32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_float32(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "f", endianness='>')
-        self.rw_var("unknown_0x4C", "f", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_float32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_float32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.assert_is_zero("unknown_0x58")
-        self.assert_is_zero("unknown_0x5C")
+        rw.assert_is_zero(self.unknown_0x58)
+        rw.assert_is_zero(self.unknown_0x5C)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -9787,90 +9787,90 @@ class SlgEnSwitchDoorParam(BaseRW):
                  0x40,  0x44,  0x48,  0x4C,  0x50,  0x54,
                ]
 
-class SlgEnMarmot1stPathParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnMarmot1stPathParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "q", endianness='>')
-        self.rw_var("unknown_0x0118", "q", endianness='>')
+        self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
+        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
         
-        self.assert_is_zero("unknown_0x0118")
+        rw.assert_is_zero(self.unknown_0x0118)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -9914,20 +9914,20 @@ class SlgEnMarmot1stPathParam(BaseRW):
                 0x110
                ]
     
-class SlgEnMarmot1stStopNodeParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnMarmot1stStopNodeParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -9945,9 +9945,9 @@ class SlgEnMarmot1stStopNodeParam(BaseRW):
                  0x20,  0x24,
                ]
     
-class SlgEnCliffExplosiveParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
+class SlgEnCliffExplosiveParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
     
     def get_data(self):
         return ( self.unknown_0x00, )
@@ -9962,96 +9962,96 @@ class SlgEnCliffExplosiveParam(BaseRW):
     def enrs_offsets(self):
         return [ 0x00 ]
 
-class SlgEnMarmot1stParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnMarmot1stParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "q", endianness='>')
-        self.rw_var("unknown_0x0118", "q", endianness='>')
+        self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
+        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
         
-        self.rw_var("unknown_0x0120", "q", endianness='>')
-        self.rw_var("unknown_0x0128", "i", endianness='>')
-        self.rw_var("unknown_0x012C", "i", endianness='>')
+        self.unknown_0x0120 = rw.rw_int64(self.unknown_0x0120)
+        self.unknown_0x0128 = rw.rw_int32(self.unknown_0x0128)
+        self.unknown_0x012C = rw.rw_int32(self.unknown_0x012C)
         
-        self.rw_var("unknown_0x0130", "i", endianness='>')
-        self.rw_var("unknown_0x0134", "i", endianness='>')
-        self.rw_var("unknown_0x0138", "q", endianness='>')
+        self.unknown_0x0130 = rw.rw_int32(self.unknown_0x0130)
+        self.unknown_0x0134 = rw.rw_int32(self.unknown_0x0134)
+        self.unknown_0x0138 = rw.rw_int64(self.unknown_0x0138)
         
     
     def get_data(self):
@@ -10101,99 +10101,99 @@ class SlgEnMarmot1stParam(BaseRW):
                ]
     
 
-class SlgEnCatwalkParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnCatwalkParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "q", endianness='>')
-        self.rw_var("unknown_0x0118", "q", endianness='>')
+        self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
+        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
         
-        self.rw_var("unknown_0x0120", "q", endianness='>')
-        self.rw_var("unknown_0x0128", "i", endianness='>')
-        self.rw_var("unknown_0x012C", "i", endianness='>')
+        self.unknown_0x0120 = rw.rw_int64(self.unknown_0x0120)
+        self.unknown_0x0128 = rw.rw_int32(self.unknown_0x0128)
+        self.unknown_0x012C = rw.rw_int32(self.unknown_0x012C)
         
-        self.rw_var("unknown_0x0130", "q", endianness='>')
-        self.rw_var("unknown_0x0138", "q", endianness='>')
+        self.unknown_0x0130 = rw.rw_int64(self.unknown_0x0130)
+        self.unknown_0x0138 = rw.rw_int64(self.unknown_0x0138)
         
-        self.rw_var("unknown_0x0140", "q", endianness='>')
-        self.rw_var("unknown_0x0148", "i", endianness='>')
-        self.rw_var("unknown_0x014C", "i", endianness='>')
+        self.unknown_0x0140 = rw.rw_int64(self.unknown_0x0140)
+        self.unknown_0x0148 = rw.rw_int32(self.unknown_0x0148)
+        self.unknown_0x014C = rw.rw_int32(self.unknown_0x014C)
         
     
     def get_data(self):
@@ -10243,27 +10243,27 @@ class SlgEnCatwalkParam(BaseRW):
                 0x130, 0x138,
                 0x140, 0x148, 0x14C]
 
-class SlgEnCatwalkHoleParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnCatwalkHoleParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -10283,97 +10283,97 @@ class SlgEnCatwalkHoleParam(BaseRW):
                  0x20,  0x24,  0x28,  0x2C,  0x30,  0x34,  0x38,  0x3C,
                ]
 
-class SlgEnPropellerParam(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "i", endianness='>')
-        self.rw_var("unknown_0x04", "i", endianness='>')
-        self.rw_var("unknown_0x08", "i", endianness='>')
-        self.rw_var("unknown_0x0C", "i", endianness='>')
+class SlgEnPropellerParam(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "i", endianness='>')
-        self.rw_var("unknown_0x14", "i", endianness='>')
-        self.rw_var("unknown_0x18", "i", endianness='>')
-        self.rw_var("unknown_0x1C", "i", endianness='>')
+        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "i", endianness='>')
-        self.rw_var("unknown_0x24", "i", endianness='>')
-        self.rw_var("unknown_0x28", "i", endianness='>')
-        self.rw_var("unknown_0x2C", "i", endianness='>')
+        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
-        self.assert_is_zero("unknown_0x28")
-        self.assert_is_zero("unknown_0x2C")
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "i", endianness='>')
-        self.rw_var("unknown_0x34", "i", endianness='>')
-        self.rw_var("unknown_0x38", "i", endianness='>')
-        self.rw_var("unknown_0x3C", "i", endianness='>')
+        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
-        self.assert_is_zero("unknown_0x30")
-        self.assert_is_zero("unknown_0x34")
-        self.assert_is_zero("unknown_0x38")
-        self.assert_is_zero("unknown_0x3C")
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "i", endianness='>')
-        self.rw_var("unknown_0x44", "i", endianness='>')
-        self.rw_var("unknown_0x48", "i", endianness='>')
-        self.rw_var("unknown_0x4C", "i", endianness='>')
+        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
-        self.rw_var("unknown_0x50", "i", endianness='>')
-        self.rw_var("unknown_0x54", "i", endianness='>')
-        self.rw_var("unknown_0x58", "i", endianness='>')
-        self.rw_var("unknown_0x5C", "i", endianness='>')
+        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
-        self.rw_var("unknown_0x60", "i", endianness='>')
-        self.rw_var("unknown_0x64", "i", endianness='>')
-        self.rw_var("unknown_0x68", "i", endianness='>')
-        self.rw_var("unknown_0x6C", "i", endianness='>')
+        self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
-        self.rw_var("unknown_0x70", "q", endianness='>')
-        self.rw_var("unknown_0x78", "q", endianness='>')
+        self.unknown_0x70 = rw.rw_int64(self.unknown_0x70)
+        self.unknown_0x78 = rw.rw_int64(self.unknown_0x78)
         
-        self.rw_var("unknown_0x80", "q", endianness='>')
-        self.rw_var("unknown_0x88", "q", endianness='>')
+        self.unknown_0x80 = rw.rw_int64(self.unknown_0x80)
+        self.unknown_0x88 = rw.rw_int64(self.unknown_0x88)
         
-        self.rw_var("unknown_0x90", "q", endianness='>')
-        self.rw_var("unknown_0x98", "q", endianness='>')
+        self.unknown_0x90 = rw.rw_int64(self.unknown_0x90)
+        self.unknown_0x98 = rw.rw_int64(self.unknown_0x98)
         
-        self.rw_var("unknown_0xA0", "q", endianness='>')
-        self.rw_var("unknown_0xA8", "q", endianness='>')
+        self.unknown_0xA0 = rw.rw_int64(self.unknown_0xA0)
+        self.unknown_0xA8 = rw.rw_int64(self.unknown_0xA8)
         
-        self.rw_var("unknown_0xB0", "q", endianness='>')
-        self.rw_var("unknown_0xB8", "q", endianness='>')
+        self.unknown_0xB0 = rw.rw_int64(self.unknown_0xB0)
+        self.unknown_0xB8 = rw.rw_int64(self.unknown_0xB8)
         
-        self.rw_var("unknown_0xC0", "q", endianness='>')
-        self.rw_var("unknown_0xC8", "q", endianness='>')
+        self.unknown_0xC0 = rw.rw_int64(self.unknown_0xC0)
+        self.unknown_0xC8 = rw.rw_int64(self.unknown_0xC8)
         
-        self.rw_var("unknown_0xD0", "q", endianness='>')
-        self.rw_var("unknown_0xD8", "q", endianness='>')
+        self.unknown_0xD0 = rw.rw_int64(self.unknown_0xD0)
+        self.unknown_0xD8 = rw.rw_int64(self.unknown_0xD8)
         
-        self.rw_var("unknown_0xE0", "q", endianness='>')
-        self.rw_var("unknown_0xE8", "q", endianness='>')
+        self.unknown_0xE0 = rw.rw_int64(self.unknown_0xE0)
+        self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
-        self.rw_var("unknown_0xF0", "q", endianness='>')
-        self.rw_var("unknown_0xF8", "q", endianness='>')
+        self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
+        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
         
-        self.assert_is_zero("unknown_0xF8")
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.rw_var("unknown_0x0100", "q", endianness='>')
-        self.rw_var("unknown_0x0108", "q", endianness='>')
+        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
         
-        self.assert_is_zero("unknown_0x0100")
-        self.assert_is_zero("unknown_0x0108")
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
-        self.rw_var("unknown_0x0110", "i", endianness='>')
-        self.rw_var("unknown_0x0114", "i", endianness='>')
-        self.rw_var("unknown_0x0118", "q", endianness='>')
+        self.unknown_0x0110 = rw.rw_int32(self.unknown_0x0110)
+        self.unknown_0x0114 = rw.rw_int32(self.unknown_0x0114)
+        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
         
-        self.rw_var("unknown_0x0120", "q", endianness='>')
-        self.rw_var("unknown_0x0128", "q", endianness='>')
+        self.unknown_0x0120 = rw.rw_int64(self.unknown_0x0120)
+        self.unknown_0x0128 = rw.rw_int64(self.unknown_0x0128)
         
-        self.rw_var("unknown_0x0130", "i", endianness='>')
-        self.rw_var("unknown_0x0134", "i", endianness='>')
-        self.rw_var("unknown_0x0138", "i", endianness='>')
-        self.rw_var("unknown_0x013C", "i", endianness='>')
+        self.unknown_0x0130 = rw.rw_int32(self.unknown_0x0130)
+        self.unknown_0x0134 = rw.rw_int32(self.unknown_0x0134)
+        self.unknown_0x0138 = rw.rw_int32(self.unknown_0x0138)
+        self.unknown_0x013C = rw.rw_int32(self.unknown_0x013C)
         
     
     def get_data(self):
@@ -10423,36 +10423,36 @@ class SlgEnPropellerParam(BaseRW):
                 0x130, 0x134, 0x138, 0x13C
                ]
     
-class StaticPyramid(BaseRW):
-    def read_write(self):
-        self.rw_var("unknown_0x00", "f", endianness='>')
-        self.rw_var("unknown_0x04", "f", endianness='>')
-        self.rw_var("unknown_0x08", "f", endianness='>')
-        self.rw_var("unknown_0x0C", "f", endianness='>')
+class StaticPyramid(Serializable):
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_float32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_float32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_float32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_float32(self.unknown_0x0C)
         
-        self.rw_var("unknown_0x10", "f", endianness='>')
-        self.rw_var("unknown_0x14", "f", endianness='>')
-        self.rw_var("unknown_0x18", "f", endianness='>')
-        self.rw_var("unknown_0x1C", "f", endianness='>')
+        self.unknown_0x10 = rw.rw_float32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_float32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_float32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_float32(self.unknown_0x1C)
         
-        self.rw_var("unknown_0x20", "f", endianness='>')
-        self.rw_var("unknown_0x24", "f", endianness='>')
-        self.rw_var("unknown_0x28", "f", endianness='>')
-        self.rw_var("unknown_0x2C", "I", endianness='>')
+        self.unknown_0x20 = rw.rw_float32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_float32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_float32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_uint32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x30", "f", endianness='>')
-        self.rw_var("unknown_0x34", "f", endianness='>')
-        self.rw_var("unknown_0x38", "f", endianness='>')
-        self.rw_var("unknown_0x3C", "I", endianness='>')
+        self.unknown_0x30 = rw.rw_float32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_float32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_float32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_uint32(self.unknown_0x3C)
         
-        self.rw_var("unknown_0x40", "f", endianness='>')
-        self.rw_var("unknown_0x44", "I", endianness='>')
-        self.rw_var("unknown_0x48", "I", endianness='>')
-        self.rw_var("unknown_0x4C", "I", endianness='>')
+        self.unknown_0x40 = rw.rw_float32(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_uint32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_uint32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_uint32(self.unknown_0x4C)
     
-        self.assert_is_zero("unknown_0x44")
-        self.assert_is_zero("unknown_0x48")
-        self.assert_is_zero("unknown_0x4C")
+        rw.assert_is_zero(self.unknown_0x44)
+        rw.assert_is_zero(self.unknown_0x48)
+        rw.assert_is_zero(self.unknown_0x4C)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -10472,8 +10472,8 @@ class StaticPyramid(BaseRW):
                 0x20, 0x24, 0x28, 0x2C, 0x30, 0x34, 0x38, 0x3C,
                 0x40]
     
-class void(BaseRW):
-    def read_write(self):
+class void(Serializable):
+    def read_write(self, rw):
         pass
     
     def get_data(self):
@@ -10488,8 +10488,8 @@ class void(BaseRW):
     def enrs_offsets(self):
         return [ ]
     
-class SlgEnGlowFlyParam(BaseRW):
-    def read_write(self):
+class SlgEnGlowFlyParam(Serializable):
+    def read_write(self, rw):
         pass
     
     def get_data(self):
