@@ -18,11 +18,11 @@ class Serializable:
     
     def read(self, filepath):
         with Reader(filepath) as rw:
-            self.read_write(rw)
+            rw.rw_obj(self)
             
     def write(self, filepath):
         with Writer(filepath) as rw:
-            self.read_write(rw)
+            rw.rw_obj(self)
             
     def read_write(self, rw):
         raise NotImplementedError
