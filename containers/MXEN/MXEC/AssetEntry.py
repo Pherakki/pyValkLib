@@ -1,7 +1,7 @@
-from pyValkLib.serialisation.BaseRW import BaseRW
+from pyValkLib.serialisation.Serializable import Serializable
 
 
-class AssetEntry(BaseRW):
+class AssetEntry(Serializable):
     
     def __init__(self, endianness):
         super().__init__(endianness)
@@ -26,7 +26,7 @@ class AssetEntry(BaseRW):
         self.padding_0x38 = None
         self.padding_0x3C = None   
         
-    def read_write(self): 
+    def read_write(self, rw): 
         # Contents_flags? 
         # 0x000 = all -1
         # 0x100 = something in unknown_0x14, unknown_0x20
@@ -50,42 +50,39 @@ class AssetEntry(BaseRW):
         # - HTR: 22
         # - MMF: 24
         # - MMR: 25
-        self.rw_var("flags", "I") 
-        self.rw_var("ID", "I")
-        self.rw_var("folder_name_ptr", "I")
-        self.rw_var("file_name_ptr", "I")
-        self.rw_var("filetype", "I")
-        self.rw_var("unknown_0x14", "i")
-        self.rw_var("padding_0x18", "I")
-        self.rw_var("padding_0x1C", "I")
+        self.flags           = rw.rw_uint32(self.flags)
+        self.ID              = rw.rw_uint32(self.ID)
+        self.folder_name_ptr = rw.rw_uint32(self.folder_name_ptr)
+        self.file_name_ptr   = rw.rw_uint32(self.file_name_ptr)
+        self.filetype        = rw.rw_uint32(self.filetype)
+        self.unknown_0x14    = rw.rw_int32(self.unknown_0x14)
+        self.padding_0x18    = rw.rw_uint32(self.padding_0x18)
+        self.padding_0x1C    = rw.rw_uint32(self.padding_0x1C)
+   
+        self.unknown_0x20    = rw.rw_int32(self.unknown_0x20)
+        self.unknown_0x24    = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x28    = rw.rw_uint32(self.unknown_0x28)
+        self.unknown_0x2C    = rw.rw_uint32(self.unknown_0x2C)
         
-        self.rw_var("unknown_0x20", "i")
-        self.rw_var("unknown_0x24", "i")
-        self.rw_var("padding_0x28", "I")
-        self.rw_var("padding_0x2C", "I")
-        
-        self.rw_var("padding_0x30", "I")
-        self.rw_var("padding_0x34", "I")
-        self.rw_var("padding_0x38", "I")
-        self.rw_var("padding_0x3C", "I")
+        self.padding_0x30    = rw.rw_uint32(self.padding_0x30)
+        self.padding_0x34    = rw.rw_uint32(self.padding_0x34)
+        self.padding_0x38    = rw.rw_uint32(self.padding_0x38)
+        self.padding_0x3C    = rw.rw_uint32(self.padding_0x3C)
         
         # if not (self.padding_0x00 == 0 or self.padding_0x00 == 512): # can be 512 if flags...
         #     assert 0, "Padding in Table is fucked"
         # self.assert_equal("unknown_0x14", -1)  # Can be 24
-        self.assert_is_zero("padding_0x18")
-        self.assert_is_zero("padding_0x1C")
+        rw.assert_is_zero(self.padding_0x18)
+        rw.assert_is_zero(self.padding_0x1C)
         
         # self.assert_equal("unknown_0x20", -1) # Can be 0
         # self.assert_equal("unknown_0x24", -1) # Can be 12 if flags...
         # if not (self.unknown_0x24 == -1 or self.unknown_0x24 == 12):
         #     assert 0, "Eggh"
-        self.assert_is_zero("padding_0x28")
-        self.assert_is_zero("padding_0x2C")
+        rw.assert_is_zero(self.padding_0x28)
+        rw.assert_is_zero(self.padding_0x2C)
         
-        self.assert_is_zero("padding_0x30")
-        self.assert_is_zero("padding_0x34")
-        self.assert_is_zero("padding_0x38")
-        self.assert_is_zero("padding_0x3C")
-        
-        
-        
+        rw.assert_is_zero(self.padding_0x30)
+        rw.assert_is_zero(self.padding_0x34)
+        rw.assert_is_zero(self.padding_0x38)
+        rw.assert_is_zero(self.padding_0x3C)
