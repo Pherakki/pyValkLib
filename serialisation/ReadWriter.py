@@ -68,6 +68,7 @@ class ReadWriterBase:
         self.context = obj.context
         obj.read_write(self)
         self.context = previous_context
+        return obj
         
     def align_with(self, offset, alignment, typecode, value, endianness=None):
         if endianness is None:
