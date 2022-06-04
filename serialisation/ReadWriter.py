@@ -99,7 +99,7 @@ class ReadWriterBase:
     def rw_uint32 (self, value, endianness=None): self._rw_single('I', 4, value, endianness)
     def rw_int64  (self, value, endianness=None): self._rw_single('q', 8, value, endianness)
     def rw_uint64 (self, value, endianness=None): self._rw_single('Q', 8, value, endianness)
-    def rw_float16(self, value, endianness=None): self._rw_single('e', 28, value, endianness)
+    def rw_float16(self, value, endianness=None): self._rw_single('e', 2, value, endianness)
     def rw_float32(self, value, endianness=None): self._rw_single('f', 4, value, endianness)
     def rw_float64(self, value, endianness=None): self._rw_single('d', 8, value, endianness)
     
