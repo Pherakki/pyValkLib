@@ -180,10 +180,10 @@ class ReadWriterBase:
     def _rw_multiple(self, typecode, size, value, shape, endianness=None):
         raise NotImplementedError
         
-    def _rw_str(self, value, length, encoding='ascii'):
+    def rw_str(self, value, length, encoding='ascii'):
         raise NotImplementedError
         
-    def _rw_cstr(self, value, encoding='ascii'):
+    def rw_cstr(self, value, encoding='ascii'):
         raise NotImplementedError
 
     def align(self, offset, alignment, padval=b'\x00'):
@@ -219,10 +219,10 @@ class Reader(ReadWriterBase):
             data = chunk_list(data, subshape)
         return data
         
-    def _rw_str(self, value, length, encoding='ascii'):
+    def rw_str(self, value, length, encoding='ascii'):
         return self.bytestream.read(length).decode(encoding)
         
-    def _rw_cstr(self, value, encoding='ascii'):
+    def rw_cstr(self, value, encoding='ascii'):
         out = b""
         while ((val := self.bytearray.read(1)) != b'\x00'):
             out += val
@@ -263,11 +263,11 @@ class Writer(ReadWriterBase):
         self.bytestream.write(endianness + typecode*n_to_read, *data)
         return value
         
-    def _rw_str(self, value, length, encoding='ascii'):
+    def rw_str(self, value, length, encoding='ascii'):
         self.bytestream.write(value.encode(encoding))
         return value
         
-    def _rw_cstr(self, value, encoding='ascii'):
+    def rw_cstr(self, value, encoding='ascii'):
         out = value.encode(encoding) + b'\x00'
         self.bytestream.write(out)
         return value
