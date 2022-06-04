@@ -1,7 +1,7 @@
 if (__name__ == "__main__"):
-    from ReadWriter import Reader, Writer
+    from ReadWriter import Reader, Writer, Context
 else:
-    from .ReadWriter import Reader, Writer
+    from .ReadWriter import Reader, Writer, Context
 
 
 class Serializable:
@@ -11,6 +11,11 @@ class Serializable:
     Calling "read" or "write" on the object will then excute this method,
     with either a Reader or a Writer as the operating object.
     """
+    __slots__ = ("context",)
+    
+    def __init__(self):
+        self.context = Context()
+    
     def read(self, filepath):
         with Reader(filepath) as rw:
             self.read_write(rw)
@@ -21,4 +26,4 @@ class Serializable:
             
     def read_write(self, rw):
         raise NotImplementedError
-        
+
