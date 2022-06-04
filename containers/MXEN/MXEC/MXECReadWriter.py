@@ -1,4 +1,5 @@
-from pyValkLib.serialisation.ValkyriaBaseRW import ValkyriaBaseRW32BH, PointerIndexableArray
+from pyValkLib.serialisation.ValkSerializable import ValkSerializable32BH
+from pyValkLib.serialisation.PointerIndexableArray import PointerIndexableArray
 from pyValkLib.containers.MXEN.MXEC.EntryTable import EntryTable 
 from pyValkLib.containers.MXEN.MXEC.ECSComponentEntry import ComponentEntry
 from pyValkLib.containers.MXEN.MXEC.ECSEntityEntry import EntityEntry
@@ -6,7 +7,7 @@ from pyValkLib.containers.MXEN.MXEC.BatchRenderEntry import BatchRenderEntry
 from pyValkLib.containers.MXEN.MXEC.AssetTable import AssetTable
 import struct
 
-class MXECReadWriter(ValkyriaBaseRW32BH):
+class MXECReadWriter(ValkSerializable32BH):
     FILETYPE = "MXEC"
     
     def __init__(self, containers, endianness=None):
@@ -58,21 +59,21 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
         self.local_seek(curr_offset)
         return lookup_type
     
-    def read_write_contents(self):
-        self.assert_equal("flags", 0x18000000, self.header, lambda x: hex(x))
-        self.rw_fileinfo()
-        self.rw_components_table()
-        self.rw_entities_table()
-        self.rw_batch_render_table()
-        self.rw_asset_table()
-        self.rw_strings()
-        self.rw_unknowns()
+    def read_write_contents(self, rw):
+        rw.assert_equal(self.header.flags, 0x18000000, lambda x: hex(x))
+        self.rw_fileinfo(rw)
+        self.rw_components_table(rw)
+        self.rw_entities_table(rw)
+        self.rw_batch_render_table(rw)
+        self.rw_asset_table(rw)
+        self.rw_strings(rw)
+        self.rw_unknowns(rw)
         
-    def rw_fileinfo(self):
-        self.rw_var("content_flags", 'I')
-        self.rw_var("component_table_ptr", 'I')
-        self.rw_var("entity_table_ptr", 'I')
-        self.rw_var("asset_table_ptr", 'I')
+    def rw_fileinfo(self, rw):
+        self.content_flags       = rw.rw_uint32(self.content_flags)
+        self.component_table_ptr = rw.rw_uint32(self.component_table_ptr)
+        self.entity_table_ptr    = rw.rw_uint32(self.entity_table_ptr)
+        self.asset_table_ptr     = rw.rw_uint32(self.asset_table_ptr)
 
         # 0x00000100 -> texmerge count + ptrs_ptr enabled
         # 0x00000400 -> texmerge count + ptrs_ptr enabled
@@ -91,32 +92,27 @@ class MXECReadWriter(ValkyriaBaseRW32BH):
         cflags -= mergefile_enabled * 0x01000000
         assert cflags == 0, f"Some MXEC flags uncaught! 0x{cflags:0>8x}"
         
-        self.rw_var("unknown_0x30", 'I')
-        self.rw_var("batch_render_table_ptr", 'I')
-        self.rw_var("texmerge_count", 'I')
-        self.rw_var("texmerge_ptrs_ptr", 'I')
+        self.unknown_0x30           = rw.rw_uint32(self.unknown_0x30)
+        self.batch_render_table_ptr = rw.rw_uint32(self.batch_render_table_ptr)
+        self.texmerge_count         = rw.rw_uint32(self.texmerge_count)
+        self.texmerge_ptrs_ptr      = rw.rw_uint32(self.texmerge_ptrs_ptr)
+        rw.assert_equal(self.unknown_0x30, 1)
         
-        self.assert_equal("unknown_0x30", 1)
-        
-        
-        self.rw_var("pvs_record_ptr", 'I')
-        self.rw_var("mergefile_record_ptr", "I")
-        self.rw_var("padding_0x48", 'I')
-        self.rw_var("padding_0x4C", 'I')
-        
-        self.assert_equal("padding_0x48", 0)
-        self.assert_equal("padding_0x4C", 0)
+        self.pvs_record_ptr       = rw.rw_uint32(self.pvs_record_ptr)
+        self.mergefile_record_ptr = rw.rw_uint32(self.mergefile_record_ptr)
+        self.padding_0x48         = rw.rw_uint32(self.padding_0x48)
+        self.padding_0x4C         = rw.rw_uint32(self.padding_0x4C)
+        rw.assert_equal(self.padding_0x48, 0)
+        rw.assert_equal(self.padding_0x4C, 0)
 
-        
-        self.rw_var("padding_0x50", 'I')
-        self.rw_var("padding_0x54", 'I')
-        self.rw_var("padding_0x58", 'I')
-        self.rw_var("padding_0x5C", 'I')
-        
-        self.assert_equal("padding_0x50", 0)
-        self.assert_equal("padding_0x54", 0)
-        self.assert_equal("padding_0x58", 0)
-        self.assert_equal("padding_0x5C", 0)
+        self.padding_0x50 = rw.rw_uint32(self.padding_0x50)
+        self.padding_0x54 = rw.rw_uint32(self.padding_0x54)
+        self.padding_0x58 = rw.rw_uint32(self.padding_0x58)
+        self.padding_0x5C = rw.rw_uint32(self.padding_0x5C)
+        rw.assert_equal(self.padding_0x50, 0)
+        rw.assert_equal(self.padding_0x54, 0)
+        rw.assert_equal(self.padding_0x58, 0)
+        rw.assert_equal(self.padding_0x5C, 0)
         
     def rw_components_table(self):
         if self.component_table_ptr != 0:
