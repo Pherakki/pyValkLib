@@ -1,4 +1,4 @@
-from Serialisable import Serializable
+from .Serializable import Serializable
     
         
 class Header16B(Serializable):
