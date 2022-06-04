@@ -32,5 +32,6 @@ class Writer(ReadWriterBase):
     def _rw_single(self, typecode, size, value, endianness=None):
         if endianness is None:
             endianness = self.endianness
-        return  self.bytestream.write(struct.pack(endianness + typecode, value))
+        self.bytestream.write(struct.pack(endianness + typecode, value))
+        return value
         
