@@ -6,8 +6,15 @@ if (__name__ == "__main__"):
 else:
     from .Utils import chunk_list, flatten_list
 
-
+class Context:
+    __slots__ = ("anchor_pos",)
+    
+    def __init__(self):
+        self.anchor_pos = 0
+        
 class ReadWriterBase:
+    __slots__ = ("filename", "endianness", "bytestream", "context")
+    
     open_flags=None
     
     type_sizes = {
@@ -33,6 +40,7 @@ class ReadWriterBase:
         self.filename = filename
         self.endianness = "<"
         self.bytestream = None
+        self.context = Context()
         
     # Context managers are a decent approximation of RAII behaviour
     def __enter__(self):
