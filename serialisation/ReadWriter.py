@@ -5,10 +5,11 @@ from .Utils import chunk_list, flatten_list
 
 
 class Context:
-    __slots__ = ("anchor_pos",)
+    __slots__ = ("anchor_pos", "endianness")
     
     def __init__(self):
         self.anchor_pos = 0
+        self.endianness = "<"
         
 class ReadWriterBase:
     __slots__ = ("filename", "endianness", "bytestream", "context")
@@ -40,7 +41,6 @@ class ReadWriterBase:
     
     def __init__(self, filename):
         self.filename = filename
-        self.endianness = "<"
         self.bytestream = None
         self.context = Context()
         
@@ -71,7 +71,7 @@ class ReadWriterBase:
         
     def align_with(self, offset, alignment, typecode, value, endianness=None):
         if endianness is None:
-            endianness = self.endianness
+            endianness = self.context.endianness
         padval = struct.pack(typecode, value)
         self.align(offset, alignment, padval)
         
@@ -197,7 +197,7 @@ class Reader(ReadWriterBase):
     
     def _rw_single(self, typecode, size, value, endianness=None):
         if endianness is None:
-            endianness = self.endianness
+            endianness = self.context.endianness
         return struct.unpack(endianness + typecode, self.bytestream.read(size))
         
     def _rw_multiple(self, typecode, size, value, shape, endianness=None):
