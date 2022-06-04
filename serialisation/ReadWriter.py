@@ -56,12 +56,6 @@ class ReadWriterBase:
     def rw_obj(self, obj):
         obj.read_write(self)
         
-    def tell(self):
-        return self.bytestream.tell()
-    
-    def seek(self, offset):
-        self.bytestream.seek(offset)
-        
     def rw_single(self, typecode, value, endianness=None):
         self._rw_single(typecode, self.type_sizes[typecode], value, endianness)
         
@@ -123,6 +117,94 @@ class ReadWriterBase:
     def rw_float32s(self, value, shape, endianness=None): self._rw_multiple('f', 4, value, shape, endianness)
     def rw_float64s(self, value, shape, endianness=None): self._rw_multiple('d', 8, value, shape, endianness)
     
+    ####################################
+    # Bytestream Interaction Functions #
+    ####################################
+        
+    def tell(self):
+        return self.bytestream.tell()
+    
+    def seek(self, offset, whence=0):
+        self.bytestream.seek(offset, whence)
+        
+    def global_tell(self):
+        return self.tell()
+    
+    def global_seek(self, offset, whence=0):
+        self.seek(offset, whence)
+                           
+    def local_tell(self):
+        return self.convert_to_local_position(self.global_tell())
+    
+    def local_seek(self, pos, whence=0):
+        return self.seek(self.convert_to_global_position(pos), whence)
+    
+    def convert_to_local_position(self, position):
+        return position - self.context.anchor_pos
+    
+    def convert_to_global_position(self, position):
+        return position + self.context.anchor_pos
+        
+    def assert_file_pointer_now_at(self, location, file_pointer_location=None, use_hex=False):
+        if file_pointer_location is None:
+            file_pointer_location = self.global_tell()
+        if file_pointer_location != location:
+            if use_hex:
+                size = lambda x : len(f'{x:0x}')
+                formatter = lambda x: f"0x{x:0{size(x) + (((size(x) + 1)//2) - (size(x) // 2))}x}"
+            else:
+                formatter = lambda x: x
+            raise Exception(f"File pointer at {formatter(file_pointer_location)}, not at {formatter(location)}.")
+    
+    def assert_global_file_pointer_now_at(self, location, file_pointer_location=None, use_hex=False):
+        self.assert_file_pointer_now_at(location, file_pointer_location, use_hex)
+        
+    def assert_local_file_pointer_now_at(self, location, file_pointer_location=None, use_hex=False):
+        if file_pointer_location is None:
+            file_pointer_location = self.local_tell()
+        if file_pointer_location != location:
+            if use_hex:
+                size = lambda x : len(f'{x:0x}')
+                formatter = lambda x: f"0x{x:0{size(x) + (((size(x) + 1)//2) - (size(x) // 2))}x}"
+            else:
+                formatter = lambda x: x
+            raise Exception(f"Local file pointer at {formatter(file_pointer_location)}, not at {formatter(location)}.")
+            
+    ############################
+    # Arg Validation Functions #
+    ############################
+            
+    @staticmethod
+    def assert_equal(data, check_value):
+        if (data != check_value):
+            raise ValueError(f"Expected variable to be {check_value}, but it was {data}.")
+        
+    @classmethod
+    def assert_is_zero(cls, data):
+        cls.assert_equal(data, 0)
+            
+    ##########################
+    # Pure Virtual Functions #
+    ##########################
+    
+    def _rw_single(self, typecode, size, value, endianness=None):
+        raise NotImplementedError
+        
+    def _rw_multiple(self, typecode, size, value, shape, endianness=None):
+        raise NotImplementedError
+        
+    def _rw_str(self, value, length, encoding='ascii'):
+        raise NotImplementedError
+        
+    def _rw_cstr(self, value, encoding='ascii'):
+        raise NotImplementedError
+
+    def align(self, offset, alignment, padval=b'\x00'):
+        raise NotImplementedError
+
+    def is_at_eof(self):
+        raise NotImplementedError
+    
 class Reader(ReadWriterBase):
     open_flags = "rb"
     
@@ -165,6 +247,10 @@ class Reader(ReadWriterBase):
         expected = padval * (len(data) // len(padval))
         assert data == expected, f"Unexpected padding: Expected {expected}, read {data}."
         
+    def assert_at_eof(self):
+        if (self.bytestream.read(1) != b''):
+            raise Exception("Not at end of file!")
+    
 class Writer(ReadWriterBase):
     open_flags = "wb"
     
@@ -204,3 +290,5 @@ class Writer(ReadWriterBase):
         data = padval * (n_to_read // len(padval))
         self.bytestream.write(data)
         
+    def assert_at_eof(self):
+        pass
