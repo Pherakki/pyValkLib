@@ -147,7 +147,7 @@ class ReadWriterBase:
     def assert_global_file_pointer_now_at(self, location, file_pointer_location=None, use_hex=False):
         self.assert_file_pointer_now_at(location, file_pointer_location, use_hex)
         
-    def assert_local_file_pointer_now_at(self, location, file_pointer_location=None, use_hex=False):
+    def assert_local_file_pointer_now_at(self, msg, location, file_pointer_location=None, use_hex=False):
         if file_pointer_location is None:
             file_pointer_location = self.local_tell()
         if file_pointer_location != location:
@@ -156,7 +156,7 @@ class ReadWriterBase:
                 formatter = lambda x: f"0x{x:0{size(x) + (((size(x) + 1)//2) - (size(x) // 2))}x}"
             else:
                 formatter = lambda x: x
-            raise Exception(f"Local file pointer at {formatter(file_pointer_location)}, not at {formatter(location)}.")
+            raise Exception(f"{msg} file pointer at {formatter(file_pointer_location)}, not at {formatter(location)}.")
             
     ############################
     # Arg Validation Functions #

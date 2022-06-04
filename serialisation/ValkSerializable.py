@@ -79,7 +79,7 @@ class ValkSerializable(Serializable):
         self.check_contents_size(rw)
 
     def check_header_size(self, rw):
-        rw.assert_local_file_pointer_now_at(self.header.header_length)
+        rw.assert_local_file_pointer_now_at("End-Of-Header", self.header.header_length)
         
     def read_write_contents(self):
         raise NotImplementedError()
@@ -93,7 +93,7 @@ class ValkSerializable(Serializable):
             
     def check_contents_size(self, rw):
         try:
-            rw.assert_local_file_pointer_now_at(self.header.contents_length + self.header.header_length)
+            rw.assert_local_file_pointer_now_at("End of Container Sub-Containers", self.header.contents_length + self.header.header_length)
         except Exception as e:
             print("FUCKED UP ON", self.FILETYPE, ":", e)
             print("Start pos:  ", self.context.anchor_pos)
@@ -119,4 +119,4 @@ class ValkSerializable32BH(ValkSerializable):
         self.header.context.endianness = "<"
         
     def check_data_size(self, rw):
-        rw.assert_local_file_pointer_now_at(self.header.header_length + self.header.data_length)
+        rw.assert_local_file_pointer_now_at("End of Container Data", self.header.header_length + self.header.data_length)
