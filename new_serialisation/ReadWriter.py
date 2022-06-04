@@ -1,17 +1,6 @@
 import array
 import struct
 
-class Serializable:
-    def read(self, filepath):
-        with Reader(filepath) as rw:
-            self.read_write(rw)
-            
-    def write(self, filepath):
-        with Writer(filepath) as rw:
-            self.read_write(rw)
-            
-    def read_write(self, rw):
-        raise NotImplementedError
 
 class ReadWriterBase:
     open_flags=None
