@@ -29,12 +29,12 @@ class MXECReadWriter(ValkSerializable32BH):
         self.strings = PointerIndexableArray()
         self.unknowns = PointerIndexableArray()
 
-        self.POF0 = containers["POF0"](containers, '<')
-        self.ENRS = containers["ENRS"](containers, '<')
-        self.CCRS = containers["CCRS"](containers, '<')
-        self.EOFC = containers["EOFC"](containers, '<')
+        #self.POF0 = containers["POF0"](containers, '<')
+        #self.ENRS = containers["ENRS"](containers, '<')
+        #self.CCRS = containers["CCRS"](containers, '<')
+        #self.EOFC = containers["EOFC"](containers, '<')
         
-        self.subcontainers.extend([self.POF0, self.ENRS, self.CCRS, self.EOFC])
+        #self.subcontainers.extend([self.POF0, self.ENRS, self.CCRS, self.EOFC])
             
     def __repr__(self):
         return f"MXEN Object [{self.header.depth}] [0x{self.header.flags:0>8x}]:\n" \
@@ -43,7 +43,7 @@ class MXECReadWriter(ValkSerializable32BH):
                f"[{len(self.batch_render_table.entries.data)}] Batch Render Entries.\n"\
                f"[{len(self.asset_table.entries.data)}] Asset References.\n"\
                f"[{len(self.asset_table.asset_slot_offsets)}] Asset Pointers.\n"\
-                "Contains POF0, ENRS, CCRS, EOFC."
+                "Contains {",".join(ctr.FILETYPE for ctr in self.subcontainers}."
         
     def check_string(self, offset, prnt=False):
         curr_offset = self.local_tell()
