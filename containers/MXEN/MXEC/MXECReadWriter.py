@@ -85,11 +85,30 @@ class MXECReadWriter(ValkSerializable32BH):
         self.rw_unknowns(rw)
         
     def rw_fileinfo(self, rw):
+        # Read/write
+        
         self.content_flags       = rw.rw_uint32(self.content_flags)
         self.component_table_ptr = rw.rw_uint32(self.component_table_ptr)
         self.entity_table_ptr    = rw.rw_uint32(self.entity_table_ptr)
         self.asset_table_ptr     = rw.rw_uint32(self.asset_table_ptr)
 
+        self.unknown_0x30           = rw.rw_uint32(self.unknown_0x30)
+        self.batch_render_table_ptr = rw.rw_uint32(self.batch_render_table_ptr)
+        self.texmerge_count         = rw.rw_uint32(self.texmerge_count)
+        self.texmerge_ptrs_ptr      = rw.rw_uint32(self.texmerge_ptrs_ptr)
+        
+        self.pvs_record_ptr       = rw.rw_uint32(self.pvs_record_ptr)
+        self.mergefile_record_ptr = rw.rw_uint32(self.mergefile_record_ptr)
+        self.padding_0x48         = rw.rw_uint32(self.padding_0x48)
+        self.padding_0x4C         = rw.rw_uint32(self.padding_0x4C)
+        
+        self.padding_0x50 = rw.rw_uint32(self.padding_0x50)
+        self.padding_0x54 = rw.rw_uint32(self.padding_0x54)
+        self.padding_0x58 = rw.rw_uint32(self.padding_0x58)
+        self.padding_0x5C = rw.rw_uint32(self.padding_0x5C)
+        
+        # VALIDATION
+        
         # 0x00000100 -> texmerge count + ptrs_ptr enabled
         # 0x00000400 -> texmerge count + ptrs_ptr enabled
         # 0x00001800 -> pvs enabled
@@ -107,27 +126,15 @@ class MXECReadWriter(ValkSerializable32BH):
         cflags -= mergefile_enabled * 0x01000000
         assert cflags == 0, f"Some MXEC flags uncaught! 0x{cflags:0>8x}"
         
-        self.unknown_0x30           = rw.rw_uint32(self.unknown_0x30)
-        self.batch_render_table_ptr = rw.rw_uint32(self.batch_render_table_ptr)
-        self.texmerge_count         = rw.rw_uint32(self.texmerge_count)
-        self.texmerge_ptrs_ptr      = rw.rw_uint32(self.texmerge_ptrs_ptr)
         rw.assert_equal(self.unknown_0x30, 1)
-        rw.assert_equal((self.texmerge_count > 0), texmerge_enabled)
-        rw.assert_equal((self.texmerge_ptrs_ptr > 0), texmerge_enabled)
+        #rw.assert_equal((self.texmerge_count > 0), texmerge_enabled)
+        #rw.assert_equal((self.texmerge_ptrs_ptr > 0), texmerge_enabled)
         
-        self.pvs_record_ptr       = rw.rw_uint32(self.pvs_record_ptr)
-        self.mergefile_record_ptr = rw.rw_uint32(self.mergefile_record_ptr)
-        self.padding_0x48         = rw.rw_uint32(self.padding_0x48)
-        self.padding_0x4C         = rw.rw_uint32(self.padding_0x4C)
         rw.assert_equal(self.padding_0x48, 0)
         rw.assert_equal(self.padding_0x4C, 0)
         rw.assert_equal((self.pvs_record_ptr > 0), pvs_enabled)
         rw.assert_equal((self.mergefile_record_ptr > 0), mergefile_enabled)
 
-        self.padding_0x50 = rw.rw_uint32(self.padding_0x50)
-        self.padding_0x54 = rw.rw_uint32(self.padding_0x54)
-        self.padding_0x58 = rw.rw_uint32(self.padding_0x58)
-        self.padding_0x5C = rw.rw_uint32(self.padding_0x5C)
         rw.assert_equal(self.padding_0x50, 0)
         rw.assert_equal(self.padding_0x54, 0)
         rw.assert_equal(self.padding_0x58, 0)
