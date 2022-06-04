@@ -97,6 +97,8 @@ class MXECReadWriter(ValkSerializable32BH):
         self.texmerge_count         = rw.rw_uint32(self.texmerge_count)
         self.texmerge_ptrs_ptr      = rw.rw_uint32(self.texmerge_ptrs_ptr)
         rw.assert_equal(self.unknown_0x30, 1)
+        rw.assert_equal((self.texmerge_count > 0) == texmerge_enabled)
+        rw.assert_equal((self.texmerge_ptrs_ptr > 0) == texmerge_enabled)
         
         self.pvs_record_ptr       = rw.rw_uint32(self.pvs_record_ptr)
         self.mergefile_record_ptr = rw.rw_uint32(self.mergefile_record_ptr)
@@ -104,6 +106,8 @@ class MXECReadWriter(ValkSerializable32BH):
         self.padding_0x4C         = rw.rw_uint32(self.padding_0x4C)
         rw.assert_equal(self.padding_0x48, 0)
         rw.assert_equal(self.padding_0x4C, 0)
+        rw.assert_equal((self.pvs_record_ptr > 0) == pvs_enabled)
+        rw.assert_equal((self.mergefile_record_ptr > 0) == mergefile_enabled)
 
         self.padding_0x50 = rw.rw_uint32(self.padding_0x50)
         self.padding_0x54 = rw.rw_uint32(self.padding_0x54)
