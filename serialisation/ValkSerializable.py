@@ -67,7 +67,7 @@ class ValkSerializable(Serializable):
     # RW methods
     
     def read_write(self, rw):
-        self.context.start_position = self.global_tell(rw)
+        self.context.anchor_pos = rw.global_tell()
         
         self.header = rw.rw_obj(self.header)
         if self.FILETYPE != self.header.filetype:
