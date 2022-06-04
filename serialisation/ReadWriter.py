@@ -164,9 +164,9 @@ class ReadWriterBase:
     ############################
             
     @staticmethod
-    def assert_equal(data, check_value):
+    def assert_equal(data, check_value, formatter=lambda x: x):
         if (data != check_value):
-            raise ValueError(f"Expected variable to be {check_value}, but it was {data}.")
+            raise ValueError(f"Expected variable to be {formatter(check_value)}, but it was {formatter(data)}.")
         
     @classmethod
     def assert_is_zero(cls, data):
