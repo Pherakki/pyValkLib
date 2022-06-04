@@ -2,9 +2,9 @@ from pyValkLib.serialisation.Serializable import Serializable
 
 
 class PointerIndexableArray(Serializable):
-    def __init__(self, context):
-        self.context.anchor_pos = context.anchor_pos
-        self.context.endianness = context.endianness
+    def __init__(self):
+        #self.context.anchor_pos = context.anchor_pos
+        #self.context.endianness = context.endianness
         
         self.data = []
         self.ptr_to_idx = {}
