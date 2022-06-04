@@ -36,6 +36,10 @@ class ReadWriterBase:
         'd': 8   # double
     }
     
+    ############################
+    # Main Behaviour Functions #
+    ############################
+    
     def __init__(self, filename):
         self.filename = filename
         self.endianness = "<"
@@ -51,16 +55,21 @@ class ReadWriterBase:
         self.bytestream.close()
         self.bytestream = None
         
-    # Interface functions
-    
-    def rw_obj(self, obj):
-        obj.read_write(self)
-        
+    #######################
+    # Interface Functions #
+    #######################
+
     def rw_single(self, typecode, value, endianness=None):
         self._rw_single(typecode, self.type_sizes[typecode], value, endianness)
         
     def rw_multiple(self, typecode, value, shape, endianness=None):
         self._rw_multiple(typecode, self.type_sizes[typecode], value, shape, endianness)
+        
+    def rw_obj(self, obj):
+        previous_context = self.context
+        self.context = obj.context
+        obj.read_write(self)
+        self.context = previous_context
         
     def align_with(self, offset, alignment, typecode, value, endianness=None):
         if endianness is None:
@@ -71,26 +80,6 @@ class ReadWriterBase:
     def align_to(self, offset, width, typecode, value, endianness=None):
         alignment = width * self.type_sizes[typecode]
         self.align_with(offset, alignment, typecode, value, endianness)
-        
-    # Pure virtual functions
-    
-    def _rw_single(self, typecode, size, value, endianness=None):
-        raise NotImplementedError
-        
-    def _rw_multiple(self, typecode, size, value, shape, endianness=None):
-        raise NotImplementedError
-        
-    def _rw_str(self, value, length, encoding='ascii'):
-        raise NotImplementedError
-        
-    def _rw_cstr(self, value, encoding='ascii'):
-        raise NotImplementedError
-
-    def align(self, offset, alignment, padval=b'\x00'):
-        raise NotImplementedError
-
-    def is_at_eof(self):
-        raise NotImplementedError
         
     # RW functions (should be defined in a loop...)
     def rw_int8   (self, value, endianness=None): self._rw_single('b', 1, value, endianness)
