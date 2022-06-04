@@ -1,10 +1,8 @@
 import array
 import struct
 
-if (__name__ == "__main__"):
-    from Utils import chunk_list, flatten_list
-else:
-    from .Utils import chunk_list, flatten_list
+from .Utils import chunk_list, flatten_list
+
 
 class Context:
     __slots__ = ("anchor_pos",)
