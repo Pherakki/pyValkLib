@@ -105,7 +105,8 @@ class ValkSerializable16BH(ValkSerializable):
     def __init__(self, containers, endianness=None):
         super().__init__(containers, endianness)
         self.header = Header16B()
-        self.header.inherit_context(self)
+        self.header.context.anchor_pos = self.context.anchor_pos
+        self.header.endianness = "<"
         
     def check_data_size(self):
         pass
@@ -114,7 +115,8 @@ class ValkSerializable32BH(ValkSerializable):
     def __init__(self, containers, endianness=None):
         super().__init__(containers, endianness)
         self.header = Header32B()
-        self.header.inherit_context(self)
+        self.header.context.anchor_pos = self.context.anchor_pos
+        self.header.context.endianness = "<"
         
     def check_data_size(self, rw):
         rw.assert_local_file_pointer_now_at(self.header.header_length + self.header.data_length)
