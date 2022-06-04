@@ -2,6 +2,8 @@ import array
 import struct
 
 class ReadWriterBase:
+    open_flags=None
+    
     def __init__(self, filename):
         self.filename = filename
         self.endianness = "<"
@@ -9,7 +11,7 @@ class ReadWriterBase:
         
     # Context managers are a decent approximation of RAII behaviour
     def __enter__(self):
-        self.bytestream = open(self.filename, 'rb')
+        self.bytestream = open(self.filename, self.open_flags)
         return self
         
     def __exit__(self, exc_type, exc_val, traceback):
@@ -23,12 +25,16 @@ class ReadWriterBase:
         return self._rw_single("b", 1, var, endianness)
         
 class Reader(ReadWriterBase):
+    open_flags = "rb"
+    
     def _rw_single(self, typecode, size, value, endianness=None):
         if endianness is None:
             endianness = self.endianness
         return struct.unpack(endianness + typecode, self.bytestream.read(size))
     
 class Writer(ReadWriterBase):
+    open_flags = "wb"
+    
     def _rw_single(self, typecode, size, value, endianness=None):
         if endianness is None:
             endianness = self.endianness
