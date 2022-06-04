@@ -87,6 +87,33 @@ class ReadWriterBase:
     def align(self, offset, alignment, padval=b'\x00'):
         raise NotImplementedError
 
+    def is_at_eof(self):
+        raise NotImplementedError
+        
+    # RW functions (should be defined in a loop...)
+    def rw_int8  (self, value, endianness=None): self._rw_single('b', 1, value, endianness)
+    def rw_uint8  (self, value, endianness=None): self._rw_single('B', 1, value, endianness)
+    def rw_int16  (self, value, endianness=None): self._rw_single('h', 2, value, endianness)
+    def rw_uint16 (self, value, endianness=None): self._rw_single('H', 2, value, endianness)
+    def rw_int32  (self, value, endianness=None): self._rw_single('i', 4, value, endianness)
+    def rw_uint32 (self, value, endianness=None): self._rw_single('I', 4, value, endianness)
+    def rw_int64  (self, value, endianness=None): self._rw_single('q', 8, value, endianness)
+    def rw_uint64 (self, value, endianness=None): self._rw_single('Q', 8, value, endianness)
+    def rw_float16(self, value, endianness=None): self._rw_single('e', 28, value, endianness)
+    def rw_float32(self, value, endianness=None): self._rw_single('f', 4, value, endianness)
+    def rw_float64(self, value, endianness=None): self._rw_single('d', 8, value, endianness)
+    
+    def rw_int8s   (self, value, shape, endianness=None): self._rw_multiple('b', 1, value, shape, endianness)
+    def rw_uint8s  (self, value, shape, endianness=None): self._rw_multiple('B', 1, value, shape, endianness)
+    def rw_int16s  (self, value, shape, endianness=None): self._rw_multiple('h', 2, value, shape, endianness)
+    def rw_uint16s (self, value, shape, endianness=None): self._rw_multiple('H', 2, value, shape, endianness)
+    def rw_int32s  (self, value, shape, endianness=None): self._rw_multiple('i', 4, value, shape, endianness)
+    def rw_uint32s (self, value, shape, endianness=None): self._rw_multiple('I', 4, value, shape, endianness)
+    def rw_int64s  (self, value, shape, endianness=None): self._rw_multiple('q', 8, value, shape, endianness)
+    def rw_uint64s (self, value, shape, endianness=None): self._rw_multiple('Q', 8, value, shape, endianness)
+    def rw_float16s(self, value, shape, endianness=None): self._rw_multiple('e', 2, value, shape, endianness)
+    def rw_float32s(self, value, shape, endianness=None): self._rw_multiple('f', 4, value, shape, endianness)
+    def rw_float64s(self, value, shape, endianness=None): self._rw_multiple('d', 8, value, shape, endianness)
     
 class Reader(ReadWriterBase):
     open_flags = "rb"
