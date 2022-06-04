@@ -6,9 +6,9 @@ class MXENReadWriter(ValkSerializable32BH):
     def __init__(self, containers, endianness=None):
         super().__init__(containers, endianness)
         
-        #self.MXEC = containers["MXEC"](containers, endianness)
+        self.MXEC = containers["MXEC"](containers, endianness)
         
-        #self.subcontainers.extend([self.MXEC])
+        self.subcontainers.extend([self.MXEC])
     
     def read_write_contents(self, rw):
         rw.assert_equal(self.header.flags, 0x10000005, lambda x: hex(x))

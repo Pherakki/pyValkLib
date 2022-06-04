@@ -10,7 +10,7 @@
 # from .IZCA.PJNT.PJNTReadWriter import PJNTReadWriter
 # from .IZCA.PACT.PACTReadWriter import PACTReadWriter
 from .MXEN.MXENReadWriter import MXENReadWriter
-# from .MXEN.MXEC.MXECReadWriter import MXECReadWriter
+from .MXEN.MXEC.MXECReadWriter import MXECReadWriter
 # from .POF0.POF0ReadWriter import POF0Handler
 
 containers = {
@@ -24,7 +24,7 @@ containers = {
     # "IZCA": IZCAReadWriter,
     # "MLX0": MLX0ReadWriter,
     "MXEN": MXENReadWriter,
-    # "MXEC": MXECReadWriter,
+    "MXEC": MXECReadWriter,
     # "PACT": PACTReadWriter,
     # "PJNT": PJNTReadWriter,
     # "POF0": POF0Handler
