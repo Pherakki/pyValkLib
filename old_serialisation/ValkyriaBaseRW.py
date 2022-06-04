@@ -10,11 +10,21 @@ class UnimplementedFiletypeError(Exception):
         super().__init__(f'File type \'{ftype}\' not defined.')
         
 
-class PointerIndexableArray:
+class PointerIndexableArray(BaseRW):
     def __init__(self):
         self.data = []
         self.ptr_to_idx = {}
         self.idx_to_ptr = []
+        
+    def at_ptr(self, ptr):
+        return self.data[self.ptr_to_idx[ptr]]
+    
+    def at_idx(self, idx):
+        return self.data[idx]
+    
+    def __iter__(self):
+        for elem in self.data:
+            yield elem
         
         
 class Header16B(BaseRW):

@@ -4,6 +4,24 @@ import struct
 class ViolatedAssumptionError(Exception):
     pass
 
+def chunk_list(lst, chunksize):
+    """
+    Splits a 1D list into sub-lists of size 'chunksize', return returns those sub-lists inside a new 2D list.
+
+    Inputs
+    ------
+    lst -- a 1D list
+    chunksize -- the size of each sub-list of the result
+
+    Returns
+    ------
+    THe 1D input 'lst' converted to a 2D list, where each sub-list has length 'chunksize'.
+    """
+    return [lst[i:i + chunksize] for i in range(0, len(lst), chunksize)]
+
+def flatten_list(lst):
+    return [subitem for item in lst for subitem in item]
+
 
 class BaseRW:
     """
@@ -36,6 +54,7 @@ class BaseRW:
         
         self.rw_var = None
         self.rw_varlist = None
+        self.rw_listoflists = None
         self.rw_varobject = None
         self.rw_readwriter = None
         self.rw_ascii = None
@@ -104,6 +123,18 @@ class BaseRW:
         to_write = self.pack(val, dtype*n_vars, endianness)
         self.bytestream.write(to_write)
 
+    # ###############
+    # # RW VARLISTS #
+    # ###############
+    def read_listoflists(self, variable, dtype, item_size, endianness=None):
+        val = chunk_list(self.unpack(dtype*item_size, endianness), len(dtype))
+        setattr(self, variable, val)
+        
+    def write_listoflists(self, variable, dtype, item_size, endianness=None):
+        val = getattr(self, variable)
+        to_write = self.pack(flatten_list(val), dtype*item_size, endianness)
+        self.bytestream.write(to_write)
+        
     #################
     # RW READWRITER #
     #################
@@ -187,6 +218,7 @@ class BaseRW:
     def set_read_template_methods(self):
         self.rw_var = self.read_var
         self.rw_varlist = self.read_varlist
+        self.rw_listoflists = self.read_listoflists
         self.rw_readwriter = self.read_readwriter
         self.rw_ascii = self.read_ascii
         self.rw_bytes = self.read_bytes
@@ -209,6 +241,7 @@ class BaseRW:
     def set_write_template_methods(self):
         self.rw_var = self.write_var
         self.rw_varlist = self.write_varlist
+        self.rw_listoflists = self.write_listoflists
         self.rw_readwriter = self.write_readwriter
         self.rw_ascii = self.write_ascii
         self.rw_bytes = self.write_bytes
@@ -238,6 +271,7 @@ class BaseRW:
         self.bytestream = None
         self.rw_var = None
         self.rw_varlist = None
+        self.rw_listoflists = None
         self.rw_readwriter = None
         self.rw_ascii = None
         self.rw_bytes = None
