@@ -220,20 +220,23 @@ class MXECReadWriter(ValkSerializable32BH):
                 self.texmerge_ptr = rw.rw_uint32s(self.texmerge_ptr, self.texmerge_count)
             rw.align(rw.local_tell(), 0x10)
         
-    def rw_strings(self):
-        if (self.rw_method == "read"):
-            self.read_strings()
-        elif (self.rw_method == "write"):
-            self.write_strings()
+    def rw_strings(self, rw):
+        # This needs sorting out - clearly the full string structure isn't completely understood yet
+        if (rw.mode() == "read"):
+            self.read_strings(rw)
+        elif (rw.mode() == "write"):
+            self.write_strings(rw)
+        else:
+            raise Exception("Unknown mode!")
             
-        self.cleanup_ragged_chunk(self.local_tell(), 0x10)
+        rw.align(rw.local_tell(), 0x10)
         
-    def read_strings(self):
+    def read_strings(self, rw):
         strn = None
-        curpos = self.local_tell()
+        curpos = rw.local_tell()
         entity_data_offsets = [elem.unknown_0x2C for elem in self.entity_table.entries.data if elem.unknown_0x2C > 0]
         end_point = min(entity_data_offsets) if len(entity_data_offsets) else self.header.header_length + self.header.data_length
-        string_blob = iter(self.bytestream.read(end_point - self.local_tell()))
+        string_blob = iter(rw.bytestream.read(end_point - rw.local_tell()))
         
         n_entries = 0
         while True:
@@ -252,14 +255,14 @@ class MXECReadWriter(ValkSerializable32BH):
             
             self.strings.data.append(strn)
             self.strings.ptr_to_idx[curpos] = n_entries
-            self.strings.idx_to_ptr.append(curpos)
+            self.strings.idx_to_ptr[n_entries] = curpos
             n_entries += 1
             curpos += size
         
-    def write_strings(self):
+    def write_strings(self, rw):
         for string in self.strings.data:
-            self.bytestream.write(string.encode("cp932"))
-            self.bytestream.write(b"\x00")
+            rw.bytestream.write(string.encode("cp932"))
+            rw.bytestream.write(b"\x00")
         
     def read_unknowns(self):
         entity_data_offsets = sorted([elem.unknown_0x2C for elem in self.entity_table.entries.data if elem.unknown_0x2C > 0])
