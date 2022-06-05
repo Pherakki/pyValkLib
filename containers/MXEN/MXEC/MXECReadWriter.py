@@ -264,24 +264,26 @@ class MXECReadWriter(ValkSerializable32BH):
             rw.bytestream.write(string.encode("cp932"))
             rw.bytestream.write(b"\x00")
         
-    def read_unknowns(self):
+    def read_unknowns(self, rw):
         entity_data_offsets = sorted([elem.unknown_0x2C for elem in self.entity_table.entries.data if elem.unknown_0x2C > 0])
         for offset in entity_data_offsets:
-            self.assert_local_file_pointer_now_at(offset)
+            rw.assert_local_file_pointer_now_at("Unknowns Offset", offset)
             self.unknowns.ptr_to_idx[offset] = len(self.unknowns.idx_to_ptr)
             self.unknowns.idx_to_ptr.append(offset)
-            self.unknowns.data.append((struct.unpack('BBBBBBBB', self.bytestream.read(8))))
+            self.unknowns.data.append((struct.unpack('BBBBBBBB', rw.bytestream.read(8))))
 
-    def write_unknowns(self):
+    def write_unknowns(self, rw):
         for data in self.unknowns.data:
-            self.bytestream.write(struct.pack('BBBBBBBB', *data))
+            rw.bytestream.write(struct.pack('BBBBBBBB', *data))
 
-    def rw_unknowns(self):
-        if (self.rw_method == "read"):
-            self.read_unknowns()
+    def rw_unknowns(self, rw):
+        if (rw.mode() == "read"):
+            self.read_unknowns(rw)
+        elif (rw.mode() == "write"):
+            self.write_unknowns(rw)
         else:
-            self.write_unknowns()
-        self.cleanup_ragged_chunk(self.local_tell(), 0x10)
+            raise Exception("Unknown mode!")
+        rw.align(rw.local_tell(), 0x10)
         
 
 def parse_null_terminated_string(data):
