@@ -50,7 +50,6 @@ class Header32B(Serializable):
         rw.assert_is_zero(self.unknown_0x18)
         rw.assert_is_zero(self.unknown_0x1C)
 
-                
     def __repr__(self):
         return f"::0x20 Header:: Filetype: {self.filetype}, Contents Size: {self.contents_length}, Header Size: {self.header_length}, Flags: 0x{self.flags:0>8x}, Depth: {self.depth}, Data Size: {self.data_length}"
         
@@ -119,7 +118,8 @@ class ValkSerializable16BH(ValkSerializable):
         
     def check_data_size(self):
         pass
-    
+
+
 class ValkSerializable32BH(ValkSerializable):
     def __init__(self, containers, endianness=None):
         super().__init__(containers, endianness)

@@ -207,7 +207,8 @@ class ReadWriterBase:
         
     def mode(self):
         raise NotImplementedError
-    
+
+
 class Reader(ReadWriterBase):
     open_flags = "rb"
     
@@ -256,7 +257,8 @@ class Reader(ReadWriterBase):
     
     def mode(self):
         return "read"
-    
+
+
 class Writer(ReadWriterBase):
     open_flags = "wb"
     
@@ -301,7 +303,8 @@ class Writer(ReadWriterBase):
 
     def mode(self):
         return "write"
-    
+
+
 class POF0Builder(ReadWriterBase):
     open_flags = None
     

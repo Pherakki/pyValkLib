@@ -22,7 +22,7 @@ class Serializable:
     def write(self, filepath):
         with Writer(filepath) as rw:
             rw.rw_obj(self)
-            
+
     def read_write(self, rw):
         raise NotImplementedError
 

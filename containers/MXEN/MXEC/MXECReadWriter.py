@@ -76,7 +76,7 @@ class MXECReadWriter(ValkSerializable32BH):
         
     def rw_fileinfo(self, rw):
         # Read/write
-        
+
         self.content_flags       = rw.rw_uint32(self.content_flags)
         self.component_table_ptr = rw.rw_uint32(self.component_table_ptr)
         self.entity_table_ptr    = rw.rw_uint32(self.entity_table_ptr)
