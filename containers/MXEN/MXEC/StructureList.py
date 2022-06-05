@@ -6,6 +6,17 @@ from pyValkLib.serialisation.Serializable import Serializable
 ##############
         
 class MxParameterFog(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_float32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_float32(self.unknown_0x04)
@@ -30,6 +41,13 @@ class MxParameterFog(Serializable):
         return [ 0x00,  0x04,  0x08,  0x0C,  0x10,  0x14,  0x18,  0x1C ]
     
 class HyColor(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_float32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_float32(self.unknown_0x04)
@@ -50,6 +68,33 @@ class HyColor(Serializable):
         return [ 0x00,  0x04,  0x08,  0x0C ]
     
 class MxParameterLight(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_ptr_1 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -105,10 +150,15 @@ class MxParameterLight(Serializable):
                  0x40,  0x44,  0x48,  0x4C,  0x50 ]
         
 class MxParameterStaticLight(Serializable):
-    def __init__(self):
-        super().__init__()
-        self.lights = []
+    def __init__(self, context):
+        super().__init__(context)
+        self.light_count = 0
+        self.unknown_ptr = 0
+        self.padding_0x08 = 0
+        self.padding_0x0C = 0
         
+        self.lights = []
+
     def read_write(self, rw):
         self.light_count = rw.rw_uint32(self.light_count)
         self.unknown_ptr = rw.rw_uint32(self.unknown_ptr)
@@ -118,11 +168,11 @@ class MxParameterStaticLight(Serializable):
         rw.assert_is_zero(self.padding_0x08)
         rw.assert_is_zero(self.padding_0x0C)
         
-        if self.rw_method == "read":
-            self.lights = [MxParameterLight() for _ in range(self.light_count)]
+        if rw.mode() == "read":
+            self.lights = [MxParameterLight(self.context) for _ in range(self.light_count)]
             
         for light in self.lights:
-            getattr(light, self.rw_method)(self.bytestream)
+            rw.rw_obj(light)
         
     def get_data(self):
         return (self.light_count, self.unknown_ptr, [light.get_data() for light in self.lights])
@@ -137,6 +187,15 @@ class MxParameterStaticLight(Serializable):
         return [ 0x00,  0x04 ]
     
 class VlMxFogParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -164,6 +223,13 @@ class VlMxFogParam(Serializable):
         return [ 0x00,  0x04,  0x08,  0x0C,  0x10 ]
     
 class VlMxShaderParamSetId(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -183,6 +249,45 @@ class VlMxShaderParamSetId(Serializable):
         return [  0x00,  0x04,  0x08,  0x0C ]
     
 class VlMxStandardLightParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x74 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x7C = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x84 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x8C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_float32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_float32(self.unknown_0x04)
@@ -256,6 +361,59 @@ class VlMxStandardLightParam(Serializable):
                ]
 
 class EnTalkEventMapParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0118 = 0
+
     def read_write(self, rw):
         # THESE ALL SEEM TO BE FLAGS
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
@@ -378,6 +536,11 @@ class EnTalkEventMapParam(Serializable):
                ]
 
 class VlMxAddEsdInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -395,6 +558,12 @@ class VlMxAddEsdInfo(Serializable):
         return [ 0x00,  0x04 ]
     
 class VlMxCharacterAffinityInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -413,6 +582,31 @@ class VlMxCharacterAffinityInfo(Serializable):
         return [ 0x00,  0x04,  0x08 ]
 
 class VlMxCharacterCommonInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -463,6 +657,142 @@ class VlMxCharacterCommonInfo(Serializable):
                ]
 
 class VlMxCharacterEachInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x74 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x7C = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x84 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x8C = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x94 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0x9C = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA4 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xAC = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB4 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xBC = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC4 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xCC = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD4 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xDC = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE4 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xEC = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF4 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0xFC = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0104 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x010C = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0114 = 0
+        self.unknown_0x0118 = 0
+        self.unknown_0x011C = 0
+        self.unknown_0x0120 = 0
+        self.unknown_0x0124 = 0
+        self.unknown_0x0128 = 0
+        self.unknown_0x012C = 0
+        self.unknown_0x0130 = 0
+        self.unknown_0x0134 = 0
+        self.unknown_0x0138 = 0
+        self.unknown_0x013C = 0
+        self.unknown_0x0140 = 0
+        self.unknown_0x0144 = 0
+        self.unknown_0x0148 = 0
+        self.unknown_0x014C = 0
+        self.unknown_0x0150 = 0
+        self.unknown_0x0154 = 0
+        self.unknown_0x0158 = 0
+        self.unknown_0x015C = 0
+        self.unknown_0x0160 = 0
+        self.unknown_0x0164 = 0
+        self.unknown_0x0168 = 0
+        self.unknown_0x016C = 0
+        self.unknown_0x0170 = 0
+        self.unknown_0x0174 = 0
+        self.unknown_0x0178 = 0
+        self.unknown_0x017C = 0
+        self.unknown_0x0180 = 0
+        self.unknown_0x0184 = 0
+        self.unknown_0x0188 = 0
+        self.unknown_0x018C = 0
+        self.unknown_0x0190 = 0
+        self.unknown_0x0194 = 0
+        self.unknown_0x0198 = 0
+        self.unknown_0x019C = 0
+        self.unknown_0x01A0 = 0
+        self.unknown_0x01A4 = 0
+        self.unknown_0x01A8 = 0
+        self.unknown_0x01AC = 0
+        self.unknown_0x01A0 = 0
+        self.unknown_0x01A4 = 0
+        self.unknown_0x01A8 = 0
+        self.unknown_0x01AC = 0
+        self.unknown_0x01B0 = 0
+        self.unknown_0x01B4 = 0
+        self.unknown_0x01B8 = 0
+        self.unknown_0x01BC = 0
+        self.unknown_0x01C0 = 0
+        self.unknown_0x01C4 = 0
+        self.unknown_0x01C8 = 0
+        self.unknown_0x01CC = 0
+        self.unknown_0x01D0 = 0
+        self.unknown_0x01D4 = 0
+        self.unknown_0x01D8 = 0
+        self.unknown_0x01DC = 0
+        self.unknown_0x01E0 = 0
+        self.unknown_0x01E4 = 0
+        self.unknown_0x01E8 = 0
+        self.unknown_0x01EC = 0
+        self.unknown_0x01F0 = 0
+        self.unknown_0x01F4 = 0
+        self.unknown_0x01F8 = 0
+        self.unknown_0x01FC = 0
+        self.unknown_0x0200 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -698,6 +1028,29 @@ class VlMxCharacterEachInfo(Serializable):
                ]
 
 class VlMxCharacterInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -744,6 +1097,18 @@ class VlMxCharacterInfo(Serializable):
                ]
     
 class VlMxClothesInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -774,6 +1139,14 @@ class VlMxClothesInfo(Serializable):
                ]
     
 class VlMxExplosiveInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -796,6 +1169,18 @@ class VlMxExplosiveInfo(Serializable):
         return [ 0x00,  0x08,  0x0C,  0x10 ]
         
 class VlMxForceInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -826,6 +1211,18 @@ class VlMxForceInfo(Serializable):
                ]
     
 class VlMxGalliaRareWeaponCandidateInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x16 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1A = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -853,6 +1250,112 @@ class VlMxGalliaRareWeaponCandidateInfo(Serializable):
         return [ 0x04,  0x08,  0x0C,  0x10,  0x14,  0x16, 0x18,  0x1A ]
   
 class VlMxGeneralCharInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x74 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x7C = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x84 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x8C = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x94 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0x9C = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA4 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xAC = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB4 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xBC = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC4 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xCC = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD4 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xDC = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE4 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xEC = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF4 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0xFC = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0104 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x010C = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0114 = 0
+        self.unknown_0x0118 = 0
+        self.unknown_0x011C = 0
+        self.unknown_0x0120 = 0
+        self.unknown_0x0124 = 0
+        self.unknown_0x0128 = 0
+        self.unknown_0x012C = 0
+        self.unknown_0x0130 = 0
+        self.unknown_0x0134 = 0
+        self.unknown_0x0138 = 0
+        self.unknown_0x013C = 0
+        self.unknown_0x0140 = 0
+        self.unknown_0x0144 = 0
+        self.unknown_0x0148 = 0
+        self.unknown_0x014C = 0
+        self.unknown_0x0150 = 0
+        self.unknown_0x0154 = 0
+        self.unknown_0x0158 = 0
+        self.unknown_0x015C = 0
+        self.unknown_0x0160 = 0
+        self.unknown_0x0164 = 0
+        self.unknown_0x0168 = 0
+        self.unknown_0x016C = 0
+        self.unknown_0x0170 = 0
+        self.unknown_0x0174 = 0
+        self.unknown_0x0178 = 0
+        self.unknown_0x017C = 0
+        self.unknown_0x0180 = 0
+        self.unknown_0x0184 = 0
+        self.unknown_0x0188 = 0
+        self.unknown_0x018C = 0
+        self.unknown_0x0190 = 0
+        self.unknown_0x0194 = 0
+        self.unknown_0x0198 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -1052,6 +1555,32 @@ class VlMxGeneralCharInfo(Serializable):
                ]
     
 class VlMxGeneralCharParamSetInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -1103,6 +1632,84 @@ class VlMxGeneralCharParamSetInfo(Serializable):
                ]
     
 class VlMxJobInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x74 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x7C = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x84 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x8C = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x94 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0x9C = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA4 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xAC = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB4 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xBC = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC4 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xCC = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD4 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xDC = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE4 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xEC = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF4 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0xFC = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0104 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x010C = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0114 = 0
+        self.unknown_0x0118 = 0
+        self.unknown_0x011C = 0
+        self.unknown_0x0120 = 0
+        self.unknown_0x0124 = 0
+        self.unknown_0x0128 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -1241,6 +1848,10 @@ class VlMxJobInfo(Serializable):
                ]
     
 class VlMxMapObjectCommonInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
     
@@ -1257,6 +1868,19 @@ class VlMxMapObjectCommonInfo(Serializable):
         return [ 0x00 ]
     
 class VlMxMapObjectInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -1288,6 +1912,15 @@ class VlMxMapObjectInfo(Serializable):
                ]
     
 class VlMxNewsPaperInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -1311,6 +1944,12 @@ class VlMxNewsPaperInfo(Serializable):
         return [  0x00,  0x04,  0x08,  0x0C,  0x10,  0x14  ]
     
 class VlMxOrderDirectionInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -1329,6 +1968,32 @@ class VlMxOrderDirectionInfo(Serializable):
         return [  0x00,  0x04,  0x08  ]
     
 class VlMxOrderInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1A = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -1383,6 +2048,55 @@ class VlMxOrderInfo(Serializable):
                ]
     
 class VlMxParameterConvertTable(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x74 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x7C = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x84 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x8C = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x94 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0x9C = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA4 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xAC = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB4 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_float32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_float32(self.unknown_0x04)
@@ -1476,6 +2190,21 @@ class VlMxParameterConvertTable(Serializable):
                ]
     
 class VlMxPotentialInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -1511,6 +2240,17 @@ class VlMxPotentialInfo(Serializable):
                ]
     
 class VlMxSlgInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x20 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -1540,6 +2280,14 @@ class VlMxSlgInfo(Serializable):
                ]
         
 class VlMxSlgLandformInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -1562,6 +2310,20 @@ class VlMxSlgLandformInfo(Serializable):
         return [  0x00,  0x04,  0x08,  0x0C,  0x10  ]
 
 class VlMxSlgStrongholdCommonInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -1594,6 +2356,34 @@ class VlMxSlgStrongholdCommonInfo(Serializable):
                ]
   
 class VlMxUnitCommonInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_float32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_float32(self.unknown_0x04)
@@ -1650,6 +2440,13 @@ class VlMxUnitCommonInfo(Serializable):
                ]
     
 class VlMxUnitGrowthTypeInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -1669,6 +2466,18 @@ class VlMxUnitGrowthTypeInfo(Serializable):
         return [  0x00,  0x04,  0x08,  0x0C  ]
     
 class VlMxVehicleCommonInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -1699,6 +2508,11 @@ class VlMxVehicleCommonInfo(Serializable):
                ]
     
 class VlMxVehicleDevChangeParamInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -1717,6 +2531,41 @@ class VlMxVehicleDevChangeParamInfo(Serializable):
     
 
 class VlMxVehicleDevInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x2E = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x56 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x74 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -1788,6 +2637,96 @@ class VlMxVehicleDevInfo(Serializable):
                ]
     
 class VlMxVehicleEachInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x74 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x7C = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x84 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x8C = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x94 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0x9C = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA4 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xAC = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB4 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xBC = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC4 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xCC = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD4 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xDC = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE4 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xEC = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF4 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0xFC = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0104 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x010C = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0114 = 0
+        self.unknown_0x0118 = 0
+        self.unknown_0x011C = 0
+        self.unknown_0x0120 = 0
+        self.unknown_0x0124 = 0
+        self.unknown_0x0128 = 0
+        self.unknown_0x012C = 0
+        self.unknown_0x0130 = 0
+        self.unknown_0x0134 = 0
+        self.unknown_0x0138 = 0
+        self.unknown_0x013C = 0
+        self.unknown_0x0140 = 0
+        self.unknown_0x0144 = 0
+        self.unknown_0x0148 = 0
+        self.unknown_0x014C = 0
+        self.unknown_0x0150 = 0
+        self.unknown_0x0154 = 0
+        self.unknown_0x0158 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -1950,6 +2889,59 @@ class VlMxVehicleEachInfo(Serializable):
                ]
 
 class VlMxVehicleInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x84 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x8C = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x94 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0x9C = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA4 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xAC = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB4 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xBC = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC4 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xCC = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -2050,6 +3042,14 @@ class VlMxVehicleInfo(Serializable):
                ]
     
 class VlMxWeaponBringOnUnwholesomeInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -2073,6 +3073,11 @@ class VlMxWeaponBringOnUnwholesomeInfo(Serializable):
         return [  0x00,  0x04,  0x08,  0x0C,  0x10  ]
 
 class VlMxWeaponCommonInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -2091,6 +3096,69 @@ class VlMxWeaponCommonInfo(Serializable):
         return [  0x00,  0x04  ]
 
 class VlMxWeaponInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x74 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x7C = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x84 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x8C = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x94 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0x9C = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA4 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xAC = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB4 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xBC = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC4 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xCC = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD4 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xDC = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE4 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xEC = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF4 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -2205,6 +3273,15 @@ class VlMxWeaponInfo(Serializable):
                ]
 
 class VlMxBookDecorationInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -2219,6 +3296,31 @@ class VlMxBookDecorationInfo(Serializable):
                  self.unknown_0x10,  self.unknown_0x14, )
 
 class VlMxBookHistoryInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -2258,6 +3360,115 @@ class VlMxBookHistoryInfo(Serializable):
 
   
 class VlMxBookPersonInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x74 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x7C = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x84 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x8C = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x94 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0x9C = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA4 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xAC = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB4 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xBC = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC4 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xCC = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD4 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xDC = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE4 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xEC = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF4 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0xFC = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0104 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x010C = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0114 = 0
+        self.unknown_0x0118 = 0
+        self.unknown_0x011C = 0
+        self.unknown_0x0120 = 0
+        self.unknown_0x0124 = 0
+        self.unknown_0x0128 = 0
+        self.unknown_0x012C = 0
+        self.unknown_0x0130 = 0
+        self.unknown_0x0134 = 0
+        self.unknown_0x0138 = 0
+        self.unknown_0x013C = 0
+        self.unknown_0x0140 = 0
+        self.unknown_0x0144 = 0
+        self.unknown_0x0148 = 0
+        self.unknown_0x014C = 0
+        self.unknown_0x0150 = 0
+        self.unknown_0x0154 = 0
+        self.unknown_0x0158 = 0
+        self.unknown_0x015C = 0
+        self.unknown_0x0160 = 0
+        self.unknown_0x0164 = 0
+        self.unknown_0x0168 = 0
+        self.unknown_0x016C = 0
+        self.unknown_0x0170 = 0
+        self.unknown_0x0174 = 0
+        self.unknown_0x0178 = 0
+        self.unknown_0x017C = 0
+        self.unknown_0x0180 = 0
+        self.unknown_0x0184 = 0
+        self.unknown_0x0188 = 0
+        self.unknown_0x018C = 0
+        self.unknown_0x0190 = 0
+        self.unknown_0x0194 = 0
+        self.unknown_0x0198 = 0
+        self.unknown_0x019C = 0
+        self.unknown_0x01A0 = 0
+        self.unknown_0x01A4 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -2425,6 +3636,12 @@ class VlMxBookPersonInfo(Serializable):
                  self.unknown_0x01A0,  self.unknown_0x01A4, )   
     
 class VlMxBookSoundInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -2435,6 +3652,57 @@ class VlMxBookSoundInfo(Serializable):
     
     
 class EnTalkEventObjParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0118 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -2557,6 +3825,59 @@ class EnTalkEventObjParam(Serializable):
               ]
     
 class EnEventDecorParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x100 = 0
+        self.unknown_0x108 = 0
+        self.unknown_0x110 = 0
+        self.unknown_0x118 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -2674,6 +3995,59 @@ class EnEventDecorParam(Serializable):
                 0x110,]
     
 class EnHeightMapParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0118 = 0
+
     def read_write(self, rw):
         # THESE ALL SEEM TO BE FLAGS
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
@@ -2790,6 +4164,57 @@ class EnHeightMapParam(Serializable):
                  ]
       
 class EnSkyParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0118 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -2906,6 +4331,49 @@ class EnSkyParam(Serializable):
                 0x110, 0x114 ]
       
 class VlMxBookWeaponInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x74 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x7C = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x84 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x8C = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x94 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0x9C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -2972,6 +4440,107 @@ class VlMxBookWeaponInfo(Serializable):
     
   
 class VlMxCanvasShaderParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x74 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x7C = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x84 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x8C = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x94 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0x9C = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA4 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xAC = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB4 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xBC = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC4 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xCC = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD4 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xDC = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE4 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xEC = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF4 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0xFC = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0104 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x010C = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0114 = 0
+        self.unknown_0x0118 = 0
+        self.unknown_0x011C = 0
+        self.unknown_0x0120 = 0
+        self.unknown_0x0124 = 0
+        self.unknown_0x0128 = 0
+        self.unknown_0x012C = 0
+        self.unknown_0x0130 = 0
+        self.unknown_0x0134 = 0
+        self.unknown_0x0138 = 0
+        self.unknown_0x013C = 0
+        self.unknown_0x0140 = 0
+        self.unknown_0x0144 = 0
+        self.unknown_0x0148 = 0
+        self.unknown_0x014C = 0
+        self.unknown_0x0150 = 0
+        self.unknown_0x0154 = 0
+        self.unknown_0x0158 = 0
+        self.unknown_0x015C = 0
+        self.unknown_0x0160 = 0
+        self.unknown_0x0164 = 0
+        self.unknown_0x0168 = 0
+        self.unknown_0x016C = 0
+        self.unknown_0x0170 = 0
+        self.unknown_0x0174 = 0
+        self.unknown_0x0178 = 0
+        self.unknown_0x017C = 0
+        self.unknown_0x0180 = 0
+        self.unknown_0x0184 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -3128,6 +4697,13 @@ class VlMxCanvasShaderParam(Serializable):
     
  
 class MxParameterTextureMerge(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x18 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int64(self.unknown_0x00)
         self.unknown_0x08 = rw.rw_int64(self.unknown_0x08)
@@ -3150,6 +4726,13 @@ class MxParameterTextureMerge(Serializable):
         return [ 0x00,  0x08 ]
     
 class MxParameterMergeFile(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x18 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int64(self.unknown_0x00)
         self.unknown_0x08 = rw.rw_int64(self.unknown_0x08)
@@ -3193,6 +4776,15 @@ class MxParameterMergeFile(Serializable):
                 0x130, 0x134, 0x138]
     
 class VlMxDrawModelLodParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -3216,6 +4808,10 @@ class VlMxDrawModelLodParam(Serializable):
         return [ 0x00,  0x04,  0x08,  0x0C,  0x10,  0x14 ]
     
 class VlMapObjectParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
     
@@ -3233,6 +4829,66 @@ class VlMapObjectParam(Serializable):
     
     
 class EnTreeParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0118 = 0
+        self.unknown_0x0120 = 0
+        self.unknown_0x0128 = 0
+        self.unknown_0x012C = 0
+        self.unknown_0x0130 = 0
+        self.unknown_0x0134 = 0
+        self.unknown_0x0138 = 0
+        self.unknown_0x013C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -3372,6 +5028,23 @@ class EnTreeParam(Serializable):
                 0x130, 0x134, 0x138]
 
 class EnWaterSurfaceParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -3410,6 +5083,57 @@ class EnWaterSurfaceParam(Serializable):
                  0x20,  0x24,  0x28,  0x2C,  0x30,  0x34]
   
 class SlgEnGrassPathNodeParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -3527,6 +5251,15 @@ class SlgEnGrassPathNodeParam(Serializable):
                ]
     
 class SlgMapObjectParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -3552,6 +5285,71 @@ class SlgMapObjectParam(Serializable):
         return [ 0x00,  0x08,  0x10,  0x18,  0x1C ]
   
 class SlgEnGrassParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0114 = 0
+        self.unknown_0x0118 = 0
+        self.unknown_0x0120 = 0
+        self.unknown_0x0124 = 0
+        self.unknown_0x0128 = 0
+        self.unknown_0x012C = 0
+        self.unknown_0x0130 = 0
+        self.unknown_0x0134 = 0
+        self.unknown_0x0138 = 0
+        self.unknown_0x013C = 0
+        self.unknown_0x0140 = 0
+        self.unknown_0x0144 = 0
+        self.unknown_0x0148 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -3699,6 +5497,29 @@ class SlgEnGrassParam(Serializable):
                 0x140, 0x144]
     
 class StaticBox(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_float32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_float32(self.unknown_0x04)
@@ -3749,6 +5570,59 @@ class StaticBox(Serializable):
                 0x40]
     
 class EnUvScrollParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0118 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -3877,6 +5751,67 @@ class EnUvScrollParam(Serializable):
     
     
 class SlgEnBreakableStructureParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0118 = 0
+        self.unknown_0x0120 = 0
+        self.unknown_0x0128 = 0
+        self.unknown_0x0130 = 0
+        self.unknown_0x0134 = 0
+        self.unknown_0x0138 = 0
+        self.unknown_0x013C = 0
+        self.unknown_0x0140 = 0
+        self.unknown_0x0148 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -4015,6 +5950,60 @@ class SlgEnBreakableStructureParam(Serializable):
                 0x140, 0x148]
     
 class EnConvexParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0114 = 0
+        self.unknown_0x0118 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -4131,6 +6120,61 @@ class EnConvexParam(Serializable):
                 0x110, 0x114, 0x118]
        
 class EnCEffectParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0118 = 0
+        self.unknown_0x0120 = 0
+        self.unknown_0x0128 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -4261,6 +6305,73 @@ class EnCEffectParam(Serializable):
                 0x120,]
     
 class VlMxBriefingInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x74 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x7C = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x84 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x8C = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x94 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0x9C = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA4 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xAC = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB4 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xBC = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC4 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xCC = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD4 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xDC = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE4 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xEC = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF4 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0xFC = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -4383,6 +6494,27 @@ class VlMxBriefingInfo(Serializable):
                ]
 
 class VlMxFieldInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -4430,6 +6562,37 @@ class VlMxFieldInfo(Serializable):
                ]
           
 class VlMxResultInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -4492,6 +6655,203 @@ class VlMxResultInfo(Serializable):
   
     
 class VlMxStageInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x74 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x7C = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x84 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x8C = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x94 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0x9C = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA4 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xAC = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB4 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xBC = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC4 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xCC = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD4 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xDC = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE4 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xEC = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF4 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0xFC = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0104 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x010C = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0114 = 0
+        self.unknown_0x0118 = 0
+        self.unknown_0x011C = 0
+        self.unknown_0x0120 = 0
+        self.unknown_0x0124 = 0
+        self.unknown_0x0128 = 0
+        self.unknown_0x012C = 0
+        self.unknown_0x0130 = 0
+        self.unknown_0x0134 = 0
+        self.unknown_0x0138 = 0
+        self.unknown_0x013C = 0
+        self.unknown_0x0140 = 0
+        self.unknown_0x0144 = 0
+        self.unknown_0x0148 = 0
+        self.unknown_0x014C = 0
+        self.unknown_0x0150 = 0
+        self.unknown_0x0154 = 0
+        self.unknown_0x0158 = 0
+        self.unknown_0x015C = 0
+        self.unknown_0x0160 = 0
+        self.unknown_0x0164 = 0
+        self.unknown_0x0168 = 0
+        self.unknown_0x016C = 0
+        self.unknown_0x0170 = 0
+        self.unknown_0x0174 = 0
+        self.unknown_0x0178 = 0
+        self.unknown_0x017C = 0
+        self.unknown_0x0180 = 0
+        self.unknown_0x0184 = 0
+        self.unknown_0x0188 = 0
+        self.unknown_0x018C = 0
+        self.unknown_0x018E = 0
+        self.unknown_0x0190 = 0
+        self.unknown_0x0194 = 0
+        self.unknown_0x0198 = 0
+        self.unknown_0x019C = 0
+        self.unknown_0x01A0 = 0
+        self.unknown_0x01A4 = 0
+        self.unknown_0x01A8 = 0
+        self.unknown_0x01AC = 0
+        self.unknown_0x01B0 = 0
+        self.unknown_0x01B4 = 0
+        self.unknown_0x01B8 = 0
+        self.unknown_0x01BC = 0
+        self.unknown_0x01C0 = 0
+        self.unknown_0x01C4 = 0
+        self.unknown_0x01C8 = 0
+        self.unknown_0x01CC = 0
+        self.unknown_0x01D0 = 0
+        self.unknown_0x01D4 = 0
+        self.unknown_0x01D8 = 0
+        self.unknown_0x01DC = 0
+        self.unknown_0x01E0 = 0
+        self.unknown_0x01E4 = 0
+        self.unknown_0x01E6 = 0
+        self.unknown_0x01E8 = 0
+        self.unknown_0x01EA = 0
+        self.unknown_0x01EC = 0
+        self.unknown_0x01EE = 0
+        self.unknown_0x01F0 = 0
+        self.unknown_0x01F2 = 0
+        self.unknown_0x01F4 = 0
+        self.unknown_0x01F6 = 0
+        self.unknown_0x01F8 = 0
+        self.unknown_0x01FA = 0
+        self.unknown_0x01FC = 0
+        self.unknown_0x01FE = 0
+        self.unknown_0x0200 = 0
+        self.unknown_0x0202 = 0
+        self.unknown_0x0204 = 0
+        self.unknown_0x0206 = 0
+        self.unknown_0x0208 = 0
+        self.unknown_0x020A = 0
+        self.unknown_0x020C = 0
+        self.unknown_0x0210 = 0
+        self.unknown_0x0214 = 0
+        self.unknown_0x0216 = 0
+        self.unknown_0x0218 = 0
+        self.unknown_0x021C = 0
+        self.unknown_0x0220 = 0
+        self.unknown_0x0224 = 0
+        self.unknown_0x0228 = 0
+        self.unknown_0x022C = 0
+        self.unknown_0x0230 = 0
+        self.unknown_0x0234 = 0
+        self.unknown_0x0238 = 0
+        self.unknown_0x023C = 0
+        self.unknown_0x0240 = 0
+        self.unknown_0x0244 = 0
+        self.unknown_0x0248 = 0
+        self.unknown_0x024C = 0
+        self.unknown_0x0250 = 0
+        self.unknown_0x0254 = 0
+        self.unknown_0x0258 = 0
+        self.unknown_0x025C = 0
+        self.unknown_0x0260 = 0
+        self.unknown_0x0264 = 0
+        self.unknown_0x0268 = 0
+        self.unknown_0x026C = 0
+        self.unknown_0x026E = 0
+        self.unknown_0x0270 = 0
+        self.unknown_0x0272 = 0
+        self.unknown_0x0274 = 0
+        self.unknown_0x0276 = 0
+        self.unknown_0x0278 = 0
+        self.unknown_0x027A = 0
+        self.unknown_0x027C = 0
+        self.unknown_0x027E = 0
+        self.unknown_0x0280 = 0
+        self.unknown_0x0282 = 0
+        self.unknown_0x0284 = 0
+        self.unknown_0x0286 = 0
+        self.unknown_0x0288 = 0
+        self.unknown_0x028A = 0
+        self.unknown_0x028C = 0
+        self.unknown_0x028E = 0
+        self.unknown_0x0290 = 0
+        self.unknown_0x0292 = 0
+        self.unknown_0x0294 = 0
+        self.unknown_0x0298 = 0
+        self.unknown_0x029C = 0
+        self.unknown_0x02A0 = 0
+        self.unknown_0x02A4 = 0
+        self.unknown_0x02A8 = 0
+        self.unknown_0x02AC = 0
+        self.unknown_0x02B0 = 0
+        self.unknown_0x02B4 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -4832,6 +7192,12 @@ class VlMxStageInfo(Serializable):
                ]
     
 class VlMxCountryInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -4842,6 +7208,26 @@ class VlMxCountryInfo(Serializable):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08)
         
 class VlMxSlgCameraInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -4875,6 +7261,13 @@ class VlMxSlgCameraInfo(Serializable):
   
     
 class VlMxSlgCommandCursorInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -4887,6 +7280,22 @@ class VlMxSlgCommandCursorInfo(Serializable):
    
     
 class VlMxTargetModeGazeFixedInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -4913,6 +7322,17 @@ class VlMxTargetModeGazeFixedInfo(Serializable):
                  self.unknown_0x30 )
   
 class VlMxPhysicsMaterialInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -4930,6 +7350,21 @@ class VlMxPhysicsMaterialInfo(Serializable):
                  self.unknown_0x10,  self.unknown_0x14,  self.unknown_0x18,  self.unknown_0x1C )
     
 class VlMxSurroundInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -4955,6 +7390,13 @@ class VlMxSurroundInfo(Serializable):
 
 
 class MxParameterPvs(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x18 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int64(self.unknown_0x00)
         self.unknown_0x08 = rw.rw_int64(self.unknown_0x08)
@@ -4977,6 +7419,57 @@ class MxParameterPvs(Serializable):
         return [ 0x00, ]
     
 class SlgEnStrongholdPathNodeParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -5098,6 +7591,69 @@ class SlgEnStrongholdPathNodeParam(Serializable):
                ]
     
 class SlgEnStrongholdParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0118 = 0
+        self.unknown_0x0120 = 0
+        self.unknown_0x0128 = 0
+        self.unknown_0x0130 = 0
+        self.unknown_0x0138 = 0
+        self.unknown_0x0140 = 0
+        self.unknown_0x0148 = 0
+        self.unknown_0x014C = 0
+        self.unknown_0x0150 = 0
+        self.unknown_0x0154 = 0
+        self.unknown_0x0158 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -5247,6 +7803,76 @@ class SlgEnStrongholdParam(Serializable):
                ]
 
 class EnWindmillParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0118 = 0
+        self.unknown_0x011C = 0
+        self.unknown_0x0120 = 0
+        self.unknown_0x0124 = 0
+        self.unknown_0x0128 = 0
+        self.unknown_0x012C = 0
+        self.unknown_0x0130 = 0
+        self.unknown_0x0134 = 0
+        self.unknown_0x0138 = 0
+        self.unknown_0x013C = 0
+        self.unknown_0x0140 = 0
+        self.unknown_0x0144 = 0
+        self.unknown_0x0148 = 0
+        self.unknown_0x014C = 0
+        self.unknown_0x0150 = 0
+        self.unknown_0x0154 = 0
+        self.unknown_0x0158 = 0
+        self.unknown_0x015C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -5402,6 +8028,83 @@ class EnWindmillParam(Serializable):
                 0x150, 0x154]
     
 class AISlgUnitMxParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x74 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x7C = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x84 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x8C = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x94 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0x9C = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA4 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xAC = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB4 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xBC = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC4 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xCC = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD4 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xDC = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE4 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xEC = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF4 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0xFC = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0104 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x010C = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0114 = 0
+        self.unknown_0x0118 = 0
+        self.unknown_0x011C = 0
+        self.unknown_0x0120 = 0
+        self.unknown_0x0124 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)  # Ptr
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)  # Ptr
@@ -5539,6 +8242,72 @@ class AISlgUnitMxParam(Serializable):
                 0x120, 0x124]
     
 class SlgEnUnitPlacementPointParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0114 = 0
+        self.unknown_0x0118 = 0
+        self.unknown_0x011C = 0
+        self.unknown_0x0120 = 0
+        self.unknown_0x0124 = 0
+        self.unknown_0x0128 = 0
+        self.unknown_0x012C = 0
+        self.unknown_0x0130 = 0
+        self.unknown_0x0134 = 0
+        self.unknown_0x0138 = 0
+        self.unknown_0x013C = 0
+        self.unknown_0x0140 = 0
+        self.unknown_0x0144 = 0
+        self.unknown_0x0148 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -5687,6 +8456,57 @@ class SlgEnUnitPlacementPointParam(Serializable):
                ]
     
 class SlgEnMedicPointParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -5808,6 +8628,85 @@ class SlgEnMedicPointParam(Serializable):
                ]
     
 class SlgEnWarpPointParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0114 = 0
+        self.unknown_0x0118 = 0
+        self.unknown_0x011C = 0
+        self.unknown_0x0120 = 0
+        self.unknown_0x0128 = 0
+        self.unknown_0x0130 = 0
+        self.unknown_0x0134 = 0
+        self.unknown_0x0138 = 0
+        self.unknown_0x013C = 0
+        self.unknown_0x0140 = 0
+        self.unknown_0x0148 = 0
+        self.unknown_0x0150 = 0
+        self.unknown_0x0154 = 0
+        self.unknown_0x0158 = 0
+        self.unknown_0x015C = 0
+        self.unknown_0x0160 = 0
+        self.unknown_0x0168 = 0
+        self.unknown_0x0170 = 0
+        self.unknown_0x0174 = 0
+        self.unknown_0x0178 = 0
+        self.unknown_0x017C = 0
+        self.unknown_0x0180 = 0
+        self.unknown_0x0188 = 0
+        self.unknown_0x0190 = 0
+        self.unknown_0x0194 = 0
+        self.unknown_0x0198 = 0
+        self.unknown_0x019C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -5992,6 +8891,10 @@ class SlgEnWarpPointParam(Serializable):
                ]
     
 class SlgEnExplosiveParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         
@@ -6010,6 +8913,68 @@ class SlgEnExplosiveParam(Serializable):
         return [ 0x00 ]
     
 class SlgEnTriggerBaseParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0118 = 0
+        self.unknown_0x0120 = 0
+        self.unknown_0x0128 = 0
+        self.unknown_0x0130 = 0
+        self.unknown_0x0134 = 0
+        self.unknown_0x0138 = 0
+        self.unknown_0x013C = 0
+        self.unknown_0x0140 = 0
+        self.unknown_0x0144 = 0
+        self.unknown_0x0148 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -6150,6 +9115,14 @@ class SlgEnTriggerBaseParam(Serializable):
                ]
     
 class SlgEnMineParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x18 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -6177,6 +9150,57 @@ class SlgEnMineParam(Serializable):
                ]
 
 class SlgEnAreaSurveillancePathNodeParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -6299,6 +9323,59 @@ class SlgEnAreaSurveillancePathNodeParam(Serializable):
     
 
 class SlgEnAreaSurveillanceParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0118 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -6427,6 +9504,57 @@ class SlgEnAreaSurveillanceParam(Serializable):
                 0x110]
     
 class EnMovePathNodeParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -6548,6 +9676,60 @@ class EnMovePathNodeParam(Serializable):
                ]
     
 class EnMovePathParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0114 = 0
+        self.unknown_0x0118 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -6671,6 +9853,65 @@ class EnMovePathParam(Serializable):
     
     
 class SlgEnReinforcePointParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0114 = 0
+        self.unknown_0x0118 = 0
+        self.unknown_0x011C = 0
+        self.unknown_0x0120 = 0
+        self.unknown_0x0128 = 0
+        self.unknown_0x0130 = 0
+        self.unknown_0x0138 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -6812,6 +10053,59 @@ class SlgEnReinforcePointParam(Serializable):
                ]
 
 class SlgEnGregoalStayPointParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0118 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -6941,6 +10235,69 @@ class SlgEnGregoalStayPointParam(Serializable):
               ]
       
 class SlgEnGregoalParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0118 = 0
+        self.unknown_0x0120 = 0
+        self.unknown_0x0128 = 0
+        self.unknown_0x0130 = 0
+        self.unknown_0x0138 = 0
+        self.unknown_0x0140 = 0
+        self.unknown_0x0148 = 0
+        self.unknown_0x0150 = 0
+        self.unknown_0x0158 = 0
+        self.unknown_0x0160 = 0
+        self.unknown_0x0168 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -7096,6 +10453,10 @@ class SlgEnGregoalParam(Serializable):
               ]
 
 class SlgEnDummyTankParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         
@@ -7113,6 +10474,10 @@ class SlgEnDummyTankParam(Serializable):
         return [ 0x00 ]
 
 class SlgEnBreakableBridgeParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         
@@ -7132,6 +10497,13 @@ class SlgEnBreakableBridgeParam(Serializable):
     
 
 class SlgEnControlLancePieceParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -7153,6 +10525,12 @@ class SlgEnControlLancePieceParam(Serializable):
         return [ 0x00,  0x04,  0x08,  0x0C ]
 
 class SlgEnDefenseWallParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x02 = 0
+        self.unknown_0x04 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int16(self.unknown_0x00)
         self.unknown_0x02 = rw.rw_int16(self.unknown_0x02)
@@ -7173,6 +10551,14 @@ class SlgEnDefenseWallParam(Serializable):
         return [ 0x00,  0x02, 0x04, ]
     
 class SlgEnTemplePartsParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x18 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -7198,6 +10584,13 @@ class SlgEnTemplePartsParam(Serializable):
     
 
 class SlgEnLancePieceParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -7219,6 +10612,12 @@ class SlgEnLancePieceParam(Serializable):
         return [ 0x00,  0x04,  0x08,  0x0C ]
     
 class SlgEnTowerParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -7238,6 +10637,24 @@ class SlgEnTowerParam(Serializable):
     
       
 class VlMxUnitResourceInfo(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x60 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -7283,6 +10700,59 @@ class VlMxUnitResourceInfo(Serializable):
                ]
 
 class EnSimpleWallParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0118 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -7404,6 +10874,59 @@ class EnSimpleWallParam(Serializable):
                ]
 
 class SlgEnProduceBorderParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0118 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -7531,6 +11054,60 @@ class SlgEnProduceBorderParam(Serializable):
                ]
     
 class SlgEnProduceGndParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0114 = 0
+        self.unknown_0x0118 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -7657,6 +11234,11 @@ class SlgEnProduceGndParam(Serializable):
                ]
     
 class SlgEnBreakableGateParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -7676,6 +11258,65 @@ class SlgEnBreakableGateParam(Serializable):
 
       
 class SlgEnChainBreakdownParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0118 = 0
+        self.unknown_0x0120 = 0
+        self.unknown_0x0128 = 0
+        self.unknown_0x012C = 0
+        self.unknown_0x0130 = 0
+        self.unknown_0x0134 = 0
+        self.unknown_0x0138 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -7809,6 +11450,29 @@ class SlgEnChainBreakdownParam(Serializable):
       
       
 class SlgEnSlayingAreaParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -7861,6 +11525,57 @@ class SlgEnSlayingAreaParam(Serializable):
                ]
     
 class SlgEnSurroundPathNodeParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -7982,6 +11697,57 @@ class SlgEnSurroundPathNodeParam(Serializable):
                ]
     
 class SlgEnOrderAllAttackPointParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -8098,6 +11864,68 @@ class SlgEnOrderAllAttackPointParam(Serializable):
                ]
     
 class SlgEnSurroundParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0114 = 0
+        self.unknown_0x0118 = 0
+        self.unknown_0x011C = 0
+        self.unknown_0x0120 = 0
+        self.unknown_0x0124 = 0
+        self.unknown_0x0128 = 0
+        self.unknown_0x012C = 0
+        self.unknown_0x0130 = 0
+        self.unknown_0x0134 = 0
+        self.unknown_0x0138 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -8240,6 +12068,33 @@ class SlgEnSurroundParam(Serializable):
                ]
     
 class SlgEnTriggerEnterParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -8297,6 +12152,16 @@ class SlgEnTriggerEnterParam(Serializable):
                ]
     
 class SlgEnAlterOperationMapParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int64(self.unknown_0x00)
         self.unknown_0x08 = rw.rw_int64(self.unknown_0x08)
@@ -8327,6 +12192,10 @@ class SlgEnAlterOperationMapParam(Serializable):
                ]
     
 class SlgEnSandstormParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         
@@ -8345,6 +12214,59 @@ class SlgEnSandstormParam(Serializable):
         return [ 0x00 ]
 
 class SlgEnTerrainParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0118 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -8466,6 +12388,21 @@ class SlgEnTerrainParam(Serializable):
                ]
     
 class StaticSphere(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_float32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_float32(self.unknown_0x04)
@@ -8505,6 +12442,59 @@ class StaticSphere(Serializable):
         return [0x00, 0x04, 0x08, 0x0C, 0x10, 0x20]
     
 class SlgEnSearchLightPathNodeParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0118 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -8632,6 +12622,59 @@ class SlgEnSearchLightPathNodeParam(Serializable):
                ]
     
 class SlgEnLongRangeHEProposedImpactParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0118 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -8754,6 +12797,13 @@ class SlgEnLongRangeHEProposedImpactParam(Serializable):
                ]
 
 class SlgEnSearchLightJointParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -8774,6 +12824,29 @@ class SlgEnSearchLightJointParam(Serializable):
 
 
 class SlgEnTriggerHerbParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -8825,6 +12898,64 @@ class SlgEnTriggerHerbParam(Serializable):
 
     
 class SlgEnSearchLightParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0114 = 0
+        self.unknown_0x0118 = 0
+        self.unknown_0x011C = 0
+        self.unknown_0x0120 = 0
+        self.unknown_0x0124 = 0
+        self.unknown_0x0128 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -8959,6 +13090,11 @@ class SlgEnSearchLightParam(Serializable):
                ]
 
 class SlgEnCentralLorryParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -8978,6 +13114,66 @@ class SlgEnCentralLorryParam(Serializable):
 
     
 class SlgEnLorryParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0118 = 0
+        self.unknown_0x0120 = 0
+        self.unknown_0x0128 = 0
+        self.unknown_0x012C = 0
+        self.unknown_0x0130 = 0
+        self.unknown_0x0134 = 0
+        self.unknown_0x0138 = 0
+        self.unknown_0x013C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -9113,6 +13309,11 @@ class SlgEnLorryParam(Serializable):
                ]
 
 class SlgEnLiftJointParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -9131,6 +13332,25 @@ class SlgEnLiftJointParam(Serializable):
         return [ 0x00,  0x04 ]
     
 class SlgEnLiftSwitchParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
@@ -9170,6 +13390,59 @@ class SlgEnLiftSwitchParam(Serializable):
                ]
     
 class SlgEnSteepleBarrierParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0118 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -9297,6 +13570,61 @@ class SlgEnSteepleBarrierParam(Serializable):
                ]
     
 class SlgEnLiftParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0114 = 0
+        self.unknown_0x0118 = 0
+        self.unknown_0x011C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -9425,6 +13753,61 @@ class SlgEnLiftParam(Serializable):
                ]
 
 class SlgEnBunkerCannonParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0118 = 0
+        self.unknown_0x0120 = 0
+        self.unknown_0x0128 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -9557,6 +13940,61 @@ class SlgEnBunkerCannonParam(Serializable):
                ]
     
 class SlgEnReplaceModelParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0118 = 0
+        self.unknown_0x0120 = 0
+        self.unknown_0x0128 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -9691,6 +14129,25 @@ class SlgEnReplaceModelParam(Serializable):
                ]
 
 class SlgEnRailWaySwitchParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -9730,6 +14187,32 @@ class SlgEnRailWaySwitchParam(Serializable):
                ]
     
 class SlgEnSwitchDoorParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int64(self.unknown_0x00)
         self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
@@ -9788,6 +14271,59 @@ class SlgEnSwitchDoorParam(Serializable):
                ]
 
 class SlgEnMarmot1stPathParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0118 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -9915,6 +14451,19 @@ class SlgEnMarmot1stPathParam(Serializable):
                ]
     
 class SlgEnMarmot1stStopNodeParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -9946,6 +14495,10 @@ class SlgEnMarmot1stStopNodeParam(Serializable):
                ]
     
 class SlgEnCliffExplosiveParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
     
@@ -9963,6 +14516,65 @@ class SlgEnCliffExplosiveParam(Serializable):
         return [ 0x00 ]
 
 class SlgEnMarmot1stParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0118 = 0
+        self.unknown_0x0120 = 0
+        self.unknown_0x0128 = 0
+        self.unknown_0x012C = 0
+        self.unknown_0x0130 = 0
+        self.unknown_0x0134 = 0
+        self.unknown_0x0138 = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -10102,6 +14714,67 @@ class SlgEnMarmot1stParam(Serializable):
     
 
 class SlgEnCatwalkParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0118 = 0
+        self.unknown_0x0120 = 0
+        self.unknown_0x0128 = 0
+        self.unknown_0x012C = 0
+        self.unknown_0x0130 = 0
+        self.unknown_0x0138 = 0
+        self.unknown_0x0140 = 0
+        self.unknown_0x0148 = 0
+        self.unknown_0x014C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -10244,6 +14917,25 @@ class SlgEnCatwalkParam(Serializable):
                 0x140, 0x148, 0x14C]
 
 class SlgEnCatwalkHoleParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -10284,6 +14976,66 @@ class SlgEnCatwalkHoleParam(Serializable):
                ]
 
 class SlgEnPropellerParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+        self.unknown_0x50 = 0
+        self.unknown_0x54 = 0
+        self.unknown_0x58 = 0
+        self.unknown_0x5C = 0
+        self.unknown_0x60 = 0
+        self.unknown_0x64 = 0
+        self.unknown_0x68 = 0
+        self.unknown_0x6C = 0
+        self.unknown_0x70 = 0
+        self.unknown_0x78 = 0
+        self.unknown_0x80 = 0
+        self.unknown_0x88 = 0
+        self.unknown_0x90 = 0
+        self.unknown_0x98 = 0
+        self.unknown_0xA0 = 0
+        self.unknown_0xA8 = 0
+        self.unknown_0xB0 = 0
+        self.unknown_0xB8 = 0
+        self.unknown_0xC0 = 0
+        self.unknown_0xC8 = 0
+        self.unknown_0xD0 = 0
+        self.unknown_0xD8 = 0
+        self.unknown_0xE0 = 0
+        self.unknown_0xE8 = 0
+        self.unknown_0xF0 = 0
+        self.unknown_0xF8 = 0
+        self.unknown_0x0100 = 0
+        self.unknown_0x0108 = 0
+        self.unknown_0x0110 = 0
+        self.unknown_0x0114 = 0
+        self.unknown_0x0118 = 0
+        self.unknown_0x0120 = 0
+        self.unknown_0x0128 = 0
+        self.unknown_0x0130 = 0
+        self.unknown_0x0134 = 0
+        self.unknown_0x0138 = 0
+        self.unknown_0x013C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
@@ -10424,6 +15176,29 @@ class SlgEnPropellerParam(Serializable):
                ]
     
 class StaticPyramid(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        self.unknown_0x00 = 0
+        self.unknown_0x04 = 0
+        self.unknown_0x08 = 0
+        self.unknown_0x0C = 0
+        self.unknown_0x10 = 0
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.unknown_0x1C = 0
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.unknown_0x28 = 0
+        self.unknown_0x2C = 0
+        self.unknown_0x30 = 0
+        self.unknown_0x34 = 0
+        self.unknown_0x38 = 0
+        self.unknown_0x3C = 0
+        self.unknown_0x40 = 0
+        self.unknown_0x44 = 0
+        self.unknown_0x48 = 0
+        self.unknown_0x4C = 0
+
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_float32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_float32(self.unknown_0x04)
@@ -10473,6 +15248,9 @@ class StaticPyramid(Serializable):
                 0x40]
     
 class void(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+
     def read_write(self, rw):
         pass
     
@@ -10489,6 +15267,9 @@ class void(Serializable):
         return [ ]
     
 class SlgEnGlowFlyParam(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+
     def read_write(self, rw):
         pass
     
