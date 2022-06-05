@@ -288,14 +288,6 @@ class MXECReadWriter(ValkSerializable32BH):
             self.write_unknowns()
         self.cleanup_ragged_chunk(self.local_tell(), 0x10)
         
-def read_null_terminated_string(bytestream):
-    string = b''
-    char = bytestream.read(1)
-    while char != b'\x00':
-        string += char
-        char = bytestream.read(1)
-    string = string.decode('cp932', errors="ignore")  
-    return string   
 
 def parse_null_terminated_string(data):
     string = b''
@@ -307,12 +299,3 @@ def parse_null_terminated_string(data):
         size += 1
     string = string.decode('cp932', errors="ignore")  
     return string, size+1
-
-def read_struct_type_string(bytestream):
-    string = b''
-    char = bytestream.read(1)
-    while char != b':':
-        string += char
-        char = bytestream.read(1)
-    string = string.decode('cp932', errors="ignore")  
-    return string.lstrip("+").split("@")[-1]
