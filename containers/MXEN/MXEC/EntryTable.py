@@ -74,7 +74,6 @@ class EntryTable(Serializable):
 
     def rw_entries(self, rw):
         for entry in sorted([entry for entry in self.entries.data], key=lambda x: x.data_offset):
-            print(entry)
             if rw.mode() == "read":
                 component_type = self.check_struct_type(rw, entry.name_offset)
                 entry.component_type = component_type
