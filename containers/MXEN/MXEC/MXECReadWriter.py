@@ -60,20 +60,6 @@ class MXECReadWriter(ValkSerializable32BH):
                f"[{len(self.asset_table.entries.data)}] Asset References.\n"\
                f"[{len(self.asset_table.asset_slot_offsets)}] Asset Pointers.\n"\
                f"Contains {','.join(ctr.FILETYPE for ctr in self.subcontainers)}."
-        
-    def check_string(self, offset, prnt=False):
-        curr_offset = self.local_tell()
-        self.local_seek(offset)
-        lookup_type = read_null_terminated_string(self.bytestream)
-        self.local_seek(curr_offset)
-        return lookup_type
-    
-    def check_struct_type(self, offset, prnt=False):
-        curr_offset = self.local_tell()
-        self.local_seek(offset)
-        lookup_type = read_struct_type_string(self.bytestream)
-        self.local_seek(curr_offset)
-        return lookup_type
     
     def read_write_contents(self, rw):
         rw.assert_equal(self.header.flags, 0x18000000, lambda x: hex(x))
