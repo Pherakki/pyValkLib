@@ -64,6 +64,7 @@ class ValkSerializable(Serializable):
             context.endianness = endianness 
         super().__init__(context)
         self.header = None
+        self.start_pos = None
         self.containers = containers
         self.subcontainers = []
         
@@ -72,7 +73,8 @@ class ValkSerializable(Serializable):
     def read_write(self, rw):
         # Tell the RW that any local ops should be done relative to this container's origin!
         old_origin = rw.anchor_pos
-        rw.anchor_pos = rw.global_tell()
+        self.start_pos = rw.global_tell()
+        rw.anchor_pos = self.start_pos
         
         self.header = rw.rw_obj(self.header)
         if self.FILETYPE != self.header.filetype:
@@ -104,7 +106,7 @@ class ValkSerializable(Serializable):
             rw.assert_local_file_pointer_now_at("End of Container Sub-Containers", self.header.contents_length + self.header.header_length)
         except Exception as e:
             print("FUCKED UP ON", self.FILETYPE, ":", e)
-            print("Start pos:  ", self.context.anchor_pos)
+            print("Start pos:  ", self.start_pos)
             print("header len: ", self.header.header_length)
             print("body len:   ", self.header.contents_length)
             raise e
