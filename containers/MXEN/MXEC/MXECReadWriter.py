@@ -220,7 +220,7 @@ class MXECReadWriter(ValkSerializable32BH):
             rw.bytestream.write(b"\x00")
         
     def read_unknowns(self, rw):
-        entity_data_offsets = sorted([elem.unknown_0x2C for elem in self.entity_table.entries.data if elem.unknown_0x2C > 0])
+        entity_data_offsets = sorted(set([elem.unknown_0x2C for elem in self.entity_table.entries.data if elem.unknown_0x2C > 0]))
         for offset in entity_data_offsets:
             rw.assert_local_file_pointer_now_at("Unknowns Offset", offset)
             idx =  len(self.unknowns.idx_to_ptr)
