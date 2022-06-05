@@ -62,7 +62,7 @@ class MXECReadWriter(ValkSerializable32BH):
                f"[{len(self.batch_render_table.entries.data)}] Batch Render Entries.\n"\
                f"[{len(self.asset_table.entries.data)}] Asset References.\n"\
                f"[{len(self.asset_table.asset_slot_offsets)}] Asset Pointers.\n"\
-               f"Contains {','.join(ctr.FILETYPE for ctr in self.subcontainers)}."
+               f"Contains POF0, ENRS, CCRS, and EOFC."
     
     def read_write_contents(self, rw):
         rw.assert_equal(self.header.flags, 0x18000000, lambda x: hex(x))
