@@ -1,5 +1,5 @@
 from pyValkLib.serialisation.ValkSerializable import ValkSerializable32BH
-from pyValkLib.serialisation.PointerIndexableArray import PointerIndexableArray
+from pyValkLib.serialisation.PointerIndexableArray import PointerIndexableArray, PointerIndexableArrayCStr, PointerIndexableArrayUint8
 from pyValkLib.containers.MXEN.MXEC.EntryTable import EntryTable 
 from pyValkLib.containers.MXEN.MXEC.ECSComponentEntry import ComponentEntry
 from pyValkLib.containers.MXEN.MXEC.ECSEntityEntry import EntityEntry
@@ -33,16 +33,17 @@ class MXECReadWriter(ValkSerializable32BH):
         self.padding_0x58           = 0
         self.padding_0x5C           = 0
         
-        self.component_table    = EntryTable(ComponentEntry, self.context.endianness)    # Component table
-        self.entity_table       = EntryTable(EntityEntry, self.context.endianness)       # Entity table
-        self.batch_render_table = EntryTable(BatchRenderEntry, self.context.endianness)  # Batch render table?
+        self.component_table    = EntryTable(ComponentEntry, self.context)    # Component table
+        self.entity_table       = EntryTable(EntityEntry, self.context)       # Entity table
+        self.batch_render_table = EntryTable(BatchRenderEntry, self.context)  # Batch render table?
         # "Batch Render" role is not confirmed; just a guess for now
         
-        self.asset_table = AssetTable(self.context.endianness)          # Asset table
+        self.asset_table = AssetTable(self.context)          # Asset table
 
         self.texmerge_ptr = None
-        self.strings = PointerIndexableArray()
-        self.unknowns = PointerIndexableArray()
+        self.strings = PointerIndexableArrayCStr(self.context, "cp932")
+        self.unknowns = PointerIndexableArrayUint8(self.context)
+
 
         #self.POF0 = containers["POF0"](containers, '<')
         #self.ENRS = containers["ENRS"](containers, '<')
