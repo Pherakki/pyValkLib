@@ -67,7 +67,6 @@ class EntityEntry(Serializable):
         rw.assert_is_zero(self.padding_0x3C)
         
     def rw_data(self, rw, component_type):
-        print(component_type)
         if rw.mode() == "read":
             self.data = EntityData(self.count, self.context)
         
@@ -75,7 +74,8 @@ class EntityEntry(Serializable):
         
     def __repr__(self):
         return f"::Entity Entry:: ID: [{self.ID}], Components: [{self.count}], Controller ID: [{self.controller_entity_id}], Unk_0x28: [{self.unknown_0x28}], Unk_0x2C: [{self.unknown_0x2C}]"
-       
+
+
 class EntityData(Serializable):
     def __init__(self, count, context):
         super().__init__(context)
@@ -87,16 +87,11 @@ class EntityData(Serializable):
         if rw.mode() == "read":
             self.subentries.data = [EntitySubEntry(self.context) for _ in range(self.count)] 
         rw.rw_obj(self.subentries)
-        
         if rw.mode() == "read":
             n_to_rw = sum([subentry.count for subentry in self.subentries.data])
             self.data.data = [0 for _ in range(n_to_rw)]
         rw.rw_obj(self.data)
-            
-        # # Should make this a PointerIndexableArray
-        # n_to_rw = sum([subentry.count for subentry in self.subentries.data])
-        # self.rw_varlist('data', 'I', n_to_rw, endianness='>')
-    
+
     def get_data(self):
         return ( self.subentries, self.data, )
     
@@ -119,5 +114,3 @@ class EntitySubEntry(Serializable):
         
     def __repr__(self):
         return f"::EntitySubEntry:: Name: {self.name_offset}, Count: {self.count}, Offset: {self.offset}"
-        
-         
