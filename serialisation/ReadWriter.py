@@ -192,6 +192,9 @@ class ReadWriterBase:
 
     def is_at_eof(self):
         raise NotImplementedError
+        
+    def mode(self):
+        raise NotImplementedError
     
 class Reader(ReadWriterBase):
     open_flags = "rb"
@@ -239,6 +242,9 @@ class Reader(ReadWriterBase):
         if (self.bytestream.read(1) != b''):
             raise Exception("Not at end of file!")
     
+    def mode(self):
+        return "read"
+    
 class Writer(ReadWriterBase):
     open_flags = "wb"
     
@@ -280,3 +286,6 @@ class Writer(ReadWriterBase):
         
     def assert_at_eof(self):
         pass
+
+    def mode(self):
+        return "write"
