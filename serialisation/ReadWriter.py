@@ -5,14 +5,13 @@ from .Utils import chunk_list, flatten_list
 
 
 class Context:
-    __slots__ = ("anchor_pos", "endianness")
+    __slots__ = ("endianness")
     
     def __init__(self):
-        self.anchor_pos = 0
         self.endianness = "<"
         
 class ReadWriterBase:
-    __slots__ = ("filename", "endianness", "bytestream", "context")
+    __slots__ = ("filename", "endianness", "bytestream", "anchor_pos", "context")
     
     open_flags=None
     
@@ -42,6 +41,7 @@ class ReadWriterBase:
     def __init__(self, filename):
         self.filename = filename
         self.bytestream = None
+        self.anchor_pos = 0
         self.context = Context()
         
     # Context managers are a decent approximation of RAII behaviour
@@ -128,10 +128,10 @@ class ReadWriterBase:
         return self.seek(self.convert_to_global_position(pos), whence)
     
     def convert_to_local_position(self, position):
-        return position - self.context.anchor_pos
+        return position - self.anchor_pos
     
     def convert_to_global_position(self, position):
-        return position + self.context.anchor_pos
+        return position + self.anchor_pos
         
     def assert_file_pointer_now_at(self, location, file_pointer_location=None, use_hex=False):
         if file_pointer_location is None:
