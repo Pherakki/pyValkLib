@@ -1,3 +1,4 @@
+from pyValkLib.serialisation.Serializable import Context
 from pyValkLib.serialisation.ValkSerializable import ValkSerializable32BH
 from pyValkLib.serialisation.PointerIndexableArray import PointerIndexableArray, PointerIndexableArrayCStr, PointerIndexableArrayUint8
 from pyValkLib.containers.MXEN.MXEC.EntryTable import EntryTable 
@@ -6,6 +7,7 @@ from pyValkLib.containers.MXEN.MXEC.ECSEntityEntry import EntityEntry
 from pyValkLib.containers.MXEN.MXEC.BatchRenderEntry import BatchRenderEntry
 from pyValkLib.containers.MXEN.MXEC.AssetTable import AssetTable
 import struct
+
 
 class MXECReadWriter(ValkSerializable32BH):
     FILETYPE = "MXEC"
@@ -44,12 +46,14 @@ class MXECReadWriter(ValkSerializable32BH):
         self.strings = PointerIndexableArrayCStr(self.context, "cp932")
         self.unknowns = PointerIndexableArrayUint8(self.context)
 
-
-        #self.POF0 = containers["POF0"](containers, '<')
+        subcontainer_context = Context()
+        subcontainer_context.endianness = '<'
+        self.POF0 = containers["POF0"](containers, subcontainer_context)
         #self.ENRS = containers["ENRS"](containers, '<')
         #self.CCRS = containers["CCRS"](containers, '<')
         #self.EOFC = containers["EOFC"](containers, '<')
-        
+
+        self.subcontainers.extend([self.POF0])
         #self.subcontainers.extend([self.POF0, self.ENRS, self.CCRS, self.EOFC])
             
     def __repr__(self):
