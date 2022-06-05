@@ -94,7 +94,6 @@ class BatchRenderEntry(Serializable):
         if self.t3_offset:
             rw.assert_local_file_pointer_now_at("Batch Render T3 Entry", self.t3_offset)
             rw.rw_obj_method(self, self.rw_t3_data)
-
             for t3 in self.t3_data:
                 if t3.offset_1:
                     rw.assert_local_file_pointer_now_at("Batch Render T3 Entry Data 1", t3.offset_1)
@@ -108,7 +107,6 @@ class BatchRenderEntry(Serializable):
                 if t3.offset_4:
                     rw.assert_local_file_pointer_now_at("Batch Render T3 Entry Data 4", t3.offset_4)
                 rw.rw_obj_method(t3, t3.rw_data_4)
-
         if self.t4_offset:
             rw.assert_local_file_pointer_now_at("Batch Render T4 Entry", self.t4_offset)
             rw.rw_obj_method(self, self.rw_t4_data)
@@ -265,5 +263,5 @@ class BatchRender_T3(Serializable):
         self.data_3 = rw.rw_uint32s(self.data_3, self.count_3)
         
     def rw_data_4(self, rw):
-        self.count_4 = rw.rw_uint32s(self.data_4, self.count_4)
+        self.data_4 = rw.rw_uint32s(self.data_4, self.count_4)
         
