@@ -219,7 +219,7 @@ class MXECReadWriter(ValkSerializable32BH):
             rw.rw_obj_method(self.asset_table, self.asset_table.rw_asset_slot_offsets)
     
             if self.texmerge_ptrs_ptr != 0:
-                rw.assert_local_file_pointer_now_at(self.texmerge_ptrs_ptr)
+                rw.assert_local_file_pointer_now_at("Texmerge pointers", self.texmerge_ptrs_ptr)
                 self.texmerge_ptr = rw.rw_uint32s(self.texmerge_ptr, self.texmerge_count)
             rw.align(rw.local_tell(), 0x10)
         
