@@ -223,8 +223,9 @@ class MXECReadWriter(ValkSerializable32BH):
         entity_data_offsets = sorted([elem.unknown_0x2C for elem in self.entity_table.entries.data if elem.unknown_0x2C > 0])
         for offset in entity_data_offsets:
             rw.assert_local_file_pointer_now_at("Unknowns Offset", offset)
+            idx =  len(self.unknowns.idx_to_ptr)
             self.unknowns.ptr_to_idx[offset] = len(self.unknowns.idx_to_ptr)
-            self.unknowns.idx_to_ptr.append(offset)
+            self.unknowns.idx_to_ptr[idx] = offset
             self.unknowns.data.append((struct.unpack('BBBBBBBB', rw.bytestream.read(8))))
 
     def write_unknowns(self, rw):
