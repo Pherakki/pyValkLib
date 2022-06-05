@@ -138,7 +138,6 @@ class MXECReadWriter(ValkSerializable32BH):
             rw.rw_obj_method(self.component_table, self.component_table.rw_entry_headers)
             rw.rw_obj_method(self.component_table, self.component_table.rw_entries)
 
-            
     def rw_entities_table(self, rw):
         if self.entity_table_ptr != 0:
             rw.assert_local_file_pointer_now_at("Entity Table", self.entity_table_ptr)
@@ -151,60 +150,13 @@ class MXECReadWriter(ValkSerializable32BH):
             
     def rw_batch_render_table(self, rw):
         if self.batch_render_table_ptr != 0:
-            self.assert_local_file_pointer_now_at(self.batch_render_table_ptr)
-            self.rw_readwriter(self.batch_render_table)
-            
-            self.run_rw_method(self.batch_render_table.rw_entry_headers, self.global_tell(), self.local_tell())
+            rw.assert_local_file_pointer_now_at("Batch Render Table", self.batch_render_table_ptr)
+            rw.rw_obj_method(self.batch_render_table, self.batch_render_table.rw_fileinfo)
+            rw.assert_local_file_pointer_now_at("Batch Render Table Entry Headers", self.batch_render_table.entry_ptr)
+            rw.rw_obj_method(self.batch_render_table, self.batch_render_table.rw_entry_headers)
+            for entry in self.batch_render_table.entries:
+                rw.rw_obj_method(entry, entry.rw_data)
 
-            for entry in self.batch_render_table.entries.data:                
-                if entry.t1_offset:
-                    self.assert_local_file_pointer_now_at(entry.t1_offset)
-                    self.run_rw_method(entry.rw_t1_data)
-
-                if entry.t2_offset:
-                    self.assert_local_file_pointer_now_at(entry.t2_offset)
-                    self.run_rw_method(entry.rw_t2_data)
-                
-                for t1 in entry.t1_data:
-                    if t1.offset_1:
-                        self.assert_local_file_pointer_now_at(t1.offset_1)
-                        self.run_rw_method(t1.rw_data_1)
-                    if t1.offset_2:
-                        self.assert_local_file_pointer_now_at(t1.offset_2)
-                        self.run_rw_method(t1.rw_data_2)
-                
-                for t2 in entry.component_references:
-                    if t2.offset:
-                        self.assert_local_file_pointer_now_at(t2.offset)
-                        self.run_rw_method(t2.rw_data)
-                    
-                self.cleanup_ragged_chunk(self.local_tell(), 0x10)
-                
-                if entry.t3_offset:
-                    self.assert_local_file_pointer_now_at(entry.t3_offset)
-                    self.run_rw_method(entry.rw_t3_data)
-                    
-                    for t3 in entry.t3_data:
-                        if t3.offset_1:
-                            self.assert_local_file_pointer_now_at(t3.offset_1)
-                            self.run_rw_method(t3.rw_data_1)
-                        if t3.offset_2:
-                            self.assert_local_file_pointer_now_at(t3.offset_2)
-                            self.run_rw_method(t3.rw_data_2)
-                        if t3.offset_3:
-                            self.assert_local_file_pointer_now_at(t3.offset_3)
-                            self.run_rw_method(t3.rw_data_3)
-                        if t3.offset_4:
-                            self.assert_local_file_pointer_now_at(t3.offset_4)
-                            self.run_rw_method(t3.rw_data_4)
-                
-                if entry.t4_offset:
-                    self.assert_local_file_pointer_now_at(entry.t4_offset)
-                    self.run_rw_method(entry.rw_t4_data)
-
-                self.cleanup_ragged_chunk(self.local_tell(), 0x10)
-                  
-      
             
     def rw_asset_table(self, rw):
         if self.asset_table_ptr != 0:
