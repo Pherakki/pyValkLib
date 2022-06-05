@@ -240,7 +240,7 @@ class Reader(ReadWriterBase):
         
     def rw_cstr(self, value, encoding='ascii', end_char=b"\x00"):
         out = b""
-        while ((val := self.bytestream.read(1)) != end_char):
+        while ((val := self.bytestream.read(1)) != end_char and val != b''):
             out += val
         return out.decode(encoding)
     
