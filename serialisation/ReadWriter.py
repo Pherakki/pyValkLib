@@ -410,7 +410,7 @@ class ENRSBuilder(ReadWriterBase):
             
         if endianness == '>' and value != 0:
             self.log_offset()
-        self.adv_offset()
+        self.adv_offset(size)
         return value
             
     def _rw_multiple(self, typecode, size, value, shape, endianness=None):
