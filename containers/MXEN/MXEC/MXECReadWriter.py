@@ -203,7 +203,7 @@ class MXECReadWriter(ValkSerializable32BH):
                 if not(strn == "\x00" or strn == ""):
                     self.strings.data.append(strn)
                     self.strings.ptr_to_idx[curpos] = n_entries
-                    self.strings.idx_to_ptr.append(curpos)
+                    self.strings.idx_to_ptr[n_entries] = curpos
                     n_entries += 1
                     curpos += size
                 break
