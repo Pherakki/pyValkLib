@@ -53,13 +53,13 @@ class MXECReadWriter(ValkSerializable32BH):
         #self.subcontainers.extend([self.POF0, self.ENRS, self.CCRS, self.EOFC])
             
     def __repr__(self):
-        return f"MXEN Object [{self.header.depth}] [0x{self.header.flags:0>8x}]:\n" \
+        return f"MXEC Object [{self.header.depth}] [0x{self.header.flags:0>8x}]:\n" \
                f"[{len(self.component_table.entries.data)}] Components.\n"\
                f"[{len(self.entity_table.entries.data)}] Entities.\n"\
                f"[{len(self.batch_render_table.entries.data)}] Batch Render Entries.\n"\
                f"[{len(self.asset_table.entries.data)}] Asset References.\n"\
                f"[{len(self.asset_table.asset_slot_offsets)}] Asset Pointers.\n"\
-                "Contains {",".join(ctr.FILETYPE for ctr in self.subcontainers}."
+               f"Contains {','.join(ctr.FILETYPE for ctr in self.subcontainers)}."
         
     def check_string(self, offset, prnt=False):
         curr_offset = self.local_tell()
