@@ -141,25 +141,14 @@ class MXECReadWriter(ValkSerializable32BH):
         rw.assert_equal(self.padding_0x58, 0)
         rw.assert_equal(self.padding_0x5C, 0)
         
-    def rw_components_table(self):
+    def rw_components_table(self, rw):
         if self.component_table_ptr != 0:
-            self.assert_local_file_pointer_now_at(self.component_table_ptr)
-            self.rw_readwriter(self.component_table)
-            
-            self.assert_local_file_pointer_now_at(self.component_table.entry_ptr)
-            self.run_rw_method(self.component_table.rw_entry_headers, self.global_tell(), self.local_tell())
-            
-            for entry in sorted([entry for entry in self.component_table.entries.data], key=lambda x: x.data_offset):
-                if self.rw_method == "read":
-                    component_type = self.check_struct_type(entry.name_offset)
-                    setattr(entry, "component_type", component_type)
-                else:
-                    component_type = entry.component_type
-                if entry.data_offset:
-                    self.assert_local_file_pointer_now_at(entry.data_offset)
-                    self.run_rw_method(entry.rw_data, component_type)
-                    self.cleanup_ragged_chunk(self.local_tell(), 0x10)
-            
+            rw.assert_local_file_pointer_now_at("Component Table", self.component_table_ptr)
+            rw.rw_obj_method(self.component_table, self.component_table.rw_fileinfo)
+            rw.assert_local_file_pointer_now_at("Component Table Entry Headers", self.component_table.entry_ptr)
+            rw.rw_obj_method(self.component_table, self.component_table.rw_entry_headers)
+            rw.rw_obj_method(self.component_table, self.component_table.rw_entries)
+
             
     def rw_entities_table(self):
         if self.entity_table_ptr != 0:
