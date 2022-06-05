@@ -61,8 +61,8 @@ class AssetEntry(Serializable):
    
         self.unknown_0x20    = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24    = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28    = rw.rw_uint32(self.unknown_0x28)
-        self.unknown_0x2C    = rw.rw_uint32(self.unknown_0x2C)
+        self.padding_0x28    = rw.rw_uint32(self.padding_0x28)
+        self.padding_0x2C    = rw.rw_uint32(self.padding_0x2C)
         
         self.padding_0x30    = rw.rw_uint32(self.padding_0x30)
         self.padding_0x34    = rw.rw_uint32(self.padding_0x34)
