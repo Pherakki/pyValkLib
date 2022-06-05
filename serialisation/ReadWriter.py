@@ -313,8 +313,6 @@ class POF0Builder(ReadWriterBase):
         self.virtual_offset += adv
         
     def _rw_single(self, typecode, size, value, endianness=None):
-        if value != 0 :
-            self.log_offset()
         self.adv_offset()
         return value
             
