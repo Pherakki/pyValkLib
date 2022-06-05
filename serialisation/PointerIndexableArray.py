@@ -24,7 +24,7 @@ class PointerIndexableArray(Serializable):
     def read_write(self, rw):
         for i, elem in enumerate(self.data):
             if i in self.idx_to_ptr:
-                rw.assert_local_file_pointer_at("Start of Array Entry", self.idx_to_ptr[i])
+                rw.assert_local_file_pointer_now_at("Start of Array Entry", self.idx_to_ptr[i])
             curpos = rw.local_tell()
             self.ptr_to_idx[curpos] = i
             self.idx_to_ptr[i] = curpos
@@ -33,41 +33,44 @@ class PointerIndexableArray(Serializable):
 
     def rw_element(self, rw, idx):
         rw.rw_obj(self.data[idx])
+        
+    def rw_element_method(self, rw, func, idx):
+        rw.rw_obj_method(self.data[idx], getattr(self.data[idx], func.__name__))
     
-class PointerIndexableArrayInt8(Serializable):
+class PointerIndexableArrayInt8(PointerIndexableArray):
     def rw_element(self, rw, idx): self.data[idx] = rw.rw_int8(self.data[idx])
     
-class PointerIndexableArrayUint8(Serializable):
+class PointerIndexableArrayUint8(PointerIndexableArray):
     def rw_element(self, rw, idx): self.data[idx] = rw.rw_uint8(self.data[idx])
     
-class PointerIndexableArrayInt16(Serializable):
+class PointerIndexableArrayInt16(PointerIndexableArray):
     def rw_element(self, rw, idx): self.data[idx] = rw.rw_int16(self.data[idx])
     
-class PointerIndexableArrayUint16(Serializable):
+class PointerIndexableArrayUint16(PointerIndexableArray):
     def rw_element(self, rw, idx): self.data[idx] = rw.rw_uint16(self.data[idx])
     
-class PointerIndexableArrayInt32(Serializable):
+class PointerIndexableArrayInt32(PointerIndexableArray):
     def rw_element(self, rw, idx): self.data[idx] = rw.rw_int32(self.data[idx])
     
-class PointerIndexableArrayUint32(Serializable):
+class PointerIndexableArrayUint32(PointerIndexableArray):
     def rw_element(self, rw, idx): self.data[idx] = rw.rw_uint32(self.data[idx])
     
-class PointerIndexableArrayInt64(Serializable):
+class PointerIndexableArrayInt64(PointerIndexableArray):
     def rw_element(self, rw, idx): self.data[idx] = rw.rw_int64(self.data[idx])
     
-class PointerIndexableArrayUint64(Serializable):
+class PointerIndexableArrayUint64(PointerIndexableArray):
     def rw_element(self, rw, idx): self.data[idx] = rw.rw_uint64(self.data[idx])
     
-class PointerIndexableArrayFloat16(Serializable):
+class PointerIndexableArrayFloat16(PointerIndexableArray):
     def rw_element(self, rw, idx): self.data[idx] = rw.rw_float16(self.data[idx])
     
-class PointerIndexableArrayFloat32(Serializable):
+class PointerIndexableArrayFloat32(PointerIndexableArray):
     def rw_element(self, rw, idx): self.data[idx] = rw.rw_float64(self.data[idx])
     
-class PointerIndexableArrayFloat64(Serializable):
+class PointerIndexableArrayFloat64(PointerIndexableArray):
     def rw_element(self, rw, idx): self.data[idx] = rw.rw_float64(self.data[idx])
     
-class PointerIndexableArrayCStr(Serializable):
+class PointerIndexableArrayCStr(PointerIndexableArray):
     def __init__(self, context, encoding='ascii'):
         super().__init__(context)
         self.encoding = encoding
