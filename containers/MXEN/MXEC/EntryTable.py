@@ -81,7 +81,6 @@ class EntryTable(Serializable):
             else:
                 component_type = entry.component_type
             
-                
             if entry.data_offset:
                 rw.assert_local_file_pointer_now_at("Entry Data", entry.data_offset)
                 rw.rw_obj_method(entry, entry.rw_data, component_type)
@@ -90,7 +89,8 @@ class EntryTable(Serializable):
     def check_struct_type(self, rw, offset, prnt=False):
         curr_offset = rw.local_tell()
         rw.local_seek(offset)
-        lookup_type = rw.rw_cstr(None, "cp932", b":")
+        lookup_type = rw.rw_cstr(None, "cp932")
+        lookup_type = lookup_type.split(':')[0]
         lookup_type = lookup_type.split('@')[-1]
         rw.local_seek(curr_offset)
         return lookup_type
