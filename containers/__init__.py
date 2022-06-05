@@ -1,4 +1,4 @@
-# from .CCRS.CCRSReadWriter import CCRSReadWriter
+from .CCRS.CCRSReadWriter import CCRSReadWriter
 from .ENRS.ENRSReadWriter import ENRSHandler
 # from .EOFC.EOFCReadWriter import EOFCReadWriter
 # from .IZCA.IZCAReadWriter import IZCAReadWriter
@@ -15,7 +15,7 @@ from .POF0.POF0ReadWriter import POF0Handler
 
 containers = {
     # "CCOL": CCOLReadWriter,
-    # "CCRS": CCRSReadWriter,
+    "CCRS": CCRSReadWriter,
     "ENRS": ENRSHandler,
     # "EOFC": EOFCReadWriter,
     # "HMDL": HMDLReadWriter,
