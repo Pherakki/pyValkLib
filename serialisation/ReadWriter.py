@@ -57,9 +57,15 @@ class ReadWriterBase:
     # Interface Functions #
     #######################
 
+    def rw_pointer(self, value, endianness=None):
+        return self._rw_single('I', 4, value, endianness)
+
     def rw_single(self, typecode, value, endianness=None):
         self._rw_single(typecode, self.type_sizes[typecode], value, endianness)
         
+    def rw_pointers(self, value, shape, endianness=None):
+        return self._rw_multiple('I', 4, value, shape, endianness)
+    
     def rw_multiple(self, typecode, value, shape, endianness=None):
         self._rw_multiple(typecode, self.type_sizes[typecode], value, shape, endianness)
         
@@ -311,11 +317,30 @@ class POF0Builder(ReadWriterBase):
         
     def adv_offset(self, adv):
         self.virtual_offset += adv
+     
+    def rw_pointer(self, value, endianness=None):
+        self.log_offset()
+        self.adv_offset(4)
+        return value
         
     def _rw_single(self, typecode, size, value, endianness=None):
         self.adv_offset()
         return value
+    
+    def rw_pointers(self, value, shape, endianness=None):        
+        if not hasattr(shape, "__getitem__"):
+            shape = (shape,)
+        n_to_read = 1
+        for elem in shape:
+            n_to_read *= elem
             
+        for i in range(n_to_read):
+            if value[i] != 0:
+                self.log_offset()
+            self.adv_offset(4)
+            
+        return value    
+    
     def _rw_multiple(self, typecode, size, value, shape, endianness=None):
         if not hasattr(shape, "__getitem__"):
             shape = (shape,)
@@ -324,8 +349,6 @@ class POF0Builder(ReadWriterBase):
             n_to_read *= elem
             
         for i in range(n_to_read):
-            if value != 0 :
-                self.log_offset()
             self.adv_offset(size)
             
         return value
