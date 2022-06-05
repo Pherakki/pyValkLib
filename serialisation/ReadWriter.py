@@ -324,7 +324,7 @@ class POF0Builder(ReadWriterBase):
         return value
         
     def _rw_single(self, typecode, size, value, endianness=None):
-        self.adv_offset()
+        self.adv_offset(size)
         return value
     
     def rw_pointers(self, value, shape, endianness=None):        
@@ -375,6 +375,13 @@ class POF0Builder(ReadWriterBase):
 
     def mode(self):
         return "POF0"
+    
+    def tell(self):
+        return self.virtual_offset
+    
+    def seek(self, offset, whence=0):
+        raise NotImplementedError
+
 
 class ENRSBuilder(ReadWriterBase):
     open_flags = None
@@ -439,4 +446,10 @@ class ENRSBuilder(ReadWriterBase):
         pass
 
     def mode(self):
-        return "POF0"
+        return "ENRS"
+    
+    def tell(self):
+        return self.virtual_offset
+    
+    def seek(self, offset, whence=0):
+        raise NotImplementedError
