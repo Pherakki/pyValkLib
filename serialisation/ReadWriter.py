@@ -380,7 +380,9 @@ class POF0Builder(ReadWriterBase):
         return self.virtual_offset
     
     def seek(self, offset, whence=0):
-        raise NotImplementedError
+        if whence != 0:
+            raise NotImplementedError
+        self.virtual_offset = offset
 
 
 class ENRSBuilder(ReadWriterBase):
@@ -452,4 +454,6 @@ class ENRSBuilder(ReadWriterBase):
         return self.virtual_offset
     
     def seek(self, offset, whence=0):
-        raise NotImplementedError
+        if whence != 0:
+            raise NotImplementedError
+        self.virtual_offset = offset
