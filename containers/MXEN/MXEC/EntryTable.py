@@ -27,6 +27,7 @@ class EntryTable(Serializable):
         self.padding_0x38 = 0
         self.padding_0x3C = 0
         
+    def rw_fileinfo(self, rw):
         self.padding_0x00 = rw.rw_uint32(self.padding_0x00)
         self.entry_count  = rw.rw_uint32(self.entry_count)
         self.entry_ptr    = rw.rw_uint32(self.entry_ptr)
@@ -65,17 +66,31 @@ class EntryTable(Serializable):
         rw.assert_is_zero(self.padding_0x38)
         rw.assert_is_zero(self.padding_0x3C)
         
-        if self.rw_method == "read":
-            self.entries.data = [self.entry_cls(self.endianness) for _ in range(self.entry_count)]
+        if rw.mode() == "read":
+            self.entries.data = [self.entry_cls(self.context) for _ in range(self.entry_count)]
             
-    def rw_entry_headers(self, glob_tell, loc_tell):
-        for entry in self.entries.data:
-            n_entries =  len(self.entries.ptr_to_idx)
-            curpos = self.bytestream.tell() - glob_tell + loc_tell
-            self.entries.ptr_to_idx[curpos] = n_entries
-            self.entries.idx_to_ptr.append(curpos)
-            
-            self.rw_readwriter(entry)
-            
+    def rw_entry_headers(self, rw):
+        rw.rw_obj(self.entries)
 
-
+    def rw_entries(self, rw):
+        for entry in sorted([entry for entry in self.entries.data], key=lambda x: x.data_offset):
+            print(entry)
+            if rw.mode() == "read":
+                component_type = self.check_struct_type(rw, entry.name_offset)
+                entry.component_type = component_type
+            else:
+                component_type = entry.component_type
+            
+                
+            if entry.data_offset:
+                rw.assert_local_file_pointer_now_at("Entry Data", entry.data_offset)
+                rw.rw_obj_method(entry, entry.rw_data, component_type)
+                rw.align(rw.local_tell(), 0x10)
+                
+    def check_struct_type(self, rw, offset, prnt=False):
+        curr_offset = rw.local_tell()
+        rw.local_seek(offset)
+        lookup_type = rw.rw_cstr(None, "cp932", b":")
+        lookup_type = lookup_type.split('@')[-1]
+        rw.local_seek(curr_offset)
+        return lookup_type
