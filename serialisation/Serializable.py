@@ -1,3 +1,5 @@
+import copy
+
 from .ReadWriter import Reader, Writer, Context
 
 
@@ -10,9 +12,8 @@ class Serializable:
     """
     __slots__ = ("context",)
     
-    def __init__(self, endianness="<"):
-        self.context = Context()
-        self.context.endianness = endianness
+    def __init__(self, context):
+        self.context = copy.deepcopy(context)
     
     def read(self, filepath):
         with Reader(filepath) as rw:
