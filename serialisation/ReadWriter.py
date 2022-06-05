@@ -202,7 +202,7 @@ class ReadWriterBase:
     def align(self, offset, alignment, padval=b'\x00'):
         raise NotImplementedError
 
-    def is_at_eof(self):
+    def assert_at_eof(self):
         raise NotImplementedError
         
     def mode(self):
