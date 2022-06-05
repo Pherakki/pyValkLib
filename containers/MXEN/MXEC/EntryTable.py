@@ -2,12 +2,31 @@ from pyValkLib.serialisation.Serializable import Serializable
 from pyValkLib.serialisation.PointerIndexableArray import PointerIndexableArray
 
 class EntryTable(Serializable):
-    def __init__(self, entry_cls, endianness):
-        super().__init__(endianness)
+    def __init__(self, entry_cls, context):
+        super().__init__(context)
         self.entry_cls = entry_cls
-        self.entries = PointerIndexableArray()
-    
-    def read_write(self, rw):
+        self.entries = PointerIndexableArray(self.context)
+         
+        self.padding_0x00 = 0
+        self.entry_count  = 0
+        self.entry_ptr    = 0
+        self.padding_0x0C = 0
+        
+        self.padding_0x10 = 0
+        self.padding_0x14 = 0
+        self.padding_0x18 = 0
+        self.padding_0x1C = 0
+        
+        self.padding_0x20 = 0
+        self.padding_0x24 = 0
+        self.padding_0x28 = 0
+        self.padding_0x2C = 0
+        
+        self.padding_0x30 = 0
+        self.padding_0x34 = 0
+        self.padding_0x38 = 0
+        self.padding_0x3C = 0
+        
         self.padding_0x00 = rw.rw_uint32(self.padding_0x00)
         self.entry_count  = rw.rw_uint32(self.entry_count)
         self.entry_ptr    = rw.rw_uint32(self.entry_ptr)
