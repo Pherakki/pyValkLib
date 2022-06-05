@@ -1,5 +1,6 @@
 from pyValkLib.serialisation.ValkSerializable import ValkSerializable32BH
 
+
 class MXENReadWriter(ValkSerializable32BH):
     FILETYPE = "MXEN"
     
