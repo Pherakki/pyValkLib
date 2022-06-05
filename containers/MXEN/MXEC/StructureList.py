@@ -122,9 +122,9 @@ class MxParameterLight(Serializable):
         self.unknown_0x4C = rw.rw_float32(self.unknown_0x4C)
         
         self.unknown_ptr_1 = rw.rw_uint32(self.unknown_ptr_1)
-        self.unknown_0x54 = rw.rw_uint32(self.unknown_0x54)
-        self.unknown_0x58 = rw.rw_uint32(self.unknown_0x58)
-        self.unknown_0x5C = rw.rw_uint32(self.unknown_0x5C)
+        self.unknown_0x54 = rw.rw_pad32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_pad32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_pad32(self.unknown_0x5C)
         
         rw.assert_is_zero(self.unknown_0x54)
         rw.assert_is_zero(self.unknown_0x58)
@@ -162,8 +162,8 @@ class MxParameterStaticLight(Serializable):
     def read_write(self, rw):
         self.light_count = rw.rw_uint32(self.light_count)
         self.unknown_ptr = rw.rw_uint32(self.unknown_ptr)
-        self.padding_0x08 = rw.rw_uint32(self.padding_0x08)
-        self.padding_0x0C = rw.rw_uint32(self.padding_0x0C)
+        self.padding_0x08 = rw.rw_pad32(self.padding_0x08)
+        self.padding_0x0C = rw.rw_pad32(self.padding_0x0C)
         
         rw.assert_is_zero(self.padding_0x08)
         rw.assert_is_zero(self.padding_0x0C)
@@ -203,7 +203,7 @@ class VlMxFogParam(Serializable):
         self.unknown_0x0C = rw.rw_float32(self.unknown_0x0C)
         
         self.unknown_0x10 = rw.rw_float32(self.unknown_0x10)
-        self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
+        self.unknown_0x14 = rw.rw_pad32(self.unknown_0x14)
         
         
         
@@ -302,7 +302,7 @@ class VlMxStandardLightParam(Serializable):
         self.unknown_0x20 = rw.rw_float32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_float32(self.unknown_0x24)
         self.unknown_0x28 = rw.rw_float32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_float32(self.unknown_0x2C)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         rw.assert_is_zero(self.unknown_0x2C)
         
         self.unknown_0x30 = rw.rw_float32(self.unknown_0x30)
@@ -428,16 +428,16 @@ class EnTalkEventMapParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)  # Padding
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)  # Padding
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)  # Padding
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)  # Padding
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)  # Padding
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)  # Padding
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)  # Padding
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)  # Padding
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)  # Padding
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)  # Padding
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)  # Padding
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)  # Padding
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -484,10 +484,10 @@ class EnTalkEventMapParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)  # Padding
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)  # Padding
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)  # Padding
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)  # Padding
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)  # Padding
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)  # Padding
         
         self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
         self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
@@ -1149,11 +1149,13 @@ class VlMxExplosiveInfo(Serializable):
 
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
-        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x04 = rw.rw_pad32(self.unknown_0x04)
         self.unknown_0x08 = rw.rw_float32(self.unknown_0x08)
         self.unknown_0x0C = rw.rw_float32(self.unknown_0x0C)
         
-        self.unknown_0x10 = rw.rw_float32(self.unknown_0x10)  
+        self.unknown_0x10 = rw.rw_float32(self.unknown_0x10)
+
+        rw.assert_is_zero(self.unknown_0x04)
           
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04, self.unknown_0x08,  
@@ -1224,7 +1226,7 @@ class VlMxGalliaRareWeaponCandidateInfo(Serializable):
         self.unknown_0x1A = 0
 
     def read_write(self, rw):
-        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x00 = rw.rw_pad32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
         self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
         self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
@@ -1233,7 +1235,9 @@ class VlMxGalliaRareWeaponCandidateInfo(Serializable):
         self.unknown_0x14 = rw.rw_int16(self.unknown_0x14)  
         self.unknown_0x16 = rw.rw_int16(self.unknown_0x16) 
         self.unknown_0x18 = rw.rw_int16(self.unknown_0x18) 
-        self.unknown_0x1A = rw.rw_int16(self.unknown_0x1A)  
+        self.unknown_0x1A = rw.rw_int16(self.unknown_0x1A)
+
+        rw.assert_is_zero(self.unknown_0x00)
           
     def get_data(self):
         return ( self.unknown_0x00, self.unknown_0x04, self.unknown_0x08, self.unknown_0x0C, 
@@ -1484,7 +1488,7 @@ class VlMxGeneralCharInfo(Serializable):
         
         self.unknown_0x0190 = rw.rw_uint32(self.unknown_0x0190)
         self.unknown_0x0194 = rw.rw_uint32(self.unknown_0x0194)
-        self.unknown_0x0198 = rw.rw_uint32(self.unknown_0x0198)
+        self.unknown_0x0198 = rw.rw_pad32(self.unknown_0x0198)
         
         rw.assert_is_zero(self.unknown_0x0198)
     
@@ -2007,7 +2011,7 @@ class VlMxOrderInfo(Serializable):
         self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
-        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
+        self.unknown_0x24 = rw.rw_pad32(self.unknown_0x24)
         self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
         self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
         
@@ -2018,13 +2022,15 @@ class VlMxOrderInfo(Serializable):
         
         self.unknown_0x40 = rw.rw_uint32(self.unknown_0x40)
         self.unknown_0x44 = rw.rw_uint32(self.unknown_0x44)
-        self.unknown_0x48 = rw.rw_uint32(self.unknown_0x48)
+        self.unknown_0x48 = rw.rw_pad32(self.unknown_0x48)
         self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
         
         self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
-        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
-        
+        self.unknown_0x54 = rw.rw_pad32(self.unknown_0x54)
+
+        rw.assert_is_zero(self.unknown_0x24)
+        rw.assert_is_zero(self.unknown_0x48)
         rw.assert_is_zero(self.unknown_0x54)
         
     def get_data(self):
@@ -2154,7 +2160,7 @@ class VlMxParameterConvertTable(Serializable):
         self.unknown_0xAC = rw.rw_float32(self.unknown_0xAC)
         
         self.unknown_0xB0 = rw.rw_float32(self.unknown_0xB0)
-        self.unknown_0xB4 = rw.rw_float32(self.unknown_0xB4)
+        self.unknown_0xB4 = rw.rw_pad32(self.unknown_0xB4)
         
         rw.assert_is_zero(self.unknown_0xB4)
     
@@ -2209,11 +2215,11 @@ class VlMxPotentialInfo(Serializable):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
         self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
-        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
+        self.unknown_0x0C = rw.rw_pad32(self.unknown_0x0C)
         
         
-        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
-        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x10 = rw.rw_pad32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_pad32(self.unknown_0x14)
         self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
         self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
@@ -2222,6 +2228,10 @@ class VlMxPotentialInfo(Serializable):
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
         self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
         self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+
+        rw.assert_is_zero(self.unknown_0x0C)
+        rw.assert_is_zero(self.unknown_0x10)
+        rw.assert_is_zero(self.unknown_0x14)
             
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -2584,23 +2594,27 @@ class VlMxVehicleDevInfo(Serializable):
         self.unknown_0x2E = rw.rw_int16(self.unknown_0x2E)
         
         self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
         self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
         self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
-        
-        
+
+        rw.assert_is_zero(self.unknown_0x34)
+
         self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
         self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
         self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
-        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
+        self.unknown_0x4C = rw.rw_pad32(self.unknown_0x4C)
+
+        rw.assert_is_zero(self.unknown_0x4C)
         
-        
-        self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
-        self.unknown_0x54 = rw.rw_int16(self.unknown_0x54)
+        self.unknown_0x50 = rw.rw_pad32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_pad16(self.unknown_0x54)
         self.unknown_0x56 = rw.rw_int16(self.unknown_0x56)
         self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
         self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
-        
+
+        rw.assert_is_zero(self.unknown_0x50)
+        rw.assert_is_zero(self.unknown_0x54)
         
         self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
         self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
@@ -2608,7 +2622,9 @@ class VlMxVehicleDevInfo(Serializable):
         self.unknown_0x6C = rw.rw_int32(self.unknown_0x6C)
         
         self.unknown_0x70 = rw.rw_int32(self.unknown_0x70)
-        self.unknown_0x74 = rw.rw_int32(self.unknown_0x74)
+        self.unknown_0x74 = rw.rw_pad32(self.unknown_0x74)
+
+        rw.assert_is_zero(self.unknown_0x74)
         
         
     def get_data(self):
@@ -2753,9 +2769,9 @@ class VlMxVehicleEachInfo(Serializable):
         self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
         self.unknown_0x4C = rw.rw_float32(self.unknown_0x4C)
         
-        self.unknown_0x50 = rw.rw_float32(self.unknown_0x50)
-        self.unknown_0x54 = rw.rw_float32(self.unknown_0x54)
-        self.unknown_0x58 = rw.rw_float32(self.unknown_0x58)
+        self.unknown_0x50 = rw.rw_pad32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_pad32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_pad32(self.unknown_0x58)
         self.unknown_0x5C = rw.rw_float32(self.unknown_0x5C)
         
         rw.assert_is_zero(self.unknown_0x50)
@@ -2994,20 +3010,24 @@ class VlMxVehicleInfo(Serializable):
         self.unknown_0xA0 = rw.rw_int32(self.unknown_0xA0)
         self.unknown_0xA4 = rw.rw_int32(self.unknown_0xA4)
         self.unknown_0xA8 = rw.rw_int32(self.unknown_0xA8)
-        self.unknown_0xAC = rw.rw_int32(self.unknown_0xAC)
+        self.unknown_0xAC = rw.rw_pad32(self.unknown_0xAC)
+
+        rw.assert_is_zero(self.unknown_0xAC)
         
-        
-        self.unknown_0xB0 = rw.rw_int32(self.unknown_0xB0)
-        self.unknown_0xB4 = rw.rw_int32(self.unknown_0xB4)
+        self.unknown_0xB0 = rw.rw_pad32(self.unknown_0xB0)
+        self.unknown_0xB4 = rw.rw_pad32(self.unknown_0xB4)
         self.unknown_0xB8 = rw.rw_int32(self.unknown_0xB8)
         self.unknown_0xBC = rw.rw_int32(self.unknown_0xBC)
-  
+
+        rw.assert_is_zero(self.unknown_0xB0)
+        rw.assert_is_zero(self.unknown_0xB4)
   
         self.unknown_0xC0 = rw.rw_int32(self.unknown_0xC0)
         self.unknown_0xC4 = rw.rw_int32(self.unknown_0xC4)
         self.unknown_0xC8 = rw.rw_int32(self.unknown_0xC8)
-        self.unknown_0xCC = rw.rw_int32(self.unknown_0xCC)
-        
+        self.unknown_0xCC = rw.rw_pad32(self.unknown_0xCC)
+
+        rw.assert_is_zero(self.unknown_0xCC)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -3163,7 +3183,7 @@ class VlMxWeaponInfo(Serializable):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
         self.unknown_0x08 = rw.rw_int64(self.unknown_0x08)
-        
+
         self.unknown_0x10 = rw.rw_int64(self.unknown_0x10)
         self.unknown_0x18 = rw.rw_uint32(self.unknown_0x18)
         self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
@@ -4701,19 +4721,19 @@ class MxParameterTextureMerge(Serializable):
         super().__init__(context)
         self.unknown_0x00 = 0
         self.unknown_0x08 = 0
-        self.unknown_0x10 = 0
-        self.unknown_0x18 = 0
+        self.padding_0x10 = 0
+        self.padding_0x18 = 0
 
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int64(self.unknown_0x00)
         self.unknown_0x08 = rw.rw_int64(self.unknown_0x08)
         
-        self.unknown_0x10 = rw.rw_int64(self.unknown_0x10)
-        self.unknown_0x18 = rw.rw_int64(self.unknown_0x18)
+        self.padding_0x10 = rw.rw_pad64(self.padding_0x10)
+        self.padding_0x18 = rw.rw_pad64(self.padding_0x18)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x08, 
-                 self.unknown_0x10,  self.unknown_0x18,  )    
+                 self.padding_0x10,  self.padding_0x18,  )
  
     def asset_table_offsets(self):
         return [0x00, 0x08]
@@ -4730,22 +4750,22 @@ class MxParameterMergeFile(Serializable):
         super().__init__(context)
         self.unknown_0x00 = 0
         self.unknown_0x08 = 0
-        self.unknown_0x10 = 0
-        self.unknown_0x18 = 0
+        self.padding_0x10 = 0
+        self.padding_0x18 = 0
 
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int64(self.unknown_0x00)
         self.unknown_0x08 = rw.rw_int64(self.unknown_0x08)
+
+        self.padding_0x10 = rw.rw_pad64(self.padding_0x10)
+        self.padding_0x18 = rw.rw_pad64(self.padding_0x18)
         
-        self.unknown_0x10 = rw.rw_int64(self.unknown_0x10)
-        self.unknown_0x18 = rw.rw_int64(self.unknown_0x18)
-        
-        rw.assert_is_zero(self.unknown_0x10)
-        rw.assert_is_zero(self.unknown_0x18)
+        rw.assert_is_zero(self.padding_0x10)
+        rw.assert_is_zero(self.padding_0x18)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x08, 
-                 self.unknown_0x10,  self.unknown_0x18,  )
+                 self.padding_0x10,  self.padding_0x18,  )
     
     def asset_table_offsets(self):
         return [0x00, 0x08]
@@ -4902,16 +4922,16 @@ class EnTreeParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)  # Padding
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)  # Padding
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)  # Padding
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)  # Padding
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -4958,12 +4978,12 @@ class EnTreeParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)  # Padding
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)  # Padding
         
         rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
         
         rw.assert_is_zero(self.unknown_0x0100)
         rw.assert_is_zero(self.unknown_0x0108)
@@ -5147,16 +5167,16 @@ class SlgEnGrassPathNodeParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -5203,10 +5223,15 @@ class SlgEnGrassPathNodeParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
+
+        rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
+
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
     
     def get_data(self):
@@ -5254,7 +5279,7 @@ class SlgMapObjectParam(Serializable):
     def __init__(self, context):
         super().__init__(context)
         self.unknown_0x00 = 0
-        self.unknown_0x04 = 0
+        self.padding_0x04 = 0
         self.unknown_0x08 = 0
         self.unknown_0x10 = 0
         self.unknown_0x18 = 0
@@ -5262,10 +5287,10 @@ class SlgMapObjectParam(Serializable):
 
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
-        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.padding_0x04 = rw.rw_pad32(self.padding_0x04)
         self.unknown_0x08 = rw.rw_int64(self.unknown_0x08)
         
-        rw.assert_is_zero(self.unknown_0x04)
+        rw.assert_is_zero(self.padding_0x04)
         
         self.unknown_0x10 = rw.rw_int64(self.unknown_0x10)
         self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
@@ -5363,16 +5388,16 @@ class SlgEnGrassParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -5419,12 +5444,12 @@ class SlgEnGrassParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
         
         rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
         
         rw.assert_is_zero(self.unknown_0x0100)
         rw.assert_is_zero(self.unknown_0x0108)
@@ -5543,9 +5568,9 @@ class StaticBox(Serializable):
         self.unknown_0x3C = rw.rw_float32(self.unknown_0x3C)
         
         self.unknown_0x40 = rw.rw_float32(self.unknown_0x40)
-        self.unknown_0x44 = rw.rw_uint32(self.unknown_0x44)
-        self.unknown_0x48 = rw.rw_uint32(self.unknown_0x48)
-        self.unknown_0x4C = rw.rw_uint32(self.unknown_0x4C)
+        self.unknown_0x44 = rw.rw_pad32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_pad32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_pad32(self.unknown_0x4C)
         
         rw.assert_is_zero(self.unknown_0x44)
         rw.assert_is_zero(self.unknown_0x48)
@@ -5636,16 +5661,16 @@ class EnUvScrollParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)  # Padding
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)  # Padding
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)  # Padding
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)  # Padding
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)  # Padding
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)  # Padding
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)  # Padding
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)  # Padding
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)  # Padding
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)  # Padding
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)  # Padding
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)  # Padding
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -5692,12 +5717,12 @@ class EnUvScrollParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
         
         rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
         
         rw.assert_is_zero(self.unknown_0x0100)
         rw.assert_is_zero(self.unknown_0x0108)
@@ -5825,16 +5850,16 @@ class SlgEnBreakableStructureParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -5881,10 +5906,15 @@ class SlgEnBreakableStructureParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
-        
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
+
+        rw.assert_is_zero(self.unknown_0xF8)
+
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
+
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
         
         self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
         self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
@@ -6017,14 +6047,22 @@ class EnConvexParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)  # Padding
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)  # Padding
-        
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)  # Padding
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)  # Padding
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)  # Padding
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)  # Padding
-        
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)  # Padding
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)  # Padding
+
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
+
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)  # Padding
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)  # Padding
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)  # Padding
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)  # Padding
+
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
+
         self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
         self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
         self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
@@ -6065,12 +6103,12 @@ class EnConvexParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)  # Padding
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)  # Padding
         
         rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)  # Padding
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)  # Padding
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)  # Padding
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)  # Padding
         
         rw.assert_is_zero(self.unknown_0x0100)
         rw.assert_is_zero(self.unknown_0x0108)
@@ -6188,16 +6226,16 @@ class EnCEffectParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)  # Padding
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)  # Padding
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)  # Padding
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)  # Padding
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)  # Padding
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)  # Padding
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)  # Padding
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)  # Padding
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)  # Padding
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)  # Padding
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)  # Padding
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)  # Padding
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -6244,12 +6282,12 @@ class EnCEffectParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)  # Padding
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)  # Padding
         
         rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)  # Padding
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)  # Padding
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)  # Padding
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)  # Padding
         
         rw.assert_is_zero(self.unknown_0x0100)
         rw.assert_is_zero(self.unknown_0x0108)
@@ -6258,7 +6296,7 @@ class EnCEffectParam(Serializable):
         self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
     
         self.unknown_0x0120 = rw.rw_int64(self.unknown_0x0120)
-        self.unknown_0x0128 = rw.rw_int64(self.unknown_0x0128)  # Padding
+        self.unknown_0x0128 = rw.rw_pad64(self.unknown_0x0128)  # Padding
         
         rw.assert_is_zero(self.unknown_0x0128)
         
@@ -6374,9 +6412,11 @@ class VlMxBriefingInfo(Serializable):
 
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
-        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x04 = rw.rw_pad32(self.unknown_0x04)
         self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
         self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
+
+        rw.assert_is_zero(self.unknown_0x04)
         
         self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
         self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
@@ -6595,10 +6635,11 @@ class VlMxResultInfo(Serializable):
 
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
-        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x04 = rw.rw_pad32(self.unknown_0x04)
         self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
         self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
-        
+
+        rw.assert_is_zero(self.unknown_0x04)
         
         self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
         self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
@@ -6854,10 +6895,12 @@ class VlMxStageInfo(Serializable):
 
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
-        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x04 = rw.rw_pad32(self.unknown_0x04)
         self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
         self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
-        
+
+        rw.assert_is_zero(self.unknown_0x04)
+
         self.unknown_0x10 = rw.rw_int64(self.unknown_0x10)
         self.unknown_0x18 = rw.rw_int64(self.unknown_0x18)
         
@@ -7399,10 +7442,15 @@ class MxParameterPvs(Serializable):
 
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int64(self.unknown_0x00)
-        self.unknown_0x08 = rw.rw_int64(self.unknown_0x08)
-        
-        self.unknown_0x10 = rw.rw_int64(self.unknown_0x10)
-        self.unknown_0x18 = rw.rw_int64(self.unknown_0x18)
+        self.unknown_0x08 = rw.rw_pad64(self.unknown_0x08)
+
+        rw.assert_is_zero(self.unknown_0x08)
+
+        self.unknown_0x10 = rw.rw_pad64(self.unknown_0x10)
+        self.unknown_0x18 = rw.rw_pad64(self.unknown_0x18)
+
+        rw.assert_is_zero(self.unknown_0x10)
+        rw.assert_is_zero(self.unknown_0x18)
         
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x08, 
@@ -7483,16 +7531,16 @@ class SlgEnStrongholdPathNodeParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -7539,12 +7587,12 @@ class SlgEnStrongholdPathNodeParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
         
         rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
         
         rw.assert_is_zero(self.unknown_0x0100)
         rw.assert_is_zero(self.unknown_0x0108)
@@ -7667,16 +7715,16 @@ class SlgEnStrongholdParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -7723,12 +7771,12 @@ class SlgEnStrongholdParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
         
         rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
         
         rw.assert_is_zero(self.unknown_0x0100)
         rw.assert_is_zero(self.unknown_0x0108)
@@ -7886,16 +7934,16 @@ class EnWindmillParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -7942,12 +7990,12 @@ class EnWindmillParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
         
         rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
         
         rw.assert_is_zero(self.unknown_0x0100)
         rw.assert_is_zero(self.unknown_0x0108)
@@ -7974,9 +8022,11 @@ class EnWindmillParam(Serializable):
         
         self.unknown_0x0150 = rw.rw_int32(self.unknown_0x0150)
         self.unknown_0x0154 = rw.rw_int32(self.unknown_0x0154)
-        self.unknown_0x0158 = rw.rw_int32(self.unknown_0x0158)
-        self.unknown_0x015C = rw.rw_int32(self.unknown_0x015C)
-        
+        self.unknown_0x0158 = rw.rw_pad32(self.unknown_0x0158)
+        self.unknown_0x015C = rw.rw_pad32(self.unknown_0x015C)
+
+        rw.assert_is_zero(self.unknown_0x0158)
+        rw.assert_is_zero(self.unknown_0x015C)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -8321,16 +8371,16 @@ class SlgEnUnitPlacementPointParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -8377,12 +8427,12 @@ class SlgEnUnitPlacementPointParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
         
         rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
         
         rw.assert_is_zero(self.unknown_0x0100)
         rw.assert_is_zero(self.unknown_0x0108)
@@ -8520,16 +8570,16 @@ class SlgEnMedicPointParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -8576,12 +8626,12 @@ class SlgEnMedicPointParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
         
         rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
         
         rw.assert_is_zero(self.unknown_0x0100)
         rw.assert_is_zero(self.unknown_0x0108)
@@ -8720,16 +8770,16 @@ class SlgEnWarpPointParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -8776,12 +8826,12 @@ class SlgEnWarpPointParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
         
         rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
         
         rw.assert_is_zero(self.unknown_0x0100)
         rw.assert_is_zero(self.unknown_0x0108)
@@ -8792,7 +8842,7 @@ class SlgEnWarpPointParam(Serializable):
         self.unknown_0x011C = rw.rw_int32(self.unknown_0x011C)
         
         self.unknown_0x0120 = rw.rw_int64(self.unknown_0x0120)
-        self.unknown_0x0128 = rw.rw_int64(self.unknown_0x0128)
+        self.unknown_0x0128 = rw.rw_pad64(self.unknown_0x0128)
         
         rw.assert_is_zero(self.unknown_0x0128)
         
@@ -8802,7 +8852,7 @@ class SlgEnWarpPointParam(Serializable):
         self.unknown_0x013C = rw.rw_int32(self.unknown_0x013C)
         
         self.unknown_0x0140 = rw.rw_int64(self.unknown_0x0140)
-        self.unknown_0x0148 = rw.rw_int64(self.unknown_0x0148)
+        self.unknown_0x0148 = rw.rw_pad64(self.unknown_0x0148)
         
         rw.assert_is_zero(self.unknown_0x0148)
         
@@ -8812,7 +8862,7 @@ class SlgEnWarpPointParam(Serializable):
         self.unknown_0x015C = rw.rw_int32(self.unknown_0x015C)
         
         self.unknown_0x0160 = rw.rw_int64(self.unknown_0x0160)
-        self.unknown_0x0168 = rw.rw_int64(self.unknown_0x0168)
+        self.unknown_0x0168 = rw.rw_pad64(self.unknown_0x0168)
         
         rw.assert_is_zero(self.unknown_0x0168)
         
@@ -8822,7 +8872,7 @@ class SlgEnWarpPointParam(Serializable):
         self.unknown_0x017C = rw.rw_int32(self.unknown_0x017C)
         
         self.unknown_0x0180 = rw.rw_int64(self.unknown_0x0180)
-        self.unknown_0x0188 = rw.rw_int64(self.unknown_0x0188)
+        self.unknown_0x0188 = rw.rw_pad64(self.unknown_0x0188)
         
         rw.assert_is_zero(self.unknown_0x0188)
         
@@ -8988,16 +9038,16 @@ class SlgEnTriggerBaseParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -9044,11 +9094,16 @@ class SlgEnTriggerBaseParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
-        
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
-        
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
+
+        rw.assert_is_zero(self.unknown_0xF8)
+
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
+
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
+
         self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
         self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
         
@@ -9125,7 +9180,7 @@ class SlgEnMineParam(Serializable):
 
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
-        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x04 = rw.rw_pad32(self.unknown_0x04)
         self.unknown_0x08 = rw.rw_int64(self.unknown_0x08)
         
         rw.assert_is_zero(self.unknown_0x04)
@@ -9214,16 +9269,16 @@ class SlgEnAreaSurveillancePathNodeParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -9270,12 +9325,12 @@ class SlgEnAreaSurveillancePathNodeParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
         
         rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
         
         rw.assert_is_zero(self.unknown_0x0100)
         rw.assert_is_zero(self.unknown_0x0108)
@@ -9389,16 +9444,16 @@ class SlgEnAreaSurveillanceParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -9445,18 +9500,18 @@ class SlgEnAreaSurveillanceParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
         
         rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
         
         rw.assert_is_zero(self.unknown_0x0100)
         rw.assert_is_zero(self.unknown_0x0108)
         
         self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
-        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
+        self.unknown_0x0118 = rw.rw_pad64(self.unknown_0x0118)
         
         rw.assert_is_zero(self.unknown_0x0118)
         
@@ -9568,16 +9623,16 @@ class EnMovePathNodeParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)  # Padding
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)  # Padding
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)  # Padding
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)  # Padding
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)  # Padding
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)  # Padding
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)  # Padding
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)  # Padding
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)  # Padding
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)  # Padding
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)  # Padding
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)  # Padding
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -9624,12 +9679,12 @@ class EnMovePathNodeParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)  # Padding
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)  # Padding
         
         rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
         
         rw.assert_is_zero(self.unknown_0x0100)
         rw.assert_is_zero(self.unknown_0x0108)
@@ -9743,16 +9798,16 @@ class EnMovePathParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)  # Padding
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)  # Padding
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)  # Padding
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)  # Padding
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)  # Padding
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)  # Padding
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)  # Padding
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)  # Padding
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)  # Padding
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)  # Padding
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)  # Padding
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)  # Padding
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -9799,11 +9854,16 @@ class EnMovePathParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8) # Padding 
-        
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)  # Padding
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)  # Padding
-        
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8) # Padding
+
+        rw.assert_is_zero(self.unknown_0xF8)
+
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)  # Padding
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)  # Padding
+
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
+
         self.unknown_0x0110 = rw.rw_int32(self.unknown_0x0110)
         self.unknown_0x0114 = rw.rw_int32(self.unknown_0x0114)
         self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
@@ -9925,16 +9985,16 @@ class SlgEnReinforcePointParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -9981,12 +10041,12 @@ class SlgEnReinforcePointParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
         
         rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
         
         rw.assert_is_zero(self.unknown_0x0100)
         rw.assert_is_zero(self.unknown_0x0108)
@@ -10000,7 +10060,7 @@ class SlgEnReinforcePointParam(Serializable):
         self.unknown_0x0128 = rw.rw_int64(self.unknown_0x0128)
         
         self.unknown_0x0130 = rw.rw_int64(self.unknown_0x0130)
-        self.unknown_0x0138 = rw.rw_int64(self.unknown_0x0138)
+        self.unknown_0x0138 = rw.rw_pad64(self.unknown_0x0138)
         
         rw.assert_is_zero(self.unknown_0x0138)
         
@@ -10119,16 +10179,16 @@ class SlgEnGregoalStayPointParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -10175,18 +10235,18 @@ class SlgEnGregoalStayPointParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
         
         rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
         
         rw.assert_is_zero(self.unknown_0x0100)
         rw.assert_is_zero(self.unknown_0x0108)
         
         self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
-        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
+        self.unknown_0x0118 = rw.rw_pad64(self.unknown_0x0118)
         
         rw.assert_is_zero(self.unknown_0x0118)
         
@@ -10311,16 +10371,16 @@ class SlgEnGregoalParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -10367,12 +10427,12 @@ class SlgEnGregoalParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
         
         rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
         
         rw.assert_is_zero(self.unknown_0x0100)
         rw.assert_is_zero(self.unknown_0x0108)
@@ -10393,7 +10453,7 @@ class SlgEnGregoalParam(Serializable):
         self.unknown_0x0158 = rw.rw_int64(self.unknown_0x0158)
         
         self.unknown_0x0160 = rw.rw_int64(self.unknown_0x0160)
-        self.unknown_0x0168 = rw.rw_int64(self.unknown_0x0168)
+        self.unknown_0x0168 = rw.rw_pad64(self.unknown_0x0168)
         
         rw.assert_is_zero(self.unknown_0x0168)
         
@@ -10766,16 +10826,16 @@ class EnSimpleWallParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)  # Padding
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)  # Padding
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)  # Padding
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)  # Padding
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)  # Padding
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)  # Padding
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)  # Padding
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)  # Padding
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)  # Padding
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)  # Padding
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)  # Padding
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)  # Padding
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -10822,14 +10882,20 @@ class EnSimpleWallParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)  # Padding
-        
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)  # Padding
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)  # Padding
-        
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)  # Padding
+
+        rw.assert_is_zero(self.unknown_0xF8)
+
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)  # Padding
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)  # Padding
+
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
+
         self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
-        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)  # Padding
-        
+        self.unknown_0x0118 = rw.rw_pad64(self.unknown_0x0118)  # Padding
+
+        rw.assert_is_zero(self.unknown_0x0118)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -10940,16 +11006,16 @@ class SlgEnProduceBorderParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -10996,12 +11062,12 @@ class SlgEnProduceBorderParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
         
         rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
         
         rw.assert_is_zero(self.unknown_0x0100)
         rw.assert_is_zero(self.unknown_0x0108)
@@ -11121,14 +11187,16 @@ class SlgEnProduceGndParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
+
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
         
-        
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -11175,12 +11243,12 @@ class SlgEnProduceGndParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
         
         rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
         
         rw.assert_is_zero(self.unknown_0x0100)
         rw.assert_is_zero(self.unknown_0x0108)
@@ -11330,16 +11398,16 @@ class SlgEnChainBreakdownParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -11386,11 +11454,16 @@ class SlgEnChainBreakdownParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
-        
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
-        
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
+
+        rw.assert_is_zero(self.unknown_0xF8)
+
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
+
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
+
         self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
         self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
         
@@ -11495,9 +11568,9 @@ class SlgEnSlayingAreaParam(Serializable):
         self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
         
         self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
-        self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
-        self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
-        self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
+        self.unknown_0x44 = rw.rw_pad32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_pad32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_pad32(self.unknown_0x4C)
         
         rw.assert_is_zero(self.unknown_0x44)
         rw.assert_is_zero(self.unknown_0x48)
@@ -11589,16 +11662,16 @@ class SlgEnSurroundPathNodeParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -11645,12 +11718,12 @@ class SlgEnSurroundPathNodeParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
         
         rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
         
         rw.assert_is_zero(self.unknown_0x0100)
         rw.assert_is_zero(self.unknown_0x0108)
@@ -11761,16 +11834,21 @@ class SlgEnOrderAllAttackPointParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
+
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
         
         self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
         self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
@@ -11812,12 +11890,12 @@ class SlgEnOrderAllAttackPointParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
         
         rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
         
         rw.assert_is_zero(self.unknown_0x0100)
         rw.assert_is_zero(self.unknown_0x0108)
@@ -11939,16 +12017,16 @@ class SlgEnSurroundParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -11995,12 +12073,12 @@ class SlgEnSurroundParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
         
         rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
         
         rw.assert_is_zero(self.unknown_0x0100)
         rw.assert_is_zero(self.unknown_0x0108)
@@ -12122,9 +12200,9 @@ class SlgEnTriggerEnterParam(Serializable):
         self.unknown_0x4C = rw.rw_int32(self.unknown_0x4C)
         
         self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
-        self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
-        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
-        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
+        self.unknown_0x54 = rw.rw_pad32(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_pad32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_pad32(self.unknown_0x5C)
         
         rw.assert_is_zero(self.unknown_0x54)
         rw.assert_is_zero(self.unknown_0x58)
@@ -12280,16 +12358,16 @@ class SlgEnTerrainParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -12336,11 +12414,16 @@ class SlgEnTerrainParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
-        
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
-        
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
+
+        rw.assert_is_zero(self.unknown_0xF8)
+
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
+
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
+
         self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
         self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
         
@@ -12410,14 +12493,14 @@ class StaticSphere(Serializable):
         self.unknown_0x0C = rw.rw_float32(self.unknown_0x0C)
         
         self.unknown_0x10 = rw.rw_float32(self.unknown_0x10)
-        self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
-        self.unknown_0x18 = rw.rw_uint32(self.unknown_0x18)
-        self.unknown_0x1C = rw.rw_uint32(self.unknown_0x1C)
+        self.unknown_0x14 = rw.rw_pad32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_pad32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_pad32(self.unknown_0x1C)
         
         self.unknown_0x20 = rw.rw_float32(self.unknown_0x20)
-        self.unknown_0x24 = rw.rw_uint32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_uint32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_uint32(self.unknown_0x2C)
+        self.unknown_0x24 = rw.rw_pad32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x14)
         rw.assert_is_zero(self.unknown_0x18)
@@ -12508,16 +12591,16 @@ class SlgEnSearchLightPathNodeParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -12564,18 +12647,18 @@ class SlgEnSearchLightPathNodeParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
         
         rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
         
         rw.assert_is_zero(self.unknown_0x0100)
         rw.assert_is_zero(self.unknown_0x0108)
         
         self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
-        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
+        self.unknown_0x0118 = rw.rw_pad64(self.unknown_0x0118)
         
         rw.assert_is_zero(self.unknown_0x0118)
     
@@ -12688,16 +12771,16 @@ class SlgEnLongRangeHEProposedImpactParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -12744,14 +12827,20 @@ class SlgEnLongRangeHEProposedImpactParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
-        
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
-        
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
+
+        rw.assert_is_zero(self.unknown_0xF8)
+
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
+
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
+
         self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
-        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
-        
+        self.unknown_0x0118 = rw.rw_pad64(self.unknown_0x0118)
+
+        rw.assert_is_zero(self.unknown_0x0118)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -12869,9 +12958,9 @@ class SlgEnTriggerHerbParam(Serializable):
         self.unknown_0x3C = rw.rw_float32(self.unknown_0x3C)
         
         self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
-        self.unknown_0x44 = rw.rw_uint32(self.unknown_0x44)
-        self.unknown_0x48 = rw.rw_uint32(self.unknown_0x48)
-        self.unknown_0x4C = rw.rw_uint32(self.unknown_0x4C)
+        self.unknown_0x44 = rw.rw_pad32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_pad32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_pad32(self.unknown_0x4C)
 
         rw.assert_is_zero(self.unknown_0x44)
         rw.assert_is_zero(self.unknown_0x48)
@@ -12969,16 +13058,16 @@ class SlgEnSearchLightParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -13025,12 +13114,12 @@ class SlgEnSearchLightParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
         
         rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
         
         rw.assert_is_zero(self.unknown_0x0100)
         rw.assert_is_zero(self.unknown_0x0108)
@@ -13042,8 +13131,9 @@ class SlgEnSearchLightParam(Serializable):
         
         self.unknown_0x0120 = rw.rw_int32(self.unknown_0x0120)
         self.unknown_0x0124 = rw.rw_int32(self.unknown_0x0124)
-        self.unknown_0x0128 = rw.rw_int64(self.unknown_0x0128)
-        
+        self.unknown_0x0128 = rw.rw_pad64(self.unknown_0x0128)
+
+        rw.assert_is_zero(self.unknown_0x0128)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -13187,16 +13277,16 @@ class SlgEnLorryParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -13243,11 +13333,16 @@ class SlgEnLorryParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
-        
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
-        
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
+
+        rw.assert_is_zero(self.unknown_0xF8)
+
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
+
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
+
         self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
         self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
         
@@ -13456,16 +13551,16 @@ class SlgEnSteepleBarrierParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -13512,12 +13607,12 @@ class SlgEnSteepleBarrierParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
         
         rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
         
         rw.assert_is_zero(self.unknown_0x0100)
         rw.assert_is_zero(self.unknown_0x0108)
@@ -13638,16 +13733,16 @@ class SlgEnLiftParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -13694,12 +13789,12 @@ class SlgEnLiftParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
         
         rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
         
         rw.assert_is_zero(self.unknown_0x0100)
         rw.assert_is_zero(self.unknown_0x0108)
@@ -13821,16 +13916,16 @@ class SlgEnBunkerCannonParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -13877,12 +13972,12 @@ class SlgEnBunkerCannonParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
         
         rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
         
         rw.assert_is_zero(self.unknown_0x0100)
         rw.assert_is_zero(self.unknown_0x0108)
@@ -14008,16 +14103,16 @@ class SlgEnReplaceModelParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -14064,12 +14159,12 @@ class SlgEnReplaceModelParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
         
         rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
         
         rw.assert_is_zero(self.unknown_0x0100)
         rw.assert_is_zero(self.unknown_0x0108)
@@ -14078,7 +14173,7 @@ class SlgEnReplaceModelParam(Serializable):
         self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
         
         self.unknown_0x0120 = rw.rw_int64(self.unknown_0x0120)
-        self.unknown_0x0128 = rw.rw_int64(self.unknown_0x0128)
+        self.unknown_0x0128 = rw.rw_pad64(self.unknown_0x0128)
         
         rw.assert_is_zero(self.unknown_0x0128)
         
@@ -14215,8 +14310,8 @@ class SlgEnSwitchDoorParam(Serializable):
 
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int64(self.unknown_0x00)
-        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
-        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
+        self.unknown_0x08 = rw.rw_pad32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_pad32(self.unknown_0x0C)
         
         rw.assert_is_zero(self.unknown_0x08)
         rw.assert_is_zero(self.unknown_0x0C)
@@ -14243,8 +14338,8 @@ class SlgEnSwitchDoorParam(Serializable):
         
         self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
         self.unknown_0x54 = rw.rw_int32(self.unknown_0x54)
-        self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
-        self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
+        self.unknown_0x58 = rw.rw_pad32(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_pad32(self.unknown_0x5C)
         
         rw.assert_is_zero(self.unknown_0x58)
         rw.assert_is_zero(self.unknown_0x5C)
@@ -14337,16 +14432,16 @@ class SlgEnMarmot1stPathParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -14393,18 +14488,18 @@ class SlgEnMarmot1stPathParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
         
         rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
         
         rw.assert_is_zero(self.unknown_0x0100)
         rw.assert_is_zero(self.unknown_0x0108)
         
         self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
-        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
+        self.unknown_0x0118 = rw.rw_pad64(self.unknown_0x0118)
         
         rw.assert_is_zero(self.unknown_0x0118)
     
@@ -14588,16 +14683,16 @@ class SlgEnMarmot1stParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -14644,12 +14739,12 @@ class SlgEnMarmot1stParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
         
         rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
         
         rw.assert_is_zero(self.unknown_0x0100)
         rw.assert_is_zero(self.unknown_0x0108)
@@ -14663,8 +14758,9 @@ class SlgEnMarmot1stParam(Serializable):
         
         self.unknown_0x0130 = rw.rw_int32(self.unknown_0x0130)
         self.unknown_0x0134 = rw.rw_int32(self.unknown_0x0134)
-        self.unknown_0x0138 = rw.rw_int64(self.unknown_0x0138)
-        
+        self.unknown_0x0138 = rw.rw_pad64(self.unknown_0x0138)
+
+        rw.assert_is_zero(self.unknown_0x0138)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -14788,16 +14884,16 @@ class SlgEnCatwalkParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -14844,12 +14940,12 @@ class SlgEnCatwalkParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
         
         rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
         
         rw.assert_is_zero(self.unknown_0x0100)
         rw.assert_is_zero(self.unknown_0x0108)
@@ -15049,16 +15145,16 @@ class SlgEnPropellerParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x34)
@@ -15105,12 +15201,12 @@ class SlgEnPropellerParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)
         
         rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)
         
         rw.assert_is_zero(self.unknown_0x0100)
         rw.assert_is_zero(self.unknown_0x0108)
@@ -15221,9 +15317,9 @@ class StaticPyramid(Serializable):
         self.unknown_0x3C = rw.rw_uint32(self.unknown_0x3C)
         
         self.unknown_0x40 = rw.rw_float32(self.unknown_0x40)
-        self.unknown_0x44 = rw.rw_uint32(self.unknown_0x44)
-        self.unknown_0x48 = rw.rw_uint32(self.unknown_0x48)
-        self.unknown_0x4C = rw.rw_uint32(self.unknown_0x4C)
+        self.unknown_0x44 = rw.rw_pad32(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_pad32(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_pad32(self.unknown_0x4C)
     
         rw.assert_is_zero(self.unknown_0x44)
         rw.assert_is_zero(self.unknown_0x48)
