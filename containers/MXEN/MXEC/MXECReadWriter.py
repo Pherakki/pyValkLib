@@ -136,19 +136,15 @@ class MXECReadWriter(ValkSerializable32BH):
             rw.rw_obj_method(self.component_table, self.component_table.rw_entries)
 
             
-    def rw_entities_table(self):
+    def rw_entities_table(self, rw):
         if self.entity_table_ptr != 0:
-            self.assert_local_file_pointer_now_at(self.entity_table_ptr)
-            self.rw_readwriter(self.entity_table)
-            
-            self.assert_local_file_pointer_now_at(self.entity_table.entry_ptr)
-            self.run_rw_method(self.entity_table.rw_entry_headers, self.global_tell(), self.local_tell())
-            
-            for entry in sorted([entry for entry in self.entity_table.entries.data], key=lambda x: x.data_offset):
-                self.assert_local_file_pointer_now_at(entry.data_offset)
-                self.run_rw_method(entry.rw_data, self.local_tell())
+            rw.assert_local_file_pointer_now_at("Entity Table", self.entity_table_ptr)
+            rw.rw_obj_method(self.entity_table, self.entity_table.rw_fileinfo)
+            rw.assert_local_file_pointer_now_at("Entity Table Entry Headers", self.entity_table.entry_ptr)
+            rw.rw_obj_method(self.entity_table, self.entity_table.rw_entry_headers)
+            rw.rw_obj_method(self.entity_table, self.entity_table.rw_entries)
 
-            self.cleanup_ragged_chunk(self.local_tell(), 0x10)
+            rw.align(rw.local_tell(), 0x10)
             
     def rw_batch_render_table(self):
         if self.batch_render_table_ptr != 0:
