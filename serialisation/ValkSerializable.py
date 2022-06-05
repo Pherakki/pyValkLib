@@ -1,11 +1,11 @@
-from .Serializable import Serializable
+from .Serializable import Serializable, Context
     
         
 class Header16B(Serializable):
     __slots__ = ("filetype", "contents_length", "header_length", "flags")
     
-    def __init__(self, endianness=None):
-        super().__init__(endianness)
+    def __init__(self, context):
+        super().__init__(context)
         self.filetype = None
         self.contents_length = None
         self.header_length = None
@@ -24,8 +24,8 @@ class Header32B(Serializable):
     __slots__ = ("filetype", "contents_length", "header_length", "flags",
                  "depth", "data_length", "unknown_0x18", "unknown_0x1C")
     
-    def __init__(self, endianness=None):
-        super().__init__(endianness)
+    def __init__(self, context):
+        super().__init__(context)
         self.filetype = None
         self.contents_length = None
         self.header_length = None
@@ -59,7 +59,10 @@ class ValkSerializable(Serializable):
     FILETYPE=None
     
     def __init__(self, containers, endianness=None):
-        super().__init__(endianness)
+        context = Context()
+        if endianness is not None:
+            context.endianness = endianness 
+        super().__init__(context)
         self.header = None
         self.containers = containers
         self.subcontainers = []
@@ -104,9 +107,8 @@ class ValkSerializable(Serializable):
 class ValkSerializable16BH(ValkSerializable):
     def __init__(self, containers, endianness=None):
         super().__init__(containers, endianness)
-        self.header = Header16B()
-        self.header.context.anchor_pos = self.context.anchor_pos
-        self.header.endianness = "<"
+        self.header = Header16B(self.context)
+        self.header.context.endianness = "<"
         
     def check_data_size(self):
         pass
@@ -114,8 +116,7 @@ class ValkSerializable16BH(ValkSerializable):
 class ValkSerializable32BH(ValkSerializable):
     def __init__(self, containers, endianness=None):
         super().__init__(containers, endianness)
-        self.header = Header32B()
-        self.header.context.anchor_pos = self.context.anchor_pos
+        self.header = Header32B(self.context)
         self.header.context.endianness = "<"
         
     def check_data_size(self, rw):
