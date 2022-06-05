@@ -1,5 +1,5 @@
 from pyValkLib.serialisation import Serializable
-from pyValkLib.serialisation.ValkSerializable import ValkSerializable32BH
+from pyValkLib.serialisation.ValkSerializable import ValkSerializable32BH, Header32B
 
 
 class POF0ReadWriter(ValkSerializable32BH):
@@ -51,10 +51,11 @@ class POF0Handler(Serializable):
     This means that the data at 0x04, 0x08, and 0x10 within the container
     the POF0 is attached to are pointers.
     """
-    __slots__ = ("pointer_offsets", "containers", "endianness")
+    __slots__ = ("header", "pointer_offsets", "containers", "endianness")
     
     def __init__(self, containers, context):
         super().__init__(context)
+        self.header = Header32B(context)
         self.pointer_offsets = []
         self.containers = containers
 
@@ -72,6 +73,7 @@ class POF0Handler(Serializable):
         
         num_bytes = pof0_rw.data_size - 4
         POF0_data = pof0_rw.data
+        self.header = pof0_rw.header
         
         self.pointer_offsets = decompressPOF0(POF0_data, num_bytes)
 
@@ -79,9 +81,11 @@ class POF0Handler(Serializable):
         POF0_data = compressPOF0(self.pointer_offsets)
         
         pof0_rw = POF0ReadWriter(self.containers, self.context.endianness)
-        pof0_rw.header.filetype = "POF0"
+
         pof0_rw.data = POF0_data
         pof0_rw.data_size = len(POF0_data) + 4
+        pof0_rw.header = self.header
+
         rw.rw_obj(pof0_rw)
 
 

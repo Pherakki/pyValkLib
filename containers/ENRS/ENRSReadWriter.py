@@ -1,5 +1,5 @@
 from pyValkLib.serialisation import Serializable
-from pyValkLib.serialisation.ValkSerializable import ValkSerializable32BH
+from pyValkLib.serialisation.ValkSerializable import ValkSerializable32BH, Header32B
 
 
 class ENRSReadWriter(ValkSerializable32BH):
@@ -25,10 +25,11 @@ class ENRSReadWriter(ValkSerializable32BH):
 
 
 class ENRSHandler(Serializable):
-    __slots__ = ("pointer_offsets", "containers", "endianness")
+    __slots__ = ("header", "pointer_offsets", "containers", "endianness")
     
     def __init__(self, containers, context):
         super().__init__(context)
+        self.header = Header32B(context)
         self.pointer_offsets = []
         self.containers = containers
 
@@ -43,6 +44,7 @@ class ENRSHandler(Serializable):
     def do_read(self, rw):
         enrs_rw = ENRSReadWriter(self.containers, self.context.endianness)
         rw.rw_obj(enrs_rw)
+        self.header = enrs_rw.header
         
         self.pointer_offsets = decompressENRS(enrs_rw.num_groups, enrs_rw.data)
 
@@ -50,6 +52,7 @@ class ENRSHandler(Serializable):
         ENRS_data = compressENRS(self.pointer_offsets)
         
         enrs_rw = ENRSReadWriter(self.containers, self.context.endianness)
+        enrs_rw.header = self.header
         enrs_rw.padding_0x20 = 0
         enrs_rw.ptr_count = len(self.pointer_offsets)
         enrs_rw.data = compressENRS(ENRS_data)
