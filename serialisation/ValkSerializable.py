@@ -70,7 +70,9 @@ class ValkSerializable(Serializable):
     # RW methods
     
     def read_write(self, rw):
-        self.context.anchor_pos = rw.global_tell()
+        # Tell the RW that any local ops should be done relative to this container's origin!
+        old_origin = rw.anchor_pos
+        rw.anchor_pos = rw.global_tell()
         
         self.header = rw.rw_obj(self.header)
         if self.FILETYPE != self.header.filetype:
@@ -78,8 +80,11 @@ class ValkSerializable(Serializable):
         self.check_header_size(rw)
         self.read_write_contents(rw)
         self.check_data_size(rw)
+        container_origin = rw.anchor_pos
         self.read_write_subcontainers(rw)
+        rw.anchor_pos = container_origin
         self.check_contents_size(rw)
+        rw.anchor_pos = old_origin
 
     def check_header_size(self, rw):
         rw.assert_local_file_pointer_now_at("End-Of-Header", self.header.header_length)
