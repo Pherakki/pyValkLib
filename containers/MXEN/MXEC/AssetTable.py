@@ -4,8 +4,8 @@ from pyValkLib.serialisation.PointerIndexableArray import PointerIndexableArray
 
 
 class AssetTable(Serializable):
-    def __init__(self, endianness):
-        super().__init__(endianness)
+    def __init__(self, context):
+        super().__init__(context)
         self.padding_0x00 = None
         self.asset_reference_count = None
         self.asset_references_offset = None
@@ -15,8 +15,8 @@ class AssetTable(Serializable):
         self.padding_0x18 = None
         self.padding_0x1C = None
         
-        self.entries = PointerIndexableArray()
-        self.asset_slot_offsets = None
+        self.entries = PointerIndexableArray(self.context)
+        self.asset_slot_offsets = []
         
     def read_write(self):
         self.rw_header()
