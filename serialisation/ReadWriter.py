@@ -93,6 +93,10 @@ class ReadWriterBase:
         self.align_with(offset, alignment, typecode, value, endianness)
         
     # RW functions (should be defined in a loop...)
+    def rw_pad8   (self, value, endianness=None): return self._rw_single('B', 1, value, endianness)
+    def rw_pad16  (self, value, endianness=None): return self._rw_single('H', 2, value, endianness)
+    def rw_pad32  (self, value, endianness=None): return self._rw_single('I', 4, value, endianness)
+    def rw_pad64  (self, value, endianness=None): return self._rw_single('Q', 8, value, endianness)
     def rw_int8   (self, value, endianness=None): return self._rw_single('b', 1, value, endianness)
     def rw_uint8  (self, value, endianness=None): return self._rw_single('B', 1, value, endianness)
     def rw_int16  (self, value, endianness=None): return self._rw_single('h', 2, value, endianness)
@@ -104,7 +108,11 @@ class ReadWriterBase:
     def rw_float16(self, value, endianness=None): return self._rw_single('e', 2, value, endianness)
     def rw_float32(self, value, endianness=None): return self._rw_single('f', 4, value, endianness)
     def rw_float64(self, value, endianness=None): return self._rw_single('d', 8, value, endianness)
-    
+
+    def rw_pad8s   (self, value, shape, endianness=None): return self._rw_multiple('B', 1, value, shape, endianness)
+    def rw_pad16s  (self, value, shape, endianness=None): return self._rw_multiple('H', 2, value, shape, endianness)
+    def rw_pad32s  (self, value, shape, endianness=None): return self._rw_multiple('I', 4, value, shape, endianness)
+    def rw_pad64s  (self, value, shape, endianness=None): return self._rw_multiple('Q', 8, value, shape, endianness)
     def rw_int8s   (self, value, shape, endianness=None): return self._rw_multiple('b', 1, value, shape, endianness)
     def rw_uint8s  (self, value, shape, endianness=None): return self._rw_multiple('B', 1, value, shape, endianness)
     def rw_int16s  (self, value, shape, endianness=None): return self._rw_multiple('h', 2, value, shape, endianness)
@@ -342,7 +350,7 @@ class POF0Builder(ReadWriterBase):
                 self.log_offset()
             self.adv_offset(4)
             
-        return value    
+        return value
     
     def _rw_multiple(self, typecode, size, value, shape, endianness=None):
         if not hasattr(shape, "__getitem__"):
@@ -403,16 +411,45 @@ class ENRSBuilder(ReadWriterBase):
         
     def adv_offset(self, adv):
         self.virtual_offset += adv
-        
+
+    def rw_pad8 (self, value, endianness=None): return self._rw_single_blank('B', 1, value, endianness)
+    def rw_pad16(self, value, endianness=None): return self._rw_single_blank('H', 2, value, endianness)
+    def rw_pad32(self, value, endianness=None): return self._rw_single_blank('I', 4, value, endianness)
+    def rw_pad64(self, value, endianness=None): return self._rw_single_blank('Q', 8, value, endianness)
+
+    def _rw_single_blank(self, typecode, size, value, endianness=None):
+        self.adv_offset(size)
+        return value
+
     def _rw_single(self, typecode, size, value, endianness=None):
         if endianness is None:
             endianness = self.context.endianness
             
-        if endianness == '>' and value != 0:
+        if endianness == '>':
             self.log_offset()
         self.adv_offset(size)
         return value
-            
+
+    def rw_pad8s (self, value, shape, endianness=None): return self._rw_multiple_blank('B', 1, value, shape, endianness)
+    def rw_pad16s(self, value, shape, endianness=None): return self._rw_multiple_blank('H', 2, value, shape, endianness)
+    def rw_pad32s(self, value, shape, endianness=None): return self._rw_multiple_blank('I', 4, value, shape, endianness)
+    def rw_pad64s(self, value, shape, endianness=None): return self._rw_multiple_blank('Q', 8, value, shape, endianness)
+
+    def _rw_multiple_blank(self, typecode, size, value, shape, endianness=None):
+        if endianness is None:
+            endianness = self.context.endianness
+
+        if not hasattr(shape, "__getitem__"):
+            shape = (shape,)
+        n_to_read = 1
+        for elem in shape:
+            n_to_read *= elem
+
+        for i in range(n_to_read):
+            self.adv_offset(size)
+
+        return value
+
     def _rw_multiple(self, typecode, size, value, shape, endianness=None):
         if endianness is None:
             endianness = self.context.endianness
@@ -424,7 +461,7 @@ class ENRSBuilder(ReadWriterBase):
             n_to_read *= elem
             
         for i in range(n_to_read):
-            if endianness == '>' and value[i] != 0:
+            if endianness == '>':
                 self.log_offset()
             self.adv_offset(size)
             
