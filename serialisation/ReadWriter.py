@@ -295,3 +295,127 @@ class Writer(ReadWriterBase):
 
     def mode(self):
         return "write"
+    
+class POF0Builder(ReadWriterBase):
+    open_flags = None
+    
+    __slots__ = ("virtual_offset", "pointers")
+    
+    def __init__(self):
+        super().__init__(None)
+        self.virtual_offset = 0
+        self.pointers = []
+        
+    def log_offset(self):
+        self.pointers.append(self.virtual_offset)
+        
+    def adv_offset(self, adv):
+        self.virtual_offset += adv
+        
+    def _rw_single(self, typecode, size, value, endianness=None):
+        if value != 0 :
+            self.log_offset()
+        self.adv_offset()
+        return value
+            
+    def _rw_multiple(self, typecode, size, value, shape, endianness=None):
+        if not hasattr(shape, "__getitem__"):
+            shape = (shape,)
+        n_to_read = 1
+        for elem in shape:
+            n_to_read *= elem
+            
+        for i in range(n_to_read):
+            if value != 0 :
+                self.log_offset()
+            self.adv_offset(size)
+            
+        return value
+        
+    def rw_str(self, value, length, encoding='ascii'):
+        length = len(value.encode(encoding))
+        self.adv_offset(length)
+        return value
+        
+    def rw_cstr(self, value, encoding='ascii', end_char=b'\x00'):
+        out = value.encode(encoding) + end_char
+        length = len(out)
+        self.adv_offset(length)
+        return value
+    
+    def align(self, offset, alignment, padval=b'\x00'):
+        n_to_read = (alignment - (offset % alignment)) % alignment
+        data = padval * (n_to_read // len(padval))
+        
+        self.adv_offset(len(data))
+        
+    def assert_at_eof(self):
+        pass
+
+    def mode(self):
+        return "POF0"
+
+class ENRSBuilder(ReadWriterBase):
+    open_flags = None
+    
+    __slots__ = ("virtual_offset", "pointers")
+    
+    def __init__(self):
+        super().__init__(None)
+        self.virtual_offset = 0
+        self.pointers = []
+        
+    def log_offset(self):
+        self.pointers.append(self.virtual_offset)
+        
+    def adv_offset(self, adv):
+        self.virtual_offset += adv
+        
+    def _rw_single(self, typecode, size, value, endianness=None):
+        if endianness is None:
+            endianness = self.context.endianness
+            
+        if endianness == '>' and value != 0:
+            self.log_offset()
+        self.adv_offset()
+        return value
+            
+    def _rw_multiple(self, typecode, size, value, shape, endianness=None):
+        if endianness is None:
+            endianness = self.context.endianness
+            
+        if not hasattr(shape, "__getitem__"):
+            shape = (shape,)
+        n_to_read = 1
+        for elem in shape:
+            n_to_read *= elem
+            
+        for i in range(n_to_read):
+            if endianness == '>' and value[i] != 0:
+                self.log_offset()
+            self.adv_offset(size)
+            
+        return value
+        
+    def rw_str(self, value, length, encoding='ascii'):
+        length = len(value.encode(encoding))
+        self.adv_offset(length)
+        return value
+        
+    def rw_cstr(self, value, encoding='ascii', end_char=b'\x00'):
+        out = value.encode(encoding) + end_char
+        length = len(out)
+        self.adv_offset(length)
+        return value
+    
+    def align(self, offset, alignment, padval=b'\x00'):
+        n_to_read = (alignment - (offset % alignment)) % alignment
+        data = padval * (n_to_read // len(padval))
+        
+        self.adv_offset(len(data))
+        
+    def assert_at_eof(self):
+        pass
+
+    def mode(self):
+        return "POF0"
