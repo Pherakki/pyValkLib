@@ -279,7 +279,7 @@ class Writer(ReadWriterBase):
         data = value # Shouldn't need to deepcopy since flatten_list will copy
         for _ in range(len(shape)-1):
             data = flatten_list(data)
-        self.bytestream.write(endianness + typecode*n_to_read, *data)
+        self.bytestream.write(struct.pack(endianness + typecode*n_to_read, *data))
         return value
         
     def rw_str(self, value, length, encoding='ascii'):
