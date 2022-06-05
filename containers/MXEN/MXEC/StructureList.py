@@ -15431,3 +15431,6 @@ data_types = {clas.__name__: clas for clas in
                  VlMxUnitResourceInfo
               ]}
 
+data_types["+StaticBox"] = StaticBox
+data_types["+StaticPyramid"] = StaticPyramid
+data_types["+StaticSphere"] = StaticSphere
