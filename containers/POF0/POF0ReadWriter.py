@@ -1,7 +1,8 @@
-from pyValkLib.serialisation.ValkyriaBaseRW import ValkyriaBaseRW32BH
+from pyValkLib.serialisation import Serializable
+from pyValkLib.serialisation.ValkSerializable import ValkSerializable32BH
 
 
-class POF0ReadWriter(ValkyriaBaseRW32BH):
+class POF0ReadWriter(ValkSerializable32BH):
     FILETYPE = "POF0"
     
     __slots__ = ("data_size", "data")
@@ -13,13 +14,14 @@ class POF0ReadWriter(ValkyriaBaseRW32BH):
         self.data_size = None
         self.data = None
         
-    def read_write_contents(self):
-        self.assert_equal("flags", 0x10000000, self.header, lambda x: hex(x))
-        self.rw_var("data_size", 'I', endianness='<')
-        self.rw_varlist("data", 'B', (self.data_size - 4))
-        self.cleanup_ragged_chunk(self.local_tell(), 16)
+    def read_write_contents(self, rw):
+        rw.assert_equal(self.header.flags, 0x10000000, lambda x: hex(x))
+        self.data_size = rw.rw_uint32(self.data_size, endianness='<')
+        self.data      = rw.rw_uint8s(self.data, self.data_size - 4)
+        rw.align(rw.local_tell(), 0x10)
 
-class POF0Handler:
+
+class POF0Handler(Serializable):
     """
     The POF0 stores offsets of pointers within the container it is attached to.
     Specifically, each entry stores the number of bytes you need to skip to 
@@ -51,29 +53,38 @@ class POF0Handler:
     """
     __slots__ = ("pointer_offsets", "containers", "endianness")
     
-    def __init__(self, containers, endianness):
+    def __init__(self, containers, context):
+        super().__init__(context)
         self.pointer_offsets = []
         self.containers = containers
-        self.endianness = endianness
-        
-    def read(self, bytestream):
-        pof0_rw = POF0ReadWriter(self.containers, self.endianness)
-        pof0_rw.read(bytestream)
+
+    def read_write(self, rw):
+        if rw.mode() == "read":
+            rw.rw_obj_method(self, self.do_read)
+        elif rw.mode() == "write":
+            rw.rw_obj_method(self, self.do_write)
+        else:
+            raise Exception("Unknown mode!")
+
+    def do_read(self, rw):
+        pof0_rw = POF0ReadWriter(self.containers, self.context.endianness)
+        rw.rw_obj(pof0_rw)
         
         num_bytes = pof0_rw.data_size - 4
         POF0_data = pof0_rw.data
         
         self.pointer_offsets = decompressPOF0(POF0_data, num_bytes)
 
-    
-    def write(self, bytestream):
+    def do_write(self, rw):
         POF0_data = compressPOF0(self.pointer_offsets)
         
-        pof0_rw = POF0ReadWriter(self.containers, self.endianness)
+        pof0_rw = POF0ReadWriter(self.containers, self.context.endianness)
+        pof0_rw.header.filetype = "POF0"
         pof0_rw.data = POF0_data
         pof0_rw.data_size = len(POF0_data) + 4
-        pof0_rw.write(bytestream)
-        
+        rw.rw_obj(pof0_rw)
+
+
 def decompressPOF0(POF0_data, num_offsets):
     offset = 0
     offsets = []  
@@ -102,7 +113,8 @@ def decompressPOF0(POF0_data, num_offsets):
         else:
             continue
     return offsets
-        
+
+
 def compressPOF0(offsets):
     data = []
     previous_offset = 0
