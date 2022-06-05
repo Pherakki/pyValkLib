@@ -226,9 +226,9 @@ class Reader(ReadWriterBase):
     def rw_str(self, value, length, encoding='ascii'):
         return self.bytestream.read(length).decode(encoding)
         
-    def rw_cstr(self, value, encoding='ascii'):
+    def rw_cstr(self, value, encoding='ascii', end_char=b"\x00"):
         out = b""
-        while ((val := self.bytearray.read(1)) != b'\x00'):
+        while ((val := self.bytestream.read(1)) != end_char):
             out += val
         return out.decode(encoding)
     
@@ -274,8 +274,8 @@ class Writer(ReadWriterBase):
         self.bytestream.write(value.encode(encoding))
         return value
         
-    def rw_cstr(self, value, encoding='ascii'):
-        out = value.encode(encoding) + b'\x00'
+    def rw_cstr(self, value, encoding='ascii', end_char=b'\x00'):
+        out = value.encode(encoding) + end_char
         self.bytestream.write(out)
         return value
     
