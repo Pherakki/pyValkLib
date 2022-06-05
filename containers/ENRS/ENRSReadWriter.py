@@ -1,48 +1,59 @@
-from pyValkLib.serialisation.ValkyriaBaseRW import ValkyriaBaseRW32BH
+from pyValkLib.serialisation import Serializable
+from pyValkLib.serialisation.ValkSerializable import ValkSerializable32BH
 
 
-class ENRSReadWriter(ValkyriaBaseRW32BH):
+class ENRSReadWriter(ValkSerializable32BH):
     FILETYPE = "ENRS"
     
-    __slots__ = ("num_groups", "data")
+    __slots__ = ("padding_0x20", "num_groups", "data")
     
     def __init__(self, containers, endianness=None):
         super().__init__(containers, endianness)
-
+        self.padding_0x20 = None
+        self.num_groups = None
+        self.data = []
     
-    def read_write_contents(self):
-        self.assert_equal("flags", 0x10000000, self.header, lambda x : hex(x))
+    def read_write_contents(self, rw):
+        rw.assert_equal(self.header.flags, 0x10000000, lambda x : hex(x))
         
-        self.rw_var("padding_0x20", "I", endianness='<')
-        self.rw_var("num_groups", "I", endianness='<')
-        self.cleanup_ragged_chunk(self.local_tell(), 0x10)
-        self.assert_equal("padding_0x20", 0)
+        self.padding_0x20 = rw.rw_uint32(self.padding_0x20, endianness='<')
+        self.num_groups   = rw.rw_uint32(self.num_groups, endianness='<')
+        rw.align(rw.local_tell(), 0x10)
+        rw.assert_equal(self.padding_0x20, 0)
         
-        self.rw_varlist('data', 'B', self.header.data_length - 0x10)
+        self.data = rw.rw_uint8s(self.data, self.header.data_length - 0x10)
 
-class ENRSHandler:
+
+class ENRSHandler(Serializable):
     __slots__ = ("pointer_offsets", "containers", "endianness")
     
-    def __init__(self, containers, endianness):
+    def __init__(self, containers, context):
+        super().__init__(context)
         self.pointer_offsets = []
         self.containers = containers
-        self.endianness = endianness
-        
-    def read(self, bytestream):
-        enrs_rw = ENRSReadWriter(self.containers, self.endianness)
-        enrs_rw.read(bytestream)
+
+    def read_write(self, rw):
+        if (rw.mode() == "read"):
+            self.do_read(rw)
+        elif (rw.mode() == "write"):
+            self.do_write(rw)
+        else:
+            raise Exception("Unknown mode!")
+
+    def do_read(self, rw):
+        enrs_rw = ENRSReadWriter(self.containers, self.context.endianness)
+        rw.rw_obj(enrs_rw)
         
         self.pointer_offsets = decompressENRS(enrs_rw.num_groups, enrs_rw.data)
 
-    
-    def write(self, bytestream):
+    def do_write(self, rw):
         ENRS_data = compressENRS(self.pointer_offsets)
         
-        enrs_rw = ENRSReadWriter(self.containers, self.endianness)
+        enrs_rw = ENRSReadWriter(self.containers, self.context.endianness)
         enrs_rw.padding_0x20 = 0
         enrs_rw.ptr_count = len(self.pointer_offsets)
         enrs_rw.data = compressENRS(ENRS_data)
-        enrs_rw.write(bytestream)
+        rw.rw_obj(enrs_rw)
         
 #################
 # DECOMPRESSION #
@@ -91,7 +102,7 @@ def decompressENRS(num_groups, data):
     flat_offsets = []
     stencil_sizes = []
     ENRS_iter_data = iter(data)
-    print("<<< DECOMPRESS >>>")
+    #print("<<< DECOMPRESS >>>")
     for loop in range(num_groups):
         jump_from_previous_stencil_group = decompressInt(ENRS_iter_data)
         offset += jump_from_previous_stencil_group
