@@ -146,7 +146,7 @@ class MXECReadWriter(ValkSerializable32BH):
 
             rw.align(rw.local_tell(), 0x10)
             
-    def rw_batch_render_table(self):
+    def rw_batch_render_table(self, rw):
         if self.batch_render_table_ptr != 0:
             self.assert_local_file_pointer_now_at(self.batch_render_table_ptr)
             self.rw_readwriter(self.batch_render_table)
@@ -203,26 +203,22 @@ class MXECReadWriter(ValkSerializable32BH):
                   
       
             
-    def rw_asset_table(self):
+    def rw_asset_table(self, rw):
         if self.asset_table_ptr != 0:
-            self.assert_local_file_pointer_now_at(self.asset_table_ptr)
-            self.rw_readwriter(self.asset_table)
-        
-            self.assert_local_file_pointer_now_at(self.asset_table.asset_references_offset)
-            n_entries = 0
-            for elem in self.asset_table.entries.data:
-                self.asset_table.entries.ptr_to_idx[self.local_tell()] = n_entries
-                self.asset_table.entries.idx_to_ptr.append(self.local_tell())
-                self.rw_readwriter(elem)
-                n_entries += 1
+            rw.assert_local_file_pointer_now_at("Asset Table", self.asset_table_ptr)
+            rw.rw_obj_method(self.asset_table, self.asset_table.rw_fileinfo)
+            
+            rw.assert_local_file_pointer_now_at("Asset Table Entry Headers", self.asset_table.asset_references_offset)
+            rw.rw_obj_method(self.asset_table, self.asset_table.rw_entry_headers)
+
                 
-            self.assert_local_file_pointer_now_at(self.asset_table.asset_use_offset)
-            self.run_rw_method(self.asset_table.rw_asset_slot_offsets)
+            rw.assert_local_file_pointer_now_at("Asset Table Entries", self.asset_table.asset_use_offset)
+            rw.rw_obj_method(self.asset_table, self.asset_table.rw_asset_slot_offsets)
     
             if self.texmerge_ptrs_ptr != 0:
-                self.assert_local_file_pointer_now_at(self.texmerge_ptrs_ptr)
-                self.rw_varlist("texmerge_ptr", 'I', self.texmerge_count)
-            self.cleanup_ragged_chunk(self.local_tell(), 0x10)
+                rw.assert_local_file_pointer_now_at(self.texmerge_ptrs_ptr)
+                self.texmerge_ptr = rw.rw_uint32s(self.texmerge_ptr, self.texmerge_count)
+            rw.align(rw.local_tell(), 0x10)
         
     def rw_strings(self):
         if (self.rw_method == "read"):
