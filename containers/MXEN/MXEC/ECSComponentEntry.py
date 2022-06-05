@@ -26,3 +26,4 @@ class ComponentEntry(Serializable):
         if rw.mode() == "read":
             self.data = data_types[lookup_name](self.context)
         rw.rw_obj(self.data)
+        rw.align(rw.local_tell(), 0x10)
