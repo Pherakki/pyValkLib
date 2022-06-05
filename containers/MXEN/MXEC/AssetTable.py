@@ -17,13 +17,8 @@ class AssetTable(Serializable):
         
         self.entries = PointerIndexableArray(self.context)
         self.asset_slot_offsets = []
-        
-    def read_write(self):
-        self.rw_header()
-        if self.rw_method == 'read':
-            self.init_structs()
                 
-    def rw_header(self, rw):
+    def rw_fileinfo(self, rw):
         self.padding_0x00            = rw.rw_uint32(self.padding_0x00)
         self.asset_reference_count   = rw.rw_uint32(self.asset_reference_count)
         self.asset_references_offset = rw.rw_uint32(self.asset_references_offset)
@@ -38,8 +33,14 @@ class AssetTable(Serializable):
         rw.assert_is_zero(self.padding_0x18)
         rw.assert_is_zero(self.padding_0x1C)
         
+        if rw.mode() == 'read':
+            self.init_structs()
+        
     def init_structs(self):
-        self.entries.data = [AssetEntry(self.endianness) for _ in range(self.asset_reference_count)]
+        self.entries.data = [AssetEntry(self.context) for _ in range(self.asset_reference_count)]
+        
+    def rw_entry_headers(self, rw):
+        rw.rw_obj(self.entries)
         
     def rw_asset_slot_offsets(self, rw):
         self.asset_slot_offsets = rw.rw_uint32s(self.asset_slot_offsets, self.asset_use_count)
