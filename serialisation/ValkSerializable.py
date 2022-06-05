@@ -1,3 +1,5 @@
+import copy
+from .ReadWriter import POF0Builder, ENRSBuilder
 from .Serializable import Serializable, Context
     
         
@@ -90,10 +92,10 @@ class ValkSerializable(Serializable):
     def check_header_size(self, rw):
         rw.assert_local_file_pointer_now_at("End-Of-Header", self.header.header_length)
         
-    def read_write_contents(self):
+    def read_write_contents(self, rw):
         raise NotImplementedError()
         
-    def check_data_size(self):
+    def check_data_size(self, rw):
         raise NotImplementedError()
         
     def read_write_subcontainers(self, rw):
@@ -109,14 +111,29 @@ class ValkSerializable(Serializable):
             print("header len: ", self.header.header_length)
             print("body len:   ", self.header.contents_length)
             raise e
-    
+
+    def buildPOF0(self):
+        pof0_info = POF0Builder()
+        pof0_info.context = copy.deepcopy(self.context)
+        pof0_info.anchor_pos = -self.header.header_length
+        self.read_write_contents(pof0_info)
+        return pof0_info
+
+    def buildENRS(self):
+        enrs_info = ENRSBuilder()
+        enrs_info.context = copy.deepcopy(self.context)
+        enrs_info.anchor_pos = -self.header.header_length
+        self.read_write_contents(enrs_info)
+        return enrs_info
+
+
 class ValkSerializable16BH(ValkSerializable):
     def __init__(self, containers, endianness=None):
         super().__init__(containers, endianness)
         self.header = Header16B(self.context)
         self.header.context.endianness = "<"
         
-    def check_data_size(self):
+    def check_data_size(self, rw):
         pass
 
 
