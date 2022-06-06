@@ -49,14 +49,14 @@ class BatchRenderEntry(Serializable):
         self.t4_count     = rw.rw_uint32(self.t4_count)
         
         self.t4_offset    = rw.rw_uint32(self.t4_offset)
-        self.padding_0x24 = rw.rw_uint32(self.padding_0x24)
-        self.padding_0x28 = rw.rw_uint32(self.padding_0x28)
-        self.padding_0x2C = rw.rw_uint32(self.padding_0x2C)
+        self.padding_0x24 = rw.rw_pad32(self.padding_0x24)
+        self.padding_0x28 = rw.rw_pad32(self.padding_0x28)
+        self.padding_0x2C = rw.rw_pad32(self.padding_0x2C)
         
-        self.padding_0x30 = rw.rw_uint32(self.padding_0x30)
-        self.padding_0x34 = rw.rw_uint32(self.padding_0x34)
-        self.padding_0x38 = rw.rw_uint32(self.padding_0x38)
-        self.padding_0x3C = rw.rw_uint32(self.padding_0x3C)
+        self.padding_0x30 = rw.rw_pad32(self.padding_0x30)
+        self.padding_0x34 = rw.rw_pad32(self.padding_0x34)
+        self.padding_0x38 = rw.rw_pad32(self.padding_0x38)
+        self.padding_0x3C = rw.rw_pad32(self.padding_0x3C)
 
         rw.assert_is_zero(self.padding_0x24)
         rw.assert_is_zero(self.padding_0x28)
@@ -158,9 +158,9 @@ class BatchRender_T1(Serializable):
         self.offset_2     = rw.rw_uint32(self.offset_2)
         
         self.ID           = rw.rw_uint32(self.ID)
-        self.padding_0x14 = rw.rw_uint32(self.padding_0x14)
-        self.padding_0x18 = rw.rw_uint32(self.padding_0x18)
-        self.padding_0x1C = rw.rw_uint32(self.padding_0x1C)
+        self.padding_0x14 = rw.rw_pad32(self.padding_0x14)
+        self.padding_0x18 = rw.rw_pad32(self.padding_0x18)
+        self.padding_0x1C = rw.rw_pad32(self.padding_0x1C)
         
         rw.assert_is_zero(self.padding_0x14)
         rw.assert_is_zero(self.padding_0x18)
@@ -235,14 +235,14 @@ class BatchRender_T3(Serializable):
         self.offset_4 = rw.rw_uint32(self.offset_4)
         
         self.unknown_0x20 = rw.rw_uint32(self.unknown_0x20) # Can be 0 or 1
-        self.padding_0x24 = rw.rw_uint32(self.padding_0x24)
-        self.padding_0x28 = rw.rw_uint32(self.padding_0x28)
-        self.padding_0x2C = rw.rw_uint32(self.padding_0x2C)
+        self.padding_0x24 = rw.rw_pad32(self.padding_0x24)
+        self.padding_0x28 = rw.rw_pad32(self.padding_0x28)
+        self.padding_0x2C = rw.rw_pad32(self.padding_0x2C)
         
-        self.padding_0x30 = rw.rw_uint32(self.padding_0x30)
-        self.padding_0x34 = rw.rw_uint32(self.padding_0x34)
-        self.padding_0x38 = rw.rw_uint32(self.padding_0x38)
-        self.padding_0x3C = rw.rw_uint32(self.padding_0x3C)
+        self.padding_0x30 = rw.rw_pad32(self.padding_0x30)
+        self.padding_0x34 = rw.rw_pad32(self.padding_0x34)
+        self.padding_0x38 = rw.rw_pad32(self.padding_0x38)
+        self.padding_0x3C = rw.rw_pad32(self.padding_0x3C)
         
         rw.assert_is_zero(self.padding_0x24)
         rw.assert_is_zero(self.padding_0x28)

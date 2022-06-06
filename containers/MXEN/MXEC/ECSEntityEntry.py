@@ -49,10 +49,10 @@ class EntityEntry(Serializable):
         self.unknown_0x28          = rw.rw_uint32(self.unknown_0x28) # 0 or 1
         self.unknown_0x2C          = rw.rw_uint32(self.unknown_0x2C) # Ptr
         
-        self.padding_0x30          = rw.rw_uint32(self.padding_0x30)
-        self.padding_0x34          = rw.rw_uint32(self.padding_0x34)
-        self.padding_0x38          = rw.rw_uint32(self.padding_0x38)
-        self.padding_0x3C          = rw.rw_uint32(self.padding_0x3C)
+        self.padding_0x30          = rw.rw_pad32(self.padding_0x30)
+        self.padding_0x34          = rw.rw_pad32(self.padding_0x34)
+        self.padding_0x38          = rw.rw_pad32(self.padding_0x38)
+        self.padding_0x3C          = rw.rw_pad32(self.padding_0x3C)
         
         rw.assert_is_zero(self.padding_0x10)
         rw.assert_is_zero(self.padding_0x14)

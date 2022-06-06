@@ -13,7 +13,7 @@ class AssetEntry(Serializable):
         
         self.filetype = None
         self.unknown_0x14 = None
-        self.padding_0x18 = None
+        self.unknown_0x18 = None
         self.padding_0x1C = None
         
         self.unknown_0x20 = None
@@ -56,23 +56,23 @@ class AssetEntry(Serializable):
         self.file_name_ptr   = rw.rw_uint32(self.file_name_ptr)
         self.filetype        = rw.rw_uint32(self.filetype)
         self.unknown_0x14    = rw.rw_int32(self.unknown_0x14)
-        self.padding_0x18    = rw.rw_uint32(self.padding_0x18)
-        self.padding_0x1C    = rw.rw_uint32(self.padding_0x1C)
+        self.unknown_0x18    = rw.rw_uint32(self.unknown_0x18)
+        self.padding_0x1C    = rw.rw_pad32(self.padding_0x1C)
    
         self.unknown_0x20    = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24    = rw.rw_int32(self.unknown_0x24)
-        self.padding_0x28    = rw.rw_uint32(self.padding_0x28)
-        self.padding_0x2C    = rw.rw_uint32(self.padding_0x2C)
+        self.padding_0x28    = rw.rw_pad32(self.padding_0x28)
+        self.padding_0x2C    = rw.rw_pad32(self.padding_0x2C)
         
-        self.padding_0x30    = rw.rw_uint32(self.padding_0x30)
-        self.padding_0x34    = rw.rw_uint32(self.padding_0x34)
-        self.padding_0x38    = rw.rw_uint32(self.padding_0x38)
-        self.padding_0x3C    = rw.rw_uint32(self.padding_0x3C)
+        self.padding_0x30    = rw.rw_pad32(self.padding_0x30)
+        self.padding_0x34    = rw.rw_pad32(self.padding_0x34)
+        self.padding_0x38    = rw.rw_pad32(self.padding_0x38)
+        self.padding_0x3C    = rw.rw_pad32(self.padding_0x3C)
         
         # if not (self.padding_0x00 == 0 or self.padding_0x00 == 512): # can be 512 if flags...
         #     assert 0, "Padding in Table is fucked"
         # self.assert_equal("unknown_0x14", -1)  # Can be 24
-        rw.assert_is_zero(self.padding_0x18)
+        rw.assert_is_zero(self.unknown_0x18)
         rw.assert_is_zero(self.padding_0x1C)
         
         # self.assert_equal("unknown_0x20", -1) # Can be 0

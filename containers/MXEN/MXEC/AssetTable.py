@@ -24,9 +24,9 @@ class AssetTable(Serializable):
         self.asset_references_offset = rw.rw_uint32(self.asset_references_offset)
         self.asset_use_count         = rw.rw_uint32(self.asset_use_count)
         self.asset_use_offset        = rw.rw_uint32(self.asset_use_offset)
-        self.padding_0x14            = rw.rw_uint32(self.padding_0x14)
-        self.padding_0x18            = rw.rw_uint32(self.padding_0x18)
-        self.padding_0x1C            = rw.rw_uint32(self.padding_0x1C)
+        self.padding_0x14            = rw.rw_pad32(self.padding_0x14)
+        self.padding_0x18            = rw.rw_pad32(self.padding_0x18)
+        self.padding_0x1C            = rw.rw_pad32(self.padding_0x1C)
         
         rw.assert_is_zero(self.padding_0x00)
         rw.assert_is_zero(self.padding_0x14)
