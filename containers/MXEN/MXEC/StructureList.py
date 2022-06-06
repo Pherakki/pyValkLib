@@ -4082,14 +4082,22 @@ class EnHeightMapParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_uint32(self.unknown_0x28)  # Padding
-        self.unknown_0x2C = rw.rw_uint32(self.unknown_0x2C)  # Padding
-        
-        self.unknown_0x30 = rw.rw_uint32(self.unknown_0x30)  # Padding
-        self.unknown_0x34 = rw.rw_uint32(self.unknown_0x34)  # Padding
-        self.unknown_0x38 = rw.rw_uint32(self.unknown_0x38)  # Padding
-        self.unknown_0x3C = rw.rw_uint32(self.unknown_0x3C)  # Padding
-        
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)  # Padding
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)  # Padding
+
+        rw.assert_is_zero(self.unknown_0x28)
+        rw.assert_is_zero(self.unknown_0x2C)
+
+        self.unknown_0x30 = rw.rw_pad32(self.unknown_0x30)  # Padding
+        self.unknown_0x34 = rw.rw_pad32(self.unknown_0x34)  # Padding
+        self.unknown_0x38 = rw.rw_pad32(self.unknown_0x38)  # Padding
+        self.unknown_0x3C = rw.rw_pad32(self.unknown_0x3C)  # Padding
+
+        rw.assert_is_zero(self.unknown_0x30)
+        rw.assert_is_zero(self.unknown_0x34)
+        rw.assert_is_zero(self.unknown_0x38)
+        rw.assert_is_zero(self.unknown_0x3C)
+
         self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
         self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
         self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
@@ -4130,12 +4138,12 @@ class EnHeightMapParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)  # Padding
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)  # Padding
         
         rw.assert_is_zero(self.unknown_0xF8)
         
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)  # Padding
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)  # Padding
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)  # Padding
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)  # Padding
         
         rw.assert_is_zero(self.unknown_0x0100)
         rw.assert_is_zero(self.unknown_0x0108)
@@ -4233,6 +4241,7 @@ class EnSkyParam(Serializable):
         self.unknown_0x0100 = 0
         self.unknown_0x0108 = 0
         self.unknown_0x0110 = 0
+        self.unknown_0x0114 = 0
         self.unknown_0x0118 = 0
 
     def read_write(self, rw):
@@ -4248,14 +4257,14 @@ class EnSkyParam(Serializable):
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x28 = rw.rw_pad32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pad32(self.unknown_0x2C)
         
         rw.assert_is_zero(self.unknown_0x28)
         rw.assert_is_zero(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int64(self.unknown_0x30)
-        self.unknown_0x38 = rw.rw_int64(self.unknown_0x38)
+        self.unknown_0x30 = rw.rw_pad64(self.unknown_0x30)
+        self.unknown_0x38 = rw.rw_pad64(self.unknown_0x38)
         
         rw.assert_is_zero(self.unknown_0x30)
         rw.assert_is_zero(self.unknown_0x38)
@@ -4300,14 +4309,21 @@ class EnSkyParam(Serializable):
         self.unknown_0xE8 = rw.rw_int64(self.unknown_0xE8)
         
         self.unknown_0xF0 = rw.rw_int64(self.unknown_0xF0)
-        self.unknown_0xF8 = rw.rw_int64(self.unknown_0xF8)  # Padding
-        
-        self.unknown_0x0100 = rw.rw_int64(self.unknown_0x0100)  # Padding
-        self.unknown_0x0108 = rw.rw_int64(self.unknown_0x0108)  # Padding
-        
-        self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
-        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)  # Padding
-        
+        self.unknown_0xF8 = rw.rw_pad64(self.unknown_0xF8)  # Padding
+
+        rw.assert_is_zero(self.unknown_0xF8)
+
+        self.unknown_0x0100 = rw.rw_pad64(self.unknown_0x0100)  # Padding
+        self.unknown_0x0108 = rw.rw_pad64(self.unknown_0x0108)  # Padding
+
+        rw.assert_is_zero(self.unknown_0x0100)
+        rw.assert_is_zero(self.unknown_0x0108)
+
+        self.unknown_0x0110 = rw.rw_int32(self.unknown_0x0110)
+        self.unknown_0x0114 = rw.rw_int32(self.unknown_0x0114)
+        self.unknown_0x0118 = rw.rw_pad64(self.unknown_0x0118)  # Padding
+
+        rw.assert_is_zero(self.unknown_0x0118)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -5470,7 +5486,9 @@ class SlgEnGrassParam(Serializable):
         
         self.unknown_0x0140 = rw.rw_int32(self.unknown_0x0140)
         self.unknown_0x0144 = rw.rw_int32(self.unknown_0x0144)
-        self.unknown_0x0148 = rw.rw_int64(self.unknown_0x0148)
+        self.unknown_0x0148 = rw.rw_pad64(self.unknown_0x0148)
+
+        rw.assert_is_zero(self.unknown_0x0148)
         
     
     def get_data(self):
@@ -5728,7 +5746,7 @@ class EnUvScrollParam(Serializable):
         rw.assert_is_zero(self.unknown_0x0108)
         
         self.unknown_0x0110 = rw.rw_int64(self.unknown_0x0110)
-        self.unknown_0x0118 = rw.rw_int64(self.unknown_0x0118)
+        self.unknown_0x0118 = rw.rw_pad64(self.unknown_0x0118)
         
         rw.assert_is_zero(self.unknown_0x0118)
         
