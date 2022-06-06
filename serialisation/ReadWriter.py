@@ -330,7 +330,8 @@ class POF0Builder(ReadWriterBase):
         self.virtual_offset += adv
      
     def rw_pointer(self, value, endianness=None):
-        self.log_offset()
+        if value != 0:
+            self.log_offset()
         self.adv_offset(4)
         return value
         
