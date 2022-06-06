@@ -16,7 +16,10 @@ class PointerIndexableArray(Serializable):
     
     def at_idx(self, idx):
         return self.data[idx]
-    
+
+    def __getitem__(self, idx):
+        return self.data[idx]
+
     def __iter__(self):
         for elem in self.data:
             yield elem
