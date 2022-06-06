@@ -180,8 +180,8 @@ class MXECReadWriter(ValkSerializable32BH):
             self.read_strings(rw)
         elif (rw.mode() == "write"):
             self.write_strings(rw)
-        else:
-            raise Exception("Unknown mode!")
+        #else:
+        #    raise Exception("Unknown mode!")
             
         rw.align(rw.local_tell(), 0x10)
         
@@ -236,8 +236,8 @@ class MXECReadWriter(ValkSerializable32BH):
             self.read_unknowns(rw)
         elif (rw.mode() == "write"):
             self.write_unknowns(rw)
-        else:
-            raise Exception("Unknown mode!")
+        #else:
+        #    raise Exception("Unknown mode!")
         rw.align(rw.local_tell(), 0x10)
         
 
