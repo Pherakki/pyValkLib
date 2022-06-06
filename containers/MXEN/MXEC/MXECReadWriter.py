@@ -151,13 +151,12 @@ class MXECReadWriter(ValkSerializable32BH):
     def rw_batch_render_table(self, rw):
         if self.batch_render_table_ptr != 0:
             rw.assert_local_file_pointer_now_at("Batch Render Table", self.batch_render_table_ptr)
-            rw.rw_obj_method(self.batch_render_table, self.batch_render_table.rw_fileinfo)
+            rw.rw_obj_method(self.batch_render_table, self.batch_render_table.rw_fileinfo_brt)
             rw.assert_local_file_pointer_now_at("Batch Render Table Entry Headers", self.batch_render_table.entry_ptr)
             rw.rw_obj_method(self.batch_render_table, self.batch_render_table.rw_entry_headers)
             for entry in self.batch_render_table.entries:
                 rw.rw_obj_method(entry, entry.rw_data)
 
-            
     def rw_asset_table(self, rw):
         if self.asset_table_ptr != 0:
             rw.assert_local_file_pointer_now_at("Asset Table", self.asset_table_ptr)

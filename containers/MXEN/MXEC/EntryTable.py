@@ -68,7 +68,49 @@ class EntryTable(Serializable):
         
         if rw.mode() == "read":
             self.entries.data = [self.entry_cls(self.context) for _ in range(self.entry_count)]
-            
+
+    def rw_fileinfo_brt(self, rw):
+        self.padding_0x00 = rw.rw_uint32(self.padding_0x00)
+        self.entry_count = rw.rw_uint32(self.entry_count)
+        self.entry_ptr = rw.rw_uint32(self.entry_ptr)
+        self.padding_0x0C = rw.rw_pad32(self.padding_0x0C)
+
+        self.padding_0x10 = rw.rw_pad32(self.padding_0x10)
+        self.padding_0x14 = rw.rw_pad32(self.padding_0x14)
+        self.padding_0x18 = rw.rw_pad32(self.padding_0x18)
+        self.padding_0x1C = rw.rw_pad32(self.padding_0x1C)
+
+        self.padding_0x20 = rw.rw_pad32(self.padding_0x20)
+        self.padding_0x24 = rw.rw_pad32(self.padding_0x24)
+        self.padding_0x28 = rw.rw_pad32(self.padding_0x28)
+        self.padding_0x2C = rw.rw_pad32(self.padding_0x2C)
+
+        self.padding_0x30 = rw.rw_pad32(self.padding_0x30)
+        self.padding_0x34 = rw.rw_pad32(self.padding_0x34)
+        self.padding_0x38 = rw.rw_pad32(self.padding_0x38)
+        self.padding_0x3C = rw.rw_pad32(self.padding_0x3C)
+
+        rw.assert_is_zero(self.padding_0x00)
+        rw.assert_is_zero(self.padding_0x0C)
+
+        rw.assert_is_zero(self.padding_0x10)
+        rw.assert_is_zero(self.padding_0x14)
+        rw.assert_is_zero(self.padding_0x18)
+        rw.assert_is_zero(self.padding_0x1C)
+
+        rw.assert_is_zero(self.padding_0x20)
+        rw.assert_is_zero(self.padding_0x24)
+        rw.assert_is_zero(self.padding_0x28)
+        rw.assert_is_zero(self.padding_0x2C)
+
+        rw.assert_is_zero(self.padding_0x30)
+        rw.assert_is_zero(self.padding_0x34)
+        rw.assert_is_zero(self.padding_0x38)
+        rw.assert_is_zero(self.padding_0x3C)
+
+        if rw.mode() == "read":
+            self.entries.data = [self.entry_cls(self.context) for _ in range(self.entry_count)]
+
     def rw_entry_headers(self, rw):
         rw.rw_obj(self.entries)
 
