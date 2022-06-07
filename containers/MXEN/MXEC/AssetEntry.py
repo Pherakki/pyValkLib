@@ -52,8 +52,8 @@ class AssetEntry(Serializable):
         # - MMR: 25
         self.flags           = rw.rw_uint32(self.flags)
         self.ID              = rw.rw_uint32(self.ID)
-        self.folder_name_ptr = rw.rw_uint32(self.folder_name_ptr)
-        self.file_name_ptr   = rw.rw_uint32(self.file_name_ptr)
+        self.folder_name_ptr = rw.rw_pointer(self.folder_name_ptr)
+        self.file_name_ptr   = rw.rw_pointer(self.file_name_ptr)
         self.filetype        = rw.rw_uint32(self.filetype)
         self.unknown_0x14    = rw.rw_int32(self.unknown_0x14)
         self.unknown_0x18    = rw.rw_uint32(self.unknown_0x18)

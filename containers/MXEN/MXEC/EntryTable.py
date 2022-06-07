@@ -30,7 +30,7 @@ class EntryTable(Serializable):
     def rw_fileinfo(self, rw):
         self.padding_0x00 = rw.rw_uint32(self.padding_0x00)
         self.entry_count  = rw.rw_uint32(self.entry_count)
-        self.entry_ptr    = rw.rw_uint32(self.entry_ptr)
+        self.entry_ptr    = rw.rw_pointer(self.entry_ptr)
         self.padding_0x0C = rw.rw_uint32(self.padding_0x0C)
         
         self.padding_0x10 = rw.rw_uint32(self.padding_0x10)
@@ -71,8 +71,8 @@ class EntryTable(Serializable):
 
     def rw_fileinfo_brt(self, rw):
         self.padding_0x00 = rw.rw_uint32(self.padding_0x00)
-        self.entry_count = rw.rw_uint32(self.entry_count)
-        self.entry_ptr = rw.rw_uint32(self.entry_ptr)
+        self.entry_count  = rw.rw_uint32(self.entry_count)
+        self.entry_ptr    = rw.rw_pointer(self.entry_ptr)
         self.padding_0x0C = rw.rw_pad32(self.padding_0x0C)
 
         self.padding_0x10 = rw.rw_pad32(self.padding_0x10)

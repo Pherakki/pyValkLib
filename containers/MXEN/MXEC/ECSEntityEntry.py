@@ -35,9 +35,9 @@ class EntityEntry(Serializable):
 
     def read_write(self, rw):
         self.ID                    = rw.rw_uint32(self.ID)
-        self.name_offset           = rw.rw_uint32(self.name_offset)
+        self.name_offset           = rw.rw_pointer(self.name_offset)
         self.count                 = rw.rw_uint32(self.count)
-        self.data_offset           = rw.rw_uint32(self.data_offset)
+        self.data_offset           = rw.rw_pointer(self.data_offset)
         
         self.padding_0x10          = rw.rw_uint32(self.padding_0x10)
         self.padding_0x14          = rw.rw_uint32(self.padding_0x14)
@@ -47,7 +47,7 @@ class EntityEntry(Serializable):
         self.padding_0x20          = rw.rw_uint32(self.padding_0x20)
         self.padding_0x24          = rw.rw_uint32(self.padding_0x24)
         self.unknown_0x28          = rw.rw_uint32(self.unknown_0x28) # 0 or 1
-        self.unknown_0x2C          = rw.rw_uint32(self.unknown_0x2C) # Ptr
+        self.unknown_0x2C          = rw.rw_pointer(self.unknown_0x2C) # Ptr
         
         self.padding_0x30          = rw.rw_pad32(self.padding_0x30)
         self.padding_0x34          = rw.rw_pad32(self.padding_0x34)
@@ -106,9 +106,9 @@ class EntitySubEntry(Serializable):
         self.padding_0x0C = 0
         
     def read_write(self, rw):
-        self.name_offset  = rw.rw_uint32(self.name_offset)
+        self.name_offset  = rw.rw_pointer(self.name_offset)
         self.count        = rw.rw_uint32(self.count)
-        self.offset       = rw.rw_uint32(self.offset)
+        self.offset       = rw.rw_pointer(self.offset)
         self.padding_0x0C = rw.rw_uint32(self.padding_0x0C)
         rw.assert_is_zero(self.padding_0x0C)
         

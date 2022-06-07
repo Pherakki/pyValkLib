@@ -38,17 +38,17 @@ class BatchRenderEntry(Serializable):
         self.unused_ids = []
 
     def read_write(self, rw):
-        self.name_offset  = rw.rw_uint32(self.name_offset)
+        self.name_offset  = rw.rw_pointer(self.name_offset)
         self.t1_count     = rw.rw_uint32(self.t1_count)
-        self.t1_offset    = rw.rw_uint32(self.t1_offset)
+        self.t1_offset    = rw.rw_pointer(self.t1_offset)
         self.t2_count     = rw.rw_uint32(self.t2_count)
         
-        self.t2_offset    = rw.rw_uint32(self.t2_offset)
+        self.t2_offset    = rw.rw_pointer(self.t2_offset)
         self.t3_count     = rw.rw_uint32(self.t3_count)
-        self.t3_offset    = rw.rw_uint32(self.t3_offset)
+        self.t3_offset    = rw.rw_pointer(self.t3_offset)
         self.t4_count     = rw.rw_uint32(self.t4_count)
         
-        self.t4_offset    = rw.rw_uint32(self.t4_offset)
+        self.t4_offset    = rw.rw_pointer(self.t4_offset)
         self.padding_0x24 = rw.rw_pad32(self.padding_0x24)
         self.padding_0x28 = rw.rw_pad32(self.padding_0x28)
         self.padding_0x2C = rw.rw_pad32(self.padding_0x2C)
@@ -153,9 +153,9 @@ class BatchRender_T1(Serializable):
 
     def read_write(self, rw):
         self.count_1      = rw.rw_uint32(self.count_1)
-        self.offset_1     = rw.rw_uint32(self.offset_1)
+        self.offset_1     = rw.rw_pointer(self.offset_1)
         self.count_2      = rw.rw_uint32(self.count_2)
-        self.offset_2     = rw.rw_uint32(self.offset_2)
+        self.offset_2     = rw.rw_pointer(self.offset_2)
         
         self.ID           = rw.rw_uint32(self.ID)
         self.padding_0x14 = rw.rw_pad32(self.padding_0x14)
@@ -187,7 +187,7 @@ class ComponentReference(Serializable):
         self.table_component_id_1 = rw.rw_uint32(self.table_component_id_1)
         self.table_component_id_2 = rw.rw_uint32(self.table_component_id_2)
         self.count                = rw.rw_uint32(self.count)
-        self.offset               = rw.rw_uint32(self.offset)
+        self.offset               = rw.rw_pointer(self.offset)
         
         rw.assert_equal(self.count, self.offset > 0)
 
@@ -225,14 +225,14 @@ class BatchRender_T3(Serializable):
     
     def read_write(self, rw):
         self.count_1  = rw.rw_uint32(self.count_1)
-        self.offset_1 = rw.rw_uint32(self.offset_1)
+        self.offset_1 = rw.rw_pointer(self.offset_1)
         self.count_2  = rw.rw_uint32(self.count_2)
-        self.offset_2 = rw.rw_uint32(self.offset_2)
+        self.offset_2 = rw.rw_pointer(self.offset_2)
         
         self.count_3  = rw.rw_uint32(self.count_3)
-        self.offset_3 = rw.rw_uint32(self.offset_3)
+        self.offset_3 = rw.rw_pointer(self.offset_3)
         self.count_4  = rw.rw_uint32(self.count_4)
-        self.offset_4 = rw.rw_uint32(self.offset_4)
+        self.offset_4 = rw.rw_pointer(self.offset_4)
         
         self.unknown_0x20 = rw.rw_uint32(self.unknown_0x20) # Can be 0 or 1
         self.padding_0x24 = rw.rw_pad32(self.padding_0x24)

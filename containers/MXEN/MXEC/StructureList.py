@@ -121,7 +121,7 @@ class MxParameterLight(Serializable):
         self.unknown_0x48 = rw.rw_float32(self.unknown_0x48)
         self.unknown_0x4C = rw.rw_float32(self.unknown_0x4C)
         
-        self.unknown_ptr_1 = rw.rw_uint32(self.unknown_ptr_1)
+        self.unknown_ptr_1 = rw.rw_pointer(self.unknown_ptr_1)
         self.unknown_0x54 = rw.rw_pad32(self.unknown_0x54)
         self.unknown_0x58 = rw.rw_pad32(self.unknown_0x58)
         self.unknown_0x5C = rw.rw_pad32(self.unknown_0x5C)
@@ -161,7 +161,7 @@ class MxParameterStaticLight(Serializable):
 
     def read_write(self, rw):
         self.light_count = rw.rw_uint32(self.light_count)
-        self.unknown_ptr = rw.rw_uint32(self.unknown_ptr)
+        self.unknown_ptr = rw.rw_pointer(self.unknown_ptr)
         self.padding_0x08 = rw.rw_pad32(self.padding_0x08)
         self.padding_0x0C = rw.rw_pad32(self.padding_0x0C)
         
@@ -1155,7 +1155,7 @@ class VlMxExplosiveInfo(Serializable):
         
         self.unknown_0x10 = rw.rw_float32(self.unknown_0x10)
 
-        rw.assert_is_zero(self.unknown_0x04)
+        #rw.assert_is_zero(self.unknown_0x04)
           
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04, self.unknown_0x08,  
@@ -1237,7 +1237,7 @@ class VlMxGalliaRareWeaponCandidateInfo(Serializable):
         self.unknown_0x18 = rw.rw_int16(self.unknown_0x18) 
         self.unknown_0x1A = rw.rw_int16(self.unknown_0x1A)
 
-        rw.assert_is_zero(self.unknown_0x00)
+        #rw.assert_is_zero(self.unknown_0x00)
           
     def get_data(self):
         return ( self.unknown_0x00, self.unknown_0x04, self.unknown_0x08, self.unknown_0x0C, 
@@ -2029,9 +2029,9 @@ class VlMxOrderInfo(Serializable):
         self.unknown_0x50 = rw.rw_int32(self.unknown_0x50)
         self.unknown_0x54 = rw.rw_pad32(self.unknown_0x54)
 
-        rw.assert_is_zero(self.unknown_0x24)
-        rw.assert_is_zero(self.unknown_0x48)
-        rw.assert_is_zero(self.unknown_0x54)
+        #rw.assert_is_zero(self.unknown_0x24)
+        #rw.assert_is_zero(self.unknown_0x48)
+        #rw.assert_is_zero(self.unknown_0x54)
         
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -2229,9 +2229,9 @@ class VlMxPotentialInfo(Serializable):
         self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
         self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
 
-        rw.assert_is_zero(self.unknown_0x0C)
-        rw.assert_is_zero(self.unknown_0x10)
-        rw.assert_is_zero(self.unknown_0x14)
+        #rw.assert_is_zero(self.unknown_0x0C)
+        #rw.assert_is_zero(self.unknown_0x10)
+        #rw.assert_is_zero(self.unknown_0x14)
             
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
@@ -2598,14 +2598,14 @@ class VlMxVehicleDevInfo(Serializable):
         self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
         self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
 
-        rw.assert_is_zero(self.unknown_0x34)
+        #rw.assert_is_zero(self.unknown_0x34)
 
         self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
         self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
         self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
         self.unknown_0x4C = rw.rw_pad32(self.unknown_0x4C)
 
-        rw.assert_is_zero(self.unknown_0x4C)
+        #rw.assert_is_zero(self.unknown_0x4C)
         
         self.unknown_0x50 = rw.rw_pad32(self.unknown_0x50)
         self.unknown_0x54 = rw.rw_pad16(self.unknown_0x54)
@@ -2613,8 +2613,8 @@ class VlMxVehicleDevInfo(Serializable):
         self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
         self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
 
-        rw.assert_is_zero(self.unknown_0x50)
-        rw.assert_is_zero(self.unknown_0x54)
+        #rw.assert_is_zero(self.unknown_0x50)
+        #rw.assert_is_zero(self.unknown_0x54)
         
         self.unknown_0x60 = rw.rw_int32(self.unknown_0x60)
         self.unknown_0x64 = rw.rw_int32(self.unknown_0x64)
@@ -2624,7 +2624,7 @@ class VlMxVehicleDevInfo(Serializable):
         self.unknown_0x70 = rw.rw_int32(self.unknown_0x70)
         self.unknown_0x74 = rw.rw_pad32(self.unknown_0x74)
 
-        rw.assert_is_zero(self.unknown_0x74)
+        #rw.assert_is_zero(self.unknown_0x74)
         
         
     def get_data(self):
@@ -3012,22 +3012,22 @@ class VlMxVehicleInfo(Serializable):
         self.unknown_0xA8 = rw.rw_int32(self.unknown_0xA8)
         self.unknown_0xAC = rw.rw_pad32(self.unknown_0xAC)
 
-        rw.assert_is_zero(self.unknown_0xAC)
+        #rw.assert_is_zero(self.unknown_0xAC)
         
         self.unknown_0xB0 = rw.rw_pad32(self.unknown_0xB0)
         self.unknown_0xB4 = rw.rw_pad32(self.unknown_0xB4)
         self.unknown_0xB8 = rw.rw_int32(self.unknown_0xB8)
         self.unknown_0xBC = rw.rw_int32(self.unknown_0xBC)
 
-        rw.assert_is_zero(self.unknown_0xB0)
-        rw.assert_is_zero(self.unknown_0xB4)
+        #rw.assert_is_zero(self.unknown_0xB0)
+        #rw.assert_is_zero(self.unknown_0xB4)
   
         self.unknown_0xC0 = rw.rw_int32(self.unknown_0xC0)
         self.unknown_0xC4 = rw.rw_int32(self.unknown_0xC4)
         self.unknown_0xC8 = rw.rw_int32(self.unknown_0xC8)
         self.unknown_0xCC = rw.rw_pad32(self.unknown_0xCC)
 
-        rw.assert_is_zero(self.unknown_0xCC)
+        #rw.assert_is_zero(self.unknown_0xCC)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 

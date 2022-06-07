@@ -18,9 +18,9 @@ class ComponentEntry(Serializable):
         
     def read_write(self, rw):
         self.ID          = rw.rw_uint32(self.ID)
-        self.name_offset = rw.rw_uint32(self.name_offset)
+        self.name_offset = rw.rw_pointer(self.name_offset)
         self.data_size   = rw.rw_uint32(self.data_size)
-        self.data_offset = rw.rw_uint32(self.data_offset)
+        self.data_offset = rw.rw_pointer(self.data_offset)
         
     def rw_data(self, rw, lookup_name):
         if rw.mode() == "read":

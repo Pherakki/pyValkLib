@@ -78,17 +78,17 @@ class MXECReadWriter(ValkSerializable32BH):
         # Read/write
 
         self.content_flags       = rw.rw_uint32(self.content_flags)
-        self.component_table_ptr = rw.rw_uint32(self.component_table_ptr)
-        self.entity_table_ptr    = rw.rw_uint32(self.entity_table_ptr)
-        self.asset_table_ptr     = rw.rw_uint32(self.asset_table_ptr)
+        self.component_table_ptr = rw.rw_pointer(self.component_table_ptr)
+        self.entity_table_ptr    = rw.rw_pointer(self.entity_table_ptr)
+        self.asset_table_ptr     = rw.rw_pointer(self.asset_table_ptr)
 
         self.unknown_0x30           = rw.rw_uint32(self.unknown_0x30)
-        self.batch_render_table_ptr = rw.rw_uint32(self.batch_render_table_ptr)
+        self.batch_render_table_ptr = rw.rw_pointer(self.batch_render_table_ptr)
         self.texmerge_count         = rw.rw_uint32(self.texmerge_count)
-        self.texmerge_ptrs_ptr      = rw.rw_uint32(self.texmerge_ptrs_ptr)
+        self.texmerge_ptrs_ptr      = rw.rw_pointer(self.texmerge_ptrs_ptr)
         
-        self.pvs_record_ptr       = rw.rw_uint32(self.pvs_record_ptr)
-        self.mergefile_record_ptr = rw.rw_uint32(self.mergefile_record_ptr)
+        self.pvs_record_ptr       = rw.rw_pointer(self.pvs_record_ptr)
+        self.mergefile_record_ptr = rw.rw_pointer(self.mergefile_record_ptr)
         self.padding_0x48         = rw.rw_pad32(self.padding_0x48)
         self.padding_0x4C         = rw.rw_pad32(self.padding_0x4C)
         
@@ -171,7 +171,7 @@ class MXECReadWriter(ValkSerializable32BH):
     
             if self.texmerge_ptrs_ptr != 0:
                 rw.assert_local_file_pointer_now_at("Texmerge pointers", self.texmerge_ptrs_ptr)
-                self.texmerge_ptr = rw.rw_uint32s(self.texmerge_ptr, self.texmerge_count)
+                self.texmerge_ptr = rw.rw_pointers(self.texmerge_ptr, self.texmerge_count)
             rw.align(rw.local_tell(), 0x10)
         
     def rw_strings(self, rw):
