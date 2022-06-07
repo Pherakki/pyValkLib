@@ -4,7 +4,7 @@ from pyValkLib.serialisation.PointerIndexableArray import PointerIndexableArray,
 class EntityEntry(Serializable):
     __slots__ = ("ID", "name_offset", "count", "data_offset", "data", "component_type",
                  "padding_0x10", "padding_0x14", "controller_entity_id", "padding_0x1C",
-                 "padding_0x20", "padding_0x24", "unknown_0x28", "unknown_0x2C",
+                 "padding_0x20", "padding_0x24", "has_unknown_data", "unknown_data_ptr",
                  "padding_0x30", "padding_0x34", "padding_0x38", "padding_0x3C")
 
     def __init__(self, endianness):
@@ -21,8 +21,8 @@ class EntityEntry(Serializable):
         
         self.padding_0x20          = 0
         self.padding_0x24          = 0
-        self.unknown_0x28          = 0
-        self.unknown_0x2C          = 0
+        self.has_unknown_data          = 0
+        self.unknown_data_ptr          = 0
         
         self.padding_0x30          = 0
         self.padding_0x34          = 0
@@ -46,8 +46,8 @@ class EntityEntry(Serializable):
         
         self.padding_0x20          = rw.rw_uint32(self.padding_0x20)
         self.padding_0x24          = rw.rw_uint32(self.padding_0x24)
-        self.unknown_0x28          = rw.rw_uint32(self.unknown_0x28) # 0 or 1
-        self.unknown_0x2C          = rw.rw_pointer(self.unknown_0x2C) # Ptr
+        self.has_unknown_data          = rw.rw_uint32(self.has_unknown_data) # 0 or 1
+        self.unknown_data_ptr          = rw.rw_pointer(self.unknown_data_ptr) # Ptr
         
         self.padding_0x30          = rw.rw_pad32(self.padding_0x30)
         self.padding_0x34          = rw.rw_pad32(self.padding_0x34)
@@ -65,6 +65,8 @@ class EntityEntry(Serializable):
         rw.assert_is_zero(self.padding_0x34)
         rw.assert_is_zero(self.padding_0x38)
         rw.assert_is_zero(self.padding_0x3C)
+
+        rw.assert_equal(self.unknown_data_ptr > 0, self.has_unknown_data)
         
     def rw_data(self, rw, component_type):
         if rw.mode() == "read":
@@ -73,7 +75,7 @@ class EntityEntry(Serializable):
         rw.rw_obj(self.data)
         
     def __repr__(self):
-        return f"::Entity Entry:: ID: [{self.ID}], Components: [{self.count}], Controller ID: [{self.controller_entity_id}], Unk_0x28: [{self.unknown_0x28}], Unk_0x2C: [{self.unknown_0x2C}]"
+        return f"::Entity Entry:: ID: [{self.ID}], Components: [{self.count}], Controller ID: [{self.controller_entity_id}], Unk_0x28: [{self.has_unknown_data}], Unk_0x2C: [{self.unknown_data_ptr}]"
 
 
 class EntityData(Serializable):

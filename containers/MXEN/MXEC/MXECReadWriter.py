@@ -1,6 +1,6 @@
 from pyValkLib.serialisation.Serializable import Context
 from pyValkLib.serialisation.ValkSerializable import ValkSerializable32BH
-from pyValkLib.serialisation.PointerIndexableArray import PointerIndexableArray, PointerIndexableArrayCStr, PointerIndexableArrayUint8
+from pyValkLib.serialisation.PointerIndexableArray import PointerIndexableArray, PointerIndexableArrayCStr, PointerIndexableArrayUint64
 from pyValkLib.containers.MXEN.MXEC.EntryTable import EntryTable 
 from pyValkLib.containers.MXEN.MXEC.ECSComponentEntry import ComponentEntry
 from pyValkLib.containers.MXEN.MXEC.ECSEntityEntry import EntityEntry
@@ -44,7 +44,7 @@ class MXECReadWriter(ValkSerializable32BH):
 
         self.texmerge_ptr = None
         self.strings = PointerIndexableArrayCStr(self.context, "cp932")
-        self.unknowns = PointerIndexableArrayUint8(self.context)
+        self.unknowns = PointerIndexableArrayUint64(self.context)
 
         subcontainer_context = Context()
         subcontainer_context.endianness = '<'
@@ -188,7 +188,7 @@ class MXECReadWriter(ValkSerializable32BH):
     def read_strings(self, rw):
         strn = None
         curpos = rw.local_tell()
-        entity_data_offsets = [elem.unknown_0x2C for elem in self.entity_table.entries.data if elem.unknown_0x2C > 0]
+        entity_data_offsets = [elem.unknown_data_ptr for elem in self.entity_table.entries.data if elem.unknown_data_ptr > 0]
         end_point = min(entity_data_offsets) if len(entity_data_offsets) else self.header.header_length + self.header.data_length
         string_blob = iter(rw.bytestream.read(end_point - rw.local_tell()))
         
@@ -219,17 +219,17 @@ class MXECReadWriter(ValkSerializable32BH):
             rw.bytestream.write(b"\x00")
         
     def read_unknowns(self, rw):
-        entity_data_offsets = sorted(set([elem.unknown_0x2C for elem in self.entity_table.entries.data if elem.unknown_0x2C > 0]))
+        entity_data_offsets = sorted(set([elem.unknown_data_ptr for elem in self.entity_table.entries.data if elem.unknown_data_ptr > 0]))
         for offset in entity_data_offsets:
             rw.assert_local_file_pointer_now_at("Unknowns Offset", offset)
             idx =  len(self.unknowns.idx_to_ptr)
             self.unknowns.ptr_to_idx[offset] = len(self.unknowns.idx_to_ptr)
             self.unknowns.idx_to_ptr[idx] = offset
-            self.unknowns.data.append((struct.unpack('BBBBBBBB', rw.bytestream.read(8))))
+            self.unknowns.data.append((struct.unpack('Q', rw.bytestream.read(8))))
 
     def write_unknowns(self, rw):
         for data in self.unknowns.data:
-            rw.bytestream.write(struct.pack('BBBBBBBB', *data))
+            rw.bytestream.write(struct.pack('Q', *data))
 
     def rw_unknowns(self, rw):
         if (rw.mode() == "read"):
