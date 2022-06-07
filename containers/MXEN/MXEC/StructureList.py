@@ -6434,7 +6434,7 @@ class VlMxBriefingInfo(Serializable):
         self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
         self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
 
-        rw.assert_is_zero(self.unknown_0x04)
+        # rw.assert_is_zero(self.unknown_0x04)
         
         self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
         self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
@@ -6657,7 +6657,7 @@ class VlMxResultInfo(Serializable):
         self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
         self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
 
-        rw.assert_is_zero(self.unknown_0x04)
+        # rw.assert_is_zero(self.unknown_0x04)
         
         self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
         self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
@@ -6917,7 +6917,7 @@ class VlMxStageInfo(Serializable):
         self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
         self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
 
-        rw.assert_is_zero(self.unknown_0x04)
+        # rw.assert_is_zero(self.unknown_0x04)
 
         self.unknown_0x10 = rw.rw_int64(self.unknown_0x10)
         self.unknown_0x18 = rw.rw_int64(self.unknown_0x18)
