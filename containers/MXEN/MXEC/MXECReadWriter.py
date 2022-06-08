@@ -186,32 +186,63 @@ class MXECReadWriter(ValkSerializable32BH):
         rw.align(rw.local_tell(), 0x10)
         
     def read_strings(self, rw):
-        strn = None
         curpos = rw.local_tell()
+        start_pos = rw.local_tell()
+
+        # Get the start of the unknown data
         entity_data_offsets = [elem.unknown_data_ptr for elem in self.entity_table.entries.data if elem.unknown_data_ptr > 0]
         end_point = min(entity_data_offsets) if len(entity_data_offsets) else self.header.header_length + self.header.data_length
-        string_blob = iter(rw.bytestream.read(end_point - rw.local_tell()))
-        
+
+        # Get the start of the component strings
+        component_string_offsets = [getattr(elem.data, "get_string_ptrs", lambda:[])() for elem in self.component_table.entries]
+        component_string_offsets = [subitem for item in component_string_offsets for subitem in item]
+        start_of_component_strings = min(component_string_offsets) if len(component_string_offsets) else end_point
+
+        main_string_blob      = memoryview(rw.bytestream.read(start_of_component_strings - rw.local_tell()))
+        if len(main_string_blob):
+            if main_string_blob[0] == 0:
+                curpos += 1
         n_entries = 0
-        while True:
-            try:
-                strn, size = parse_null_terminated_string(string_blob)
-                if strn == "\x00" or strn == "":
-                    continue
-            except StopIteration:
-                if not(strn == "\x00" or strn == ""):
-                    self.strings.data.append(strn)
-                    self.strings.ptr_to_idx[curpos] = n_entries
-                    self.strings.idx_to_ptr[n_entries] = curpos
-                    n_entries += 1
-                    curpos += size
+        while curpos < start_of_component_strings:
+            strn, size = parse_null_terminated_string(main_string_blob[curpos-start_pos:])
+            if strn == b"":
+                curpos += 1  # Looks like we read a null-terminator, must be at alignment
                 break
-            
+
             self.strings.data.append(strn)
             self.strings.ptr_to_idx[curpos] = n_entries
             self.strings.idx_to_ptr[n_entries] = curpos
             n_entries += 1
             curpos += size
+
+        remaining_stuff = main_string_blob[curpos-start_pos:].tobytes()
+        if remaining_stuff != (b'\x00'*len(remaining_stuff)):
+            raise Exception(f"End of main string bank not reached!\n{remaining_stuff}")
+        rw.align(rw.local_tell(), 0x10) # <- Alignment not done for VlMxGeneralCharInfo??!!? Are some strings shared between components and main on game_info_sys_param?!
+        curpos = rw.local_tell()
+
+        rw.assert_local_file_pointer_now_at("Start of Component Strings Table", start_of_component_strings)
+        component_string_blob = memoryview(rw.bytestream.read(end_point - start_of_component_strings))
+        if len(component_string_blob):
+            if component_string_blob[0] == 0:
+                curpos += 1
+        while curpos < end_point:
+            strn, size = parse_null_terminated_string(component_string_blob[curpos-start_of_component_strings:])
+            if strn == b"":
+                break
+
+            self.strings.data.append(strn)
+            self.strings.ptr_to_idx[curpos] = n_entries
+            self.strings.idx_to_ptr[n_entries] = curpos
+            n_entries += 1
+            curpos += size
+
+        remaining_stuff = component_string_blob[curpos-start_of_component_strings:].tobytes()
+        if remaining_stuff != (b'\x00'*len(remaining_stuff)):
+            print(remaining_stuff)
+            raise Exception("End of component string bank not reached!")
+        rw.align(rw.local_tell(), 0x10)
+        rw.assert_local_file_pointer_now_at("End of Component Strings Table", end_point)
         
     def write_strings(self, rw):
         for string in self.strings.data:
@@ -225,7 +256,7 @@ class MXECReadWriter(ValkSerializable32BH):
             idx =  len(self.unknowns.idx_to_ptr)
             self.unknowns.ptr_to_idx[offset] = len(self.unknowns.idx_to_ptr)
             self.unknowns.idx_to_ptr[idx] = offset
-            self.unknowns.data.append((struct.unpack('Q', rw.bytestream.read(8))))
+            self.unknowns.data.append((struct.unpack('Q', rw.bytestream.read(8))[0]))
 
     def write_unknowns(self, rw):
         for data in self.unknowns.data:
@@ -242,12 +273,10 @@ class MXECReadWriter(ValkSerializable32BH):
         
 
 def parse_null_terminated_string(data):
-    string = b''
     size = 0
-    char = next(data).to_bytes(1, 'big')
-    while char != b'\x00':
-        string += char
-        char = next(data).to_bytes(1, 'big')
+    while data[size] != 0:
         size += 1
-    string = string.decode('cp932', errors="ignore")  
+
+    string = data[0:size].tobytes()#.decode('cp932') # Asset table strings are UTF8, all others are SHIFT-JIS... delay decode for the particular table
+
     return string, size+1
