@@ -811,12 +811,12 @@ class VlMxCharacterEachInfo(Serializable):
         
         self.unknown_0x30 = rw.rw_float32(self.unknown_0x30)
         self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_uint32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_uint32(self.unknown_0x3C)
+        self.unknown_0x38 = rw.rw_pointer(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pointer(self.unknown_0x3C)
         
-        self.unknown_0x40 = rw.rw_uint32(self.unknown_0x40)
-        self.unknown_0x44 = rw.rw_uint32(self.unknown_0x44)
-        self.unknown_0x48 = rw.rw_uint32(self.unknown_0x48)
+        self.unknown_0x40 = rw.rw_pointer(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_pointer(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_pointer(self.unknown_0x48)
         self.unknown_0x4C = rw.rw_float32(self.unknown_0x4C)
         
         self.unknown_0x50 = rw.rw_float32(self.unknown_0x50)
@@ -1026,6 +1026,8 @@ class VlMxCharacterEachInfo(Serializable):
                 0x1E0, 0x1E4, 0x1E8, 0x1EC, 0x1F0, 0x1F4, 0x1F8, 0x1FC,
                 0x200, 0x204, 0x208, 0x20C, 0x210
                ]
+    def get_string_ptrs(self):
+        return [ self.unknown_0x38, self.unknown_0x3C, self.unknown_0x40, self.unknown_0x44, self.unknown_0x48 ]
 
 class VlMxCharacterInfo(Serializable):
     def __init__(self, context):
@@ -1053,13 +1055,13 @@ class VlMxCharacterInfo(Serializable):
 
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
-        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
-        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
-        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
+        self.unknown_0x04 = rw.rw_pointer(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_pointer(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_pointer(self.unknown_0x0C)
         
-        self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
-        self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
-        self.unknown_0x18 = rw.rw_uint32(self.unknown_0x18)
+        self.unknown_0x10 = rw.rw_pointer(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_pointer(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_pointer(self.unknown_0x18)
         self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
@@ -1095,6 +1097,10 @@ class VlMxCharacterInfo(Serializable):
                  0x20,  0x24,  0x28,  0x2C,  0x30,  0x34,  0x38,  0x3C,
                  0x40,  0x44,  0x48,  0x4C
                ]
+
+    def get_string_ptrs(self):
+        return [self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C,
+                 self.unknown_0x10,  self.unknown_0x14,  self.unknown_0x18]
     
 class VlMxClothesInfo(Serializable):
     def __init__(self, context):
@@ -1110,8 +1116,8 @@ class VlMxClothesInfo(Serializable):
         self.unknown_0x20 = 0
 
     def read_write(self, rw):
-        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
-        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x00 = rw.rw_pointer(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_pointer(self.unknown_0x04)
         self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
         self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
@@ -1137,6 +1143,9 @@ class VlMxClothesInfo(Serializable):
         return [ 0x00,  0x04,  0x08,  0x0C,  0x10,  0x14,  0x18,  0x1C,
                  0x20
                ]
+
+    def get_string_ptrs(self):
+        return [self.unknown_0x00, self.unknown_0x04]
     
 class VlMxExplosiveInfo(Serializable):
     def __init__(self, context):
@@ -1185,7 +1194,7 @@ class VlMxForceInfo(Serializable):
 
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
-        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x04 = rw.rw_pointer(self.unknown_0x04)
         self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
         self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
@@ -1211,6 +1220,9 @@ class VlMxForceInfo(Serializable):
         return [ 0x00,  0x04,  0x08,  0x0C,  0x10,  0x14,  0x18,  0x1C,
                  0x20
                ]
+
+    def get_string_ptrs(self):
+        return [self.unknown_0x04]
     
 class VlMxGalliaRareWeaponCandidateInfo(Serializable):
     def __init__(self, context):
@@ -1363,131 +1375,131 @@ class VlMxGeneralCharInfo(Serializable):
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
-        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
-        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
+        self.unknown_0x08 = rw.rw_pointer(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_pointer(self.unknown_0x0C)
         
-        self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
-        self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
-        self.unknown_0x18 = rw.rw_uint32(self.unknown_0x18)
-        self.unknown_0x1C = rw.rw_uint32(self.unknown_0x1C)
+        self.unknown_0x10 = rw.rw_pointer(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_pointer(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_pointer(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_pointer(self.unknown_0x1C)
         
-        self.unknown_0x20 = rw.rw_uint32(self.unknown_0x20)
-        self.unknown_0x24 = rw.rw_uint32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_uint32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_uint32(self.unknown_0x2C)
+        self.unknown_0x20 = rw.rw_pointer(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_pointer(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_pointer(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pointer(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_uint32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_uint32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_uint32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_uint32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pointer(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pointer(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pointer(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pointer(self.unknown_0x3C)
         
-        self.unknown_0x40 = rw.rw_uint32(self.unknown_0x40)
-        self.unknown_0x44 = rw.rw_uint32(self.unknown_0x44)
-        self.unknown_0x48 = rw.rw_uint32(self.unknown_0x48)
-        self.unknown_0x4C = rw.rw_uint32(self.unknown_0x4C)
+        self.unknown_0x40 = rw.rw_pointer(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_pointer(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_pointer(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_pointer(self.unknown_0x4C)
         
-        self.unknown_0x50 = rw.rw_uint32(self.unknown_0x50)
-        self.unknown_0x54 = rw.rw_uint32(self.unknown_0x54)
-        self.unknown_0x58 = rw.rw_uint32(self.unknown_0x58)
-        self.unknown_0x5C = rw.rw_uint32(self.unknown_0x5C)
+        self.unknown_0x50 = rw.rw_pointer(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_pointer(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_pointer(self.unknown_0x58)
+        self.unknown_0x5C = rw.rw_pointer(self.unknown_0x5C)
         
-        self.unknown_0x60 = rw.rw_uint32(self.unknown_0x60)
-        self.unknown_0x64 = rw.rw_uint32(self.unknown_0x64)
-        self.unknown_0x68 = rw.rw_uint32(self.unknown_0x68)
-        self.unknown_0x6C = rw.rw_uint32(self.unknown_0x6C)
+        self.unknown_0x60 = rw.rw_pointer(self.unknown_0x60)
+        self.unknown_0x64 = rw.rw_pointer(self.unknown_0x64)
+        self.unknown_0x68 = rw.rw_pointer(self.unknown_0x68)
+        self.unknown_0x6C = rw.rw_pointer(self.unknown_0x6C)
         
-        self.unknown_0x70 = rw.rw_uint32(self.unknown_0x70)
-        self.unknown_0x74 = rw.rw_uint32(self.unknown_0x74)
-        self.unknown_0x78 = rw.rw_uint32(self.unknown_0x78)
-        self.unknown_0x7C = rw.rw_uint32(self.unknown_0x7C)
+        self.unknown_0x70 = rw.rw_pointer(self.unknown_0x70)
+        self.unknown_0x74 = rw.rw_pointer(self.unknown_0x74)
+        self.unknown_0x78 = rw.rw_pointer(self.unknown_0x78)
+        self.unknown_0x7C = rw.rw_pointer(self.unknown_0x7C)
         
-        self.unknown_0x80 = rw.rw_uint32(self.unknown_0x80)
-        self.unknown_0x84 = rw.rw_uint32(self.unknown_0x84)
-        self.unknown_0x88 = rw.rw_uint32(self.unknown_0x88)
-        self.unknown_0x8C = rw.rw_uint32(self.unknown_0x8C)
+        self.unknown_0x80 = rw.rw_pointer(self.unknown_0x80)
+        self.unknown_0x84 = rw.rw_pointer(self.unknown_0x84)
+        self.unknown_0x88 = rw.rw_pointer(self.unknown_0x88)
+        self.unknown_0x8C = rw.rw_pointer(self.unknown_0x8C)
         
-        self.unknown_0x90 = rw.rw_uint32(self.unknown_0x90)
-        self.unknown_0x94 = rw.rw_uint32(self.unknown_0x94)
-        self.unknown_0x98 = rw.rw_uint32(self.unknown_0x98)
-        self.unknown_0x9C = rw.rw_uint32(self.unknown_0x9C)
+        self.unknown_0x90 = rw.rw_pointer(self.unknown_0x90)
+        self.unknown_0x94 = rw.rw_pointer(self.unknown_0x94)
+        self.unknown_0x98 = rw.rw_pointer(self.unknown_0x98)
+        self.unknown_0x9C = rw.rw_pointer(self.unknown_0x9C)
         
-        self.unknown_0xA0 = rw.rw_uint32(self.unknown_0xA0)
-        self.unknown_0xA4 = rw.rw_uint32(self.unknown_0xA4)
-        self.unknown_0xA8 = rw.rw_uint32(self.unknown_0xA8)
-        self.unknown_0xAC = rw.rw_uint32(self.unknown_0xAC)
+        self.unknown_0xA0 = rw.rw_pointer(self.unknown_0xA0)
+        self.unknown_0xA4 = rw.rw_pointer(self.unknown_0xA4)
+        self.unknown_0xA8 = rw.rw_pointer(self.unknown_0xA8)
+        self.unknown_0xAC = rw.rw_pointer(self.unknown_0xAC)
         
-        self.unknown_0xB0 = rw.rw_uint32(self.unknown_0xB0)
-        self.unknown_0xB4 = rw.rw_uint32(self.unknown_0xB4)
-        self.unknown_0xB8 = rw.rw_uint32(self.unknown_0xB8)
-        self.unknown_0xBC = rw.rw_uint32(self.unknown_0xBC)
+        self.unknown_0xB0 = rw.rw_pointer(self.unknown_0xB0)
+        self.unknown_0xB4 = rw.rw_pointer(self.unknown_0xB4)
+        self.unknown_0xB8 = rw.rw_pointer(self.unknown_0xB8)
+        self.unknown_0xBC = rw.rw_pointer(self.unknown_0xBC)
         
-        self.unknown_0xC0 = rw.rw_uint32(self.unknown_0xC0)
-        self.unknown_0xC4 = rw.rw_uint32(self.unknown_0xC4)
-        self.unknown_0xC8 = rw.rw_uint32(self.unknown_0xC8)
-        self.unknown_0xCC = rw.rw_uint32(self.unknown_0xCC)
+        self.unknown_0xC0 = rw.rw_pointer(self.unknown_0xC0)
+        self.unknown_0xC4 = rw.rw_pointer(self.unknown_0xC4)
+        self.unknown_0xC8 = rw.rw_pointer(self.unknown_0xC8)
+        self.unknown_0xCC = rw.rw_pointer(self.unknown_0xCC)
         
-        self.unknown_0xD0 = rw.rw_uint32(self.unknown_0xD0)
-        self.unknown_0xD4 = rw.rw_uint32(self.unknown_0xD4)
-        self.unknown_0xD8 = rw.rw_uint32(self.unknown_0xD8)
-        self.unknown_0xDC = rw.rw_uint32(self.unknown_0xDC)
+        self.unknown_0xD0 = rw.rw_pointer(self.unknown_0xD0)
+        self.unknown_0xD4 = rw.rw_pointer(self.unknown_0xD4)
+        self.unknown_0xD8 = rw.rw_pointer(self.unknown_0xD8)
+        self.unknown_0xDC = rw.rw_pointer(self.unknown_0xDC)
         
-        self.unknown_0xE0 = rw.rw_uint32(self.unknown_0xE0)
-        self.unknown_0xE4 = rw.rw_uint32(self.unknown_0xE4)
-        self.unknown_0xE8 = rw.rw_uint32(self.unknown_0xE8)
-        self.unknown_0xEC = rw.rw_uint32(self.unknown_0xEC)
+        self.unknown_0xE0 = rw.rw_pointer(self.unknown_0xE0)
+        self.unknown_0xE4 = rw.rw_pointer(self.unknown_0xE4)
+        self.unknown_0xE8 = rw.rw_pointer(self.unknown_0xE8)
+        self.unknown_0xEC = rw.rw_pointer(self.unknown_0xEC)
         
-        self.unknown_0xF0 = rw.rw_uint32(self.unknown_0xF0)
-        self.unknown_0xF4 = rw.rw_uint32(self.unknown_0xF4)
-        self.unknown_0xF8 = rw.rw_uint32(self.unknown_0xF8)
-        self.unknown_0xFC = rw.rw_uint32(self.unknown_0xFC)
+        self.unknown_0xF0 = rw.rw_pointer(self.unknown_0xF0)
+        self.unknown_0xF4 = rw.rw_pointer(self.unknown_0xF4)
+        self.unknown_0xF8 = rw.rw_pointer(self.unknown_0xF8)
+        self.unknown_0xFC = rw.rw_pointer(self.unknown_0xFC)
         
-        self.unknown_0x0100 = rw.rw_uint32(self.unknown_0x0100)
-        self.unknown_0x0104 = rw.rw_uint32(self.unknown_0x0104)
-        self.unknown_0x0108 = rw.rw_uint32(self.unknown_0x0108)
-        self.unknown_0x010C = rw.rw_uint32(self.unknown_0x010C)
+        self.unknown_0x0100 = rw.rw_pointer(self.unknown_0x0100)
+        self.unknown_0x0104 = rw.rw_pointer(self.unknown_0x0104)
+        self.unknown_0x0108 = rw.rw_pointer(self.unknown_0x0108)
+        self.unknown_0x010C = rw.rw_pointer(self.unknown_0x010C)
         
-        self.unknown_0x0110 = rw.rw_uint32(self.unknown_0x0110)
-        self.unknown_0x0114 = rw.rw_uint32(self.unknown_0x0114)
-        self.unknown_0x0118 = rw.rw_uint32(self.unknown_0x0118)
-        self.unknown_0x011C = rw.rw_uint32(self.unknown_0x011C)
+        self.unknown_0x0110 = rw.rw_pointer(self.unknown_0x0110)
+        self.unknown_0x0114 = rw.rw_pointer(self.unknown_0x0114)
+        self.unknown_0x0118 = rw.rw_pointer(self.unknown_0x0118)
+        self.unknown_0x011C = rw.rw_pointer(self.unknown_0x011C)
         
-        self.unknown_0x0120 = rw.rw_uint32(self.unknown_0x0120)
-        self.unknown_0x0124 = rw.rw_uint32(self.unknown_0x0124)
-        self.unknown_0x0128 = rw.rw_uint32(self.unknown_0x0128)
-        self.unknown_0x012C = rw.rw_uint32(self.unknown_0x012C)
+        self.unknown_0x0120 = rw.rw_pointer(self.unknown_0x0120)
+        self.unknown_0x0124 = rw.rw_pointer(self.unknown_0x0124)
+        self.unknown_0x0128 = rw.rw_pointer(self.unknown_0x0128)
+        self.unknown_0x012C = rw.rw_pointer(self.unknown_0x012C)
         
-        self.unknown_0x0130 = rw.rw_uint32(self.unknown_0x0130)
-        self.unknown_0x0134 = rw.rw_uint32(self.unknown_0x0134)
-        self.unknown_0x0138 = rw.rw_uint32(self.unknown_0x0138)
-        self.unknown_0x013C = rw.rw_uint32(self.unknown_0x013C)
+        self.unknown_0x0130 = rw.rw_pointer(self.unknown_0x0130)
+        self.unknown_0x0134 = rw.rw_pointer(self.unknown_0x0134)
+        self.unknown_0x0138 = rw.rw_pointer(self.unknown_0x0138)
+        self.unknown_0x013C = rw.rw_pointer(self.unknown_0x013C)
         
-        self.unknown_0x0140 = rw.rw_uint32(self.unknown_0x0140)
-        self.unknown_0x0144 = rw.rw_uint32(self.unknown_0x0144)
-        self.unknown_0x0148 = rw.rw_uint32(self.unknown_0x0148)
-        self.unknown_0x014C = rw.rw_uint32(self.unknown_0x014C)
+        self.unknown_0x0140 = rw.rw_pointer(self.unknown_0x0140)
+        self.unknown_0x0144 = rw.rw_pointer(self.unknown_0x0144)
+        self.unknown_0x0148 = rw.rw_pointer(self.unknown_0x0148)
+        self.unknown_0x014C = rw.rw_pointer(self.unknown_0x014C)
         
-        self.unknown_0x0150 = rw.rw_uint32(self.unknown_0x0150)
-        self.unknown_0x0154 = rw.rw_uint32(self.unknown_0x0154)
-        self.unknown_0x0158 = rw.rw_uint32(self.unknown_0x0158)
-        self.unknown_0x015C = rw.rw_uint32(self.unknown_0x015C)
+        self.unknown_0x0150 = rw.rw_pointer(self.unknown_0x0150)
+        self.unknown_0x0154 = rw.rw_pointer(self.unknown_0x0154)
+        self.unknown_0x0158 = rw.rw_pointer(self.unknown_0x0158)
+        self.unknown_0x015C = rw.rw_pointer(self.unknown_0x015C)
         
-        self.unknown_0x0160 = rw.rw_uint32(self.unknown_0x0160)
-        self.unknown_0x0164 = rw.rw_uint32(self.unknown_0x0164)
-        self.unknown_0x0168 = rw.rw_uint32(self.unknown_0x0168)
-        self.unknown_0x016C = rw.rw_uint32(self.unknown_0x016C)
+        self.unknown_0x0160 = rw.rw_pointer(self.unknown_0x0160)
+        self.unknown_0x0164 = rw.rw_pointer(self.unknown_0x0164)
+        self.unknown_0x0168 = rw.rw_pointer(self.unknown_0x0168)
+        self.unknown_0x016C = rw.rw_pointer(self.unknown_0x016C)
         
-        self.unknown_0x0170 = rw.rw_uint32(self.unknown_0x0170)
-        self.unknown_0x0174 = rw.rw_uint32(self.unknown_0x0174)
-        self.unknown_0x0178 = rw.rw_uint32(self.unknown_0x0178)
-        self.unknown_0x017C = rw.rw_uint32(self.unknown_0x017C)
+        self.unknown_0x0170 = rw.rw_pointer(self.unknown_0x0170)
+        self.unknown_0x0174 = rw.rw_pointer(self.unknown_0x0174)
+        self.unknown_0x0178 = rw.rw_pointer(self.unknown_0x0178)
+        self.unknown_0x017C = rw.rw_pointer(self.unknown_0x017C)
         
-        self.unknown_0x0180 = rw.rw_uint32(self.unknown_0x0180)
-        self.unknown_0x0184 = rw.rw_uint32(self.unknown_0x0184)
-        self.unknown_0x0188 = rw.rw_uint32(self.unknown_0x0188)
-        self.unknown_0x018C = rw.rw_uint32(self.unknown_0x018C)
+        self.unknown_0x0180 = rw.rw_pointer(self.unknown_0x0180)
+        self.unknown_0x0184 = rw.rw_pointer(self.unknown_0x0184)
+        self.unknown_0x0188 = rw.rw_pointer(self.unknown_0x0188)
+        self.unknown_0x018C = rw.rw_pointer(self.unknown_0x018C)
         
-        self.unknown_0x0190 = rw.rw_uint32(self.unknown_0x0190)
-        self.unknown_0x0194 = rw.rw_uint32(self.unknown_0x0194)
+        self.unknown_0x0190 = rw.rw_pointer(self.unknown_0x0190)
+        self.unknown_0x0194 = rw.rw_pointer(self.unknown_0x0194)
         self.unknown_0x0198 = rw.rw_pad32(self.unknown_0x0198)
         
         rw.assert_is_zero(self.unknown_0x0198)
@@ -1557,6 +1569,37 @@ class VlMxGeneralCharInfo(Serializable):
                  0x160, 0x164, 0x168, 0x16C, 0x170, 0x174, 0x178, 0x17C,
                  0x180, 0x184, 0x188, 0x18C, 0x190, 0x194
                ]
+
+    def get_string_ptrs(self):
+        return [self.unknown_0x08,  self.unknown_0x0C,
+                 self.unknown_0x10,  self.unknown_0x14,  self.unknown_0x18,  self.unknown_0x1C,
+                 self.unknown_0x20,  self.unknown_0x24,  self.unknown_0x28,  self.unknown_0x2C,
+                 self.unknown_0x30,  self.unknown_0x34,  self.unknown_0x38,  self.unknown_0x3C,
+                 self.unknown_0x40,  self.unknown_0x44,  self.unknown_0x48,  self.unknown_0x4C,
+                 self.unknown_0x50,  self.unknown_0x54,  self.unknown_0x58,  self.unknown_0x5C,
+                 self.unknown_0x60,  self.unknown_0x64,  self.unknown_0x68,  self.unknown_0x6C,
+                 self.unknown_0x70,  self.unknown_0x74,  self.unknown_0x78,  self.unknown_0x7C,
+
+                 self.unknown_0x80,  self.unknown_0x84,  self.unknown_0x88,  self.unknown_0x8C,
+                 self.unknown_0x90,  self.unknown_0x94,  self.unknown_0x98,  self.unknown_0x9C,
+                 self.unknown_0xA0,  self.unknown_0xA4,  self.unknown_0xA8,  self.unknown_0xAC,
+                 self.unknown_0xB0,  self.unknown_0xB4,  self.unknown_0xB8,  self.unknown_0xBC,
+                 self.unknown_0xC0,  self.unknown_0xC4,  self.unknown_0xC8,  self.unknown_0xCC,
+                 self.unknown_0xD0,  self.unknown_0xD4,  self.unknown_0xD8,  self.unknown_0xDC,
+                 self.unknown_0xE0,  self.unknown_0xE4,  self.unknown_0xE8,  self.unknown_0xEC,
+                 self.unknown_0xF0,  self.unknown_0xF4,  self.unknown_0xF8,  self.unknown_0xFC,
+
+                 self.unknown_0x0100,  self.unknown_0x0104,  self.unknown_0x0108,  self.unknown_0x010C,
+                 self.unknown_0x0110,  self.unknown_0x0114,  self.unknown_0x0118,  self.unknown_0x011C,
+                 self.unknown_0x0120,  self.unknown_0x0124,  self.unknown_0x0128,  self.unknown_0x012C,
+                 self.unknown_0x0130,  self.unknown_0x0134,  self.unknown_0x0138,  self.unknown_0x013C,
+                 self.unknown_0x0140,  self.unknown_0x0144,  self.unknown_0x0148,  self.unknown_0x014C,
+                 self.unknown_0x0150,  self.unknown_0x0154,  self.unknown_0x0158,  self.unknown_0x015C,
+                 self.unknown_0x0160,  self.unknown_0x0164,  self.unknown_0x0168,  self.unknown_0x016C,
+                 self.unknown_0x0170,  self.unknown_0x0174,  self.unknown_0x0178,  self.unknown_0x017C,
+
+                 self.unknown_0x0180,  self.unknown_0x0184,  self.unknown_0x0188,  self.unknown_0x018C,
+                 self.unknown_0x0190,  self.unknown_0x0194]
     
 class VlMxGeneralCharParamSetInfo(Serializable):
     def __init__(self, context):
@@ -1717,10 +1760,10 @@ class VlMxJobInfo(Serializable):
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
-        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
-        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
+        self.unknown_0x08 = rw.rw_pointer(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_pointer(self.unknown_0x0C)
         
-        self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
+        self.unknown_0x10 = rw.rw_pointer(self.unknown_0x10)
         self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
         self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
         self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
@@ -1850,6 +1893,9 @@ class VlMxJobInfo(Serializable):
                  0x100, 0x104, 0x108, 0x10C, 0x110, 0x114, 0x118, 0x11C,
                  0x120, 0x124, 0x128
                ]
+
+    def get_string_ptrs(self):
+        return [self.unknown_0x08, self.unknown_0x0C, self.unknown_0x10]
     
 class VlMxMapObjectCommonInfo(Serializable):
     def __init__(self, context):
@@ -1887,7 +1933,7 @@ class VlMxMapObjectInfo(Serializable):
 
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
-        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x04 = rw.rw_pointer(self.unknown_0x04)
         self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
         self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
@@ -1914,6 +1960,9 @@ class VlMxMapObjectInfo(Serializable):
         return [  0x00,  0x04,  0x08,  0x0C,  0x10,  0x14,  0x18,  0x1C,
                   0x20,  0x24
                ]
+
+    def get_string_ptrs(self):
+        return [self.unknown_0x04]
     
 class VlMxNewsPaperInfo(Serializable):
     def __init__(self, context):
@@ -2000,8 +2049,8 @@ class VlMxOrderInfo(Serializable):
 
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
-        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
-        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
+        self.unknown_0x04 = rw.rw_pointer(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_pointer(self.unknown_0x08)
         self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
         self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
@@ -2052,6 +2101,9 @@ class VlMxOrderInfo(Serializable):
                   0x20,         0x28,  0x2C,  0x30,  0x34,  0x38,  0x3C, 
                   0x40,  0x44,         0x4C,  0x50
                ]
+
+    def get_string_ptrs(self):
+        return [self.unknown_0x04, self.unknown_0x08]
     
 class VlMxParameterConvertTable(Serializable):
     def __init__(self, context):
@@ -2213,8 +2265,8 @@ class VlMxPotentialInfo(Serializable):
 
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
-        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
-        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
+        self.unknown_0x04 = rw.rw_pointer(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_pointer(self.unknown_0x08)
         self.unknown_0x0C = rw.rw_pad32(self.unknown_0x0C)
         
         
@@ -2248,6 +2300,9 @@ class VlMxPotentialInfo(Serializable):
         return [  0x00,  0x04,  0x08,                       0x18,  0x1C,
                   0x20,  0x24,  0x28,  0x2C,
                ]
+
+    def get_string_ptrs(self):
+        return [self.unknown_0x04, self.unknown_0x08]
     
 class VlMxSlgInfo(Serializable):
     def __init__(self, context):
@@ -2300,7 +2355,7 @@ class VlMxSlgLandformInfo(Serializable):
 
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
-        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x04 = rw.rw_pointer(self.unknown_0x04)
         self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
         self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
         
@@ -2318,6 +2373,9 @@ class VlMxSlgLandformInfo(Serializable):
     
     def enrs_offsets(self):
         return [  0x00,  0x04,  0x08,  0x0C,  0x10  ]
+
+    def get_string_ptrs(self):
+        return [self.unknown_0x04]
 
 class VlMxSlgStrongholdCommonInfo(Serializable):
     def __init__(self, context):
@@ -2525,7 +2583,7 @@ class VlMxVehicleDevChangeParamInfo(Serializable):
 
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
-        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x04 = rw.rw_pointer(self.unknown_0x04)
             
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04 )
@@ -2538,6 +2596,9 @@ class VlMxVehicleDevChangeParamInfo(Serializable):
     
     def enrs_offsets(self):
         return [  0x00,  0x04  ]
+
+    def get_string_ptrs(self):
+        return [self.unknown_0x04]
     
 
 class VlMxVehicleDevInfo(Serializable):
@@ -2577,9 +2638,9 @@ class VlMxVehicleDevInfo(Serializable):
         self.unknown_0x74 = 0
 
     def read_write(self, rw):
-        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
-        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
-        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
+        self.unknown_0x00 = rw.rw_pointer(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_pointer(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_pointer(self.unknown_0x08)
         self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
         
         self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
@@ -2651,6 +2712,9 @@ class VlMxVehicleDevInfo(Serializable):
                   0x40,  0x44,  0x48,                0x56,  0x58,  0x5C, 
                   0x60,  0x64,  0x68,  0x6C,  0x70
                ]
+
+    def get_string_ptrs(self):
+        return [self.unknown_0x00, self.unknown_0x04, self.unknown_0x08]
     
 class VlMxVehicleEachInfo(Serializable):
     def __init__(self, context):
@@ -2751,16 +2815,16 @@ class VlMxVehicleEachInfo(Serializable):
         
         self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
         self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
-        self.unknown_0x18 = rw.rw_uint32(self.unknown_0x18)
+        self.unknown_0x18 = rw.rw_pointer(self.unknown_0x18)
         self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
-        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_float32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_float32(self.unknown_0x2C)
+        self.unknown_0x24 = rw.rw_pointer(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_pointer(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pointer(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_float32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_uint32(self.unknown_0x34)
+        self.unknown_0x30 = rw.rw_pointer(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pointer(self.unknown_0x34)
         self.unknown_0x38 = rw.rw_uint32(self.unknown_0x38)
         self.unknown_0x3C = rw.rw_uint32(self.unknown_0x3C)
         
@@ -2904,6 +2968,9 @@ class VlMxVehicleEachInfo(Serializable):
                  0x140, 0x144, 0x148, 0x14C, 0x150, 0x154, 0x158
                ]
 
+    def get_string_ptrs(self):
+        return [self.unknown_0x18, self.unknown_0x24, self.unknown_0x28, self.unknown_0x2C, self.unknown_0x30, self.unknown_0x34]
+
 class VlMxVehicleInfo(Serializable):
     def __init__(self, context):
         super().__init__(context)
@@ -2960,19 +3027,19 @@ class VlMxVehicleInfo(Serializable):
 
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
-        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
-        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
-        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
+        self.unknown_0x04 = rw.rw_pointer(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_pointer(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_pointer(self.unknown_0x0C)
         
-        self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
-        self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
-        self.unknown_0x18 = rw.rw_uint32(self.unknown_0x18)
+        self.unknown_0x10 = rw.rw_pointer(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_pointer(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_pointer(self.unknown_0x18)
         self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
         
         self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
-        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_uint32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_float32(self.unknown_0x2C)
+        self.unknown_0x24 = rw.rw_uint32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_pointer(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pointer(self.unknown_0x2C)
         
         self.unknown_0x30 = rw.rw_float32(self.unknown_0x30)
         self.unknown_0x34 = rw.rw_uint32(self.unknown_0x34)
@@ -3049,7 +3116,7 @@ class VlMxVehicleInfo(Serializable):
         return [0x70, 0x78]
         
     def pof0_offsets(self):
-        return [ 0x04, 0x08, 0x0C, 0x10, 0x14, 0x18, 0x24, 0x28 ]
+        return [ 0x04, 0x08, 0x0C, 0x10, 0x14, 0x18, 0x28 ]
     
     def enrs_offsets(self):
         return [  0x00,  0x04,  0x08,  0x0C,  0x10,  0x14,  0x18,  0x1C,
@@ -3060,6 +3127,11 @@ class VlMxVehicleInfo(Serializable):
                   0xA0,  0xA4,  0xA8,                       0xB8,  0xBC,
                   0xC0,  0xC4,  0xC8
                ]
+
+    def get_string_ptrs(self):
+        return [self.unknown_0x04, self.unknown_0x08, self.unknown_0x0C,
+                self.unknown_0x10, self.unknown_0x14, self.unknown_0x18,
+                self.unknown_0x28]
     
 class VlMxWeaponBringOnUnwholesomeInfo(Serializable):
     def __init__(self, context):
@@ -3180,8 +3252,8 @@ class VlMxWeaponInfo(Serializable):
         self.unknown_0xF4 = 0
 
     def read_write(self, rw):
-        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
-        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x00 = rw.rw_pointer(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_pointer(self.unknown_0x04)
         self.unknown_0x08 = rw.rw_int64(self.unknown_0x08)
 
         self.unknown_0x10 = rw.rw_int64(self.unknown_0x10)
@@ -3292,10 +3364,13 @@ class VlMxWeaponInfo(Serializable):
                   0xE0,  0xE4,  0xE8,  0xEC,  0xF0,  0xF4
                ]
 
+    def get_string_ptrs(self):
+        return [self.unknown_0x00, self.unknown_0x04]
+
 class VlMxBookDecorationInfo(Serializable):
     def __init__(self, context):
         super().__init__(context)
-        self.unknown_0x00 = 0
+        self.id = 0
         self.unknown_0x04 = 0
         self.unknown_0x08 = 0
         self.unknown_0x0C = 0
@@ -3303,22 +3378,25 @@ class VlMxBookDecorationInfo(Serializable):
         self.unknown_0x14 = 0
 
     def read_write(self, rw):
-        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
-        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
-        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
-        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
+        self.id = rw.rw_uint32(self.id)
+        self.unknown_0x04 = rw.rw_pointer(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_pointer(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_pointer(self.unknown_0x0C)
         
-        self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
-        self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
+        self.unknown_0x10 = rw.rw_pointer(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_pointer(self.unknown_0x14)
     
     def get_data(self):
-        return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
-                 self.unknown_0x10,  self.unknown_0x14, )
+        return (self.id, self.unknown_0x04, self.unknown_0x08, self.unknown_0x0C,
+                self.unknown_0x10, self.unknown_0x14, )
+
+    def get_string_ptrs(self):
+        return [self.unknown_0x04, self.unknown_0x08, self.unknown_0x0C, self.unknown_0x10, self.unknown_0x14]
 
 class VlMxBookHistoryInfo(Serializable):
     def __init__(self, context):
         super().__init__(context)
-        self.unknown_0x00 = 0
+        self.id = 0
         self.unknown_0x04 = 0
         self.unknown_0x08 = 0
         self.unknown_0x0C = 0
@@ -3342,7 +3420,7 @@ class VlMxBookHistoryInfo(Serializable):
         self.unknown_0x54 = 0
 
     def read_write(self, rw):
-        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.id = rw.rw_uint32(self.id)
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
         self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
         self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
@@ -3350,14 +3428,14 @@ class VlMxBookHistoryInfo(Serializable):
         self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
         self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
         self.unknown_0x18 = rw.rw_uint32(self.unknown_0x18)
-        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
+        self.unknown_0x1C = rw.rw_uint32(self.unknown_0x1C)
         
-        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
-        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_float32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_float32(self.unknown_0x2C)
+        self.unknown_0x20 = rw.rw_uint32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_uint32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_uint32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_uint32(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_float32(self.unknown_0x30)
+        self.unknown_0x30 = rw.rw_uint32(self.unknown_0x30)
         self.unknown_0x34 = rw.rw_uint32(self.unknown_0x34)
         self.unknown_0x38 = rw.rw_uint32(self.unknown_0x38)
         self.unknown_0x3C = rw.rw_uint32(self.unknown_0x3C)
@@ -3365,18 +3443,26 @@ class VlMxBookHistoryInfo(Serializable):
         self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
         self.unknown_0x44 = rw.rw_int32(self.unknown_0x44)
         self.unknown_0x48 = rw.rw_int32(self.unknown_0x48)
-        self.unknown_0x4C = rw.rw_float32(self.unknown_0x4C)
+        self.unknown_0x4C = rw.rw_uint32(self.unknown_0x4C)
         
-        self.unknown_0x50 = rw.rw_float32(self.unknown_0x50)
-        self.unknown_0x54 = rw.rw_float32(self.unknown_0x54)
+        self.unknown_0x50 = rw.rw_uint32(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_uint32(self.unknown_0x54)
     
     def get_data(self):
-        return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
-                 self.unknown_0x10,  self.unknown_0x14,  self.unknown_0x18,  self.unknown_0x1C, 
-                 self.unknown_0x20,  self.unknown_0x24,  self.unknown_0x28,  self.unknown_0x2C, 
-                 self.unknown_0x30,  self.unknown_0x34,  self.unknown_0x38,  self.unknown_0x3C, 
-                 self.unknown_0x40,  self.unknown_0x44,  self.unknown_0x48,  self.unknown_0x4C, 
-                 self.unknown_0x50,  self.unknown_0x54 )
+        return (self.id, self.unknown_0x04, self.unknown_0x08, self.unknown_0x0C,
+                self.unknown_0x10, self.unknown_0x14, self.unknown_0x18, self.unknown_0x1C,
+                self.unknown_0x20, self.unknown_0x24, self.unknown_0x28, self.unknown_0x2C,
+                self.unknown_0x30, self.unknown_0x34, self.unknown_0x38, self.unknown_0x3C,
+                self.unknown_0x40, self.unknown_0x44, self.unknown_0x48, self.unknown_0x4C,
+                self.unknown_0x50, self.unknown_0x54 )
+
+    def get_string_ptrs(self):
+        return (self.unknown_0x04, self.unknown_0x08, self.unknown_0x0C,
+                self.unknown_0x10, self.unknown_0x14, self.unknown_0x18, self.unknown_0x1C,
+                self.unknown_0x20, self.unknown_0x24, self.unknown_0x28, self.unknown_0x2C,
+                self.unknown_0x30, self.unknown_0x34, self.unknown_0x38, self.unknown_0x3C,
+                self.unknown_0x40, self.unknown_0x44, self.unknown_0x48, self.unknown_0x4C,
+                self.unknown_0x50, self.unknown_0x54 )
 
   
 class VlMxBookPersonInfo(Serializable):
@@ -3491,32 +3577,32 @@ class VlMxBookPersonInfo(Serializable):
 
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
-        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
-        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
-        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
+        self.unknown_0x04 = rw.rw_pointer(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_pointer(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_pointer(self.unknown_0x0C)
         
-        self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
-        self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
-        self.unknown_0x18 = rw.rw_uint32(self.unknown_0x18)
-        self.unknown_0x1C = rw.rw_uint32(self.unknown_0x1C)
+        self.unknown_0x10 = rw.rw_pointer(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_pointer(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_pointer(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_pointer(self.unknown_0x1C)
         
-        self.unknown_0x20 = rw.rw_uint32(self.unknown_0x20)
-        self.unknown_0x24 = rw.rw_uint32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_uint32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_uint32(self.unknown_0x2C)
+        self.unknown_0x20 = rw.rw_pointer(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_pointer(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_pointer(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pointer(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_uint32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_uint32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_uint32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_uint32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pointer(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pointer(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pointer(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pointer(self.unknown_0x3C)
         
-        self.unknown_0x40 = rw.rw_uint32(self.unknown_0x40)
-        self.unknown_0x44 = rw.rw_uint32(self.unknown_0x44)
-        self.unknown_0x48 = rw.rw_uint32(self.unknown_0x48)
-        self.unknown_0x4C = rw.rw_uint32(self.unknown_0x4C)
+        self.unknown_0x40 = rw.rw_pointer(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_pointer(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_pointer(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_pointer(self.unknown_0x4C)
         
-        self.unknown_0x50 = rw.rw_uint32(self.unknown_0x50)
-        self.unknown_0x54 = rw.rw_uint32(self.unknown_0x54)
+        self.unknown_0x50 = rw.rw_pointer(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_pointer(self.unknown_0x54)
         self.unknown_0x58 = rw.rw_uint32(self.unknown_0x58)
         self.unknown_0x5C = rw.rw_uint32(self.unknown_0x5C)
         
@@ -3654,7 +3740,15 @@ class VlMxBookPersonInfo(Serializable):
                  self.unknown_0x0180,  self.unknown_0x0184,  self.unknown_0x0188,  self.unknown_0x018C,
                  self.unknown_0x0190,  self.unknown_0x0194,  self.unknown_0x0198,  self.unknown_0x019C,
                  self.unknown_0x01A0,  self.unknown_0x01A4, )   
-    
+
+    def get_string_ptrs(self):
+        return (self.unknown_0x04, self.unknown_0x08, self.unknown_0x0C,
+                self.unknown_0x10, self.unknown_0x14, self.unknown_0x18, self.unknown_0x1C,
+                self.unknown_0x20, self.unknown_0x24, self.unknown_0x28, self.unknown_0x2C,
+                self.unknown_0x30, self.unknown_0x34, self.unknown_0x38, self.unknown_0x3C,
+                self.unknown_0x40, self.unknown_0x44, self.unknown_0x48, self.unknown_0x4C,
+                self.unknown_0x50, self.unknown_0x54)
+
 class VlMxBookSoundInfo(Serializable):
     def __init__(self, context):
         super().__init__(context)
@@ -3664,12 +3758,14 @@ class VlMxBookSoundInfo(Serializable):
 
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
-        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x04 = rw.rw_pointer(self.unknown_0x04)
         self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
     
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08, )
-    
+
+    def get_string_ptrs(self):
+        return (self.unknown_0x04,)
     
 class EnTalkEventObjParam(Serializable):
     def __init__(self, context):
@@ -4369,7 +4465,7 @@ class EnSkyParam(Serializable):
 class VlMxBookWeaponInfo(Serializable):
     def __init__(self, context):
         super().__init__(context)
-        self.unknown_0x00 = 0
+        self.id = 0
         self.unknown_0x04 = 0
         self.unknown_0x08 = 0
         self.unknown_0x0C = 0
@@ -4411,34 +4507,34 @@ class VlMxBookWeaponInfo(Serializable):
         self.unknown_0x9C = 0
 
     def read_write(self, rw):
-        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
-        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
-        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
-        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
+        self.id = rw.rw_uint32(self.id)
+        self.unknown_0x04 = rw.rw_pointer(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_pointer(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_pointer(self.unknown_0x0C)
         
-        self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
-        self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
-        self.unknown_0x18 = rw.rw_uint32(self.unknown_0x18)
-        self.unknown_0x1C = rw.rw_uint32(self.unknown_0x1C)
+        self.unknown_0x10 = rw.rw_pointer(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_pointer(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_pointer(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_pointer(self.unknown_0x1C)
         
-        self.unknown_0x20 = rw.rw_uint32(self.unknown_0x20)
-        self.unknown_0x24 = rw.rw_uint32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_uint32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_uint32(self.unknown_0x2C)
+        self.unknown_0x20 = rw.rw_pointer(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_pointer(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_pointer(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pointer(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_uint32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_uint32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_uint32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_uint32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pointer(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pointer(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pointer(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pointer(self.unknown_0x3C)
         
-        self.unknown_0x40 = rw.rw_uint32(self.unknown_0x40)
-        self.unknown_0x44 = rw.rw_uint32(self.unknown_0x44)
-        self.unknown_0x48 = rw.rw_uint32(self.unknown_0x48)
-        self.unknown_0x4C = rw.rw_uint32(self.unknown_0x4C)
+        self.unknown_0x40 = rw.rw_pointer(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_pointer(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_pointer(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_pointer(self.unknown_0x4C)
         
-        self.unknown_0x50 = rw.rw_uint32(self.unknown_0x50)
-        self.unknown_0x54 = rw.rw_uint32(self.unknown_0x54)
-        self.unknown_0x58 = rw.rw_uint32(self.unknown_0x58)
+        self.unknown_0x50 = rw.rw_pointer(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_pointer(self.unknown_0x54)
+        self.unknown_0x58 = rw.rw_pointer(self.unknown_0x58)
         self.unknown_0x5C = rw.rw_uint32(self.unknown_0x5C)
         
         self.unknown_0x60 = rw.rw_uint32(self.unknown_0x60)
@@ -4462,18 +4558,25 @@ class VlMxBookWeaponInfo(Serializable):
         self.unknown_0x9C = rw.rw_uint32(self.unknown_0x9C)
     
     def get_data(self):
-        return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08,  self.unknown_0x0C, 
-                 self.unknown_0x10,  self.unknown_0x14,  self.unknown_0x18,  self.unknown_0x1C, 
-                 self.unknown_0x20,  self.unknown_0x24,  self.unknown_0x28,  self.unknown_0x2C, 
-                 self.unknown_0x30,  self.unknown_0x34,  self.unknown_0x38,  self.unknown_0x3C, 
-                 self.unknown_0x40,  self.unknown_0x44,  self.unknown_0x48,  self.unknown_0x4C, 
-                 self.unknown_0x50,  self.unknown_0x54,  self.unknown_0x58,  self.unknown_0x5C, 
-                 self.unknown_0x60,  self.unknown_0x64,  self.unknown_0x68,  self.unknown_0x6C, 
-                 self.unknown_0x70,  self.unknown_0x74,  self.unknown_0x78,  self.unknown_0x7C, 
-                 
-                 self.unknown_0x80,  self.unknown_0x84,  self.unknown_0x88,  self.unknown_0x8C, 
-                 self.unknown_0x90,  self.unknown_0x94,  self.unknown_0x98,  self.unknown_0x9C )   
-    
+        return (self.id, self.unknown_0x04, self.unknown_0x08, self.unknown_0x0C,
+                self.unknown_0x10, self.unknown_0x14, self.unknown_0x18, self.unknown_0x1C,
+                self.unknown_0x20, self.unknown_0x24, self.unknown_0x28, self.unknown_0x2C,
+                self.unknown_0x30, self.unknown_0x34, self.unknown_0x38, self.unknown_0x3C,
+                self.unknown_0x40, self.unknown_0x44, self.unknown_0x48, self.unknown_0x4C,
+                self.unknown_0x50, self.unknown_0x54, self.unknown_0x58, self.unknown_0x5C,
+                self.unknown_0x60, self.unknown_0x64, self.unknown_0x68, self.unknown_0x6C,
+                self.unknown_0x70, self.unknown_0x74, self.unknown_0x78, self.unknown_0x7C,
+
+                self.unknown_0x80, self.unknown_0x84, self.unknown_0x88, self.unknown_0x8C,
+                self.unknown_0x90, self.unknown_0x94, self.unknown_0x98, self.unknown_0x9C )
+
+    def get_string_ptrs(self):
+        return (self.unknown_0x04, self.unknown_0x08, self.unknown_0x0C,
+                self.unknown_0x10, self.unknown_0x14, self.unknown_0x18, self.unknown_0x1C,
+                self.unknown_0x20, self.unknown_0x24, self.unknown_0x28, self.unknown_0x2C,
+                self.unknown_0x30, self.unknown_0x34, self.unknown_0x38, self.unknown_0x3C,
+                self.unknown_0x40, self.unknown_0x44, self.unknown_0x48, self.unknown_0x4C,
+                self.unknown_0x50, self.unknown_0x54, self.unknown_0x58)
   
 class VlMxCanvasShaderParam(Serializable):
     def __init__(self, context):
@@ -6431,33 +6534,33 @@ class VlMxBriefingInfo(Serializable):
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
         self.unknown_0x04 = rw.rw_pad32(self.unknown_0x04)
-        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
-        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
+        self.unknown_0x08 = rw.rw_pointer(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_pointer(self.unknown_0x0C)
 
         # rw.assert_is_zero(self.unknown_0x04)
         
-        self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
-        self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
-        self.unknown_0x18 = rw.rw_uint32(self.unknown_0x18)
-        self.unknown_0x1C = rw.rw_uint32(self.unknown_0x1C)
+        self.unknown_0x10 = rw.rw_pointer(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_pointer(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_pointer(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_pointer(self.unknown_0x1C)
         
-        self.unknown_0x20 = rw.rw_uint32(self.unknown_0x20)
-        self.unknown_0x24 = rw.rw_uint32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_uint32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_uint32(self.unknown_0x2C)
+        self.unknown_0x20 = rw.rw_pointer(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_pointer(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_pointer(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_pointer(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_uint32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_uint32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_uint32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_uint32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_pointer(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_pointer(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_pointer(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_pointer(self.unknown_0x3C)
         
-        self.unknown_0x40 = rw.rw_uint32(self.unknown_0x40)
-        self.unknown_0x44 = rw.rw_uint32(self.unknown_0x44)
-        self.unknown_0x48 = rw.rw_uint32(self.unknown_0x48)
-        self.unknown_0x4C = rw.rw_uint32(self.unknown_0x4C)
+        self.unknown_0x40 = rw.rw_pointer(self.unknown_0x40)
+        self.unknown_0x44 = rw.rw_pointer(self.unknown_0x44)
+        self.unknown_0x48 = rw.rw_pointer(self.unknown_0x48)
+        self.unknown_0x4C = rw.rw_pointer(self.unknown_0x4C)
         
-        self.unknown_0x50 = rw.rw_uint32(self.unknown_0x50)
-        self.unknown_0x54 = rw.rw_uint32(self.unknown_0x54)
+        self.unknown_0x50 = rw.rw_pointer(self.unknown_0x50)
+        self.unknown_0x54 = rw.rw_pointer(self.unknown_0x54)
         self.unknown_0x58 = rw.rw_int32(self.unknown_0x58)
         self.unknown_0x5C = rw.rw_int32(self.unknown_0x5C)
         
@@ -6508,7 +6611,7 @@ class VlMxBriefingInfo(Serializable):
         
         self.unknown_0xF0 = rw.rw_int32(self.unknown_0xF0)
         self.unknown_0xF4 = rw.rw_int32(self.unknown_0xF4)
-        self.unknown_0xF8 = rw.rw_uint32(self.unknown_0xF8)
+        self.unknown_0xF8 = rw.rw_pointer(self.unknown_0xF8)
         self.unknown_0xFC = rw.rw_int32(self.unknown_0xFC)
         
     def get_data(self):
@@ -6549,6 +6652,15 @@ class VlMxBriefingInfo(Serializable):
                  0xA0,  0xA4,  0xA8,  0xAC,  0xB0,  0xB4,  0xB8,  0xBC,
                  0xC0,  0xC4,  0xC8,  0xCC,  0xD0,  0xD4,  0xD8,  0xDC,
                  0xE0,  0xE4,  0xE8,  0xEC,  0xF0,  0xF4,  0xF8,  0xFC
+               ]
+
+    def get_string_ptrs(self):
+        return [ self.unknown_0x08,  self.unknown_0x0C,
+                 self.unknown_0x10,  self.unknown_0x14,  self.unknown_0x18,  self.unknown_0x1C,
+                 self.unknown_0x20,  self.unknown_0x24,  self.unknown_0x28,  self.unknown_0x2C,
+                 self.unknown_0x30,  self.unknown_0x34,  self.unknown_0x38,  self.unknown_0x3C,
+                 self.unknown_0x40,  self.unknown_0x44,  self.unknown_0x48,  self.unknown_0x4C,
+                 self.unknown_0x50,  self.unknown_0x54,  self.unknown_0xF8
                ]
 
 class VlMxFieldInfo(Serializable):
@@ -7261,12 +7373,15 @@ class VlMxCountryInfo(Serializable):
 
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
-        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
+        self.unknown_0x04 = rw.rw_pointer(self.unknown_0x04)
         self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
         
         
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08)
+
+    def get_string_ptrs(self):
+        return [self.unknown_0x04]
         
 class VlMxSlgCameraInfo(Serializable):
     def __init__(self, context):
@@ -7290,27 +7405,27 @@ class VlMxSlgCameraInfo(Serializable):
         self.unknown_0x40 = 0
 
     def read_write(self, rw):
-        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
-        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
-        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
-        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
+        self.unknown_0x00 = rw.rw_float32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_float32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_float32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_float32(self.unknown_0x0C)
         
-        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
-        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
-        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
-        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
+        self.unknown_0x10 = rw.rw_float32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_float32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_float32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_float32(self.unknown_0x1C)
         
-        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
-        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x20 = rw.rw_float32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_float32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_float32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_float32(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
-        self.unknown_0x34 = rw.rw_int32(self.unknown_0x34)
-        self.unknown_0x38 = rw.rw_int32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_int32(self.unknown_0x3C)
+        self.unknown_0x30 = rw.rw_float32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_float32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_float32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_float32(self.unknown_0x3C)
         
-        self.unknown_0x40 = rw.rw_int32(self.unknown_0x40)
+        self.unknown_0x40 = rw.rw_float32(self.unknown_0x40)
         
         
     def get_data(self):
@@ -7330,10 +7445,10 @@ class VlMxSlgCommandCursorInfo(Serializable):
         self.unknown_0x0C = 0
 
     def read_write(self, rw):
-        self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
-        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
-        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
-        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
+        self.unknown_0x00 = rw.rw_float32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_float32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_float32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_float32(self.unknown_0x0C)
         
         
     def get_data(self):
@@ -7359,21 +7474,21 @@ class VlMxTargetModeGazeFixedInfo(Serializable):
 
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_int32(self.unknown_0x00)
-        self.unknown_0x04 = rw.rw_int32(self.unknown_0x04)
-        self.unknown_0x08 = rw.rw_int32(self.unknown_0x08)
-        self.unknown_0x0C = rw.rw_int32(self.unknown_0x0C)
+        self.unknown_0x04 = rw.rw_float32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_float32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_float32(self.unknown_0x0C)
         
-        self.unknown_0x10 = rw.rw_int32(self.unknown_0x10)
-        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
-        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
-        self.unknown_0x1C = rw.rw_int32(self.unknown_0x1C)
+        self.unknown_0x10 = rw.rw_float32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_float32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_float32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_float32(self.unknown_0x1C)
         
-        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
-        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x20 = rw.rw_float32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_float32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_float32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_float32(self.unknown_0x2C)
         
-        self.unknown_0x30 = rw.rw_int32(self.unknown_0x30)
+        self.unknown_0x30 = rw.rw_float32(self.unknown_0x30)
         
         
     def get_data(self):
