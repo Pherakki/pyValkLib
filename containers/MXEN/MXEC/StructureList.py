@@ -1570,7 +1570,7 @@ class VlMxGeneralCharInfo(Serializable):
                  0x180, 0x184, 0x188, 0x18C, 0x190, 0x194
                ]
 
-    def get_string_ptrs(self):
+    def get_shiftjis_string_ptrs(self):
         return [self.unknown_0x08,  self.unknown_0x0C,
                  self.unknown_0x10,  self.unknown_0x14,  self.unknown_0x18,  self.unknown_0x1C,
                  self.unknown_0x20,  self.unknown_0x24,  self.unknown_0x28,  self.unknown_0x2C,
@@ -7380,7 +7380,7 @@ class VlMxCountryInfo(Serializable):
     def get_data(self):
         return ( self.unknown_0x00,  self.unknown_0x04,  self.unknown_0x08)
 
-    def get_string_ptrs(self):
+    def get_shiftjis_string_ptrs(self):
         return [self.unknown_0x04]
         
 class VlMxSlgCameraInfo(Serializable):
