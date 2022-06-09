@@ -198,14 +198,15 @@ class MXECReadWriter(ValkSerializable32BH):
         component_string_offsets = [subitem for item in component_string_offsets for subitem in item]
         start_of_component_strings = min(component_string_offsets) if len(component_string_offsets) else end_point
 
-        main_string_blob      = memoryview(rw.bytestream.read(start_of_component_strings - rw.local_tell()))
+        main_string_blob      = memoryview(rw.bytestream.read(start_of_component_strings - start_pos))
         if len(main_string_blob):
             if main_string_blob[0] == 0:
                 curpos += 1
+
         n_entries = 0
         while curpos < start_of_component_strings:
             strn, size = parse_null_terminated_string(main_string_blob[curpos-start_pos:])
-            if strn == b"":
+            if strn == "":
                 curpos += 1  # Looks like we read a null-terminator, must be at alignment
                 break
 
@@ -217,8 +218,9 @@ class MXECReadWriter(ValkSerializable32BH):
 
         remaining_stuff = main_string_blob[curpos-start_pos:].tobytes()
         if remaining_stuff != (b'\x00'*len(remaining_stuff)):
+            print(remaining_stuff)
             raise Exception(f"End of main string bank not reached!\n{remaining_stuff}")
-        rw.align(rw.local_tell(), 0x10) # <- Alignment not done for VlMxGeneralCharInfo??!!? Are some strings shared between components and main on game_info_sys_param?!
+        rw.align(rw.local_tell(), 0x10)
         curpos = rw.local_tell()
 
         rw.assert_local_file_pointer_now_at("Start of Component Strings Table", start_of_component_strings)
@@ -227,8 +229,8 @@ class MXECReadWriter(ValkSerializable32BH):
             if component_string_blob[0] == 0:
                 curpos += 1
         while curpos < end_point:
-            strn, size = parse_null_terminated_string(component_string_blob[curpos-start_of_component_strings:])
-            if strn == b"":
+            strn, size = parse_null_terminated_string_utf8(component_string_blob[curpos-start_of_component_strings:])
+            if strn == "":
                 break
 
             self.strings.data.append(strn)
@@ -276,7 +278,20 @@ def parse_null_terminated_string(data):
     size = 0
     while data[size] != 0:
         size += 1
+    try:
+        string = data[0:size].tobytes().decode('cp932') # Asset table strings are UTF8, all others are SHIFT-JIS... delay decode for the particular table
+    except Exception as e:
+        print(data[0:size].tobytes())
+        raise e
+    return string, size+1
 
-    string = data[0:size].tobytes()#.decode('cp932') # Asset table strings are UTF8, all others are SHIFT-JIS... delay decode for the particular table
-
+def parse_null_terminated_string_utf8(data):
+    size = 0
+    while data[size] != 0:
+        size += 1
+    try:
+        string = data[0:size].tobytes().decode('utf8') # Asset table strings are UTF8, all others are SHIFT-JIS... delay decode for the particular table
+    except Exception as e:
+        print(data[0:size].tobytes())
+        raise e
     return string, size+1
