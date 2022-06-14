@@ -3,7 +3,7 @@ from pyValkLib.containers.MXEN.MXEC.StructureList import data_types
 
 
 class ComponentEntry(Serializable):
-    __slots__ = ("ID", "name_offset", "data_size", "data_offset", "component_type", "data")
+    __slots__ = ("name", "ID", "name_offset", "data_size", "data_offset", "component_type", "data")
 
     def __init__(self, context):
         super().__init__(context)
