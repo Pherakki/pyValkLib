@@ -186,6 +186,9 @@ class MXECReadWriter(ValkSerializable32BH):
         rw.align(rw.local_tell(), 0x10)
         
     def read_strings(self, rw):
+        # Instead of reading/writing blobs, might make sense to collect a list
+        # of string pointers during the read/write and then make those read/writes.
+        # You would of course have to keep separate lists for UTF-8 and SHIFT-JIS strings.
         curpos = rw.local_tell()
         start_pos = rw.local_tell()
 
@@ -262,6 +265,8 @@ class MXECReadWriter(ValkSerializable32BH):
             rw.bytestream.write(struct.pack('Q', data))
 
     def rw_unknowns(self, rw):
+        # Pretty sure this can just be read/written as a PIA if you put the
+        # uniqueness check on it
         if (rw.mode() == "read"):
             self.read_unknowns(rw)
         elif (rw.mode() == "write"):
