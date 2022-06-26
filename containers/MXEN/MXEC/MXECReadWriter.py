@@ -220,7 +220,7 @@ class MXECReadWriter(ValkSerializable32BH):
         if remaining_stuff != (b'\x00'*len(remaining_stuff)):
             print(remaining_stuff)
             raise Exception(f"End of main string bank not reached!\n{remaining_stuff}")
-        rw.align(rw.local_tell(), 0x10)
+        rw.align(rw.local_tell(), 0x10) # Will already be aligned since we've read an aligned blob
         curpos = rw.local_tell()
 
         rw.assert_local_file_pointer_now_at("Start of Component Strings Table", start_of_component_strings)
@@ -243,7 +243,7 @@ class MXECReadWriter(ValkSerializable32BH):
         if remaining_stuff != (b'\x00'*len(remaining_stuff)):
             print(remaining_stuff)
             raise Exception("End of component string bank not reached!")
-        rw.align(rw.local_tell(), 0x10)
+        rw.align(rw.local_tell(), 0x10) # Will already be aligned since we've read an aligned blob
         rw.assert_local_file_pointer_now_at("End of Component Strings Table", end_point)
         
     def write_strings(self, rw):
