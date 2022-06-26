@@ -262,7 +262,7 @@ class MXECReadWriter(ValkSerializable32BH):
 
     def write_unknowns(self, rw):
         for data in self.unknowns.data:
-            rw.bytestream.write(struct.pack('Q', *data))
+            rw.bytestream.write(struct.pack('Q', data))
 
     def rw_unknowns(self, rw):
         if (rw.mode() == "read"):
