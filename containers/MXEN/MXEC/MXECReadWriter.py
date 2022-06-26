@@ -225,9 +225,6 @@ class MXECReadWriter(ValkSerializable32BH):
 
         rw.assert_local_file_pointer_now_at("Start of Component Strings Table", start_of_component_strings)
         component_string_blob = memoryview(rw.bytestream.read(end_point - start_of_component_strings))
-        if len(component_string_blob):
-            if component_string_blob[0] == 0:
-                curpos += 1
         while curpos < end_point:
             strn, size = parse_null_terminated_string_utf8(component_string_blob[curpos-start_of_component_strings:])
             if strn == "":
