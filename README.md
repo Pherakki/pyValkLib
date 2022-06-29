@@ -32,7 +32,7 @@ Key: ✔️: Supported 🟡: Partial support ❌ : Not supported
 | MMR | ❌ | ❌ |
 | MSB | ❌ | ❌ |
 | MTP | ❌ | ❌ |
-| MXE | 🟡 | ❌ |
+| MXE | 🟡 | 🟡 |
 | NAD | ❌ | ❌ |
 | PVS | ❌ | ❌ |
 
