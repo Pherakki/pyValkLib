@@ -118,9 +118,9 @@ class EntryTable(Serializable):
         for entry in sorted([entry for entry in self.entries.data], key=lambda x: x.data_offset):
             if rw.mode() == "read":
                 component_type = self.check_struct_type(rw, entry.name_offset)
-                entry.component_type = component_type
+                entry.parameter_type = component_type
             else:
-                component_type = entry.component_type
+                component_type = entry.parameter_type
             
             if entry.data_offset:
                 rw.assert_local_file_pointer_now_at("Entry Data", entry.data_offset)

@@ -2,7 +2,7 @@ from pyValkLib.serialisation.Serializable import Context
 from pyValkLib.serialisation.ValkSerializable import ValkSerializable32BH
 from pyValkLib.serialisation.PointerIndexableArray import PointerIndexableArray, PointerIndexableArrayCStr, PointerIndexableArrayUint64
 from pyValkLib.containers.MXEN.MXEC.EntryTable import EntryTable 
-from pyValkLib.containers.MXEN.MXEC.ECSComponentEntry import ComponentEntry
+from pyValkLib.containers.MXEN.MXEC.ParameterEntry import ParameterEntry
 from pyValkLib.containers.MXEN.MXEC.ECSEntityEntry import EntityEntry
 from pyValkLib.containers.MXEN.MXEC.BatchRenderEntry import BatchRenderEntry
 from pyValkLib.containers.MXEN.MXEC.AssetTable import AssetTable
@@ -16,7 +16,7 @@ class MXECReadWriter(ValkSerializable32BH):
         super().__init__(containers, endianness)
         
         self.content_flags          = None
-        self.component_table_ptr    = None
+        self.parameter_sets_table_ptr   = None
         self.entity_table_ptr       = None
         self.asset_table_ptr        = None
         
@@ -35,7 +35,7 @@ class MXECReadWriter(ValkSerializable32BH):
         self.padding_0x58           = 0
         self.padding_0x5C           = 0
         
-        self.component_table    = EntryTable(ComponentEntry, self.context)    # Component table
+        self.parameter_sets_table   = EntryTable(ParameterEntry, self.context)    # Parameter table
         self.entity_table       = EntryTable(EntityEntry, self.context)       # Entity table
         self.batch_render_table = EntryTable(BatchRenderEntry, self.context)  # Batch render table?
         # "Batch Render" role is not confirmed; just a guess for now
@@ -57,7 +57,7 @@ class MXECReadWriter(ValkSerializable32BH):
             
     def __repr__(self):
         return f"MXEC Object [{self.header.depth}] [0x{self.header.flags:0>8x}]:\n" \
-               f"[{len(self.component_table.entries.data)}] Components.\n"\
+               f"[{len(self.parameter_sets_table.entries.data)}] Parameter Sets.\n"\
                f"[{len(self.entity_table.entries.data)}] Entities.\n"\
                f"[{len(self.batch_render_table.entries.data)}] Batch Render Entries.\n"\
                f"[{len(self.asset_table.entries.data)}] Asset References.\n"\
@@ -67,7 +67,7 @@ class MXECReadWriter(ValkSerializable32BH):
     def read_write_contents(self, rw):
         rw.assert_equal(self.header.flags, 0x18000000, lambda x: hex(x))
         self.rw_fileinfo(rw)
-        self.rw_components_table(rw)
+        self.rw_parameter_sets_table(rw)
         self.rw_entities_table(rw)
         self.rw_batch_render_table(rw)
         self.rw_asset_table(rw)
@@ -77,10 +77,10 @@ class MXECReadWriter(ValkSerializable32BH):
     def rw_fileinfo(self, rw):
         # Read/write
 
-        self.content_flags       = rw.rw_uint32(self.content_flags)
-        self.component_table_ptr = rw.rw_pointer(self.component_table_ptr)
-        self.entity_table_ptr    = rw.rw_pointer(self.entity_table_ptr)
-        self.asset_table_ptr     = rw.rw_pointer(self.asset_table_ptr)
+        self.content_flags            = rw.rw_uint32(self.content_flags)
+        self.parameter_sets_table_ptr = rw.rw_pointer(self.parameter_sets_table_ptr)
+        self.entity_table_ptr         = rw.rw_pointer(self.entity_table_ptr)
+        self.asset_table_ptr          = rw.rw_pointer(self.asset_table_ptr)
 
         self.unknown_0x30           = rw.rw_uint32(self.unknown_0x30)
         self.batch_render_table_ptr = rw.rw_pointer(self.batch_render_table_ptr)
@@ -130,13 +130,13 @@ class MXECReadWriter(ValkSerializable32BH):
         rw.assert_equal(self.padding_0x58, 0)
         rw.assert_equal(self.padding_0x5C, 0)
         
-    def rw_components_table(self, rw):
-        if self.component_table_ptr != 0:
-            rw.assert_local_file_pointer_now_at("Component Table", self.component_table_ptr)
-            rw.rw_obj_method(self.component_table, self.component_table.rw_fileinfo)
-            rw.assert_local_file_pointer_now_at("Component Table Entry Headers", self.component_table.entry_ptr)
-            rw.rw_obj_method(self.component_table, self.component_table.rw_entry_headers)
-            rw.rw_obj_method(self.component_table, self.component_table.rw_entries)
+    def rw_parameter_sets_table(self, rw):
+        if self.parameter_sets_table_ptr != 0:
+            rw.assert_local_file_pointer_now_at("Parameter Sets Table", self.parameter_sets_table_ptr)
+            rw.rw_obj_method(self.parameter_sets_table, self.parameter_sets_table.rw_fileinfo)
+            rw.assert_local_file_pointer_now_at("Parameter Sets Table Entry Headers", self.parameter_sets_table.entry_ptr)
+            rw.rw_obj_method(self.parameter_sets_table, self.parameter_sets_table.rw_entry_headers)
+            rw.rw_obj_method(self.parameter_sets_table, self.parameter_sets_table.rw_entries)
 
     def rw_entities_table(self, rw):
         if self.entity_table_ptr != 0:

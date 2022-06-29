@@ -2,8 +2,8 @@ from pyValkLib.serialisation.Serializable import Serializable
 from pyValkLib.containers.MXEN.MXEC.StructureList import data_types
 
 
-class ComponentEntry(Serializable):
-    __slots__ = ("name", "ID", "name_offset", "data_size", "data_offset", "component_type", "data")
+class ParameterEntry(Serializable):
+    __slots__ = ("name", "ID", "name_offset", "data_size", "data_offset", "parameter_type", "data")
 
     def __init__(self, context):
         super().__init__(context)
@@ -12,7 +12,7 @@ class ComponentEntry(Serializable):
         self.data_size = 0
         self.data_offset = 0
         
-        self.component_type = None
+        self.parameter_type = None
         
         self.data = None
         

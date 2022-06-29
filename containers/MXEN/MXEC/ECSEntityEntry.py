@@ -2,7 +2,7 @@ from pyValkLib.serialisation.Serializable import Serializable
 from pyValkLib.serialisation.PointerIndexableArray import PointerIndexableArray, PointerIndexableArrayUint32
     
 class EntityEntry(Serializable):
-    __slots__ = ("ID", "name_offset", "count", "data_offset", "data", "component_type",
+    __slots__ = ("ID", "name_offset", "count", "data_offset", "data", "parameter_type",
                  "padding_0x10", "padding_0x14", "controller_entity_id", "padding_0x1C",
                  "padding_0x20", "padding_0x24", "has_unknown_data", "unknown_data_ptr",
                  "padding_0x30", "padding_0x34", "padding_0x38", "padding_0x3C")
@@ -30,7 +30,7 @@ class EntityEntry(Serializable):
         self.padding_0x3C          = 0
         
         self.data = None
-        self.component_type = None
+        self.parameter_type = None
         
 
     def read_write(self, rw):
@@ -68,7 +68,7 @@ class EntityEntry(Serializable):
 
         rw.assert_equal(self.unknown_data_ptr > 0, self.has_unknown_data)
         
-    def rw_data(self, rw, component_type):
+    def rw_data(self, rw, parameter_type):
         if rw.mode() == "read":
             self.data = EntityData(self.count, self.context)
         
