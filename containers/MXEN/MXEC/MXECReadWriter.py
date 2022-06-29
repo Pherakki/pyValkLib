@@ -207,9 +207,10 @@ class MXECReadWriter(ValkSerializable32BH):
                 curpos += 1
 
         n_entries = 0
+        first_string = True
         while curpos < start_of_component_strings:
             strn, size = parse_null_terminated_string(main_string_blob[curpos-start_pos:])
-            if strn == "":
+            if strn == "" and not first_string:
                 curpos += 1  # Looks like we read a null-terminator, must be at alignment
                 break
 
@@ -218,19 +219,22 @@ class MXECReadWriter(ValkSerializable32BH):
             self.strings.idx_to_ptr[n_entries] = curpos
             n_entries += 1
             curpos += size
+            first_string = False
 
         remaining_stuff = main_string_blob[curpos-start_pos:].tobytes()
         if remaining_stuff != (b'\x00'*len(remaining_stuff)):
             print(remaining_stuff)
-            raise Exception(f"End of main string bank not reached!\n{remaining_stuff}")
+            raise Exception(f"End of SHIFT-JIS String Bank not reached!\n{remaining_stuff}")
         rw.align(rw.local_tell(), 0x10) # Will already be aligned since we've read an aligned blob
         curpos = rw.local_tell()
 
-        rw.assert_local_file_pointer_now_at("Start of Component Strings Table", start_of_component_strings)
+        rw.assert_local_file_pointer_now_at("Start of UTF-8 String Bank", start_of_component_strings)
         component_string_blob = memoryview(rw.bytestream.read(end_point - start_of_component_strings))
+        first_string = True
         while curpos < end_point:
             strn, size = parse_null_terminated_string_utf8(component_string_blob[curpos-start_of_component_strings:])
-            if strn == "":
+            if strn == "" and not first_string:
+                curpos += 1
                 break
 
             self.strings.data.append(strn)
@@ -238,15 +242,16 @@ class MXECReadWriter(ValkSerializable32BH):
             self.strings.idx_to_ptr[n_entries] = curpos
             n_entries += 1
             curpos += size
+            first_string = False
 
         remaining_stuff = component_string_blob[curpos-start_of_component_strings:].tobytes()
         if remaining_stuff != (b'\x00'*len(remaining_stuff)):
             print(remaining_stuff)
-            raise Exception("End of component string bank not reached!")
+            raise Exception("End of UTF-8 String Bank not reached!")
         rw.align(rw.local_tell(), 0x10) # Will already be aligned since we've read an aligned blob
-        rw.assert_local_file_pointer_now_at("End of Component Strings Table", end_point)
+        rw.assert_local_file_pointer_now_at("End of UTF-8 String Bank", end_point)
         
-    def write_strings(self, rw):
+    def write_strings(self, rw): # Wrong..!
         for string in self.strings.data:
             rw.bytestream.write(string.encode("cp932"))
             rw.bytestream.write(b"\x00")
