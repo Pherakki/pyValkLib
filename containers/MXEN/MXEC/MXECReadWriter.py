@@ -196,19 +196,19 @@ class MXECReadWriter(ValkSerializable32BH):
         entity_data_offsets = [elem.unknown_data_ptr for elem in self.entity_table.entries.data if elem.unknown_data_ptr > 0]
         end_point = min(entity_data_offsets) if len(entity_data_offsets) else self.header.header_length + self.header.data_length
 
-        # Get the start of the component strings
-        component_string_offsets = [getattr(elem.data, "get_string_ptrs", lambda:[])() for elem in self.component_table.entries]
-        component_string_offsets = [subitem for item in component_string_offsets for subitem in item]
-        start_of_component_strings = min(component_string_offsets) if len(component_string_offsets) else end_point
+        # Get the start of the UTF-8 strings
+        utf8_string_offsets = [getattr(elem.data, "get_string_ptrs", lambda:[])() for elem in self.parameter_sets_table.entries]
+        utf8_string_offsets = [subitem for item in utf8_string_offsets for subitem in item]
+        start_of_utf8_strings = min(utf8_string_offsets) if len(utf8_string_offsets) else end_point
 
-        main_string_blob      = memoryview(rw.bytestream.read(start_of_component_strings - start_pos))
+        main_string_blob      = memoryview(rw.bytestream.read(start_of_utf8_strings - start_pos))
         if len(main_string_blob):
             if main_string_blob[0] == 0:
                 curpos += 1
 
         n_entries = 0
         first_string = True
-        while curpos < start_of_component_strings:
+        while curpos < start_of_utf8_strings:
             strn, size = parse_null_terminated_string(main_string_blob[curpos-start_pos:])
             if strn == "" and not first_string:
                 curpos += 1  # Looks like we read a null-terminator, must be at alignment
@@ -228,11 +228,11 @@ class MXECReadWriter(ValkSerializable32BH):
         rw.align(rw.local_tell(), 0x10) # Will already be aligned since we've read an aligned blob
         curpos = rw.local_tell()
 
-        rw.assert_local_file_pointer_now_at("Start of UTF-8 String Bank", start_of_component_strings)
-        component_string_blob = memoryview(rw.bytestream.read(end_point - start_of_component_strings))
+        rw.assert_local_file_pointer_now_at("Start of UTF-8 String Bank", start_of_utf8_strings)
+        utf8_string_blob = memoryview(rw.bytestream.read(end_point - start_of_utf8_strings))
         first_string = True
         while curpos < end_point:
-            strn, size = parse_null_terminated_string_utf8(component_string_blob[curpos-start_of_component_strings:])
+            strn, size = parse_null_terminated_string_utf8(utf8_string_blob[curpos-start_of_utf8_strings:])
             if strn == "" and not first_string:
                 curpos += 1
                 break
@@ -244,7 +244,7 @@ class MXECReadWriter(ValkSerializable32BH):
             curpos += size
             first_string = False
 
-        remaining_stuff = component_string_blob[curpos-start_of_component_strings:].tobytes()
+        remaining_stuff = utf8_string_blob[curpos-start_of_utf8_strings:].tobytes()
         if remaining_stuff != (b'\x00'*len(remaining_stuff)):
             print(remaining_stuff)
             raise Exception("End of UTF-8 String Bank not reached!")
