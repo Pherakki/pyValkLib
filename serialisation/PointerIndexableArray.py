@@ -39,6 +39,9 @@ class PointerIndexableArray(Serializable):
         
     def rw_element_method(self, rw, func, idx):
         rw.rw_obj_method(self.data[idx], getattr(self.data[idx], func.__name__))
+        
+    def __len__(self):
+        return len(self.data)
     
 class PointerIndexableArrayInt8(PointerIndexableArray):
     def rw_element(self, rw, idx): self.data[idx] = rw.rw_int8(self.data[idx])
