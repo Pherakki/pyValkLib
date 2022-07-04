@@ -2,8 +2,8 @@ from pyValkLib.serialisation.Serializable import Serializable
 from pyValkLib.serialisation.PointerIndexableArray import PointerIndexableArray
 
 
-class BatchRenderEntry(Serializable):
-    __slots__ = ("name_offset", "component_references", "unused_ids",
+class PathingEntry(Serializable):
+    __slots__ = ("name_offset", "param_set_references", "unused_ids",
                  "t1_count", "t1_offset", "t1_data",
                  "t2_count", "t2_offset", "t2_data",
                  "t3_count", "t3_offset", "t3_data",
@@ -33,8 +33,8 @@ class BatchRenderEntry(Serializable):
         self.padding_0x3C = 0
 
         self.t1_data = []
-        self.component_references = []
-        self.t3_data = []
+        self.param_set_references = []
+        self.t3_data = [] # Will always be 1 or 0?
         self.unused_ids = []
 
     def read_write(self, rw):
@@ -69,65 +69,65 @@ class BatchRenderEntry(Serializable):
 
     def rw_data(self, rw):
         if self.t1_offset:
-            rw.assert_local_file_pointer_now_at("Batch Render T1 Entry", self.t1_offset)
+            rw.assert_local_file_pointer_now_at("Pathing T1 Entry", self.t1_offset)
             rw.rw_obj_method(self, self.rw_t1_data)
 
         if self.t2_offset:
-            rw.assert_local_file_pointer_now_at("Batch Render T2 Entry", self.t2_offset)
+            rw.assert_local_file_pointer_now_at("Pathing T2 Entry", self.t2_offset)
             rw.rw_obj_method(self, self.rw_t2_data)
 
         for t1 in self.t1_data:
             if t1.offset_1:
-                rw.assert_local_file_pointer_now_at("Batch Render T1 Entry Data 1", t1.offset_1)
+                rw.assert_local_file_pointer_now_at("Pathing T1 Entry Data 1", t1.offset_1)
                 rw.rw_obj_method(t1, t1.rw_data_1)
             if t1.offset_2:
-                rw.assert_local_file_pointer_now_at("Batch Render T1 Entry Data 2", t1.offset_2)
+                rw.assert_local_file_pointer_now_at("Pathing T1 Entry Data 2", t1.offset_2)
                 rw.rw_obj_method(t1, t1.rw_data_2)
 
-        for t2 in self.component_references:
+        for t2 in self.param_set_references:
             if t2.offset:
-                rw.assert_local_file_pointer_now_at("Batch Render T2 Entry Data", t2.offset)
+                rw.assert_local_file_pointer_now_at("Pathing T2 Entry Data", t2.offset)
                 rw.rw_obj_method(t2, t2.rw_data)
 
         rw.align(rw.local_tell(), 0x10)
 
         if self.t3_offset:
-            rw.assert_local_file_pointer_now_at("Batch Render T3 Entry", self.t3_offset)
+            rw.assert_local_file_pointer_now_at("Pathing T3 Entry", self.t3_offset)
             rw.rw_obj_method(self, self.rw_t3_data)
             for t3 in self.t3_data:
                 if t3.offset_1:
-                    rw.assert_local_file_pointer_now_at("Batch Render T3 Entry Data 1", t3.offset_1)
+                    rw.assert_local_file_pointer_now_at("Pathing T3 Entry Data 1", t3.offset_1)
                 rw.rw_obj_method(t3, t3.rw_data_1)
                 if t3.offset_2:
-                    rw.assert_local_file_pointer_now_at("Batch Render T3 Entry Data 2", t3.offset_2)
+                    rw.assert_local_file_pointer_now_at("Pathing T3 Entry Data 2", t3.offset_2)
                 rw.rw_obj_method(t3, t3.rw_data_2)
                 if t3.offset_3:
-                    rw.assert_local_file_pointer_now_at("Batch Render T3 Entry Data 3", t3.offset_3)
+                    rw.assert_local_file_pointer_now_at("Pathing T3 Entry Data 3", t3.offset_3)
                 rw.rw_obj_method(t3, t3.rw_data_3)
                 if t3.offset_4:
-                    rw.assert_local_file_pointer_now_at("Batch Render T3 Entry Data 4", t3.offset_4)
+                    rw.assert_local_file_pointer_now_at("Pathing T3 Entry Data 4", t3.offset_4)
                 rw.rw_obj_method(t3, t3.rw_data_4)
         if self.t4_offset:
-            rw.assert_local_file_pointer_now_at("Batch Render T4 Entry", self.t4_offset)
+            rw.assert_local_file_pointer_now_at("Pathing T4 Entry", self.t4_offset)
             rw.rw_obj_method(self, self.rw_t4_data)
 
         rw.align(rw.local_tell(), 0x10)
 
     def rw_t1_data(self, rw):
         if rw.mode() == "read":
-            self.t1_data = [BatchRender_T1(self.context) for _ in range(self.t1_count)]
+            self.t1_data = [Pathing_T1(self.context) for _ in range(self.t1_count)]
         for t1 in self.t1_data:
             rw.rw_obj(t1)
 
     def rw_t2_data(self, rw):
         if rw.mode() == "read":
-            self.component_references = [ComponentReference(self.context) for _ in range(self.t2_count)]
-        for t2 in self.component_references:
+            self.param_set_references = [ParamSetReferences(self.context) for _ in range(self.t2_count)]
+        for t2 in self.param_set_references:
             rw.rw_obj(t2)
 
     def rw_t3_data(self, rw):
         if rw.mode() == "read":
-            self.t3_data = [BatchRender_T3(self.context) for _ in range(self.t3_count)]
+            self.t3_data = [Pathing_T3(self.context) for _ in range(self.t3_count)]
         for t3 in self.t3_data:
             rw.rw_obj(t3)
 
@@ -135,7 +135,7 @@ class BatchRenderEntry(Serializable):
         self.unused_ids = rw.rw_uint32s(self.unused_ids, self.t4_count)
 
         
-class BatchRender_T1(Serializable):
+class Pathing_T1(Serializable):
     def __init__(self, endianness):
         super().__init__(endianness)
         
@@ -167,13 +167,15 @@ class BatchRender_T1(Serializable):
         rw.assert_is_zero(self.padding_0x1C)
         
     def rw_data_1(self, rw):
+        rw.assert_local_file_pointer_now_at("Pathing T1: LCI1: ", self.offset_1)
         self.local_component_ids_1 = rw.rw_uint32s(self.local_component_ids_1, self.count_1)
         
     def rw_data_2(self, rw):
+        rw.assert_local_file_pointer_now_at("Pathing T1: LCI2: ", self.offset_2)
         self.local_component_ids_2 = rw.rw_uint32s(self.local_component_ids_2, self.count_2)
         
 
-class ComponentReference(Serializable):
+class ParamSetReferences(Serializable):
     def __init__(self, endianness):
         super().__init__(endianness)
         
@@ -192,10 +194,11 @@ class ComponentReference(Serializable):
         rw.assert_equal(self.count, self.offset > 0)
 
     def rw_data(self, rw):
+        rw.assert_local_file_pointer_now_at("Pathing T2: ", self.offset)
         self.component_indices = rw.rw_uint32s(self.component_indices, self.count)
         
 
-class BatchRender_T3(Serializable):
+class Pathing_T3(Serializable):
     def __init__(self, endianness):
         super().__init__(endianness)
         

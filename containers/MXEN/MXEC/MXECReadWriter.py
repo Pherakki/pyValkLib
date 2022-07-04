@@ -4,7 +4,7 @@ from pyValkLib.serialisation.PointerIndexableArray import PointerIndexableArray,
 from pyValkLib.containers.MXEN.MXEC.EntryTable import EntryTable 
 from pyValkLib.containers.MXEN.MXEC.ParameterEntry import ParameterEntry
 from pyValkLib.containers.MXEN.MXEC.ECSEntityEntry import EntityEntry
-from pyValkLib.containers.MXEN.MXEC.BatchRenderEntry import BatchRenderEntry
+from pyValkLib.containers.MXEN.MXEC.PathingEntry import PathingEntry
 from pyValkLib.containers.MXEN.MXEC.AssetTable import AssetTable
 import struct
 
@@ -21,7 +21,7 @@ class MXECReadWriter(ValkSerializable32BH):
         self.asset_table_ptr        = None
         
         self.unknown_0x30           = None
-        self.batch_render_table_ptr = None
+        self.pathing_table_ptr = None
         self.texmerge_count         = None
         self.texmerge_ptrs_ptr      = None
         
@@ -37,7 +37,7 @@ class MXECReadWriter(ValkSerializable32BH):
         
         self.parameter_sets_table   = EntryTable(ParameterEntry, self.context)    # Parameter table
         self.entity_table       = EntryTable(EntityEntry, self.context)       # Entity table
-        self.batch_render_table = EntryTable(BatchRenderEntry, self.context)  # Batch render table?
+        self.pathing_table = EntryTable(PathingEntry, self.context)  # Batch render table?
         # "Batch Render" role is not confirmed; just a guess for now
         
         self.asset_table = AssetTable(self.context)          # Asset table
@@ -59,7 +59,7 @@ class MXECReadWriter(ValkSerializable32BH):
         return f"MXEC Object [{self.header.depth}] [0x{self.header.flags:0>8x}]:\n" \
                f"[{len(self.parameter_sets_table.entries.data)}] Parameter Sets.\n"\
                f"[{len(self.entity_table.entries.data)}] Entities.\n"\
-               f"[{len(self.batch_render_table.entries.data)}] Batch Render Entries.\n"\
+               f"[{len(self.pathing_table.entries.data)}] Pathing Entries.\n"\
                f"[{len(self.asset_table.entries.data)}] Asset References.\n"\
                f"[{len(self.asset_table.asset_slot_offsets)}] Asset Pointers.\n"\
                f"Contains POF0, ENRS, CCRS, and EOFC."
@@ -69,7 +69,7 @@ class MXECReadWriter(ValkSerializable32BH):
         self.rw_fileinfo(rw)
         self.rw_parameter_sets_table(rw)
         self.rw_entities_table(rw)
-        self.rw_batch_render_table(rw)
+        self.rw_pathing_table(rw)
         self.rw_asset_table(rw)
         self.rw_strings(rw)
         self.rw_unknowns(rw)
@@ -82,10 +82,10 @@ class MXECReadWriter(ValkSerializable32BH):
         self.entity_table_ptr         = rw.rw_pointer(self.entity_table_ptr)
         self.asset_table_ptr          = rw.rw_pointer(self.asset_table_ptr)
 
-        self.unknown_0x30           = rw.rw_uint32(self.unknown_0x30)
-        self.batch_render_table_ptr = rw.rw_pointer(self.batch_render_table_ptr)
-        self.texmerge_count         = rw.rw_uint32(self.texmerge_count)
-        self.texmerge_ptrs_ptr      = rw.rw_pointer(self.texmerge_ptrs_ptr)
+        self.unknown_0x30      = rw.rw_uint32(self.unknown_0x30)
+        self.pathing_table_ptr = rw.rw_pointer(self.pathing_table_ptr)
+        self.texmerge_count    = rw.rw_uint32(self.texmerge_count)
+        self.texmerge_ptrs_ptr = rw.rw_pointer(self.texmerge_ptrs_ptr)
         
         self.pvs_record_ptr       = rw.rw_pointer(self.pvs_record_ptr)
         self.mergefile_record_ptr = rw.rw_pointer(self.mergefile_record_ptr)
@@ -148,13 +148,13 @@ class MXECReadWriter(ValkSerializable32BH):
 
             rw.align(rw.local_tell(), 0x10)
             
-    def rw_batch_render_table(self, rw):
-        if self.batch_render_table_ptr != 0:
-            rw.assert_local_file_pointer_now_at("Batch Render Table", self.batch_render_table_ptr)
-            rw.rw_obj_method(self.batch_render_table, self.batch_render_table.rw_fileinfo_brt)
-            rw.assert_local_file_pointer_now_at("Batch Render Table Entry Headers", self.batch_render_table.entry_ptr)
-            rw.rw_obj_method(self.batch_render_table, self.batch_render_table.rw_entry_headers)
-            for entry in self.batch_render_table.entries:
+    def rw_pathing_table(self, rw):
+        if self.pathing_table_ptr != 0:
+            rw.assert_local_file_pointer_now_at("Pathing Table", self.pathing_table_ptr)
+            rw.rw_obj_method(self.pathing_table, self.pathing_table.rw_fileinfo_brt)
+            rw.assert_local_file_pointer_now_at("Pathing Table Entry Headers", self.pathing_table.entry_ptr)
+            rw.rw_obj_method(self.pathing_table, self.pathing_table.rw_entry_headers)
+            for entry in self.pathing_table.entries:
                 rw.rw_obj_method(entry, entry.rw_data)
 
     def rw_asset_table(self, rw):
@@ -175,7 +175,6 @@ class MXECReadWriter(ValkSerializable32BH):
             rw.align(rw.local_tell(), 0x10)
         
     def rw_strings(self, rw):
-        # This needs sorting out - clearly the full string structure isn't completely understood yet
         if (rw.mode() == "read"):
             self.read_strings(rw)
         elif (rw.mode() == "write"):
