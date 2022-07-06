@@ -195,9 +195,11 @@ class MXECReadWriter(ValkSerializable32BH):
         entity_data_offsets = [elem.unknown_data_ptr for elem in self.entity_table.entries.data if elem.unknown_data_ptr > 0]
         end_point = min(entity_data_offsets) if len(entity_data_offsets) else self.header.header_length + self.header.data_length
 
+
         # Get the start of the UTF-8 strings
-        utf8_string_offsets = [getattr(elem.data, "get_string_ptrs", lambda:[])() for elem in self.parameter_sets_table.entries]
+        utf8_string_offsets = [elem.data.get_string_ptrs() for elem in self.parameter_sets_table.entries]
         utf8_string_offsets = [subitem for item in utf8_string_offsets for subitem in item]
+        
         start_of_utf8_strings = min(utf8_string_offsets) if len(utf8_string_offsets) else end_point
 
         main_string_blob      = memoryview(rw.bytestream.read(start_of_utf8_strings - start_pos))
