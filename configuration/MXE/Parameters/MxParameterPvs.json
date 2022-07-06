@@ -1,0 +1,6 @@
+{
+    "unknown_0x00": ">asset",
+    "padding_0x08": ">pad64",
+    "padding_0x10": ">pad64",
+    "padding_0x18": ">pad64"
+}

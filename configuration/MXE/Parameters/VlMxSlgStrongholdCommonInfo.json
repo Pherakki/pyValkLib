@@ -1,0 +1,13 @@
+{
+    "unknown_0x00": ">uint32",
+    "unknown_0x04": ">uint32",
+    "unknown_0x08": ">uint32",
+    "unknown_0x0C": ">uint32",
+    "unknown_0x10": ">uint32",
+    "unknown_0x14": ">uint32",
+    "unknown_0x18": ">uint32",
+    "unknown_0x1C": ">uint32",
+    "unknown_0x20": ">uint32",
+    "unknown_0x24": ">uint32",
+    "unknown_0x28": ">uint32"
+}

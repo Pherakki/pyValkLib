@@ -1,0 +1,13 @@
+{
+    "light_count" : ">uint32",
+    "lights_ptr"  : ">pointer32",
+    "padding_0x08": ">pad32",
+    "padding_0x0C": ">pad32",
+
+    "lights":
+    {
+        "count": "this.light_count",
+        "pointer": "this.lights_ptr",
+        "type": "MxParameterLight"
+    }
+}

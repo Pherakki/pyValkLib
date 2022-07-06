@@ -1,0 +1,17 @@
+{
+    "unknown_0x00": ">int32",
+    "unknown_0x04": ">int32",
+    "unknown_0x08": ">int32",
+    "unknown_0x0C": ">int32",
+    "unknown_0x10": ">asset",
+    "unknown_0x18": ">asset",
+    "unknown_0x20": ">asset",
+    "unknown_0x28": ">asset",
+    "unknown_0x30": ">asset",
+    "unknown_0x38": ">asset",
+    "unknown_0x40": ">asset",
+    "unknown_0x48": ">asset",
+    "unknown_0x50": ">asset",
+    "unknown_0x58": ">asset",
+    "unknown_0x60": ">asset"
+}
