@@ -45,19 +45,19 @@ Read/Write Key: ✔️: Supported 🟡: Partial support ❌ : Not supported
 
 API Key: ✔️: Stable 🟡: Mostly stable ❌ : Unstable
 
-<Filetypes not enumerated>
+[Filetypes not enumerated]
 
 ## Valkyria Chronicles 3
 Read/Write Key: ✔️: Supported 🟡: Partial support ❌ : Not supported
  
 API Key: ✔️: Stable 🟡: Mostly stable ❌ : Unstable
  
-<Filetypes not enumerated>
+[Filetypes not enumerated]
 
 ## Valkyria Chronicles 4
 Read/Write Key: ✔️: Supported 🟡: Partial support ❌ : Not supported
  
 API Key: ✔️: Stable 🟡: Mostly stable ❌ : Unstable
  
-<Filetypes not enumerated>
+[Filetypes not enumerated]
  
