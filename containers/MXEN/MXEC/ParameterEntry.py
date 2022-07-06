@@ -32,7 +32,7 @@ func_lookup = {
     "float64"    : lambda rw, x, en: rw.rw_float64(x, endianness=en),
     "pad32"      : lambda rw, x, en: handle_pad(rw, x, rw.rw_pad32),
     "pad64"      : lambda rw, x, en: handle_pad(rw, x, rw.rw_pad64),
-    "asset"      : lambda rw, x, en: rw.rw_uint64(x, endianness=en),
+    "asset"      : lambda rw, x, en: rw.rw_int64(x, endianness=en),
     "pointer32"  : lambda rw, x, en: rw.rw_uint32(x, endianness=en),
     "utf8_string": lambda rw, x, en: rw.rw_uint32(x, endianness=en),
     "sjis_string": lambda rw, x, en: rw.rw_uint32(x, endianness=en)
