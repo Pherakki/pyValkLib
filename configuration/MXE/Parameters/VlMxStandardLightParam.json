@@ -19,7 +19,7 @@
     "unknown_0x44": ">float32",
     "unknown_0x48": ">float32",
     "unknown_0x4C": ">float32",
-    "unknown_0x5C": ">uint32",
+    "unknown_0x50": ">uint32",
     "unknown_0x54": ">uint32",
     "unknown_0x58": ">uint32",
     "unknown_0x5C": ">uint32",
@@ -31,7 +31,7 @@
     "unknown_0x74": ">float32",
     "unknown_0x78": ">float32",
     "unknown_0x7C": ">float32",
-    "unknown_0x8C": ">uint32",
+    "unknown_0x80": ">uint32",
     "unknown_0x84": ">uint32",
     "unknown_0x88": ">uint32",
     "unknown_0x8C": ">uint32"

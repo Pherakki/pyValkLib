@@ -1,6 +1,6 @@
 {
-    "unknown_0x00": ">utf8_string",
-    "unknown_0x04": ">utf8_string",
+    "unknown_0x00": ">sjis_string",
+    "unknown_0x04": ">sjis_string",
     "unknown_0x08": ">int32",
     "unknown_0x0C": ">int32",
     "unknown_0x10": ">int32",

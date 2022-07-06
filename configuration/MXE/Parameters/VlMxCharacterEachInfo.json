@@ -19,7 +19,7 @@
     "unknown_0x44": ">utf8_string",
     "unknown_0x48": ">utf8_string",
     "unknown_0x4C": ">float32",
-    "unknown_0x5C": ">float32",
+    "unknown_0x50": ">float32",
     "unknown_0x54": ">float32",
     "unknown_0x58": ">float32",
     "unknown_0x5C": ">float32",
@@ -38,7 +38,7 @@
     "unknown_0x90": ">int32",
     "unknown_0x94": ">int32",
     "unknown_0x98": ">int32",
-    "padding_0x9C": ">int32",
+    "unknown_0x9C": ">int32",
     "unknown_0xA0": ">int32",
     "unknown_0xA4": ">int32",
     "unknown_0xA8": ">int32",
@@ -83,7 +83,7 @@
     "unknown_0x0144": ">int32",
     "unknown_0x0148": ">int32",
     "unknown_0x014C": ">int32",
-    "unknown_0x015C": ">int32",
+    "unknown_0x0150": ">int32",
     "unknown_0x0154": ">int32",
     "unknown_0x0158": ">int32",
     "unknown_0x015C": ">int32",
@@ -127,5 +127,9 @@
     "unknown_0x01F4": ">int32",
     "unknown_0x01F8": ">int32",
     "unknown_0x01FC": ">int32",
-    "unknown_0x0200": ">int32"
+    "unknown_0x0200": ">int32",
+    "unknown_0x0204": ">int32",
+    "unknown_0x0208": ">int32",
+    "unknown_0x020C": ">int32",
+    "unknown_0x0210": ">int32"
 }

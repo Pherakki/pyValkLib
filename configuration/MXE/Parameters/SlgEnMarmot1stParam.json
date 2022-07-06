@@ -54,10 +54,6 @@
     "unknown_0x012C": ">int32",
     "unknown_0x0130": ">int32",
     "unknown_0x0134": ">int32",
-    "unknown_0x0138": ">int32",
-    "unknown_0x013C": ">float32",
-    "unknown_0x0140": ">int32",
-    "unknown_0x0144": ">int32",
-    "unknown_0x0148": ">pad32",
-    "unknown_0x014C": ">pad32"
+    "unknown_0x0138": ">pad32",
+    "unknown_0x013C": ">pad32"
 }

@@ -6,8 +6,8 @@
 
     "lights":
     {
-        "count": "this.light_count",
-        "pointer": "this.lights_ptr",
+        "count": "light_count",
+        "pointer": "lights_ptr",
         "type": "MxParameterLight"
     }
 }

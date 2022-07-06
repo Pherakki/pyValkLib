@@ -10,7 +10,7 @@
     "unknown_0x20": ">int32",
     "unknown_0x24": ">uint32",
     "unknown_0x28": ">utf8_string",
-    "padding_0x2C": ">utf8_string",
+    "padding_0x2C": ">uint32",
     "unknown_0x30": ">float32",
     "unknown_0x34": ">uint32",
     "unknown_0x38": ">uint32",

@@ -49,8 +49,8 @@
     "unknown_0x0108": ">pad64",
     "unknown_0x0110": ">int32",
     "unknown_0x0114": ">int32",
-    "unknown_0x0118": ">int32".
-    "unknown_0x011C": ">int32"
+    "unknown_0x0118": ">int32",
+    "unknown_0x011C": ">int32",
     "unknown_0x0120": ">int32",
     "unknown_0x0124": ">int32",
     "unknown_0x0128": ">int32",
