@@ -24,11 +24,11 @@
     "unknown_0x54": "<int16",
     "unknown_0x56": ">int16",
     "unknown_0x58": ">int32",
-    "unknown_0x5C": ">int32",
+    "unknown_0x5C": ">float32",
     "unknown_0x60": ">int32",
-    "unknown_0x64": ">int32",
-    "unknown_0x68": ">int32",
-    "unknown_0x6C": ">int32",
-    "unknown_0x70": ">int32",
+    "unknown_0x64": ">float32",
+    "unknown_0x68": ">float32",
+    "unknown_0x6C": ">float32",
+    "unknown_0x70": ">float32",
     "unknown_0x74": "<int32"
 }

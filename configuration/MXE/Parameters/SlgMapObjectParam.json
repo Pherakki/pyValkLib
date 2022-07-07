@@ -1,8 +1,8 @@
 {
-    "unknown_0x00": ">uint32",
+    "unknown_0x00": ">int32",
     "padding_0x04": ">pad32",
     "unknown_0x08": ">asset",
     "unknown_0x10": ">asset",
-    "unknown_0x18": ">uint32",
-    "unknown_0x1C": ">uint32"
+    "unknown_0x18": ">float32",
+    "unknown_0x1C": ">int32"
 }

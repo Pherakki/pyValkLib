@@ -184,13 +184,13 @@
     "unknown_0x028E": ">int16",
     "unknown_0x0290": ">int16",
     "unknown_0x0292": ">int16",
-    "unknown_0x0294": ">int32",
-    "unknown_0x0298": ">int32",
-    "unknown_0x029C": ">int32",
-    "unknown_0x02A0": ">int32",
-    "unknown_0x02A4": ">int32",
-    "unknown_0x02A8": ">int32",
-    "unknown_0x02AC": ">int32",
-    "unknown_0x02B0": ">int32",
-    "unknown_0x02B4": ">int32"
+    "unknown_0x0294": ">float32",
+    "unknown_0x0298": ">float32",
+    "unknown_0x029C": ">float32",
+    "unknown_0x02A0": ">float32",
+    "unknown_0x02A4": ">float32",
+    "unknown_0x02A8": ">float32",
+    "unknown_0x02AC": ">float32",
+    "unknown_0x02B0": ">float32",
+    "unknown_0x02B4": ">float32"
 }
