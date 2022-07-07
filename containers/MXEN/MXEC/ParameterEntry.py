@@ -36,7 +36,7 @@ func_lookup = {
     "pointer32"  : lambda rw, x, en: rw.rw_uint32(x, endianness=en),
     "utf8_string": lambda rw, x, en: rw.rw_uint32(x, endianness=en),
     "sjis_string": lambda rw, x, en: rw.rw_uint32(x, endianness=en),
-    "ccrs"       : lambda rw, x, en: rw.rw_uint32(x, endianness=en)
+    "ccrs"       : lambda rw, x, en: rw.rw_ccrs(x, endianness=en)
 }
 
 class ParameterSet(Serializable):

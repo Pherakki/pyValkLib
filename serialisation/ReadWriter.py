@@ -68,6 +68,9 @@ class ReadWriterBase:
     
     def rw_multiple(self, typecode, value, shape, endianness=None):
         self._rw_multiple(typecode, self.type_sizes[typecode], value, shape, endianness)
+    
+    def rw_ccrs(self, value, endianness=None):
+        return self._rw_single('I', 4, value, endianness)
         
     def rw_obj(self, obj):
         previous_context = self.context
@@ -490,6 +493,97 @@ class ENRSBuilder(ReadWriterBase):
 
     def mode(self):
         return "ENRS"
+    
+    def tell(self):
+        return self.virtual_offset
+    
+    def seek(self, offset, whence=0):
+        if whence != 0:
+            raise NotImplementedError
+        self.virtual_offset = offset
+
+class CCRSBuilder(ReadWriterBase):
+    open_flags = None
+    
+    __slots__ = ("virtual_offset", "pointers")
+    
+    def __init__(self):
+        super().__init__(None)
+        self.virtual_offset = 0
+        self.pointers = []
+        
+    def log_offset(self):
+        self.pointers.append(self.virtual_offset)
+        
+    def adv_offset(self, adv):
+        self.virtual_offset += adv
+
+    def rw_ccrs(self, value, endianness=None): return self._rw_single_reg('I', 4, value, endianness)
+
+    def _rw_single_reg(self, typecode, size, value, endianness=None):
+        self.log_offset()
+        self.adv_offset(size)
+        return value
+
+    def _rw_single(self, typecode, size, value, endianness=None):
+        self.adv_offset(size)
+        return value
+
+    def rw_ccrses(self, value, shape, endianness=None): return self._rw_multiple_reg('I', 1, value, shape, endianness)
+
+    def _rw_multiple_reg(self, typecode, size, value, shape, endianness=None):
+        if endianness is None:
+            endianness = self.context.endianness
+
+        if not hasattr(shape, "__getitem__"):
+            shape = (shape,)
+        n_to_read = 1
+        for elem in shape:
+            n_to_read *= elem
+
+        for i in range(n_to_read):
+            self.log_offset()
+            self.adv_offset(size)
+
+        return value
+
+    def _rw_multiple(self, typecode, size, value, shape, endianness=None):
+        if endianness is None:
+            endianness = self.context.endianness
+            
+        if not hasattr(shape, "__getitem__"):
+            shape = (shape,)
+        n_to_read = 1
+        for elem in shape:
+            n_to_read *= elem
+            
+        for i in range(n_to_read):
+            self.adv_offset(size)
+            
+        return value
+        
+    def rw_str(self, value, length, encoding='ascii'):
+        length = len(value.encode(encoding))
+        self.adv_offset(length)
+        return value
+        
+    def rw_cstr(self, value, encoding='ascii', end_char=b'\x00'):
+        out = value.encode(encoding) + end_char
+        length = len(out)
+        self.adv_offset(length)
+        return value
+    
+    def align(self, offset, alignment, padval=b'\x00'):
+        n_to_read = (alignment - (offset % alignment)) % alignment
+        data = padval * (n_to_read // len(padval))
+        
+        self.adv_offset(len(data))
+        
+    def assert_at_eof(self):
+        pass
+
+    def mode(self):
+        return "CCRS"
     
     def tell(self):
         return self.virtual_offset
