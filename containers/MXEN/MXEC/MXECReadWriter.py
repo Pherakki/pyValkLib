@@ -15,35 +15,34 @@ class MXECReadWriter(ValkSerializable32BH):
     def __init__(self, containers, endianness=None):
         super().__init__(containers, endianness)
         
-        self.content_flags          = None
-        self.parameter_sets_table_ptr   = None
-        self.entity_table_ptr       = None
-        self.asset_table_ptr        = None
+        self.content_flags            = None
+        self.parameter_sets_table_ptr = None
+        self.entity_table_ptr         = None
+        self.asset_table_ptr          = None
         
-        self.unknown_0x30           = None
-        self.pathing_table_ptr = None
-        self.texmerge_count         = None
-        self.texmerge_ptrs_ptr      = None
+        self.unknown_0x30             = None
+        self.pathing_table_ptr        = None
+        self.texmerge_count           = None
+        self.texmerge_ptrs_ptr        = None
         
-        self.pvs_record_ptr         = None
-        self.mergefile_record_ptr   = None
-        self.padding_0x48           = 0
-        self.padding_0x4C           = 0
+        self.pvs_record_ptr           = None
+        self.mergefile_record_ptr     = None
+        self.padding_0x48             = 0
+        self.padding_0x4C             = 0
         
-        self.padding_0x50           = 0
-        self.padding_0x54           = 0
-        self.padding_0x58           = 0
-        self.padding_0x5C           = 0
+        self.padding_0x50             = 0
+        self.padding_0x54             = 0
+        self.padding_0x58             = 0
+        self.padding_0x5C             = 0
         
         self.parameter_sets_table   = EntryTable(ParameterEntry, self.context)    # Parameter table
         self.entity_table       = EntryTable(EntityEntry, self.context)       # Entity table
-        self.pathing_table = EntryTable(PathingEntry, self.context)  # Batch render table?
-        # "Batch Render" role is not confirmed; just a guess for now
-        
+        self.pathing_table = EntryTable(PathingEntry, self.context)  # Path Graph table
         self.asset_table = AssetTable(self.context)          # Asset table
 
         self.texmerge_ptr = None
         self.strings = PointerIndexableArrayCStr(self.context, "cp932")
+        self.utf8_strings = PointerIndexableArrayCStr(self.context, "utf8")
         self.unknowns = PointerIndexableArrayUint64(self.context)
 
         subcontainer_context = Context()
