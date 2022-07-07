@@ -33,9 +33,9 @@ func_lookup = {
     "pad32"      : lambda rw, x, en: handle_pad(rw, x, rw.rw_pad32),
     "pad64"      : lambda rw, x, en: handle_pad(rw, x, rw.rw_pad64),
     "asset"      : lambda rw, x, en: rw.rw_int64(x, endianness=en),
-    "pointer32"  : lambda rw, x, en: rw.rw_uint32(x, endianness=en),
-    "utf8_string": lambda rw, x, en: rw.rw_uint32(x, endianness=en),
-    "sjis_string": lambda rw, x, en: rw.rw_uint32(x, endianness=en),
+    "pointer32"  : lambda rw, x, en: rw.rw_pointer(x, endianness=en),
+    "utf8_string": lambda rw, x, en: rw.rw_pointer(x, endianness=en),
+    "sjis_string": lambda rw, x, en: rw.rw_pointer(x, endianness=en),
     "ccrs"       : lambda rw, x, en: rw.rw_ccrs(x, endianness=en)
 }
 
