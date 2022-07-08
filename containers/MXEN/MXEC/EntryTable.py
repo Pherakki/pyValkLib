@@ -73,9 +73,9 @@ class EntryTable(Serializable):
         self.padding_0x00 = rw.rw_uint32(self.padding_0x00)
         self.entry_count  = rw.rw_uint32(self.entry_count)
         self.entry_ptr    = rw.rw_pointer(self.entry_ptr)
-        self.padding_0x0C = rw.rw_pad32(self.padding_0x0C)
+        self.padding_0x0C = rw.rw_pad32(self.padding_0x0C) # Also padding bytes
 
-        self.padding_0x10 = rw.rw_pad32(self.padding_0x10)
+        self.padding_0x10 = rw.rw_pad32(self.padding_0x10) # Also padding bytes
         self.padding_0x14 = rw.rw_pad32(self.padding_0x14)
         self.padding_0x18 = rw.rw_pad32(self.padding_0x18)
         self.padding_0x1C = rw.rw_pad32(self.padding_0x1C)
