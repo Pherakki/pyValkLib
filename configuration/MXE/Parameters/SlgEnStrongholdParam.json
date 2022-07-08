@@ -55,7 +55,7 @@
     "unknown_0x0138": ">asset",
     "unknown_0x0140": ">asset",
     "unknown_0x0148": ">int32",
-    "unknown_0x014C": ">int32",
+    "path_id"       : ">int32",
     "unknown_0x0150": ">int32",
     "unknown_0x0154": ">int32",
     "unknown_0x0158": ">int32"
