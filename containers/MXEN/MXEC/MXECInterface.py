@@ -13,6 +13,7 @@ class EntityInterface:
 class EntityComponentInterface:
     def __init__(self):
         self.name = None
+        self.ID = None
         self.subcomponents = []
 
 class NodeInterface:
@@ -46,6 +47,7 @@ class AssetInterface:
     Unknown ID 2 assigned by sorting by extension, then filepath (or file?)
     """
     def __init__(self):
+        self.ID = None
         self.filepath = None
         self.asset_type = None # Should be able to reconstruct this!!!
         self.unknown_id_1 = None
@@ -73,14 +75,18 @@ class MXECInterface:
         instance = cls()
         
         for param_set in mxec_rw.parameter_sets_table.entries:
+        for i, param_set in enumerate(mxec_rw.parameter_sets_table.entries):
+            assert param_set.ID == i, f"{param_set.ID} {i}"
             pi = ParameterInterface()
             pi.name = mxec_rw.strings.at_ptr(param_set.name_offset)
             pi.parameters = param_set.data
+            pi.ID = param_set.ID
             instance.param_sets.append(pi)
             
         for entity in mxec_rw.entity_table.entries:
             ei = EntityInterface()
             ei.name = mxec_rw.strings.at_ptr(entity.name_offset)
+            ei.ID = entity.ID
             ei.controller_id = entity.controller_entity_id
             if entity.unknown_data_ptr != 0:
                 ei.unknown = mxec_rw.unknowns.at_ptr(entity.unknown_data_ptr)
@@ -127,6 +133,7 @@ class MXECInterface:
             folder_name = mxec_rw.strings.at_ptr(asset_entry.folder_name_ptr)
             file_name   = mxec_rw.strings.at_ptr(asset_entry.file_name_ptr)
             
+            ai.ID = asset_entry.ID
             ai.filepath = folder_name + "/" + file_name
             ai.asset_type = asset_entry.filetype
             ai.unknown_id_1 = asset_entry.unknown_0x14
