@@ -1,6 +1,8 @@
 class ParameterInterface:
     def __init__(self):
         self.name = None
+        self.ID = None
+        self.param_type = None
         self.parameters = None
         
 class EntityInterface:
