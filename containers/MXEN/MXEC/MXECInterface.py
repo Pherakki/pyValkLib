@@ -77,10 +77,22 @@ class MXECInterface:
         for i, param_set in enumerate(mxec_rw.parameter_sets_table.entries):
             assert param_set.ID == i, f"{param_set.ID} {i}"
             pi = ParameterInterface()
-            pi.parameters = param_set.data
             str_name = mxec_rw.strings.at_ptr(param_set.name_offset).split(':')
             pi.name = str_name[-1]
             pi.ID = param_set.ID
+            pi.param_type = param_set.data.struct_type
+            pi.parameters = {}
+            for (key, value), dtype in zip(param_set.data.data.items(), param_set.data.datatypes):
+                if type(dtype) is str:
+                    if dtype[1:] == "pad32" or dtype[1:] == "pad64":
+                        continue
+                    elif dtype[1:] == "sjis_string" or dtype[1:] == "utf8_string":
+                        print(mxec_rw.strings.idx_to_ptr)
+                        pi.parameters[key] = mxec_rw.strings.at_ptr(value)
+                    else:
+                        pi.parameters[key] = value
+                else:
+                    pi.parameters[key] = value
             instance.param_sets.append(pi)
             
         for entity in mxec_rw.entity_table.entries:
