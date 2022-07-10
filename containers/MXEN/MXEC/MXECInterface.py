@@ -74,12 +74,12 @@ class MXECInterface:
     def from_subreader(cls, mxec_rw):
         instance = cls()
         
-        for param_set in mxec_rw.parameter_sets_table.entries:
         for i, param_set in enumerate(mxec_rw.parameter_sets_table.entries):
             assert param_set.ID == i, f"{param_set.ID} {i}"
             pi = ParameterInterface()
-            pi.name = mxec_rw.strings.at_ptr(param_set.name_offset)
             pi.parameters = param_set.data
+            str_name = mxec_rw.strings.at_ptr(param_set.name_offset).split(':')
+            pi.name = str_name[-1]
             pi.ID = param_set.ID
             instance.param_sets.append(pi)
             
