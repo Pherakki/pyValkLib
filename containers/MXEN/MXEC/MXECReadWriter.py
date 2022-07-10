@@ -202,9 +202,6 @@ class MXECReadWriter(ValkSerializable32BH):
         start_of_utf8_strings = min(utf8_string_offsets) if len(utf8_string_offsets) else end_point
 
         main_string_blob      = memoryview(rw.bytestream.read(start_of_utf8_strings - start_pos))
-        if len(main_string_blob):
-            if main_string_blob[0] == 0:
-                curpos += 1
 
         n_entries = 0
         first_string = True
