@@ -89,7 +89,6 @@ class MXECInterface:
                     if dtype[1:] == "pad32" or dtype[1:] == "pad64":
                         continue
                     elif dtype[1:] == "sjis_string" or dtype[1:] == "utf8_string":
-                        print(mxec_rw.strings.idx_to_ptr)
                         pi.parameters[key] = mxec_rw.strings.at_ptr(value)
                     else:
                         pi.parameters[key] = value
