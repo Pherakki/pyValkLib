@@ -7,7 +7,7 @@ class MXENReadWriter(ValkSerializable32BH):
     def __init__(self, containers, endianness=None):
         super().__init__(containers, endianness)
         
-        self.MXEC = containers["MXEC"](containers, endianness)
+        self.MXEC = containers["MXEC"](endianness)
         
         self.subcontainers.extend([self.MXEC])
     

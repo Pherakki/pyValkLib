@@ -6,14 +6,19 @@ from pyValkLib.containers.MXEN.MXEC.ParameterEntry import ParameterEntry
 from pyValkLib.containers.MXEN.MXEC.ECSEntityEntry import EntityEntry
 from pyValkLib.containers.MXEN.MXEC.PathingEntry import PathingEntry
 from pyValkLib.containers.MXEN.MXEC.AssetTable import AssetTable
+from pyValkLib.containers.POF0.POF0ReadWriter import POF0ReadWriter
+from pyValkLib.containers.ENRS.ENRSReadWriter import ENRSReadWriter
+from pyValkLib.containers.CCRS.CCRSReadWriter import CCRSReadWriter
+from pyValkLib.containers.EOFC.EOFCReadWriter import EOFCReadWriter
+
 import struct
 
 
 class MXECReadWriter(ValkSerializable32BH):
     FILETYPE = "MXEC"
     
-    def __init__(self, containers, endianness=None):
-        super().__init__(containers, endianness)
+    def __init__(self, endianness=None):
+        super().__init__({}, endianness)
         
         self.content_flags            = None
         self.parameter_sets_table_ptr = None
@@ -47,10 +52,10 @@ class MXECReadWriter(ValkSerializable32BH):
 
         subcontainer_context = Context()
         subcontainer_context.endianness = '<'
-        self.POF0 = containers["POF0"](containers, '<')
-        self.ENRS = containers["ENRS"](containers, '<')
-        self.CCRS = containers["CCRS"](containers, '<')
-        self.EOFC = containers["EOFC"](containers, '<')
+        self.POF0 = POF0ReadWriter({}, '<')
+        self.ENRS = ENRSReadWriter({}, '<')
+        self.CCRS = CCRSReadWriter({}, '<')
+        self.EOFC = EOFCReadWriter({}, '<')
 
         self.subcontainers.extend([self.POF0, self.ENRS, self.CCRS, self.EOFC])
             
