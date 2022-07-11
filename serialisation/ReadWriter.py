@@ -315,8 +315,7 @@ class Writer(ReadWriterBase):
     def mode(self):
         return "write"
 
-
-class POF0Builder(ReadWriterBase):
+class VirtualParser(ReadWriterBase):
     open_flags = None
     
     __slots__ = ("virtual_offset", "pointers")
@@ -342,20 +341,6 @@ class POF0Builder(ReadWriterBase):
         self.adv_offset(size)
         return value
     
-    def rw_pointers(self, value, shape, endianness=None):        
-        if not hasattr(shape, "__getitem__"):
-            shape = (shape,)
-        n_to_read = 1
-        for elem in shape:
-            n_to_read *= elem
-            
-        for i in range(n_to_read):
-            if value[i] != 0:
-                self.log_offset()
-            self.adv_offset(4)
-            
-        return value
-    
     def _rw_multiple(self, typecode, size, value, shape, endianness=None):
         if not hasattr(shape, "__getitem__"):
             shape = (shape,)
@@ -389,7 +374,7 @@ class POF0Builder(ReadWriterBase):
         pass
 
     def mode(self):
-        return "POF0"
+        return "VirtualParser"
     
     def tell(self):
         return self.virtual_offset
@@ -400,30 +385,49 @@ class POF0Builder(ReadWriterBase):
         self.virtual_offset = offset
 
 
-class ENRSBuilder(ReadWriterBase):
+class POF0Builder(VirtualParser):
     open_flags = None
     
     __slots__ = ("virtual_offset", "pointers")
     
     def __init__(self):
-        super().__init__(None)
-        self.virtual_offset = 0
-        self.pointers = []
-        
-    def log_offset(self):
-        self.pointers.append(self.virtual_offset)
-        
-    def adv_offset(self, adv):
-        self.virtual_offset += adv
-
-    def rw_pad8 (self, value, endianness=None): return self._rw_single_blank('B', 1, value, endianness)
-    def rw_pad16(self, value, endianness=None): return self._rw_single_blank('H', 2, value, endianness)
-    def rw_pad32(self, value, endianness=None): return self._rw_single_blank('I', 4, value, endianness)
-    def rw_pad64(self, value, endianness=None): return self._rw_single_blank('Q', 8, value, endianness)
-
-    def _rw_single_blank(self, typecode, size, value, endianness=None):
-        self.adv_offset(size)
+        super().__init__()
+     
+    def rw_pointer(self, value, endianness=None):
+        if value != 0:
+            self.log_offset()
+        self.adv_offset(4)
         return value
+        
+    def rw_pointers(self, value, shape, endianness=None):        
+        if not hasattr(shape, "__getitem__"):
+            shape = (shape,)
+        n_to_read = 1
+        for elem in shape:
+            n_to_read *= elem
+            
+        for i in range(n_to_read):
+            if value[i] != 0:
+                self.log_offset()
+            self.adv_offset(4)
+            
+        return value
+    
+    def mode(self):
+        return "POF0"
+
+class ENRSBuilder(VirtualParser):
+    open_flags = None
+    
+    __slots__ = ("virtual_offset", "pointers")
+    
+    def __init__(self):
+        super().__init__()
+
+    def rw_pad8 (self, value, endianness=None): return super()._rw_single('B', 1, value, endianness)
+    def rw_pad16(self, value, endianness=None): return super()._rw_single('H', 2, value, endianness)
+    def rw_pad32(self, value, endianness=None): return super()._rw_single('I', 4, value, endianness)
+    def rw_pad64(self, value, endianness=None): return super()._rw_single('Q', 8, value, endianness)
 
     def _rw_single(self, typecode, size, value, endianness=None):
         if endianness is None:
@@ -434,25 +438,10 @@ class ENRSBuilder(ReadWriterBase):
         self.adv_offset(size)
         return value
 
-    def rw_pad8s (self, value, shape, endianness=None): return self._rw_multiple_blank('B', 1, value, shape, endianness)
-    def rw_pad16s(self, value, shape, endianness=None): return self._rw_multiple_blank('H', 2, value, shape, endianness)
-    def rw_pad32s(self, value, shape, endianness=None): return self._rw_multiple_blank('I', 4, value, shape, endianness)
-    def rw_pad64s(self, value, shape, endianness=None): return self._rw_multiple_blank('Q', 8, value, shape, endianness)
-
-    def _rw_multiple_blank(self, typecode, size, value, shape, endianness=None):
-        if endianness is None:
-            endianness = self.context.endianness
-
-        if not hasattr(shape, "__getitem__"):
-            shape = (shape,)
-        n_to_read = 1
-        for elem in shape:
-            n_to_read *= elem
-
-        for i in range(n_to_read):
-            self.adv_offset(size)
-
-        return value
+    def rw_pad8s (self, value, shape, endianness=None): return super()._rw_multiple('B', 1, value, shape, endianness)
+    def rw_pad16s(self, value, shape, endianness=None): return super()._rw_multiple('H', 2, value, shape, endianness)
+    def rw_pad32s(self, value, shape, endianness=None): return super()._rw_multiple('I', 4, value, shape, endianness)
+    def rw_pad64s(self, value, shape, endianness=None): return super()._rw_multiple('Q', 8, value, shape, endianness)
 
     def _rw_multiple(self, typecode, size, value, shape, endianness=None):
         if endianness is None:
@@ -470,62 +459,22 @@ class ENRSBuilder(ReadWriterBase):
             self.adv_offset(size)
             
         return value
-        
-    def rw_str(self, value, length, encoding='ascii'):
-        length = len(value.encode(encoding))
-        self.adv_offset(length)
-        return value
-        
-    def rw_cstr(self, value, encoding='ascii', end_char=b'\x00'):
-        out = value.encode(encoding) + end_char
-        length = len(out)
-        self.adv_offset(length)
-        return value
-    
-    def align(self, offset, alignment, padval=b'\x00'):
-        n_to_read = (alignment - (offset % alignment)) % alignment
-        data = padval * (n_to_read // len(padval))
-        
-        self.adv_offset(len(data))
-        
-    def assert_at_eof(self):
-        pass
 
     def mode(self):
         return "ENRS"
-    
-    def tell(self):
-        return self.virtual_offset
-    
-    def seek(self, offset, whence=0):
-        if whence != 0:
-            raise NotImplementedError
-        self.virtual_offset = offset
 
-class CCRSBuilder(ReadWriterBase):
+class CCRSBuilder(VirtualParser):
     open_flags = None
     
     __slots__ = ("virtual_offset", "pointers")
     
     def __init__(self):
-        super().__init__(None)
-        self.virtual_offset = 0
-        self.pointers = []
-        
-    def log_offset(self):
-        self.pointers.append(self.virtual_offset)
-        
-    def adv_offset(self, adv):
-        self.virtual_offset += adv
+        super().__init__()
 
     def rw_ccrs(self, value, endianness=None): return self._rw_single_reg('I', 4, value, endianness)
 
     def _rw_single_reg(self, typecode, size, value, endianness=None):
         self.log_offset()
-        self.adv_offset(size)
-        return value
-
-    def _rw_single(self, typecode, size, value, endianness=None):
         self.adv_offset(size)
         return value
 
@@ -546,49 +495,6 @@ class CCRSBuilder(ReadWriterBase):
             self.adv_offset(size)
 
         return value
-
-    def _rw_multiple(self, typecode, size, value, shape, endianness=None):
-        if endianness is None:
-            endianness = self.context.endianness
-            
-        if not hasattr(shape, "__getitem__"):
-            shape = (shape,)
-        n_to_read = 1
-        for elem in shape:
-            n_to_read *= elem
-            
-        for i in range(n_to_read):
-            self.adv_offset(size)
-            
-        return value
-        
-    def rw_str(self, value, length, encoding='ascii'):
-        length = len(value.encode(encoding))
-        self.adv_offset(length)
-        return value
-        
-    def rw_cstr(self, value, encoding='ascii', end_char=b'\x00'):
-        out = value.encode(encoding) + end_char
-        length = len(out)
-        self.adv_offset(length)
-        return value
     
-    def align(self, offset, alignment, padval=b'\x00'):
-        n_to_read = (alignment - (offset % alignment)) % alignment
-        data = padval * (n_to_read // len(padval))
-        
-        self.adv_offset(len(data))
-        
-    def assert_at_eof(self):
-        pass
-
     def mode(self):
         return "CCRS"
-    
-    def tell(self):
-        return self.virtual_offset
-    
-    def seek(self, offset, whence=0):
-        if whence != 0:
-            raise NotImplementedError
-        self.virtual_offset = offset
