@@ -254,10 +254,15 @@ class MXECReadWriter(ValkSerializable32BH):
         rw.align(rw.local_tell(), 0x10) # Will already be aligned since we've read an aligned blob
         rw.assert_local_file_pointer_now_at("End of UTF-8 String Bank", end_point)
         
-    def write_strings(self, rw): # Wrong..!
-        for string in self.strings.data:
+    def write_strings(self, rw):
+        for string in self.sjis_strings:
             rw.bytestream.write(string.encode("cp932"))
             rw.bytestream.write(b"\x00")
+        rw.align(rw.local_tell(), 0x10)
+        for string in self.utf8_strings:
+            rw.bytestream.write(string.encode("utf8"))
+            rw.bytestream.write(b"\x00")
+        rw.align(rw.local_tell(), 0x10)
         
     def read_unknowns(self, rw):
         entity_data_offsets = sorted(set([elem.unknown_data_ptr for elem in self.entity_table.entries.data if elem.unknown_data_ptr > 0]))
