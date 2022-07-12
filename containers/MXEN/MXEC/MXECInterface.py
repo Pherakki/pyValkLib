@@ -79,7 +79,7 @@ class MXECInterface:
         for i, param_set in enumerate(mxec_rw.parameter_sets_table.entries):
             assert param_set.ID == i, f"{param_set.ID} {i}"
             pi = ParameterInterface()
-            str_name = mxec_rw.strings.at_ptr(param_set.name_offset).split(':')
+            str_name = mxec_rw.sjis_strings.at_ptr(param_set.name_offset).split(':')
             pi.name = str_name[-1]
             pi.ID = param_set.ID
             pi.param_type = param_set.data.struct_type
@@ -88,8 +88,18 @@ class MXECInterface:
                 if type(dtype) is str:
                     if dtype[1:] == "pad32" or dtype[1:] == "pad64":
                         continue
-                    elif dtype[1:] == "sjis_string" or dtype[1:] == "utf8_string":
-                        pi.parameters[key] = mxec_rw.strings.at_ptr(value)
+                    elif dtype[1:] == "sjis_string":
+                        try:
+                            pi.parameters[key] = mxec_rw.sjis_strings.at_ptr(value)
+                        except Exception as e:
+                            print(pi.param_type, key)
+                            raise e
+                    elif dtype[1:] == "utf8_string":
+                        try:
+                            pi.parameters[key] = mxec_rw.utf8_strings.at_ptr(value)
+                        except Exception as e:
+                            print(pi.param_type, key)
+                            raise e
                     else:
                         pi.parameters[key] = value
                 else:
@@ -98,7 +108,7 @@ class MXECInterface:
             
         for entity in mxec_rw.entity_table.entries:
             ei = EntityInterface()
-            ei.name = mxec_rw.strings.at_ptr(entity.name_offset)
+            ei.name = mxec_rw.sjis_strings.at_ptr(entity.name_offset)
             ei.ID = entity.ID
             ei.controller_id = entity.controller_entity_id
             if entity.unknown_data_ptr != 0:
@@ -108,14 +118,14 @@ class MXECInterface:
             parameter_ids = iter(entity.data.data)
             for subentry in entity.data.subentries:
                 parameters = [next(parameter_ids) for _ in range(subentry.count)]
-                ei.subcomponents.append((mxec_rw.strings.at_ptr(subentry.name_offset), parameters ))
+                ei.subcomponents.append((mxec_rw.sjis_strings.at_ptr(subentry.name_offset), parameters ))
             instance.entities.append(ei)
             
             # Next assign the components of each entity 
             
         for path in mxec_rw.pathing_table.entries:
             pi = PathingInterface()
-            pi.name = mxec_rw.strings.at_ptr(path.name_offset)
+            pi.name = mxec_rw.sjis_strings.at_ptr(path.name_offset)
             
             nodes_in_use = [n_id for subgraph in path.graph_indices for n_id in subgraph.node_id_list]
             unique_node_ids = set(nodes_in_use)
@@ -143,8 +153,8 @@ class MXECInterface:
 
         for asset_entry in sorted(mxec_rw.asset_table.entries, key=lambda entry: entry.ID):
             ai = AssetInterface()
-            folder_name = mxec_rw.strings.at_ptr(asset_entry.folder_name_ptr)
-            file_name   = mxec_rw.strings.at_ptr(asset_entry.file_name_ptr)
+            folder_name = mxec_rw.sjis_strings.at_ptr(asset_entry.folder_name_ptr)
+            file_name   = mxec_rw.sjis_strings.at_ptr(asset_entry.file_name_ptr)
             
             ai.ID = asset_entry.ID
             ai.filepath = folder_name + "/" + file_name

@@ -46,7 +46,7 @@ class MXECReadWriter(ValkSerializable32BH):
         self.asset_table = AssetTable(self.context)          # Asset table
 
         self.texmerge_ptr = None
-        self.strings = PointerIndexableArrayCStr(self.context, "cp932")
+        self.sjis_strings = PointerIndexableArrayCStr(self.context, "cp932")
         self.utf8_strings = PointerIndexableArrayCStr(self.context, "utf8")
         self.unknowns = PointerIndexableArrayUint64(self.context)
 
@@ -216,9 +216,9 @@ class MXECReadWriter(ValkSerializable32BH):
                 curpos += 1  # Looks like we read a null-terminator, must be at alignment
                 break
 
-            self.strings.data.append(strn)
-            self.strings.ptr_to_idx[curpos] = n_entries
-            self.strings.idx_to_ptr[n_entries] = curpos
+            self.sjis_strings.data.append(strn)
+            self.sjis_strings.ptr_to_idx[curpos] = n_entries
+            self.sjis_strings.idx_to_ptr[n_entries] = curpos
             n_entries += 1
             curpos += size
             first_string = False
@@ -232,6 +232,7 @@ class MXECReadWriter(ValkSerializable32BH):
 
         rw.assert_local_file_pointer_now_at("Start of UTF-8 String Bank", start_of_utf8_strings)
         utf8_string_blob = memoryview(rw.bytestream.read(end_point - start_of_utf8_strings))
+        n_entries = 0
         first_string = True
         while curpos < end_point:
             strn, size = parse_null_terminated_string_utf8(utf8_string_blob[curpos-start_of_utf8_strings:])
@@ -239,9 +240,9 @@ class MXECReadWriter(ValkSerializable32BH):
                 curpos += 1
                 break
 
-            self.strings.data.append(strn)
-            self.strings.ptr_to_idx[curpos] = n_entries
-            self.strings.idx_to_ptr[n_entries] = curpos
+            self.utf8_strings.data.append(strn)
+            self.utf8_strings.ptr_to_idx[curpos] = n_entries
+            self.utf8_strings.idx_to_ptr[n_entries] = curpos
             n_entries += 1
             curpos += size
             first_string = False
