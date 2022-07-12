@@ -385,6 +385,21 @@ class VirtualParser(ReadWriterBase):
         self.virtual_offset = offset
 
 
+class OffsetTracker(VirtualParser):
+    def assert_file_pointer_now_at(self, location, file_pointer_location=None, use_hex=False):
+        pass
+ 
+    def assert_local_file_pointer_now_at(self, msg, location, file_pointer_location=None, use_hex=False):
+        pass
+        
+    @staticmethod
+    def assert_equal(data, check_value, formatter=lambda x: x):
+        pass
+    
+    @classmethod
+    def assert_is_zero(cls, data):
+        pass
+
 class POF0Builder(VirtualParser):
     open_flags = None
     
