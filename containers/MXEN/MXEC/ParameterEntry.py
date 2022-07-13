@@ -49,7 +49,7 @@ class ParameterSet(Serializable):
         self.utf8_vars = []
         self.asset_vars = []
         
-        for k, v in param_structs[struct_type].items():
+        for k, v in param_structs[self.struct_type].items():
             self.data[k] = None
             self.datatypes.append(v)
             
@@ -60,6 +60,15 @@ class ParameterSet(Serializable):
                     self.sjis_vars.append(k)
                 elif v[1:] == "asset":
                     self.asset_vars.append(k)
+        
+    def init_subparams(self):
+        for k, v in param_structs[self.struct_type].items():
+            if type(v) is dict:
+                self.init_subparam(k, v)
+        
+    def init_subparam(self, k, ktype):
+        count = self.data[ktype["count"]]
+        self.data[k] = [ParameterSet(self.context, ktype["type"]) for _ in range(count)]
         
     def read_write(self, rw):
         for k, ktype in zip(self.data, self.datatypes):
@@ -72,11 +81,10 @@ class ParameterSet(Serializable):
                     raise e
             # Handle subparameters
             elif type(ktype) is dict:
-                count = self.data[ktype["count"]]
-                ptr = self.data[ktype["pointer"]]
                 if rw.mode() == "read":
-                    self.data[k] = [ParameterSet(self.context, ktype["type"]) for _ in range(count)]
+                    self.init_subparam(k, ktype)
                     
+                ptr = self.data[ktype["pointer"]]
                 rw.assert_local_file_pointer_now_at(f"{ktype['type']} Member {k}", ptr)
                 for param in self.data[k]:
                     rw.rw_obj(param)
@@ -105,6 +113,9 @@ class ParameterEntry(Serializable):
         
         self.data = None
         
+    def init_params(self, param_type):
+        self.data = ParameterSet(self.context, param_type)
+        
     def read_write(self, rw):
         self.ID          = rw.rw_uint32(self.ID)
         self.name_offset = rw.rw_pointer(self.name_offset)
@@ -113,6 +124,6 @@ class ParameterEntry(Serializable):
         
     def rw_data(self, rw, lookup_name):
         if rw.mode() == "read":
-            self.data = ParameterSet(self.context, lookup_name)
+            self.init_params(lookup_name)
         rw.rw_obj(self.data)
         rw.align(rw.local_tell(), 0x10)
