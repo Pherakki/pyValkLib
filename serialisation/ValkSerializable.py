@@ -6,9 +6,9 @@ from .Serializable import Serializable, Context
 class Header16B(Serializable):
     __slots__ = ("filetype", "contents_length", "header_length", "flags")
     
-    def __init__(self, context):
+    def __init__(self, context, filetype):
         super().__init__(context)
-        self.filetype = None
+        self.filetype = filetype
         self.contents_length = None
         self.header_length = None
         self.flags = None     
@@ -26,9 +26,9 @@ class Header32B(Serializable):
     __slots__ = ("filetype", "contents_length", "header_length", "flags",
                  "depth", "data_length", "unknown_0x18", "unknown_0x1C")
     
-    def __init__(self, context):
+    def __init__(self, context, filetype):
         super().__init__(context)
-        self.filetype = None
+        self.filetype = filetype
         self.contents_length = None
         self.header_length = None
         self.flags = None
@@ -132,7 +132,7 @@ class ValkSerializable(Serializable):
 class ValkSerializable16BH(ValkSerializable):
     def __init__(self, containers, endianness=None):
         super().__init__(containers, endianness)
-        self.header = Header16B(self.context)
+        self.header = Header16B(self.context, self.FILETYPE)
         self.header.context.endianness = "<"
         
     def check_data_size(self, rw):
@@ -142,7 +142,7 @@ class ValkSerializable16BH(ValkSerializable):
 class ValkSerializable32BH(ValkSerializable):
     def __init__(self, containers, endianness=None):
         super().__init__(containers, endianness)
-        self.header = Header32B(self.context)
+        self.header = Header32B(self.context, self.FILETYPE)
         self.header.context.endianness = "<"
         
     def check_data_size(self, rw):
