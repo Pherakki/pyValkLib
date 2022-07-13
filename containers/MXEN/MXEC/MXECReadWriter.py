@@ -56,9 +56,10 @@ class MXECReadWriter(ValkSerializable32BH):
         self.ENRS = ENRSReadWriter({}, '<')
         self.CCRS = CCRSReadWriter({}, '<')
         self.EOFC = EOFCReadWriter({}, '<')
-
-        self.subcontainers.extend([self.POF0, self.ENRS, self.CCRS, self.EOFC])
             
+    def get_subcontainers(self):
+        return [self.POF0, self.ENRS, self.CCRS, self.EOFC]
+    
     def __repr__(self):
         return f"MXEC Object [{self.header.depth}] [0x{self.header.flags:0>8x}]:\n" \
                f"[{len(self.parameter_sets_table.entries.data)}] Parameter Sets.\n"\

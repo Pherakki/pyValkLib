@@ -67,7 +67,6 @@ class ValkSerializable(Serializable):
         self.header = None
         self.start_pos = None
         self.containers = containers
-        self.subcontainers = []
         
     # RW methods
     
@@ -98,8 +97,11 @@ class ValkSerializable(Serializable):
     def check_data_size(self, rw):
         raise NotImplementedError()
         
+    def get_subcontainers(self):
+        return []
+        
     def read_write_subcontainers(self, rw):
-        for subcontainer in self.subcontainers:
+        for subcontainer in self.get_subcontainers():
             rw.rw_obj(subcontainer)
             
     def check_contents_size(self, rw):
