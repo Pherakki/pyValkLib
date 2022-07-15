@@ -179,6 +179,7 @@ class MXECInterface:
         # Init the variables we'll need to track as we perform the build
         sjis_strings = set()
         utf8_strings = set()
+        asset_db = dict()
         
         # Will have to complete the header after the file data is sorted out
         # ...as well as a bunch of pointers
@@ -202,12 +203,12 @@ class MXECInterface:
         
         # Create the parameter table
         mxec_rw.parameter_sets_table_ptr = ot.tell() if len(self.param_sets) else 0
-        #self.make_params_table(ot, mxec_rw, sjis_strings, utf8_strings)
+        self.make_params_table(ot, mxec_rw, sjis_strings, utf8_strings, asset_db)
         #self.make_string_banks(sjis_strings, utf8_strings)
         
         return mxec_rw
     
-    def make_params_table(self, ot, mxec_rw, sjis_strings, utf8_strings):
+    def make_params_table(self, ot, mxec_rw, sjis_strings, utf8_strings, asset_db):
         # Skip to end of fileinfo
         mxec_rw.parameter_sets_table.entry_ptr = ot.tell()
         ot.rw_obj_method(mxec_rw.parameter_sets_table, mxec_rw.parameter_sets_table.rw_fileinfo)
@@ -263,7 +264,9 @@ class MXECInterface:
             elif prw.data.struct_type == "MxParameterMergeFile":
                 ...
                 # If mergefile, fill in ptr...
-            
+            else:
+                # Make asset and string offsets?
+                ...
             ot.rw_obj_method(prw, prw.rw_data, None)
         #ot.rw_obj_method(self.parameter_sets_table, self.parameter_sets_table.rw_entries)
         
