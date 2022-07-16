@@ -172,7 +172,7 @@ class MXECInterface:
             
         return instance
 
-    def to_subreader(self):
+    def to_subreader(self, depth):
         ot = OffsetTracker()
         mxec_rw = MXECReadWriter(endianness='>')
         
@@ -183,8 +183,6 @@ class MXECInterface:
         
         # Will have to complete the header after the file data is sorted out
         # ...as well as a bunch of pointers
-        mxec_rw.header.flags = 0x18000000
-        
         # Fill in with dummy values for now
         mxec_rw.content_flags            = 0
         mxec_rw.parameter_sets_table_ptr = None
@@ -205,6 +203,14 @@ class MXECInterface:
         mxec_rw.parameter_sets_table_ptr = ot.tell() if len(self.param_sets) else 0
         self.make_params_table(ot, mxec_rw, sjis_strings, utf8_strings, asset_db)
         #self.make_string_banks(sjis_strings, utf8_strings)
+        
+        # Finish off the header
+        mxec_rw.header.flags = 0x18000000
+        mxec_rw.header.data_length = ot.tell()
+        mxec_rw.header.depth = depth
+        
+        # Needs to include POF0, ENRS, CCRS, and EOFC!!!
+        mxec_rw.header.contents_length = ot.tell()
         
         return mxec_rw
     
