@@ -156,7 +156,7 @@ class ReadWriterBase:
     def convert_to_global_position(self, position):
         return position + self.anchor_pos
         
-    def assert_file_pointer_now_at(self, location, file_pointer_location=None, use_hex=False):
+    def assert_file_pointer_now_at(self, location, file_pointer_location=None, use_hex=True):
         if file_pointer_location is None:
             file_pointer_location = self.global_tell()
         if file_pointer_location != location:
@@ -167,10 +167,10 @@ class ReadWriterBase:
                 formatter = lambda x: x
             raise Exception(f"File pointer at {formatter(file_pointer_location)}, not at {formatter(location)}.")
     
-    def assert_global_file_pointer_now_at(self, location, file_pointer_location=None, use_hex=False):
+    def assert_global_file_pointer_now_at(self, location, file_pointer_location=None, use_hex=True):
         self.assert_file_pointer_now_at(location, file_pointer_location, use_hex)
         
-    def assert_local_file_pointer_now_at(self, msg, location, file_pointer_location=None, use_hex=False):
+    def assert_local_file_pointer_now_at(self, msg, location, file_pointer_location=None, use_hex=True):
         if file_pointer_location is None:
             file_pointer_location = self.local_tell()
         if file_pointer_location != location:
