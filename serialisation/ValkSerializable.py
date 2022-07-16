@@ -10,7 +10,7 @@ class Header16B(Serializable):
         super().__init__(context)
         self.filetype = filetype
         self.contents_length = None
-        self.header_length = None
+        self.header_length = 0x10
         self.flags = None     
         
     def read_write(self, rw):
@@ -24,19 +24,19 @@ class Header16B(Serializable):
         
 class Header32B(Serializable):
     __slots__ = ("filetype", "contents_length", "header_length", "flags",
-                 "depth", "data_length", "unknown_0x18", "unknown_0x1C")
+                 "depth", "data_length", "padding_0x18", "padding_0x1C")
     
     def __init__(self, context, filetype):
         super().__init__(context)
         self.filetype = filetype
         self.contents_length = None
-        self.header_length = None
+        self.header_length = 0x20
         self.flags = None
         
         self.depth = None
         self.data_length = None
-        self.unknown_0x18 = None
-        self.unknown_0x1C = None
+        self.padding_0x18 = 0
+        self.padding_0x1C = 0
         
     def read_write(self, rw):
         self.filetype        = rw.rw_str(self.filetype, 4)
@@ -46,11 +46,11 @@ class Header32B(Serializable):
         
         self.depth           = rw.rw_uint32(self.depth)
         self.data_length     = rw.rw_uint32(self.data_length)
-        self.unknown_0x18    = rw.rw_uint32(self.unknown_0x18)
-        self.unknown_0x1C    = rw.rw_uint32(self.unknown_0x1C)
+        self.padding_0x18    = rw.rw_uint32(self.padding_0x18)
+        self.padding_0x1C    = rw.rw_uint32(self.padding_0x1C)
         
-        rw.assert_is_zero(self.unknown_0x18)
-        rw.assert_is_zero(self.unknown_0x1C)
+        rw.assert_is_zero(self.padding_0x18)
+        rw.assert_is_zero(self.padding_0x1C)
 
     def __repr__(self):
         return f"::0x20 Header:: Filetype: {self.filetype}, Contents Size: {self.contents_length}, Header Size: {self.header_length}, Flags: 0x{self.flags:0>8x}, Depth: {self.depth}, Data Size: {self.data_length}"
