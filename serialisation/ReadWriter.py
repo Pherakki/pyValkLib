@@ -57,6 +57,12 @@ class ReadWriterBase:
     # Interface Functions #
     #######################
 
+    def mark_new_contents_array(self):
+        pass
+    
+    def mark_new_contents_array_member(self):
+        pass
+
     def rw_pointer(self, value, endianness=None):
         return self._rw_single('I', 4, value, endianness)
 
@@ -428,11 +434,26 @@ class POF0Builder(VirtualParser):
 class ENRSBuilder(VirtualParser):
     open_flags = None
     
-    __slots__ = ("virtual_offset", "pointers")
+    __slots__ = ("current_array", "current_array_member")
     
     def __init__(self):
         super().__init__()
+        self.current_array = None
+        self.current_array_member = None
 
+    def mark_new_contents_array(self):
+        if self.current_array is not None:
+            self.pointers.append(self.current_array)
+        self.current_array = []
+    
+    def mark_new_contents_array_member(self):
+        if self.current_array_member is not None:
+            self.current_array.append(self.current_array_member)
+        self.current_array_member = []
+        
+    def log_offset(self):
+        self.current_array_member.append(self.virtual_offset)
+    
     def rw_pad8 (self, value, endianness=None): return super()._rw_single('B', 1, value, endianness)
     def rw_pad16(self, value, endianness=None): return super()._rw_single('H', 2, value, endianness)
     def rw_pad32(self, value, endianness=None): return super()._rw_single('I', 4, value, endianness)
