@@ -1,3 +1,4 @@
+from collections import defaultdict
 import os
 
 from .MXECReadWriter import MXECReadWriter
@@ -174,153 +175,166 @@ class MXECInterface:
 
     def to_subreader(self, depth):
         ot = OffsetTracker()
-        mxec_rw = MXECReadWriter(endianness='>')
+        mxec_rw = MXECReadWriter(endianness=">")
         
-        # Init the variables we'll need to track as we perform the build
         sjis_strings = set()
         utf8_strings = set()
-        asset_db = dict()
+        sjis_string_lookup = dict()
+        utf8_string_lookup = dict()
         
-        # Will have to complete the header after the file data is sorted out
-        # ...as well as a bunch of pointers
-        # Fill in with dummy values for now
-        mxec_rw.content_flags            = 0
-        mxec_rw.parameter_sets_table_ptr = None
-        mxec_rw.entity_table_ptr         = None
-        mxec_rw.asset_table_ptr          = None
+        # Execute this in FIVE passes:
+        # 1) First, construct the data structures you need,
+        #    find the offsets of major sections,
+        #    and fill in offsets of major sections
+        # 2) Next, actually fill in the main data in those structures
+        # 3) Collect POF0 data
+        # 4) Collect ENRS data
+        # 5) Collect CCRS data
         
-        mxec_rw.unknown_0x30             = 1
-        mxec_rw.pathing_table_ptr        = None
-        mxec_rw.texmerge_count           = 0
-        mxec_rw.texmerge_ptrs_ptr        = 0
-        
-        mxec_rw.pvs_record_ptr           = 0
-        mxec_rw.mergefile_record_ptr     = 0
-        
+        ######################################################################
+        #                               PASS 1                               #
+        ######################################################################
+        # Generate data structures (also create all needed offsets?)
+        mxec_rw.header.read_write(ot)
         mxec_rw.rw_fileinfo(ot)
         
-        # Create the parameter table
-        mxec_rw.parameter_sets_table_ptr = ot.tell() if len(self.param_sets) else 0
-        self.make_params_table(ot, mxec_rw, sjis_strings, utf8_strings, asset_db)
-        #self.make_string_banks(sjis_strings, utf8_strings)
-        
-        # Finish off the header
-        mxec_rw.header.flags = 0x18000000
-        mxec_rw.header.data_length = ot.tell()
-        mxec_rw.header.depth = depth
-        
-        # Needs to include POF0, ENRS, CCRS, and EOFC!!!
-        mxec_rw.header.contents_length = ot.tell()
-        
-        return mxec_rw
-    
-    def make_params_table(self, ot, mxec_rw, sjis_strings, utf8_strings, asset_db):
-        # Skip to end of fileinfo
-        mxec_rw.parameter_sets_table.entry_ptr = ot.tell()
-        ot.rw_obj_method(mxec_rw.parameter_sets_table, mxec_rw.parameter_sets_table.rw_fileinfo)
-
-        # Fill in fileinfo pointer
+        # Do Parameters
         mxec_rw.parameter_sets_table.entry_count = len(self.param_sets)
+        mxec_rw.parameter_sets_table_ptr = ot.tell() if len(self.param_sets) else 0
         mxec_rw.parameter_sets_table.entries.data = [mxec_rw.parameter_sets_table.entry_cls(mxec_rw.context) for _ in range(mxec_rw.parameter_sets_table.entry_count)]
         
-        # Write headers?
+        def collect_param_strings(prw, param_set):
+            sjis_strings.update(set([param_set.parameters[nm] for nm in prw.data.sjis_vars]))
+            utf8_strings.update(set([param_set.parameters[nm] for nm in prw.data.utf8_vars]))
+            for param_name, param_type in zip(prw.data.data, prw.data.datatypes):
+                if type(param_type) is dict:
+                    count = len(param_set.parameters[param_name])
+                    prw.data.data[param_type["count"]] = count
+                    prw.data.data[param_type["ptr"]] = 0 # Needs fixing!!
+                    param_set.parameters[param_type["count"]] = count
+                    param_set.parameters[param_type["ptr"]] = 0 # Needs fixing!!
+                    
+                    prw.init_subparam(param_name, param_type)
+                    for sub_prw, sub_param_set in zip(prw.data[param_name], param_set.parameters[param_name]):
+                        collect_param_strings(sub_prw, sub_param_set)
+        
+        mxec_rw.parameter_sets_table.rw_fileinfo(ot)
+        mxec_rw.parameter_sets_table.entry_ptr = ot.tell()
+        
+        param_names = []
+        for i, param_set in enumerate(self.param_sets):
+            type_prefix = param_set.param_type
+            pset_name = ":".join([type_prefix, param_set.name])
+            
+            sjis_strings.add(pset_name)
+            param_names.append(pset_name)
+            
+        
         for param_set, prw in zip(self.param_sets, mxec_rw.parameter_sets_table.entries):
-            type_prefix = param_set.param_type # Needs to have full entity string etc.
-            sjis_strings.add(":".join([type_prefix, param_set.name]))
-            
-            # Fill in the structure
             prw.init_params(param_set.param_type)
-            prw.ID          = param_set.ID
-            prw.name_offset = None
-            prw.data_size   = None
-            prw.data_offset = None
+
+            # Get strings inside the parameters themselves
+            collect_param_strings(prw, param_set)
+        
+        mxec_rw.parameter_sets_table.rw_entry_headers(ot)
+        mxec_rw.parameter_sets_table.rw_entries(ot)
+        
+        # Do Entities
+        mxec_rw.entity_table_ptr = ot.tell() if len(self.entities) else 0
+        
+        # Do Paths
+        mxec_rw.pathing_table_ptr = ot.tell() if len(self.path_graphs) else 0
+        
+        # Do Assets
+        mxec_rw.asset_table_ptr = ot.tell() if len(self.assets) else 0
+        
+        # Do Strings
+        for i, string_val in enumerate(sorted(sjis_strings)):
+            str_bytes = string_val.encode("cp932")
+            offset = ot.tell()
+            sjis_string_lookup[string_val] = offset
+            ot.seek(offset + len(str_bytes) + 1)
+        ot.align(ot.tell(), 0x10)
+        for i, string_val in enumerate(sorted(utf8_strings)):
+            str_bytes = string_val.encode("utf8")
+            offset = ot.tell()
+            utf8_string_lookup[string_val] = offset
+            ot.seek(offset + len(str_bytes) + 1)
+        ot.align(ot.tell(), 0x10)
+        
+        # Do Unknowns
+        
+        # Clean up header
+        mxec_rw.header.flags = 0x18000000
+        mxec_rw.header.data_length = ot.tell() - mxec_rw.header.header_length
+        mxec_rw.header.depth = depth
             
-            # Fill in the parameter data
+        
+        ######################################################################
+        #                               PASS 2                               #
+        ######################################################################
+        # Fill in data
+        
+        # Fill in Parameter Sets
+        def fill_param_strings(prw, param_set, sjis_lookup, utf8_lookup):
             for param_name, param_type in zip(prw.data.data, prw.data.datatypes):
                 if type(param_type) is str:
-                    if param_type[1:] == "pad32" or param_type[1:] == "pad64":
-                        prw.data.data[param_name] = 0
-                    elif param_type[1:] == "sjis_string":
-                        sjis_strings.add(param_set.parameters[param_name])
-                        prw.data.data[param_name] = None
+                    if param_type[1:] == "sjis_string":
+                        prw.data.data[param_name] = sjis_lookup[param_set.parameters[param_name]]
                     elif param_type[1:] == "utf8_string":
-                        utf8_strings.add(param_set.parameters[param_name])
-                        prw.data.data[param_name] = None
+                        prw.data.data[param_name] = utf8_lookup[param_set.parameters[param_name]]
+                    elif param_type[1:] == "pad32" or param_type[1:] == "pad64":
+                        prw.data.data[param_name] = 0
+                    elif param_type[1:] == "pointer":
+                        pass # Should have already been handled
                     else:
                         prw.data.data[param_name] = param_set.parameters[param_name]
                 elif type(param_type) is dict:
-                    prw.data[param_name].count = len(param_set[param_name])
-                    prw.data[param_name].ptr = None
-                else:
-                    raise Exception(f"Unrecognised parameter type {type(param_type)}.")
+                    for sub_prw, sub_param_set in zip(prw.data[param_name], param_set.parameters[param_name]):
+                        fill_param_strings(sub_prw, sub_param_set, sjis_lookup, utf8_lookup)
+        
+        for prw, param_set, param_set_name in zip(mxec_rw.parameter_sets_table.entries, self.param_sets, param_names):
+            prw.name_offset = sjis_string_lookup[param_set_name]
+            fill_param_strings(prw, param_set, sjis_string_lookup, utf8_string_lookup)
             
-            prw.data.init_subparams()
-                
-        # Advance the pointer beyond the headers
-        ot.rw_obj_method(mxec_rw.parameter_sets_table, mxec_rw.parameter_sets_table.rw_entry_headers)
-        # Now get important pointers from within the parameter sets themselves
-        for prw in mxec_rw.parameter_sets_table.entries:
-            # Fill in Header data
-            if prw.data.struct_type == "MxParameterTextureMerge":
-               # If texmerge, fill in ptr...
-                ...
-            elif prw.data.struct_type == "MxParameterPvs":
-                # If pvs, fill in ptr...
-                ...
-            elif prw.data.struct_type == "MxParameterMergeFile":
-                ...
-                # If mergefile, fill in ptr...
-            else:
-                # Make asset and string offsets?
-                ...
-            ot.rw_obj_method(prw, prw.rw_data, None)
-        #ot.rw_obj_method(self.parameter_sets_table, self.parameter_sets_table.rw_entries)
+        # Entities
         
+        # Paths
         
+        # Assets
         
+        # Strings
+        for string_val, offset in sjis_string_lookup.items():
+            idx = len(mxec_rw.sjis_strings)
+            mxec_rw.sjis_strings.data.append(string_val)
+            mxec_rw.sjis_strings.ptr_to_idx[offset] = idx
+            mxec_rw.sjis_strings.idx_to_ptr[idx] = offset
+        for string_val, offset in utf8_string_lookup.items():
+            idx = len(mxec_rw.utf8_strings)
+            mxec_rw.utf8_strings.data.append(string_val)
+            mxec_rw.utf8_strings.ptr_to_idx[offset] = idx
+            mxec_rw.utf8_strings.idx_to_ptr[idx] = offset
+        ot.align(ot.tell(), 0x10)
         
-        
-    def make_asset_table(self):
-        ...
-        # # Write out assets
-        # mxec_rw.asset_table.padding_0x00 = 0
-        # mxec_rw.asset_table.asset_reference_count = len(self.assets)
-        # mxec_rw.asset_table.asset_use_count = None
-        # mxec_rw.asset_table.padding_0x14 = 0
-        # mxec_rw.asset_table.padding_0x18 = 0
-        # mxec_rw.asset_table.padding_0x1C = 0
-        
-        # # Make sure pointer is updated
-        # mxec_rw.asset_table.asset_references_offset = virtual_pointer
-        # # Handle asset entries
-        # for asset_entry in self.assets:
-        #     # Need to sort out the pointers here
-        #     ae = AssetEntry()
+        # Unknowns
+        # Already handled
             
-        #     ae.flags = 0x100 * (asset_entry.unknown_id_1 != -1) + 0x200 * (asset_entry.unknown_id_2 != -1)
-        #     ae.ID = asset_entry.ID
-        #     ae.folder_name_ptr, ae.file_name_ptr = os.path.split(asset_entry.filepath)
-            
-        #     ae.filetype = asset_entry.filetype
-        #     ae.unknown_0x14 = asset_entry.unknown_id_1
-        #     ae.unknown_0x18 = 0
-        #     ae.padding_0x1C = 0
-            
-        #     ae.unknown_0x20 = (asset_entry.unknown_id_2 > -1) - 1
-        #     ae.unknown_0x24 = asset_entry.unknown_id_2
-        #     ae.padding_0x28 = 0
-        #     ae.padding_0x2C = 0
-            
-        #     ae.padding_0x30 = 0
-        #     ae.padding_0x34 = 0
-        #     ae.padding_0x38 = 0
-        #     ae.padding_0x3C = 0   
-            
-        #     mxec_rw.asset_table.entries.data.append(ae)
-
-        # # Make sure pointer is updated
-        # mxec_rw.asset_table.asset_use_offset = virtual_pointer
-        # # Now need to loop over an array of pointers constructed from the parameters...
         
-    def make_string_banks(self, sjis_strings, utf8_strings):
-        ...
+        ######################################################################
+        #                               PASS 3                               #
+        ######################################################################
+        # POF0
+        
+        ######################################################################
+        #                               PASS 4                               #
+        ######################################################################
+        # ENRS
+        
+        ######################################################################
+        #                               PASS 5                               #
+        ######################################################################
+        # CCRS
+        
+        mxec_rw.header.contents_length = ot.tell() - mxec_rw.header.header_length
+        
+        return mxec_rw
