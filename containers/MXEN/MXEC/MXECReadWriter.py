@@ -104,26 +104,26 @@ class MXECReadWriter(ValkSerializable32BH):
         
         # VALIDATION
         
-        # 0x00000100 -> texmerge count + ptrs_ptr enabled
+        # 0x00000100 -> ??? Always active, may be related to unknown_0x30
         # 0x00000400 -> texmerge count + ptrs_ptr enabled
         # 0x00001800 -> pvs enabled
         # 0x01000000 -> mergefile enabled
-        texmerge_enabled  = (self.content_flags & 0x00000100) == 0x00000100
-        unknown_enabled   = (self.content_flags & 0x00000400) == 0x00000400
+        unknown_enabled   = (self.content_flags & 0x00000100) == 0x00000100
+        texmerge_enabled  = (self.content_flags & 0x00000400) == 0x00000400
         pvs_enabled       = (self.content_flags & 0x00001800) == 0x00001800
         mergefile_enabled = (self.content_flags & 0x01000000) == 0x01000000
         
         # Check we've got all the flags
         cflags = self.content_flags
-        cflags -=  texmerge_enabled * 0x00000100
-        cflags -=   unknown_enabled * 0x00000400
+        cflags -=   unknown_enabled * 0x00000100
+        cflags -=  texmerge_enabled * 0x00000400
         cflags -=       pvs_enabled * 0x00001800
         cflags -= mergefile_enabled * 0x01000000
         assert cflags == 0, f"Some MXEC flags uncaught! 0x{cflags:0>8x}"
         
         rw.assert_equal(self.unknown_0x30, 1)
-        #rw.assert_equal((self.texmerge_count > 0), texmerge_enabled)
-        #rw.assert_equal((self.texmerge_ptrs_ptr > 0), texmerge_enabled)
+        rw.assert_equal((self.texmerge_count > 0), texmerge_enabled)
+        rw.assert_equal((self.texmerge_ptrs_ptr > 0), texmerge_enabled)
         
         rw.assert_equal(self.padding_0x48, 0)
         rw.assert_equal(self.padding_0x4C, 0)
