@@ -3,7 +3,9 @@ import os
 
 from .MXECReadWriter import MXECReadWriter
 from .AssetEntry import AssetEntry
-from pyValkLib.serialisation.ReadWriter import OffsetTracker
+from pyValkLib.serialisation.ReadWriter import OffsetTracker, POF0Builder, ENRSBuilder
+from pyValkLib.containers.POF0.POF0ReadWriter import compressPOF0
+from pyValkLib.containers.ENRS.ENRSReadWriter import compressENRS
 
 class ParameterInterface:
     def __init__(self):
@@ -329,10 +331,49 @@ class MXECInterface:
         ######################################################################
         # POF0
         
+        # Create POF0 data
+        pb = POF0Builder()
+        pb.virtual_offset = mxec_rw.header.header_length
+        mxec_rw.read_write_contents(pb)
+        
+        pb_data = compressPOF0(pb.pointers)
+        mxec_rw.POF0.data_size = len(pb_data) + 4
+        mxec_rw.POF0.data = pb_data
+        
+        # Create POF0 header data
+        pb_ot = OffsetTracker()
+        mxec_rw.POF0.read_write_contents(pb_ot)
+        
+        mxec_rw.POF0.header.flags = 0x10000000
+        mxec_rw.POF0.header.depth = depth + 1
+        mxec_rw.POF0.header.data_length = pb_ot.tell()
+        mxec_rw.POF0.header.contents_length = pb_ot.tell()
+        
+        mxec_rw.POF0.read_write(ot)
+        
         ######################################################################
         #                               PASS 4                               #
         ######################################################################
         # ENRS
+        # Create POF0 data
+        eb = ENRSBuilder(mxec_rw.context.endianness)
+        eb.anchor_pos = -mxec_rw.header.header_length
+        mxec_rw.read_write_contents(eb)
+        
+        # eb_data = compressENRS(eb.pointers)
+        # mxec_rw.ENRS.num_groups = len(eb.pointers)
+        # mxec_rw.ENRS.data = eb_data
+        
+        # # Create ENRS header data
+        # eb_ot = OffsetTracker()
+        # mxec_rw.ENRS.read_write_contents(eb_ot)
+        
+        # mxec_rw.ENRS.header.flags = 0x10000000
+        # mxec_rw.ENRS.header.depth = depth + 1
+        # mxec_rw.ENRS.header.data_length = eb_ot.tell()
+        # mxec_rw.ENRS.header.contents_length = eb_ot.tell()
+        
+        # mxec_rw.ENRS.read_write(ot)
         
         ######################################################################
         #                               PASS 5                               #
