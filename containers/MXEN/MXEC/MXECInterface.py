@@ -230,14 +230,18 @@ class MXECInterface:
             param_names.append(pset_name)
             
         
+        mxec_rw.parameter_sets_table.rw_entry_headers(ot)
         for param_set, prw in zip(self.param_sets, mxec_rw.parameter_sets_table.entries):
             prw.init_params(param_set.param_type)
 
             # Get strings inside the parameters themselves
             collect_param_strings(prw, param_set)
+            prw.data_offset = ot.tell()
+            ot.rw_obj(prw.data)
+            prw.data_size = ot.tell() - prw.data_offset # Needs to exclude any subreaders!!!
+            ot.align(ot.tell(), 0x10)
         
-        mxec_rw.parameter_sets_table.rw_entry_headers(ot)
-        mxec_rw.parameter_sets_table.rw_entries(ot)
+        ot.align(ot.tell(), 0x10)
         
         # Do Entities
         mxec_rw.entity_table_ptr = ot.tell() if len(self.entities) else 0
