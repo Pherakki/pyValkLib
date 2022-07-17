@@ -331,12 +331,6 @@ class VirtualParser(ReadWriterBase):
     def adv_offset(self, adv):
         self.virtual_offset += adv
      
-    def rw_pointer(self, value, endianness=None):
-        if value != 0:
-            self.log_offset()
-        self.adv_offset(4)
-        return value
-        
     def _rw_single(self, typecode, size, value, endianness=None):
         self.adv_offset(size)
         return value
@@ -383,7 +377,6 @@ class VirtualParser(ReadWriterBase):
         if whence != 0:
             raise NotImplementedError
         self.virtual_offset = offset
-
 
 class OffsetTracker(VirtualParser):
     def assert_file_pointer_now_at(self, location, file_pointer_location=None, use_hex=False):
