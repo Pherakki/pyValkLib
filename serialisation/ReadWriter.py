@@ -394,23 +394,6 @@ class OffsetTracker(VirtualParser):
         pass
 
 
-class StringDistributor(OffsetTracker):
-    def __init__(self, sjis_lookup, utf8_lookup):
-        self.sjis_lookup = sjis_lookup
-        self.utf8_lookup = utf8_lookup
-        
-    def mode(self):
-        return "StringDistributor"
-        
-    def rw_cstr(self, value, encoding='ascii', end_char=b'\x00'):
-        if encoding == "utf8":
-            return self.utf8_lookup[value]
-        elif encoding == "shift-jis" or encoding == "cp932":
-            return self.sjis_lookup[value]
-        else:
-            raise Exception(f"Unrecognised encoding: {encoding}")
-
-
 class POF0Builder(VirtualParser):
     open_flags = None
     
