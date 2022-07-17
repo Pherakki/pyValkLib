@@ -87,20 +87,20 @@ class MXECReadWriter(ValkSerializable32BH):
         self.entity_table_ptr         = rw.rw_pointer(self.entity_table_ptr)
         self.asset_table_ptr          = rw.rw_pointer(self.asset_table_ptr)
 
-        self.unknown_0x30      = rw.rw_uint32(self.unknown_0x30)
-        self.pathing_table_ptr = rw.rw_pointer(self.pathing_table_ptr)
-        self.texmerge_count    = rw.rw_uint32(self.texmerge_count)
-        self.texmerge_ptrs_ptr = rw.rw_pointer(self.texmerge_ptrs_ptr)
+        self.unknown_0x30             = rw.rw_uint32(self.unknown_0x30)
+        self.pathing_table_ptr        = rw.rw_pointer(self.pathing_table_ptr)
+        self.texmerge_count           = rw.rw_uint32(self.texmerge_count)
+        self.texmerge_ptrs_ptr        = rw.rw_pointer(self.texmerge_ptrs_ptr)
         
-        self.pvs_record_ptr       = rw.rw_pointer(self.pvs_record_ptr)
-        self.mergefile_record_ptr = rw.rw_pointer(self.mergefile_record_ptr)
-        self.padding_0x48         = rw.rw_pad32(self.padding_0x48)
-        self.padding_0x4C         = rw.rw_pad32(self.padding_0x4C)
+        self.pvs_record_ptr           = rw.rw_pointer(self.pvs_record_ptr)
+        self.mergefile_record_ptr     = rw.rw_pointer(self.mergefile_record_ptr)
+        self.padding_0x48             = rw.rw_pad32(self.padding_0x48)
+        self.padding_0x4C             = rw.rw_pad32(self.padding_0x4C)
         
-        self.padding_0x50 = rw.rw_pad32(self.padding_0x50)
-        self.padding_0x54 = rw.rw_pad32(self.padding_0x54)
-        self.padding_0x58 = rw.rw_pad32(self.padding_0x58)
-        self.padding_0x5C = rw.rw_pad32(self.padding_0x5C)
+        self.padding_0x50             = rw.rw_pad32(self.padding_0x50)
+        self.padding_0x54             = rw.rw_pad32(self.padding_0x54)
+        self.padding_0x58             = rw.rw_pad32(self.padding_0x58)
+        self.padding_0x5C             = rw.rw_pad32(self.padding_0x5C)
         
         # VALIDATION
         
