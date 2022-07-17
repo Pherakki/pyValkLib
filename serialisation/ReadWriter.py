@@ -444,8 +444,10 @@ class ENRSBuilder(VirtualParser):
 
     def mark_new_contents_array(self):
         if self.current_array is not None:
+            self.current_array.append(self.current_array_member)
             self.pointers.append(self.current_array)
         self.current_array = []
+        self.current_array_member = None
     
     def mark_new_contents_array_member(self):
         if self.current_array_member is not None:
