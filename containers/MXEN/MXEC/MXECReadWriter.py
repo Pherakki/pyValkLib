@@ -79,8 +79,12 @@ class MXECReadWriter(ValkSerializable32BH):
         self.rw_strings(rw)
         self.rw_unknowns(rw)
         
+        rw.mark_new_contents_array()
+        
     def rw_fileinfo(self, rw):
         # Read/write
+        rw.mark_new_contents_array()
+        rw.mark_new_contents_array_member()
 
         self.content_flags            = rw.rw_uint32(self.content_flags)
         self.parameter_sets_table_ptr = rw.rw_pointer(self.parameter_sets_table_ptr)
@@ -101,7 +105,7 @@ class MXECReadWriter(ValkSerializable32BH):
         self.padding_0x54             = rw.rw_pad32(self.padding_0x54)
         self.padding_0x58             = rw.rw_pad32(self.padding_0x58)
         self.padding_0x5C             = rw.rw_pad32(self.padding_0x5C)
-        
+
         # VALIDATION
         
         # 0x00000100 -> ??? Always active, may be related to unknown_0x30

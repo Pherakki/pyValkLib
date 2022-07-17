@@ -25,7 +25,9 @@ class PointerIndexableArray(Serializable):
             yield elem
     
     def read_write(self, rw):
+        rw.mark_new_contents_array()
         for i, elem in enumerate(self.data):
+            rw.mark_new_contents_array_member()
             if i in self.idx_to_ptr:
                 rw.assert_local_file_pointer_now_at("Start of Array Entry", self.idx_to_ptr[i])
             curpos = rw.local_tell()
