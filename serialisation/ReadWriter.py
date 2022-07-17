@@ -434,12 +434,13 @@ class POF0Builder(VirtualParser):
 class ENRSBuilder(VirtualParser):
     open_flags = None
     
-    __slots__ = ("current_array", "current_array_member")
+    __slots__ = ("current_array", "current_array_member", "ref_endianness")
     
-    def __init__(self):
+    def __init__(self, ref_endianness):
         super().__init__()
         self.current_array = None
         self.current_array_member = None
+        self.ref_endianness = ref_endianness
 
     def mark_new_contents_array(self):
         if self.current_array is not None:
@@ -461,7 +462,7 @@ class ENRSBuilder(VirtualParser):
 
     def _rw_single(self, typecode, size, value, endianness=None):
         if endianness is None:
-            endianness = self.context.endianness
+            endianness = self.ref_endianness
             
         if endianness == '>':
             self.log_offset()

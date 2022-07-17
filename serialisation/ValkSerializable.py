@@ -122,7 +122,7 @@ class ValkSerializable(Serializable):
         return pof0_info
 
     def buildENRS(self):
-        enrs_info = ENRSBuilder()
+        enrs_info = ENRSBuilder('>')
         enrs_info.context = copy.deepcopy(self.context)
         enrs_info.anchor_pos = -self.header.header_length
         self.read_write_contents(enrs_info)
