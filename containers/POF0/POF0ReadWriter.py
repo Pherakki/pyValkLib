@@ -118,6 +118,28 @@ def decompressPOF0(POF0_data, num_offsets):
             continue
     return offsets
 
+def decompressPOF0_alt(data, data_size):
+    offset = 0
+    offsets = []  
+    data = iter(data[:data_size])
+
+    for elem in data:
+        power_val = elem & 0xC0
+        value = elem & 0x3F
+        if power_val == 0x40:
+            offset += 4*value
+            offsets.append(offset)
+        elif power_val == 0x80:
+            offset_incr = 4*(value << 8 | next(data))
+            offset += offset_incr
+            offsets.append(offset)
+        elif power_val == 0xC0:
+            offset_incr = 4*(value << 0x18 | next(data) << 0x10 | next(data) << 0x08 | next(data))
+            offset += offset_incr
+            offsets.append(offset)
+        else:
+            continue
+    return offsets
 
 def compressPOF0(offsets):
     data = []
