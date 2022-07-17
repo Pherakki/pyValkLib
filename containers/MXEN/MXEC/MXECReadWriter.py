@@ -20,18 +20,18 @@ class MXECReadWriter(ValkSerializable32BH):
     def __init__(self, endianness=None):
         super().__init__({}, endianness)
         
-        self.content_flags            = None
-        self.parameter_sets_table_ptr = None
-        self.entity_table_ptr         = None
-        self.asset_table_ptr          = None
+        self.content_flags            = 0
+        self.parameter_sets_table_ptr = 0
+        self.entity_table_ptr         = 0
+        self.asset_table_ptr          = 0
         
-        self.unknown_0x30             = None
-        self.pathing_table_ptr        = None
-        self.texmerge_count           = None
-        self.texmerge_ptrs_ptr        = None
+        self.unknown_0x30             = 1
+        self.pathing_table_ptr        = 0
+        self.texmerge_count           = 0
+        self.texmerge_ptrs_ptr        = 0
         
-        self.pvs_record_ptr           = None
-        self.mergefile_record_ptr     = None
+        self.pvs_record_ptr           = 0
+        self.mergefile_record_ptr     = 0
         self.padding_0x48             = 0
         self.padding_0x4C             = 0
         
