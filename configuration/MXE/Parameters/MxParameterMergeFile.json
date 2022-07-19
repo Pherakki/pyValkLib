@@ -1,6 +1,11 @@
 {
-    "unknown_0x00": ">asset",
-    "unknown_0x08": ">asset",
-    "padding_0x10": ">pad64",
-    "padding_0x18": ">pad64"
+    "struct":
+    [
+        {
+            "unknown_0x00": ">asset",
+            "unknown_0x08": ">asset",
+            "padding_0x10": ">pad64",
+            "padding_0x18": ">pad64"
+        }
+    ]
 }

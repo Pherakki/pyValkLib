@@ -44,31 +44,38 @@ class ParameterSet(Serializable):
         super().__init__(context)
         self.struct_type = struct_type
         self.data = {}
+        self.subparams = {}
         self.datatypes = []
         self.sjis_vars = []
         self.utf8_vars = []
         self.asset_vars = []
         
-        for k, v in param_structs[self.struct_type].items():
-            self.data[k] = None
-            self.datatypes.append(v)
-            
-            if type(v) is str:
-                if v[1:] == "utf8_string":
-                    self.utf8_vars.append(k)
-                elif v[1:] == "sjis_string":
-                    self.sjis_vars.append(k)
-                elif v[1:] == "asset":
-                    self.asset_vars.append(k)
+        struct_obj = param_structs[self.struct_type]
+        if "struct" in struct_obj:
+            for param_chunk in struct_obj["struct"]:
+                for k, v in param_chunk.items():
+                    if type(v) is not str:
+                        raise Exception(f"Parameter names must be strings, found {v} (type: {type(v)}).")
+                    self.data[k] = None
+                    self.datatypes.append(v)
+                    
+                    if v[1:] == "utf8_string":
+                        self.utf8_vars.append(k)
+                    elif v[1:] == "sjis_string":
+                        self.sjis_vars.append(k)
+                    elif v[1:] == "asset":
+                        self.asset_vars.append(k)
         
     def init_subparams(self):
-        for k, v in param_structs[self.struct_type].items():
-            if type(v) is dict:
-                self.init_subparam(k, v)
+        struct_obj = param_structs[self.struct_type]
+        if "subparams" in struct_obj:
+            for k, v in struct_obj["subparams"].items():
+                if type(v) is dict:
+                    self.init_subparam(k, v)
         
     def init_subparam(self, k, ktype):
         count = self.data[ktype["count"]]
-        self.data[k] = [ParameterSet(self.context, ktype["type"]) for _ in range(count)]
+        self.subparams[k] = [ParameterSet(self.context, ktype["type"]) for _ in range(count)]
         
     def read_write(self, rw):
         for k, ktype in zip(self.data, self.datatypes):
