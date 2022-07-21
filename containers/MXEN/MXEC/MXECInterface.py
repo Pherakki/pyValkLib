@@ -13,6 +13,7 @@ class ParameterInterface:
         self.ID = None
         self.param_type = None
         self.parameters = None
+        self.subparameters = None
         
 class EntityInterface:
     def __init__(self):
@@ -94,25 +95,26 @@ class MXECInterface:
             pi.param_type = param_set.data.struct_type
             pi.parameters = {}
             for (key, value), dtype in zip(param_set.data.data.items(), param_set.data.datatypes):
-                if type(dtype) is str:
-                    if dtype[1:] == "pad32" or dtype[1:] == "pad64":
-                        continue
-                    elif dtype[1:] == "sjis_string":
-                        try:
-                            pi.parameters[key] = mxec_rw.sjis_strings.at_ptr(value)
-                        except Exception as e:
-                            print(pi.param_type, key)
-                            raise e
-                    elif dtype[1:] == "utf8_string":
-                        try:
-                            pi.parameters[key] = mxec_rw.utf8_strings.at_ptr(value)
-                        except Exception as e:
-                            print(pi.param_type, key)
-                            raise e
-                    else:
-                        pi.parameters[key] = value
+                if dtype[1:] == "pad32" or dtype[1:] == "pad64":
+                    continue
+                elif dtype[1:] == "sjis_string":
+                    try:
+                        pi.parameters[key] = mxec_rw.sjis_strings.at_ptr(value)
+                    except Exception as e:
+                        print(pi.param_type, key)
+                        raise e
+                elif dtype[1:] == "utf8_string":
+                    try:
+                        pi.parameters[key] = mxec_rw.utf8_strings.at_ptr(value)
+                    except Exception as e:
+                        print(pi.param_type, key)
+                        raise e
                 else:
                     pi.parameters[key] = value
+            pi.subparameters = {}
+            for subparam_name, subparams in param_set.data.subparams.items():
+                pi.subparameters[subparam_name] = subparams
+                
             instance.param_sets.append(pi)
             
         for entity in mxec_rw.entity_table.entries:
