@@ -82,13 +82,20 @@ class ParameterSet(Serializable):
         self.rw_subparams(rw)
         
     def rw_struct(self, rw):
-        for k, ktype in zip(self.data, self.datatypes):
-            try:
-                endianness, typecode = ktype[0], ktype[1:]
-                self.data[k] = func_lookup[typecode](rw, self.data[k], endianness)
-            except Exception as e:
-                print("Failed to handle", k, "for", self.struct_type)
-                raise e
+        
+        struct_obj = param_structs[self.struct_type]
+        if "struct" in struct_obj:
+            for param_chunk in struct_obj["struct"]:
+                rw.mark_new_contents_array()
+                rw.mark_new_contents_array_member()
+                
+                for k, ktype in param_chunk.items():
+                    try:
+                        endianness, typecode = ktype[0], ktype[1:]
+                        self.data[k] = func_lookup[typecode](rw, self.data[k], endianness)
+                    except Exception as e:
+                        print("Failed to handle", k, "for", self.struct_type)
+                        raise e
                 
     def rw_subparams(self, rw):
         for subparam_name, subparam_def in self.subparams.items():
