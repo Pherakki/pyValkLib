@@ -78,25 +78,28 @@ class ParameterSet(Serializable):
         self.subparams[k] = [ParameterSet(self.context, ktype["type"]) for _ in range(count)]
         
     def read_write(self, rw):
+        self.rw_struct(rw)
+        self.rw_subparams(rw)
+        
+    def rw_struct(self, rw):
         for k, ktype in zip(self.data, self.datatypes):
-            # Handle a regular type
-            if type(ktype) is str:
-                try:
-                    self.data[k] = func_lookup[ktype[1:]](rw, self.data[k], ktype[0])
-                except Exception as e:
-                    print("Failed to handle", k, "for", self.struct_type)
-                    raise e
-            # Handle subparameters
-            elif type(ktype) is dict:
-                if rw.mode() == "read":
-                    self.init_subparam(k, ktype)
-                    
-                ptr = self.data[ktype["pointer"]]
-                rw.assert_local_file_pointer_now_at(f"{ktype['type']} Member {k}", ptr)
-                for param in self.data[k]:
-                    rw.rw_obj(param)
+            try:
+                endianness, typecode = ktype[0], ktype[1:]
+                self.data[k] = func_lookup[typecode](rw, self.data[k], endianness)
+            except Exception as e:
+                print("Failed to handle", k, "for", self.struct_type)
+                raise e
                 
-
+    def rw_subparams(self, rw):
+        for subparam_name, subparam_def in self.subparams.items():
+            if rw.mode() == "read":
+                self.init_subparam(subparam_name, subparam_def)
+                
+            ptr = self.data[subparam_def["pointer"]]
+            rw.assert_local_file_pointer_now_at(f"{subparam_def['type']} Member {subparam_name}", ptr)
+            for param in self.subparams[subparam_name]:
+                rw.rw_obj(param)
+                
     def asset_table_offsets(self):
         return [self.data[k] for k in self.asset_vars]
     
