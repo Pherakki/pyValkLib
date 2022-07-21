@@ -211,6 +211,7 @@ class MXECInterface:
             sjis_strings.update(set([param_set.parameters[nm] for nm in prw.data.sjis_vars]))
             utf8_strings.update(set([param_set.parameters[nm] for nm in prw.data.utf8_vars]))
             for param_name, param_type in zip(prw.data.data, prw.data.datatypes):
+                # Replace with loop over subparameters...
                 if type(param_type) is dict:
                     count = len(param_set.parameters[param_name])
                     prw.data.data[param_type["count"]] = count
@@ -241,8 +242,9 @@ class MXECInterface:
             # Get strings inside the parameters themselves
             collect_param_strings(prw, param_set)
             prw.data_offset = ot.tell()
-            ot.rw_obj(prw.data)
-            prw.data_size = ot.tell() - prw.data_offset # Needs to exclude any subreaders!!!
+            ot.rw_obj_method(prw.data, prw.data.rw_struct)
+            prw.data_size = ot.tell() - prw.data_offset
+            # Now rw subreaders
             ot.align(ot.tell(), 0x10)
         
         ot.align(ot.tell(), 0x10)
