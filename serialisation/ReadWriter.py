@@ -436,26 +436,51 @@ class ENRSBuilder(VirtualParser):
     
     __slots__ = ("current_array", "current_array_member", "ref_endianness")
     
+    typecodes = {2: "H",
+                 4: "I",
+                 8: "Q"}
+    
     def __init__(self, ref_endianness):
         super().__init__()
         self.current_array = None
         self.current_array_member = None
         self.ref_endianness = ref_endianness
 
+    def collate_array(self, ptr_array):
+        collated_array = []
+        working_array = [ptr_array[0][0]]
+        
+        # Split offsets into contiguous ranges
+        for i, (elem, size) in enumerate(ptr_array[1:]):
+            prev_elem, prev_size = ptr_array[i-1]
+            
+            is_same_bitwidth = prev_size == size
+            is_contiguous = elem != prev_elem + prev_size
+            if (not is_contiguous) or (not is_same_bitwidth):
+                collated_array.append(array.array(self.typecodes[prev_size], working_array))
+                working_array = []
+            working_array.append(elem)
+        
+        # Add final array
+        elem, size = ptr_array[-1]
+        collated_array.append(array.array(self.typecodes[size], working_array))
+        
+        return collated_array
+
     def mark_new_contents_array(self):
         if self.current_array is not None:
-            self.current_array.append(self.current_array_member)
+            self.current_array.append(self.collate_array(self.current_array_member))
             self.pointers.append(self.current_array)
         self.current_array = []
         self.current_array_member = None
     
     def mark_new_contents_array_member(self):
         if self.current_array_member is not None:
-            self.current_array.append(self.current_array_member)
+            self.current_array.append(self.collate_array(self.current_array_member))
         self.current_array_member = []
         
-    def log_offset(self):
-        self.current_array_member.append(self.virtual_offset)
+    def log_offset(self, size):
+        self.current_array_member.append((self.virtual_offset, size))
     
     def rw_pad8 (self, value, endianness=None): return super()._rw_single('B', 1, value, endianness)
     def rw_pad16(self, value, endianness=None): return super()._rw_single('H', 2, value, endianness)
@@ -467,7 +492,7 @@ class ENRSBuilder(VirtualParser):
             endianness = self.ref_endianness
             
         if endianness == '>':
-            self.log_offset()
+            self.log_offset(size)
         self.adv_offset(size)
         return value
 
@@ -488,7 +513,7 @@ class ENRSBuilder(VirtualParser):
             
         for i in range(n_to_read):
             if endianness == '>':
-                self.log_offset()
+                self.log_offset(size)
             self.adv_offset(size)
             
         return value
