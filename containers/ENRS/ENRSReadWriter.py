@@ -11,7 +11,7 @@ class ENRSReadWriter(ValkSerializable32BH):
     
     def __init__(self, containers, endianness=None):
         super().__init__(containers, endianness)
-        self.padding_0x20 = None
+        self.padding_0x20 = 0
         self.num_groups = None
         self.data = []
     
@@ -24,6 +24,7 @@ class ENRSReadWriter(ValkSerializable32BH):
         rw.assert_equal(self.padding_0x20, 0)
         
         self.data = rw.rw_uint8s(self.data, self.header.data_length - 0x10)
+        rw.align(rw.local_tell(), 0x10)
 
 
 class ENRSHandler(Serializable):
