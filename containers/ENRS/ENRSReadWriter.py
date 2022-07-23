@@ -206,78 +206,54 @@ def compressSubStencil(starting_offset, diff):
 # COMPRESSION #
 ###############    
 def compressENRS(pointer_offsets):
-    print("<<< COMPRESS >>>")
     data = []
-    prev_offset = 0
-    prev_first_stencil_start = 0
-    for i, stencil_group in enumerate(pointer_offsets):
-        stencil_repetitions = len(stencil_group)
-        stencil = stencil_group[0]
-
-        if print_groups and not skip_groups:
-            print("####")
-            print("IDX", i)
-            print("OFFSET COMP", i+1, len(pointer_offsets))
-            
-        jump_from_previous_stencil_group = stencil[0].data[0] - prev_first_stencil_start
-        num_sub_stencils = len(stencil)
+    prev_main_array_offset = 0
+    for idx, main_array in enumerate(pointer_offsets):
+        stencil = main_array[0]
         
-        if i+1 == len(pointer_offsets):
-            if len(stencil) > 2:
-                stencil_size = stencil[1].data[0] - stencil[0].data[0]
+        first_offset = main_array[0][0][0]
+        num_array_member_copies = len(main_array)
+        num_sub_stencils = len(main_array[0])
+        
+        # Calculate the jump between stencils
+        # Surely this can be simplified?
+        if idx+1 == len(pointer_offsets):
+            if len(main_array) == 1 and len(main_array[0]) == 1 and len(main_array[0][0]) == 1:
+                 stencil_size = 1
+            elif len(stencil) > 2:
+                stencil_size = stencil[1][0] - stencil[0][0]
             else:
-                stencil_size = stencil[0].dsize
+                stencil_size = stencil[0].itemsize
         else:
-            jump_to_next_group = pointer_offsets[i+1][0][0].data[0] - stencil_group[-1][-1].data[-1]
-            if print_groups and not skip_groups:
-                print("THIS STENCIL GROUP", [[substencil.data for substencil in stencil] for stencil in stencil_group])
-                print("NEXT STENCIL GROUP", [[substencil.data for substencil in stencil] for stencil in pointer_offsets[i+1]])
-                print("OFFSET TO NEXT GROUP", jump_to_next_group)
-                print("STENCIL REPETITIONS", stencil_repetitions)
-                print("NUM DATA ELEMENTS", len(stencil[0].data))
-                print(">>COMP", pointer_offsets[i+1][0][0].data[0], stencil[-1].data[-1], jump_to_next_group, stencil[0].dsize)
-            if len(stencil_group) == 1 and  jump_to_next_group == stencil[0].dsize:
-                stencil_size = 1
+            print(idx)
+            print(len(main_array))
+            print(len(main_array[0]))
+            print(len(main_array[0][0]))
+            is_contiguous = pointer_offsets[idx+1][0][0][0] == (main_array[-1][-1][-1] + main_array[-1][-1].itemsize)
+            if len(main_array) == 1 and len(main_array[0]) == 1 and is_contiguous:
+                 stencil_size = 1
             else:
-                offset_to_next_stencil_group = pointer_offsets[i+1][0][0].data[0] - stencil[0].data[0]
-                stencil_size = offset_to_next_stencil_group // len(stencil_group)
+                offset_to_next_stencil_group = pointer_offsets[idx+1][0][0][0] - stencil[0][0]
+                stencil_size = offset_to_next_stencil_group // len(main_array)
+            print("Stencil size:", stencil_size)
         
-        data.extend(compressInt(jump_from_previous_stencil_group))
+        data.extend(compressInt(first_offset - prev_main_array_offset))
         data.extend(compressInt(num_sub_stencils))
         data.extend(compressInt(stencil_size))
-        data.extend(compressInt(stencil_repetitions))
+        data.extend(compressInt(num_array_member_copies))
         
-        if print_groups and not skip_groups:
-            print(jump_from_previous_stencil_group, compressInt(jump_from_previous_stencil_group))
-            print(num_sub_stencils, compressInt(num_sub_stencils))
-            print(stencil_size, compressInt(stencil_size))
-            print(stencil_repetitions, compressInt(stencil_repetitions))
-
+        prev_main_array_offset = first_offset
         
-        previous_substencil_offset = stencil[0].data[0]
+        previous_substencil_offset = stencil[0][0]
         for j, sub_stencil in enumerate(stencil):
-            starting_offset = sub_stencil.data[0] - previous_substencil_offset
-            diff = sub_stencil.dsize
+            starting_offset = sub_stencil[0] - previous_substencil_offset
+            diff = sub_stencil.itemsize
             
-            sub_stencil_count = len(sub_stencil.data)
+            sub_stencil_count = len(sub_stencil)
             
             data.extend(compressSubStencil(starting_offset, diff))
             data.extend(compressInt(sub_stencil_count))
             
-            previous_substencil_offset = sub_stencil.data[0]
-            
-            if print_groups and not skip_groups:
-                print(">>>")
-                print(starting_offset, diff, compressSubStencil(starting_offset, diff))
-                print(sub_stencil_count, compressInt(sub_stencil_count))
-                print(len(data))
-            
-        prev_first_stencil_start = stencil[0].data[0]
-        
-        if print_groups:
-            print_groups.pop()
-        if skip_groups:
-            skip_groups.pop()
-        
-    return data
+            previous_substencil_offset = sub_stencil[0]
 
+    return data
