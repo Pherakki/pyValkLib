@@ -127,13 +127,10 @@ class EntryTable(Serializable):
                 entry.parameter_type = component_type
             else:
                 component_type = entry.parameter_type
-            
+                
             if entry.data_offset:
                 rw.assert_local_file_pointer_now_at("Entry Data", entry.data_offset)
             rw.rw_obj_method(entry, entry.rw_data, component_type)
-            
-            if rw.mode() == "ENRS":
-                print(rw.current_array_member)
                 
     def check_struct_type(self, rw, offset, prnt=False):
         curr_offset = rw.local_tell()
