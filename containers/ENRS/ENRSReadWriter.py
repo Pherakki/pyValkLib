@@ -263,20 +263,19 @@ def compressENRS(pointer_offsets):
         # Calculate the jump between stencils
         # Surely this can be simplified?
         if idx+1 == len(pointer_offsets):
-            if len(main_array) == 1 and len(main_array[0]) == 1 and len(main_array[0][0]) == 1:
-                 stencil_size = 1
-            elif len(stencil) > 2:
+            #if len(main_array) == 1 and len(main_array[0]) == 1 and len(main_array[0][0]) == 1:
+            #     stencil_size = 1
+            if len(stencil) > 2:
                 stencil_size = stencil[1][0] - stencil[0][0]
             else:
                 stencil_size = stencil[0].itemsize
         else:
-            is_contiguous = pointer_offsets[idx+1][0][0][0] == (main_array[-1][-1][-1] + main_array[-1][-1].itemsize)
-            if len(main_array) == 1 and len(main_array[0]) == 1 and is_contiguous:
-                 stencil_size = 1
-            else:
-                offset_to_next_stencil_group = pointer_offsets[idx+1][0][0][0] - stencil[0][0]
-                stencil_size = offset_to_next_stencil_group // len(main_array)
-            print("Stencil size:", stencil_size)
+            #is_contiguous = pointer_offsets[idx+1][0][0][0] == (main_array[-1][-1][-1] + main_array[-1][-1].itemsize)
+            #if len(main_array) == 1 and len(main_array[0]) == 1 and is_contiguous:
+            #     stencil_size = 1
+            #else:
+            offset_to_next_stencil_group = pointer_offsets[idx+1][0][0][0] - stencil[0][0]
+            stencil_size = offset_to_next_stencil_group // len(main_array)
         
         data.extend(compressInt(first_offset - prev_main_array_offset))
         data.extend(compressInt(num_sub_stencils))
