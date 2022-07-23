@@ -1,3 +1,5 @@
+import array
+
 from pyValkLib.serialisation import Serializable
 from pyValkLib.serialisation.ValkSerializable import ValkSerializable32BH, Header32B
 
@@ -62,14 +64,12 @@ class ENRSHandler(Serializable):
 # DECOMPRESSION #
 #################
 def pull_bytecode(ENRS_iter, byte_power, bytecode_value):
-    if byte_power == 0:
-        return bytecode_value
-    if byte_power == 1:
-        return (bytecode_value << 8) | next(ENRS_iter)
-    elif byte_power == 2:
-        return (bytecode_value << 8 | next(ENRS_iter)) << 0x10 | next(ENRS_iter) << 8 | next(ENRS_iter)
-    else:
-        assert 0
+    for _ in range((1 << byte_power) - 1):
+        elem = next(ENRS_iter)
+        bytecode_value <<= 8
+        bytecode_value |= elem
+        
+    return bytecode_value
 
 def decompressInt(ENRS_iter):
     elem = next(ENRS_iter)
@@ -87,26 +87,18 @@ def decompressSubStencilDef(ENRS_iter):
     
     return pull_bytecode(ENRS_iter, byte_power, bytecode_value), array_byte_power
 
-class ENRSSubStencil:
-    __slots__ = ("data", "dsize")
-    def __init__(self, dsize):
-        self.data = []
-        self.dsize = dsize
-        
-    def __repr__(self):
-        return (f"ENRS SubStencil [size: {self.dsize}]: {self.data[0]}--{self.data[-1]}")
-    
+type_lookup = {2: "H",
+               4: "I",
+               8: "Q"}
 
-skip_groups = list(range(0))
-print_groups = list(range(0))
 def decompressENRS(num_groups, data):
     offset = 0
     offsets = []
-    flat_offsets = []
     stencil_sizes = []
+    
     ENRS_iter_data = iter(data)
-    #print("<<< DECOMPRESS >>>")
     for loop in range(num_groups):
+        # Decode the ENRS spec
         jump_from_previous_stencil_group = decompressInt(ENRS_iter_data)
         offset += jump_from_previous_stencil_group
         
@@ -119,13 +111,7 @@ def decompressENRS(num_groups, data):
         for j in range(num_sub_stencils):    
             sub_stencil_defs.append((*decompressSubStencilDef(ENRS_iter_data), decompressInt(ENRS_iter_data)))
             
-        if print_groups and not skip_groups:
-            print("####")
-            print(jump_from_previous_stencil_group)
-            print(num_sub_stencils)
-            print(stencil_size)
-            print(stencil_repetitions)
-            
+        # Generate offsets
         stencil_group = []
         for i in range(stencil_repetitions):
             saved_offset = working_offset + stencil_size
@@ -136,27 +122,18 @@ def decompressENRS(num_groups, data):
 
                     
                 diff = 2 << elem_byte_power
-                sub_stencil = ENRSSubStencil(diff)
-                if print_groups and not skip_groups:
-                    print(">>>")
-                    print(jump_from_previous_substencil, diff)
-                    print(elem_count)
+                sub_stencil = []
                 for k in range(elem_count):
-                    flat_offsets.append(working_offset)
-                    sub_stencil.data.append(working_offset)
+                    sub_stencil.append(working_offset)
                     working_offset += diff
 
+                sub_stencil = array.array(type_lookup[diff], sub_stencil)
                 stencil.append(sub_stencil)
             stencil_group.append(stencil)
             working_offset = saved_offset
         offsets.append(stencil_group)
         
-        if print_groups:
-            print_groups.pop()
-        if skip_groups:
-            skip_groups.pop()
-        
-    return flat_offsets, offsets, stencil_sizes
+    return offsets
 
 
 def compressInt(integer):
