@@ -87,6 +87,29 @@ def decompressSubStencilDef(ENRS_iter):
     
     return pull_bytecode(ENRS_iter, byte_power, bytecode_value), array_byte_power
 
+def pull_bytecode_Bytes(ENRS_iter, byte_power, bytecode_value):
+    out = []
+    for _ in range((1 << byte_power) - 1):
+        out.append(next(ENRS_iter))
+        
+    return out
+
+def decompressInt_Bytes(ENRS_iter):
+    elem = next(ENRS_iter)
+    byte_power = elem >> 6
+    bytecode_value = elem & 0x3F
+    
+    return [elem, *pull_bytecode_Bytes(ENRS_iter, byte_power, bytecode_value)]
+
+
+def decompressSubStencilDef_Bytes(ENRS_iter):
+    elem = next(ENRS_iter)
+    byte_power = elem >> 6
+    bytecode_value = elem & 0xF
+    
+    return [elem, *pull_bytecode_Bytes(ENRS_iter, byte_power, bytecode_value)]
+
+
 type_lookup = {2: "H",
                4: "I",
                8: "Q"}
@@ -132,6 +155,29 @@ def decompressENRS(num_groups, data):
         offsets.append(stencil_group)
         
     return offsets
+
+def divideENRSBytes(num_groups, data):
+    bytes_out = []
+    
+    ENRS_iter_data = iter(data)
+    for loop in range(num_groups):
+        hdr = []
+        # Decode the ENRS spec
+        hdr.extend(decompressInt_Bytes(ENRS_iter_data))
+        
+        num_sub_stencils_bytes = decompressInt_Bytes(ENRS_iter_data)
+        num_sub_stencils = decompressInt(iter(num_sub_stencils_bytes))
+        hdr.extend(num_sub_stencils_bytes)
+        hdr.extend(decompressInt_Bytes(ENRS_iter_data))
+        hdr.extend(decompressInt_Bytes(ENRS_iter_data))
+
+        subs = []
+        for j in range(num_sub_stencils):    
+            subs.append([*decompressSubStencilDef_Bytes(ENRS_iter_data), decompressInt_Bytes(ENRS_iter_data)])
+
+        bytes_out.append([hdr, subs])
+
+    return bytes_out
 
 
 def compressInt(integer):
