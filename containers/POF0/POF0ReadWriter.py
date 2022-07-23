@@ -141,6 +141,26 @@ def decompressPOF0_alt(data):
             continue
     return offsets
 
+def decompressPOF0_alt_alt(data):
+    offset = 0
+    offsets = []  
+    data = iter(data)
+
+    for elem in data:
+        bit_power = (elem & 0xC0) >> 6
+        if bit_power == 0:
+            continue
+        bitwidth = 1 << (bit_power - 1)
+        value = elem & 0x3F
+        for _ in range(bitwidth - 1):
+            value << 8
+            value |= next(data)
+            
+        offset = 4*value
+        offsets.append(offset)
+
+    return offsets
+
 def compressPOF0(offsets):
     data = []
     previous_offset = 0
