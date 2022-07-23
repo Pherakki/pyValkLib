@@ -94,7 +94,6 @@ type_lookup = {2: "H",
 def decompressENRS(num_groups, data):
     offset = 0
     offsets = []
-    stencil_sizes = []
     
     ENRS_iter_data = iter(data)
     for loop in range(num_groups):
@@ -105,7 +104,6 @@ def decompressENRS(num_groups, data):
         num_sub_stencils = decompressInt(ENRS_iter_data)
         stencil_size = decompressInt(ENRS_iter_data)
         stencil_repetitions = decompressInt(ENRS_iter_data)
-        stencil_sizes.append(stencil_size)
         working_offset = offset
         sub_stencil_defs = []
         for j in range(num_sub_stencils):    
