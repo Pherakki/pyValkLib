@@ -82,7 +82,6 @@ class ParameterSet(Serializable):
         self.rw_subparams(rw)
         
     def rw_struct(self, rw):
-        
         struct_obj = param_structs[self.struct_type]
         if "struct" in struct_obj:
             for param_chunk in struct_obj["struct"]:
@@ -98,10 +97,10 @@ class ParameterSet(Serializable):
                         raise e
                 
     def rw_subparams(self, rw):
-        for subparam_name, subparam_def in self.subparams.items():
-            if rw.mode() == "read":
-                self.init_subparam(subparam_name, subparam_def)
-                
+        if rw.mode() == "read":
+            self.init_subparams()
+        struct_obj = param_structs[self.struct_type]
+        for subparam_name, subparam_def in struct_obj.get("subparams", {}).items():
             ptr = self.data[subparam_def["pointer"]]
             rw.assert_local_file_pointer_now_at(f"{subparam_def['type']} Member {subparam_name}", ptr)
             for param in self.subparams[subparam_name]:
