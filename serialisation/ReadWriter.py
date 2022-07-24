@@ -551,7 +551,7 @@ class CCRSBuilder(VirtualParser):
         super().__init__()
 
     def log_offset(self, type_):
-        self.current_array_member.append((self.virtual_offset, type_))
+        self.pointers.append((self.virtual_offset, type_))
       
     def rw_color128(self, value, endianness=None):
         self.log_offset(0)
