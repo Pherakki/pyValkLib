@@ -550,30 +550,18 @@ class CCRSBuilder(VirtualParser):
     def __init__(self):
         super().__init__()
 
-    def rw_ccrs(self, value, endianness=None): return self._rw_single_reg('I', 4, value, endianness)
-
-    def _rw_single_reg(self, typecode, size, value, endianness=None):
-        self.log_offset()
-        self.adv_offset(size)
+    def log_offset(self, type_):
+        self.current_array_member.append((self.virtual_offset, type_))
+      
+    def rw_color128(self, value, endianness=None):
+        self.log_offset(0)
+        self.adv_offset(0x10)
+        return value
+      
+    def rw_color32 (self, value, endianness=None): 
+        self.log_offset(1)
+        self.adv_offset(4)
         return value
 
-    def rw_ccrses(self, value, shape, endianness=None): return self._rw_multiple_reg('I', 1, value, shape, endianness)
-
-    def _rw_multiple_reg(self, typecode, size, value, shape, endianness=None):
-        if endianness is None:
-            endianness = self.context.endianness
-
-        if not hasattr(shape, "__getitem__"):
-            shape = (shape,)
-        n_to_read = 1
-        for elem in shape:
-            n_to_read *= elem
-
-        for i in range(n_to_read):
-            self.log_offset()
-            self.adv_offset(size)
-
-        return value
-    
     def mode(self):
         return "CCRS"
