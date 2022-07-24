@@ -364,20 +364,21 @@ class MXECInterface:
         eb.anchor_pos = -mxec_rw.header.header_length
         mxec_rw.read_write_contents(eb)
         
-        # eb_data = compressENRS(eb.pointers)
-        # mxec_rw.ENRS.num_groups = len(eb.pointers)
-        # mxec_rw.ENRS.data = eb_data
+        eb_data = compressENRS(eb.pointers)
+        eb_data += [0]*((0x10 - len(eb_data) % 0x10) % 0x10)
+        mxec_rw.ENRS.num_groups = len(eb.pointers)
+        mxec_rw.ENRS.data = eb_data
         
-        # # Create ENRS header data
-        # eb_ot = OffsetTracker()
-        # mxec_rw.ENRS.read_write_contents(eb_ot)
+        # Create ENRS header data
+        eb_ot = OffsetTracker()
+        mxec_rw.ENRS.header.data_length = len(eb_data) + 0x10
+        mxec_rw.ENRS.header.contents_length = len(eb_data) + 0x10
+        mxec_rw.ENRS.read_write_contents(eb_ot)
         
-        # mxec_rw.ENRS.header.flags = 0x10000000
-        # mxec_rw.ENRS.header.depth = depth + 1
-        # mxec_rw.ENRS.header.data_length = eb_ot.tell()
-        # mxec_rw.ENRS.header.contents_length = eb_ot.tell()
+        mxec_rw.ENRS.header.flags = 0x10000000
+        mxec_rw.ENRS.header.depth = depth + 1
         
-        # mxec_rw.ENRS.read_write(ot)
+        mxec_rw.ENRS.read_write(ot)
         
         ######################################################################
         #                               PASS 5                               #
