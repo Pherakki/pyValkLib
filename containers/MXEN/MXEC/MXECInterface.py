@@ -385,6 +385,12 @@ class MXECInterface:
         ######################################################################
         # CCRS
         
+        # Finish with EOFC
+        mxec_rw.EOFC.header.flags           = 0x10000000
+        mxec_rw.EOFC.header.depth           = depth + 1
+        mxec_rw.EOFC.header.data_length     = 0
+        mxec_rw.EOFC.header.contents_length = 0
+        
         mxec_rw.header.contents_length = ot.tell() - mxec_rw.header.header_length
         
         return mxec_rw
