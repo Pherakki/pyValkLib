@@ -80,7 +80,7 @@ class MXECInterface:
         return "::MXECInterface Object::\n"\
               f"{len(self.param_sets)} parameter sets.\n"\
               f"{len(self.entities)} entities.\n"\
-              f"{len(self.batch_renders)} paths.\n"\
+              f"{len(self.path_graphs)} paths.\n"\
               f"{len(self.assets)} assets.\n"
     
     @classmethod
