@@ -11,7 +11,9 @@ for file in os.listdir(struct_path):
     if fileext == ".json":
         filepath = os.path.join(struct_path, file)
         with open(filepath, 'r') as F:
-            param_structs[filename] = json.load(F)      
+            param_structs[filename] = json.load(F)
+            if "struct" not in param_structs[filename]:
+                raise Exception(f"Invalid structure file {filename}: No 'struct' member.")
 
 def handle_pad(rw, x, func):
     val = func(x)
