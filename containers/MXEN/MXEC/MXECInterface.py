@@ -216,9 +216,7 @@ class MXECInterface:
                 if type(param_type) is dict:
                     count = len(param_set.parameters[param_name])
                     prw.data.data[param_type["count"]] = count
-                    prw.data.data[param_type["ptr"]] = 0 # Needs fixing!!
                     param_set.parameters[param_type["count"]] = count
-                    param_set.parameters[param_type["ptr"]] = 0 # Needs fixing!!
                     
                     prw.init_subparam(param_name, param_type)
                     for sub_prw, sub_param_set in zip(prw.data[param_name], param_set.parameters[param_name]):
