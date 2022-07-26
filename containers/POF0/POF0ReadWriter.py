@@ -21,72 +21,7 @@ class POF0ReadWriter(ValkSerializable32BH):
         rw.align(rw.local_tell(), 0x10)
 
 
-class POF0Handler(Serializable):
-    """
-    The POF0 stores offsets of pointers within the container it is attached to.
-    Specifically, each entry stores the number of bytes you need to skip to 
-    find the next pointer.
-    
-    Consider a byte: 01000011
-    The first two bits say how many bits the jump is encoded in:
-    01 : 6 bits
-    10 : 14 bits
-    11 : 30 bits
-    To get the offset:
-    - Read that many more bits
-    - Pad with two more bits on the left to make it a whole integer
-    - Multiply by 4
-    
-    The minimum jump that can be stored is 4. The maximum is 2**32.
-    This is fine, because VC file pointers are uint32, so they never are never
-    located at an offset that is not a multiple of 4. Moreover, since the
-    offsets can only store a maximum of 2**32 due to being uint32, the VC
-    containers can never be more than 2**32 bytes long, and therefore the
-    offsets themselves will never have a value more than 2**32 bytes. This
-    compression scheme therefore completely matches the range of the pointers.
-    
-    Example 1. 01000011 -> +68
-    Example 2. Conside a POF0 with three bytes: 01000001, 01000001, 01000010 
-    These decode to the jumps (+4, +4, +8)
-    This means that the data at 0x04, 0x08, and 0x10 within the container
-    the POF0 is attached to are pointers.
-    """
-    __slots__ = ("header", "pointer_offsets", "containers", "endianness")
-    
-    def __init__(self, containers, context):
-        super().__init__(context)
-        self.header = Header32B(context)
-        self.pointer_offsets = []
-        self.containers = containers
-
-    def read_write(self, rw):
-        if rw.mode() == "read":
-            rw.rw_obj_method(self, self.do_read)
-        elif rw.mode() == "write":
-            rw.rw_obj_method(self, self.do_write)
-        else:
-            raise Exception("Unknown mode!")
-
-    def do_read(self, rw):
-        pof0_rw = POF0ReadWriter(self.containers, self.context.endianness)
-        rw.rw_obj(pof0_rw)
         
-        num_bytes = pof0_rw.data_size - 4
-        POF0_data = pof0_rw.data
-        self.header = pof0_rw.header
-        
-        self.pointer_offsets = decompressPOF0(POF0_data, num_bytes)
-
-    def do_write(self, rw):
-        POF0_data = compressPOF0(self.pointer_offsets)
-        
-        pof0_rw = POF0ReadWriter(self.containers, self.context.endianness)
-
-        pof0_rw.data = POF0_data
-        pof0_rw.data_size = len(POF0_data) + 4
-        pof0_rw.header = self.header
-
-        rw.rw_obj(pof0_rw)
 
 
 def decompressPOF0(POF0_data, num_offsets):
