@@ -240,6 +240,13 @@ class MXECInterface:
         for param_set, prw in zip(self.param_sets, mxec_rw.parameter_sets_table.entries):
             prw.init_params(param_set.param_type)
 
+
+            ####################################
+            # !!!!!!!!!!! REMINDER !!!!!!!!!!! #
+            # PUT IN PVS, MERGEFILE, TEXMERGE! #
+            # !!!!!!!!!!! REMINDER !!!!!!!!!!! #
+            ####################################
+
             # Get strings inside the parameters themselves
             collect_param_strings(prw, param_set)
             prw.data_offset = ot.tell()
