@@ -545,13 +545,62 @@ class ENRSBuilder(VirtualParser):
 class CCRSBuilder(VirtualParser):
     open_flags = None
     
-    __slots__ = ("virtual_offset", "pointers")
+    __slots__ = ("current_array", "current_array_member")
+
     
     def __init__(self):
         super().__init__()
+        self.current_array = None
+        self.current_array_member = None
 
+    typewidths = {0 : 0x10,
+                  1 : 0x04,
+                  2 : 0x02,
+                  3 : 0x02,
+                  4 : 0x02,
+                  5 : 0x02}
+
+    def collate_array(self, ptr_array):
+        collated_array = []
+        if not len(ptr_array):
+            return []
+        working_array = [ptr_array[0][0]]
+        
+        # Split offsets into contiguous ranges
+        for i, (elem, type_) in enumerate(ptr_array[1:]):
+            prev_elem, prev_type_ = ptr_array[i-1]
+            
+            is_same_type = prev_type_ == type_
+            prev_size = self.typewidths[prev_type_]
+            is_contiguous = elem != prev_elem + prev_size
+            if (not is_contiguous) or (not is_same_type):
+                collated_array.append((prev_type_, array.array('I', working_array)))
+                working_array = []
+            working_array.append(elem)
+        
+        # Add final array
+        elem, type_ = ptr_array[-1]
+        collated_array.append((type_, array.array('I', working_array)))
+        
+        return collated_array
+
+    def mark_new_contents_array(self):
+        if self.current_array is not None:
+            if len(self.current_array_member):
+                self.current_array.append(self.collate_array(self.current_array_member))
+            if len(self.current_array):
+                self.pointers.append(self.current_array)
+        self.current_array = []
+        self.current_array_member = None
+    
+    def mark_new_contents_array_member(self):
+        if self.current_array_member is not None:
+            if len(self.current_array_member):
+                self.current_array.append(self.collate_array(self.current_array_member))
+        self.current_array_member = []
+        
     def log_offset(self, type_):
-        self.pointers.append((self.virtual_offset, type_))
+        self.current_array_member.append((self.virtual_offset, type_))
       
     def rw_color128(self, value, endianness=None):
         self.log_offset(0)
