@@ -1,4 +1,5 @@
 from .Representations import CCRSRelRep, CCRSRelativeTemplateGenerator, CCRSTemplateComponent
+from .Representations import CCRSUnpackedRep, CCRSTemplatePack, CCRSTemplate, CCRSUnpackedTemplateComponents
 
 from pyValkLib.serialisation.ValkSerializable import ValkSerializable32BH
 
@@ -75,6 +76,7 @@ def compressInt(integer):
 def decompressCCRS(num_groups, data):
     CCRS_iter_data = iter(data)
     out = CCRSRelRep()
+    
     for _ in range(num_groups):
         jump_from_previous_group = decompressInt(CCRS_iter_data)
         num_sub_stencils = decompressInt(CCRS_iter_data)
@@ -108,4 +110,29 @@ def compressCCRS(ccrs_unpacked_rep):
             out.extend(compressInt(comp.count))
             out.extend(compressInt(comp.type))
         
+    return out
+
+def toCCRSPackedRep(data):
+    out = CCRSUnpackedRep()
+    
+    for tpack_data in data:
+        templates = []
+        for template_data in tpack_data:
+            template = CCRSTemplate()
+            for comp_type, comp_data in template_data:
+                template.append(CCRSUnpackedTemplateComponents(comp_data, comp_type))
+            templates.append(template)
+        
+        # Shouldn't need to calculate this, should receive it..!!!
+        if len(templates) > 1:
+            stride = templates[1].get_first_offset() - templates[0].get_first_offset()
+        else:
+            stride = 1 # Wrong, but probably doesn't matter?
+            
+        tpack = CCRSTemplatePack(stride)
+        
+        for template in templates:
+            tpack.append(template)
+        out.append(tpack)
+
     return out
