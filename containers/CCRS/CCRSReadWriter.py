@@ -40,74 +40,6 @@ def decompressInt(ENRS_iter):
     
     return pull_bytecode(ENRS_iter, byte_power, bytecode_value)
 
-
-def decompressCCRS(num_groups, data):
-    offset = 0
-    offsets = []
-    
-    CCRS_iter_data = iter(data)
-    for loop in range(num_groups):
-        # Decode the CCRS spec
-        jump_from_previous_stencil_group = decompressInt(CCRS_iter_data)
-        offset += jump_from_previous_stencil_group
-        
-        num_sub_stencils = decompressInt(CCRS_iter_data)
-        stencil_size = decompressInt(CCRS_iter_data)
-        stencil_repetitions = decompressInt(CCRS_iter_data)
-        working_offset = offset
-        sub_stencil_defs = []
-        for j in range(num_sub_stencils):
-            sub_stencil_defs.append([decompressInt(CCRS_iter_data), 
-                                     decompressInt(CCRS_iter_data), 
-                                     decompressInt(CCRS_iter_data)])
-        # Generate Offsets
-        working_offset = offset
-        stencil_group = []
-        for i in range(stencil_repetitions):
-            saved_offset = working_offset + stencil_size
-            stencil = []
-            for j in range(num_sub_stencils):
-                array_loop_skip, array_count, bytecode = sub_stencil_defs[j]
-                working_offset += array_loop_skip
-                
-                
-                sub_stencil = []
-                if bytecode == 0:
-                    for k in range(array_count):
-                        sub_stencil.append((working_offset, 0))
-                        working_offset += 0x10
-                elif bytecode == 1:
-                    for k in range(array_count):
-                        sub_stencil.append((working_offset, 1))
-                        working_offset += 4
-                elif bytecode == 2:
-                    for k in range(array_count):
-                        sub_stencil.append((working_offset, 2))
-                        working_offset += 2
-                elif bytecode == 3:
-                    for k in range(array_count):
-                        sub_stencil.append((working_offset, 3))
-                        working_offset += 2
-                elif bytecode == 4:
-                    for k in range(array_count):
-                        sub_stencil.append((working_offset, 4))
-                        working_offset += 2
-                elif bytecode == 5:
-                    for k in range(array_count):
-                        sub_stencil.append((working_offset, 5))
-                        working_offset += 2
-                elif bytecode > 5:
-                    assert 0, f"Bytecode > 5, {array_count}"
-                    
-                stencil.append(sub_stencil)
-                
-            working_offset = saved_offset
-            stencil_group.append(stencil)
-        offsets.append(stencil_group)
-        
-    return offsets
-
-
 def compressInt(integer):
     data = []
     if integer < 2**6:
@@ -140,45 +72,40 @@ def compressInt(integer):
         raise ValueError(f"Int can be no larger than 2**30: {integer}.")
     return data
 
-# Refactor with classes to make it more obvious what's going on
-# Need to find a consistent nomenclature first...
-def compressCCRS(pointer_offsets):
-    data = []
-    prev_main_array_offset = 0
-    for idx, main_array in enumerate(pointer_offsets):
-        stencil = main_array[0]
-        
-        first_offset = main_array[0][0][0][0]
-        num_array_member_copies = len(main_array)
-        num_sub_stencils = len(main_array[0])
-        
-        # Calculate the jump between stencils
-        if idx+1 == len(pointer_offsets):
-            if len(stencil) > 2:
-                stencil_size = stencil[1][0][0] - stencil[0][0][0]
-            else:
-                stencil_size = 1
-        else:
-            offset_to_next_stencil_group = pointer_offsets[idx+1][0][0][0][0] - stencil[0][0][0]
-            stencil_size = offset_to_next_stencil_group // len(main_array)
-        
-        data.extend(compressInt(first_offset - prev_main_array_offset))
-        data.extend(compressInt(num_sub_stencils))
-        data.extend(compressInt(stencil_size))
-        data.extend(compressInt(num_array_member_copies))
-        
-        prev_main_array_offset = first_offset
-        
-        previous_substencil_offset = stencil[0][0][0]
-        for j, sub_stencil in enumerate(stencil):
-            starting_offset = sub_stencil[0][0] - previous_substencil_offset
-            
-            sub_stencil_count = len(sub_stencil)
-            
-            data.extend(compressInt(starting_offset - previous_substencil_offset))
-            data.extend(compressInt(sub_stencil_count))
-            data.extend(compressInt(sub_stencil[0][1]))
-            
-            previous_substencil_offset = sub_stencil[0][0]
+def decompressCCRS(num_groups, data):
+    CCRS_iter_data = iter(data)
+    out = CCRSRelRep()
+    for _ in range(num_groups):
+        jump_from_previous_group = decompressInt(CCRS_iter_data)
+        num_sub_stencils = decompressInt(CCRS_iter_data)
+        stencil_size = decompressInt(CCRS_iter_data)
+        stencil_repetitions = decompressInt(CCRS_iter_data)
 
-    return data
+        sub_stencil_defs = []
+        for j in range(num_sub_stencils):
+            sub_stencil_defs.append(CCRSTemplateComponent(decompressInt(CCRS_iter_data), 
+                                                          decompressInt(CCRS_iter_data), 
+                                                          decompressInt(CCRS_iter_data)))
+            
+        cgen = CCRSRelativeTemplateGenerator(jump_from_previous_group, stencil_size, stencil_repetitions,
+                                             sub_stencil_defs)
+        out.append(cgen)
+        
+    return out.to_abs_rep().to_unpacked_rep()
+
+def compressCCRS(ccrs_unpacked_rep):
+    out = []
+    
+    ccrs_rel_rep = ccrs_unpacked_rep.to_abs_rep().to_rel_rep()
+    for tg in ccrs_rel_rep:
+        out.extend(compressInt(tg.jump))
+        out.extend(compressInt(len(tg.subs)))
+        out.extend(compressInt(tg.stride))
+        out.extend(compressInt(tg.count))
+        
+        for comp in tg:
+            out.extend(compressInt(comp.stride))
+            out.extend(compressInt(comp.count))
+            out.extend(compressInt(comp.type))
+        
+    return out
