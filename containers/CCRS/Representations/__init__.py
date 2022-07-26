@@ -129,7 +129,7 @@ class CCRSUnpackedRep:
         return [subitem for item in self for subitem in item.typed_flatten()]
     
     def get_first_offset(self):
-        return self[0][0][0][0]
+        return self[0].get_first_offset()
     
     def to_abs_rep(self):
         out = CCRSAbsRep()
