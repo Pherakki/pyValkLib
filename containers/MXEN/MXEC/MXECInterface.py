@@ -3,9 +3,10 @@ import os
 
 from .MXECReadWriter import MXECReadWriter
 from .AssetEntry import AssetEntry
-from pyValkLib.serialisation.ReadWriter import OffsetTracker, POF0Builder, ENRSBuilder
+from pyValkLib.serialisation.ReadWriter import OffsetTracker, POF0Builder, ENRSBuilder, CCRSBuilder
 from pyValkLib.containers.POF0.POF0ReadWriter import compressPOF0
 from pyValkLib.containers.ENRS.ENRSReadWriter import compressENRS
+from pyValkLib.containers.CCRS.CCRSReadWriter import compressCCRS, toCCRSPackedRep
 
 class ParameterInterface:
     def __init__(self):
@@ -370,10 +371,8 @@ class MXECInterface:
         mxec_rw.ENRS.data = eb_data
         
         # Create ENRS header data
-        eb_ot = OffsetTracker()
         mxec_rw.ENRS.header.data_length = len(eb_data) + 0x10
         mxec_rw.ENRS.header.contents_length = len(eb_data) + 0x10
-        mxec_rw.ENRS.read_write_contents(eb_ot)
         
         mxec_rw.ENRS.header.flags = 0x10000000
         mxec_rw.ENRS.header.depth = depth + 1
@@ -384,7 +383,29 @@ class MXECInterface:
         #                               PASS 5                               #
         ######################################################################
         # CCRS
+        cb = CCRSBuilder()
+        cb.anchor_pos = -mxec_rw.header.header_length
+        mxec_rw.read_write_contents(cb)
         
+        cb_rawdata = toCCRSPackedRep(cb.pointers)
+        print(cb_rawdata)
+        cb_data = compressCCRS(cb_rawdata)
+        cb_data += [0]*((0x10 - len(cb_data) % 0x10) % 0x10)
+        mxec_rw.CCRS.num_groups = len(cb.pointers)
+        mxec_rw.CCRS.data = cb_data
+        
+        # Create CCRS header data
+        mxec_rw.CCRS.header.data_length = len(cb_data) + 0x10
+        mxec_rw.CCRS.header.contents_length = len(cb_data) + 0x10
+        
+        mxec_rw.CCRS.header.flags = 0x10000000
+        mxec_rw.CCRS.header.depth = depth + 1
+        
+        mxec_rw.CCRS.read_write(ot)
+        
+        ######################################################################
+        #                              CLEANUP                               #
+        ######################################################################
         # Finish with EOFC
         mxec_rw.EOFC.header.flags           = 0x10000000
         mxec_rw.EOFC.header.depth           = depth + 1
