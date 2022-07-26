@@ -44,6 +44,7 @@ class ParameterSet(Serializable):
     def __init__(self, context, struct_type):
         super().__init__(context)
         self.struct_type = struct_type
+        self.struct_obj = param_structs[struct_type]
         self.data = {}
         self.subparams = {}
         self.datatypes = []
@@ -51,9 +52,8 @@ class ParameterSet(Serializable):
         self.utf8_vars = []
         self.asset_vars = []
         
-        struct_obj = param_structs[self.struct_type]
-        if "struct" in struct_obj:
-            for param_chunk in struct_obj["struct"]:
+        if "struct" in self.struct_obj:
+            for param_chunk in self.struct_obj["struct"]:
                 for k, v in param_chunk.items():
                     if type(v) is not str:
                         raise Exception(f"Parameter names must be strings, found {v} (type: {type(v)}).")
@@ -68,9 +68,8 @@ class ParameterSet(Serializable):
                         self.asset_vars.append(k)
         
     def init_subparams(self):
-        struct_obj = param_structs[self.struct_type]
-        if "subparams" in struct_obj:
-            for k, v in struct_obj["subparams"].items():
+        if "subparams" in self.struct_obj:
+            for k, v in self.struct_obj["subparams"].items():
                 if type(v) is dict:
                     self.init_subparam(k, v)
         
@@ -83,9 +82,8 @@ class ParameterSet(Serializable):
         self.rw_subparams(rw)
         
     def rw_struct(self, rw):
-        struct_obj = param_structs[self.struct_type]
-        if "struct" in struct_obj:
-            for param_chunk in struct_obj["struct"]:
+        if "struct" in self.struct_obj:
+            for param_chunk in self.struct_obj["struct"]:
                 rw.mark_new_contents_array()
                 rw.mark_new_contents_array_member()
                 
@@ -100,12 +98,14 @@ class ParameterSet(Serializable):
     def rw_subparams(self, rw):
         if rw.mode() == "read":
             self.init_subparams()
-        struct_obj = param_structs[self.struct_type]
-        for subparam_name, subparam_def in struct_obj.get("subparams", {}).items():
-            ptr = self.data[subparam_def["pointer"]]
-            rw.assert_local_file_pointer_now_at(f"{subparam_def['type']} Member {subparam_name}", ptr)
-            for param in self.subparams[subparam_name]:
-                rw.rw_obj(param)
+        for subparam_name, subparam_def in self.struct_obj.get("subparams", {}).items():
+            self.rw_subparam(rw, subparam_name, subparam_def)
+                
+    def rw_subparam(self, rw, subparam_name, subparam_def):
+        ptr = self.data[subparam_def["pointer"]]
+        rw.assert_local_file_pointer_now_at(f"{subparam_def['type']} Member {subparam_name}", ptr)
+        for param in self.subparams[subparam_name]:
+            rw.rw_obj(param)
                 
     def asset_table_offsets(self):
         return [self.data[k] for k in self.asset_vars]

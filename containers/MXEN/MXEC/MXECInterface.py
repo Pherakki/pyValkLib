@@ -246,6 +246,11 @@ class MXECInterface:
             ot.rw_obj_method(prw.data, prw.data.rw_struct)
             prw.data_size = ot.tell() - prw.data_offset
             # Now rw subreaders
+            struct_obj = prw.data.struct_obj
+            for subparam_name, subparam_def in struct_obj.get("subparams", {}).items():
+                prw.data.data[subparam_def["ptr"]] = ot.tell()
+                param_set.parameters[subparam_def["ptr"]] = ot.tell()
+                prw.rw_subparam(ot, subparam_name, subparam_def)
             ot.align(ot.tell(), 0x10)
         
         ot.align(ot.tell(), 0x10)
@@ -388,7 +393,6 @@ class MXECInterface:
         mxec_rw.read_write_contents(cb)
         
         cb_rawdata = toCCRSPackedRep(cb.pointers)
-        print(cb_rawdata)
         cb_data = compressCCRS(cb_rawdata)
         cb_data += [0]*((0x10 - len(cb_data) % 0x10) % 0x10)
         mxec_rw.CCRS.num_groups = len(cb.pointers)
