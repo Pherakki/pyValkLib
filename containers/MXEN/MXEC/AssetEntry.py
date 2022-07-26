@@ -86,3 +86,5 @@ class AssetEntry(Serializable):
         rw.assert_is_zero(self.padding_0x34)
         rw.assert_is_zero(self.padding_0x38)
         rw.assert_is_zero(self.padding_0x3C)
+        
+        rw.assert_equal(self.unknown_0x14 > 0, self.unknown_0x20 + 1)
