@@ -1,4 +1,5 @@
-{    "struct":
+{
+    "struct":
     [
         {
             "unknown_0x00": ">int32",
