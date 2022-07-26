@@ -452,14 +452,18 @@ class POF0Builder(VirtualParser):
     def mode(self):
         return "POF0"
 
+class ArrayWrapper:
+    def __init__(self, bitwidth, data):
+        self.itemsize = bitwidth
+        self.data = array.array('I', data)
+    
+    def __repr__(self):
+        return "<ArrayWrapper><{self.itemsize}>{self.data}"
+
 class ENRSBuilder(VirtualParser):
     open_flags = None
     
     __slots__ = ("current_array", "current_array_member", "ref_endianness")
-    
-    typecodes = {2: "H",
-                 4: "I",
-                 8: "Q"}
     
     def __init__(self, ref_endianness):
         super().__init__()
@@ -478,13 +482,13 @@ class ENRSBuilder(VirtualParser):
             is_same_bitwidth = prev_size == size
             is_contiguous = elem != prev_elem + prev_size
             if (not is_contiguous) or (not is_same_bitwidth):
-                collated_array.append(array.array(self.typecodes[prev_size], working_array))
+                collated_array.append(ArrayWrapper(prev_size, working_array))
                 working_array = []
             working_array.append(elem)
         
         # Add final array
         elem, size = ptr_array[-1]
-        collated_array.append(array.array(self.typecodes[size], working_array))
+        collated_array.append(ArrayWrapper(size, working_array))
         
         return collated_array
 

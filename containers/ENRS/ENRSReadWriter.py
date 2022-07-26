@@ -77,9 +77,13 @@ def decompressSubStencilDef_Bytes(ENRS_iter):
     return [elem, *pull_bytecode_Bytes(ENRS_iter, byte_power, bytecode_value)]
 
 
-type_lookup = {2: "H",
-               4: "I",
-               8: "Q"}
+class ENRSSubStencil:
+    def __init__(self, bitwidth, data):
+        self.itemsize = bitwidth
+        self.data = array.array('I', data)
+    
+    def __repr__(self):
+        return "<ENRSSubStencil><{self.itemsize}>{self.data}"
 
 def decompressENRS(num_groups, data):
     offset = 0
@@ -115,7 +119,7 @@ def decompressENRS(num_groups, data):
                     sub_stencil.append(working_offset)
                     working_offset += diff
 
-                sub_stencil = array.array(type_lookup[diff], sub_stencil)
+                sub_stencil = ENRSSubStencil(diff, sub_stencil)
                 stencil.append(sub_stencil)
             stencil_group.append(stencil)
             working_offset = saved_offset
