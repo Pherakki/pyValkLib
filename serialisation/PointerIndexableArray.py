@@ -35,6 +35,7 @@ class PointerIndexableArray(Serializable):
             self.idx_to_ptr[i] = curpos
 
             self.rw_element(rw, i)
+            
 
     def rw_element(self, rw, idx):
         rw.rw_obj(self.data[idx])

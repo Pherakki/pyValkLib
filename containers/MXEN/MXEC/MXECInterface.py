@@ -84,37 +84,49 @@ class MXECInterface:
               f"{len(self.assets)} assets.\n"
     
     @classmethod
+    def generate_param_interface(cls, mxec_rw, param_set):
+        pi = ParameterInterface()
+        pi.name = None
+        pi.ID = None
+        pi.param_type = None
+        pi.parameters = {}
+        for (key, value), dtype in zip(param_set.data.items(), param_set.datatypes):
+            if dtype[1:] == "pad32" or dtype[1:] == "pad64":
+                continue
+            elif dtype[1:] == "sjis_string":
+                try:
+                    pi.parameters[key] = mxec_rw.sjis_strings.at_ptr(value)
+                except Exception as e:
+                    print(pi.param_type, key)
+                    raise e
+            elif dtype[1:] == "utf8_string":
+                try:
+                    pi.parameters[key] = mxec_rw.utf8_strings.at_ptr(value)
+                except Exception as e:
+                    print(pi.param_type, key)
+                    raise e
+            else:
+                pi.parameters[key] = value
+                
+            pi.subparameters = {}
+            for subparam_name, subparams in param_set.subparams.items():
+                pi.subparameters[subparam_name] = []
+                for subparam in subparams:
+                    pi.subparameters[subparam_name].append(cls.generate_param_interface(mxec_rw, subparam))
+        return pi
+    
+    @classmethod
     def from_subreader(cls, mxec_rw):
         instance = cls()
         
         for i, param_set in enumerate(mxec_rw.parameter_sets_table.entries):
-            assert param_set.ID == i, f"{param_set.ID} {i}"
-            pi = ParameterInterface()
+            #assert param_set.ID == i, f"{param_set.ID} {i}"
+            pi = cls.generate_param_interface(mxec_rw, param_set.data)
             str_name = mxec_rw.sjis_strings.at_ptr(param_set.name_offset).split(':')
             pi.name = str_name[-1]
             pi.ID = param_set.ID
             pi.param_type = param_set.data.struct_type
-            pi.parameters = {}
-            for (key, value), dtype in zip(param_set.data.data.items(), param_set.data.datatypes):
-                if dtype[1:] == "pad32" or dtype[1:] == "pad64":
-                    continue
-                elif dtype[1:] == "sjis_string":
-                    try:
-                        pi.parameters[key] = mxec_rw.sjis_strings.at_ptr(value)
-                    except Exception as e:
-                        print(pi.param_type, key)
-                        raise e
-                elif dtype[1:] == "utf8_string":
-                    try:
-                        pi.parameters[key] = mxec_rw.utf8_strings.at_ptr(value)
-                    except Exception as e:
-                        print(pi.param_type, key)
-                        raise e
-                else:
-                    pi.parameters[key] = value
-            pi.subparameters = {}
-            for subparam_name, subparams in param_set.data.subparams.items():
-                pi.subparameters[subparam_name] = subparams
+
                 
             instance.param_sets.append(pi)
             
@@ -208,18 +220,18 @@ class MXECInterface:
         mxec_rw.parameter_sets_table_ptr = ot.tell() if len(self.param_sets) else 0
         mxec_rw.parameter_sets_table.entries.data = [mxec_rw.parameter_sets_table.entry_cls(mxec_rw.context) for _ in range(mxec_rw.parameter_sets_table.entry_count)]
         
-        def collect_param_strings(prw, param_set):
-            sjis_strings.update(set([param_set.parameters[nm] for nm in prw.data.sjis_vars]))
-            utf8_strings.update(set([param_set.parameters[nm] for nm in prw.data.utf8_vars]))
-            for param_name, param_type in zip(prw.data.data, prw.data.datatypes):
-                # Replace with loop over subparameters...
-                if type(param_type) is dict:
-                    count = len(param_set.parameters[param_name])
-                    prw.data.data[param_type["count"]] = count
+        def collect_param_strings(prw, param_set):     
+            sjis_strings.update(set([param_set.parameters[nm] for nm in prw.sjis_vars]))
+            utf8_strings.update(set([param_set.parameters[nm] for nm in prw.utf8_vars]))
+            
+            if "subparams" in prw.struct_obj:
+                for param_name, param_type in prw.struct_obj["subparams"].items():
+                    count = len(param_set.subparameters[param_name])
+                    prw.data[param_type["count"]] = count
                     param_set.parameters[param_type["count"]] = count
                     
                     prw.init_subparam(param_name, param_type)
-                    for sub_prw, sub_param_set in zip(prw.data[param_name], param_set.parameters[param_name]):
+                    for sub_prw, sub_param_set in zip(prw.subparams[param_name], param_set.subparameters[param_name]):
                         collect_param_strings(sub_prw, sub_param_set)
         
         mxec_rw.parameter_sets_table.rw_fileinfo(ot)
@@ -256,7 +268,7 @@ class MXECInterface:
 
 
             # Get strings inside the parameters themselves
-            collect_param_strings(prw, param_set)
+            collect_param_strings(prw.data, param_set)
             prw.data_offset = ot.tell()
             
             for pname, ptype in zip(prw.data.data, prw.data.datatypes):
@@ -269,9 +281,9 @@ class MXECInterface:
             # Now rw subreaders
             struct_obj = prw.data.struct_obj
             for subparam_name, subparam_def in struct_obj.get("subparams", {}).items():
-                prw.data.data[subparam_def["ptr"]] = ot.tell()
-                param_set.parameters[subparam_def["ptr"]] = ot.tell()
-                prw.rw_subparam(ot, subparam_name, subparam_def)
+                prw.data.data[subparam_def["pointer"]] = ot.tell()
+                param_set.parameters[subparam_def["pointer"]] = ot.tell()
+                prw.data.rw_subparam(ot, subparam_name, subparam_def)
             ot.align(ot.tell(), 0x10)
         
         ot.align(ot.tell(), 0x10)
@@ -327,7 +339,6 @@ class MXECInterface:
         mxec_rw.content_flags +=       (mxec_rw.pvs_record_ptr > 0) * 0x00001800
         mxec_rw.content_flags += (mxec_rw.mergefile_record_ptr > 0) * 0x01000000
         
-        print(mxec_rw.content_flags)
         ######################################################################
         #                               PASS 2                               #
         ######################################################################

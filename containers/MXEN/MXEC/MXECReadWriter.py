@@ -154,7 +154,6 @@ class MXECReadWriter(ValkSerializable32BH):
             rw.assert_local_file_pointer_now_at("Entity Table Entry Headers", self.entity_table.entry_ptr)
             rw.rw_obj_method(self.entity_table, self.entity_table.rw_entry_headers)
             rw.rw_obj_method(self.entity_table, self.entity_table.rw_entries)
-
             rw.align(rw.local_tell(), 0x10)
             
     def rw_pathing_table(self, rw):

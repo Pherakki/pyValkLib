@@ -71,7 +71,6 @@ class EntityEntry(Serializable):
     def rw_data(self, rw, parameter_type):
         if rw.mode() == "read":
             self.data = EntityData(self.count, self.context)
-        
         rw.rw_obj(self.data)
         
     def __repr__(self):
