@@ -503,14 +503,17 @@ class ENRSBuilder(OffsetTracker):
 
     def mark_new_contents_array(self):
         if self.current_array is not None:
-            self.current_array.append(self.collate_array(self.current_array_member))
-            self.pointers.append(self.current_array)
+            if len(self.current_array_member):
+                self.current_array.append(self.collate_array(self.current_array_member))
+            if len(self.current_array):
+                self.pointers.append(self.current_array)
         self.current_array = []
-        self.current_array_member = None
+        self.current_array_member = []
     
     def mark_new_contents_array_member(self):
         if self.current_array_member is not None:
-            self.current_array.append(self.collate_array(self.current_array_member))
+            if len(self.current_array_member):
+                self.current_array.append(self.collate_array(self.current_array_member))
         self.current_array_member = []
         
     def log_offset(self, size):
@@ -604,7 +607,7 @@ class CCRSBuilder(OffsetTracker):
             if len(self.current_array):
                 self.pointers.append(self.current_array)
         self.current_array = []
-        self.current_array_member = None
+        self.current_array_member = []
     
     def mark_new_contents_array_member(self):
         if self.current_array_member is not None:
