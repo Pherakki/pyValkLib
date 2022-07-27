@@ -232,7 +232,7 @@ class ReadWriterBase:
 class Reader(ReadWriterBase):
     open_flags = "rb"
     
-    def rw_color32 (self, value, endianness=None): 
+    def rw_color32(self, value, endianness=None):
         data = self._rw_single('I', 4, value, endianness)
         r = (data >> 0x18) & 0xFF
         g = (data >> 0x10) & 0xFF
@@ -292,13 +292,14 @@ class Writer(ReadWriterBase):
         
     def rw_color32 (self, value, endianness=None): 
         data = 0
-        
         # Any colour values not given will be set to 0
         # Any colour values > 255 will be capped at 255
         for val, offset in zip(value, [0x18, 0x10, 0x08, 0x00]):
             data |= (int(val) & 0xFF) << offset
 
-        return self._rw_single('I', 4, data, endianness)
+        self._rw_single('I', 4, data, endianness)
+        
+        return value
     
     def _rw_single(self, typecode, size, value, endianness=None):
         if endianness is None:
