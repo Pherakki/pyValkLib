@@ -456,6 +456,16 @@ class ArrayWrapper:
         self.itemsize = bitwidth
         self.data = array.array('I', data)
     
+    def __len__(self):
+        return len(self.data)
+    
+    def __getitem__(self, idx):
+        return self.data[idx]
+    
+    def __iter__(self):
+        for elem in self.data:
+            yield elem
+    
     def __repr__(self):
         return "<ArrayWrapper><{self.itemsize}>{self.data}"
 
