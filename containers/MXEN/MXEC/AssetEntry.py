@@ -32,7 +32,7 @@ class AssetEntry(Serializable):
         # 0x100 = something in unknown_0x14, unknown_0x20
         # 0x200 = something in unknown_0x24
         # Unknown0x14 appears to be another ID
-        # Unknown_0x20 is always 0
+        # Unknown_0x20 is 0 if Unknown0x14 > -1
         # Unknown_0x24 also appears to be another ID
         
         # Filetypes?
@@ -81,4 +81,4 @@ class AssetEntry(Serializable):
         rw.assert_is_zero(self.padding_0x38)
         rw.assert_is_zero(self.padding_0x3C)
         
-        rw.assert_equal(self.unknown_0x14 > 0, self.unknown_0x20 + 1)
+        rw.assert_equal(self.unknown_0x14 > -1, self.unknown_0x20 + 1)
