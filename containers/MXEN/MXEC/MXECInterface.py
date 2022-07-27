@@ -268,6 +268,18 @@ class MXECInterface:
         
         # Do Assets
         mxec_rw.asset_table_ptr = ot.tell() if len(self.assets) else 0
+        ot.rw_obj_method(mxec_rw.asset_table, mxec_rw.asset_table.rw_fileinfo)
+        mxec_rw.asset_table.asset_references_offset = ot.tell()
+        mxec_rw.asset_table.asset_references_count = len(self.assets)
+        mxec_rw.asset_table.init_structs()
+        ot.rw_obj_method(mxec_rw.asset_table, mxec_rw.asset_table.rw_entry_headers)
+        
+        mxec_rw.asset_table.asset_use_offset = ot.tell()
+        mxec_rw.asset_table.asset_use_count = len(asset_offsets)
+        ot.rw_obj_method(mxec_rw.asset_table, mxec_rw.asset_table.rw_asset_slot_offsets)
+
+        # Do texmerge ptrs
+        ot.align(ot.tell(), 0x10)
         
         # Do Strings
         for i, string_val in enumerate(sorted(sjis_strings)):
@@ -323,7 +335,21 @@ class MXECInterface:
         # Paths
         
         # Assets
-        
+        for i, asset in enumerate(self.assets):
+            entry = mxec_rw.asset_table.entries[i]
+            
+            entry.flags           = 0x100 * (asset.unknown_id_1 > 0) + 0x200 * (asset.unknown_id_2 > 0)
+            entry.ID              = i
+            entry.folder_name_ptr,\
+            entry.file_name_ptr   = asset.filepath.rsplit('/', 1)
+            entry.filetype        = asset.asset_type
+            
+            entry.unknown_0x14    = asset.unknown_id_1
+            entry.unknown_0x20    = (asset.unknown_id_1 > 0) - 1
+            entry.unknown_0x24    = asset.unknown_id_2
+            
+        mxec_rw.asset_table.asset_offsets = asset_offsets
+            
         # Strings
         for string_val, offset in sjis_string_lookup.items():
             idx = len(mxec_rw.sjis_strings)

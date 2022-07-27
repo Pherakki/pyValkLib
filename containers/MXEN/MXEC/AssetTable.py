@@ -6,21 +6,21 @@ from pyValkLib.serialisation.PointerIndexableArray import PointerIndexableArray
 class AssetTable(Serializable):
     def __init__(self, context):
         super().__init__(context)
-        self.padding_0x00 = None
-        self.asset_reference_count = None
+        self.padding_0x00 = 0
+        self.asset_references_count = None
         self.asset_references_offset = None
         self.asset_use_count = None
         self.asset_use_offset = None
-        self.padding_0x14 = None
-        self.padding_0x18 = None
-        self.padding_0x1C = None
+        self.padding_0x14 = 0
+        self.padding_0x18 = 0
+        self.padding_0x1C = 0
         
         self.entries = PointerIndexableArray(self.context)
         self.asset_slot_offsets = []
                 
     def rw_fileinfo(self, rw):
         self.padding_0x00            = rw.rw_uint32(self.padding_0x00)
-        self.asset_reference_count   = rw.rw_uint32(self.asset_reference_count)
+        self.asset_references_count   = rw.rw_uint32(self.asset_references_count)
         self.asset_references_offset = rw.rw_pointer(self.asset_references_offset)
         self.asset_use_count         = rw.rw_uint32(self.asset_use_count)
         self.asset_use_offset        = rw.rw_pointer(self.asset_use_offset)
@@ -37,7 +37,7 @@ class AssetTable(Serializable):
             self.init_structs()
         
     def init_structs(self):
-        self.entries.data = [AssetEntry(self.context) for _ in range(self.asset_reference_count)]
+        self.entries.data = [AssetEntry(self.context) for _ in range(self.asset_references_count)]
         
     def rw_entry_headers(self, rw):
         rw.rw_obj(self.entries)

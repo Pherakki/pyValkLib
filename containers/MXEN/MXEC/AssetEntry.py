@@ -12,19 +12,19 @@ class AssetEntry(Serializable):
         self.file_name_ptr = None
         
         self.filetype = None
-        self.unknown_0x14 = None
-        self.unknown_0x18 = None
-        self.padding_0x1C = None
+        self.unknown_0x14 = 0
+        self.unknown_0x18 = 0
+        self.padding_0x1C = 0
         
-        self.unknown_0x20 = None
-        self.unknown_0x24 = None
-        self.padding_0x28 = None
-        self.padding_0x2C = None
+        self.unknown_0x20 = 0
+        self.unknown_0x24 = 0
+        self.padding_0x28 = 0
+        self.padding_0x2C = 0
         
-        self.padding_0x30 = None
-        self.padding_0x34 = None
-        self.padding_0x38 = None
-        self.padding_0x3C = None   
+        self.padding_0x30 = 0
+        self.padding_0x34 = 0
+        self.padding_0x38 = 0
+        self.padding_0x3C = 0   
         
     def read_write(self, rw): 
         # Contents_flags? 
