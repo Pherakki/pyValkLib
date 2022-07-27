@@ -301,6 +301,10 @@ class MXECInterface:
         mxec_rw.asset_table.asset_references_count = len(self.assets)
         mxec_rw.asset_table.init_structs()
         ot.rw_obj_method(mxec_rw.asset_table, mxec_rw.asset_table.rw_entry_headers)
+        for asset in self.assets:
+            folder_name, file_name = asset.filepath.rsplit('/', 1)
+            sjis_strings.add(folder_name)
+            sjis_strings.add(file_name)
         
         mxec_rw.asset_table.asset_use_offset = ot.tell()
         mxec_rw.asset_table.asset_use_count = len(asset_offsets)
@@ -373,11 +377,12 @@ class MXECInterface:
         # Assets
         for i, asset in enumerate(self.assets):
             entry = mxec_rw.asset_table.entries[i]
+            folder_name, file_name = asset.filepath.rsplit('/', 1)
             
             entry.flags           = 0x100 * (asset.unknown_id_1 > 0) + 0x200 * (asset.unknown_id_2 > 0)
             entry.ID              = i
-            entry.folder_name_ptr,\
-            entry.file_name_ptr   = asset.filepath.rsplit('/', 1)
+            entry.folder_name_ptr = sjis_string_lookup[folder_name]
+            entry.file_name_ptr   = sjis_string_lookup[file_name]
             entry.filetype        = asset.asset_type
             
             entry.unknown_0x14    = asset.unknown_id_1
