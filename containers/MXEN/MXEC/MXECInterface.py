@@ -235,16 +235,25 @@ class MXECInterface:
             
         
         asset_offsets = []
+        texmerge_offsets = []
         mxec_rw.parameter_sets_table.rw_entry_headers(ot)
         for param_set, prw in zip(self.param_sets, mxec_rw.parameter_sets_table.entries):
             prw.init_params(param_set.param_type)
 
+            # Collect PVS, MergeFile, TextureMerge
+            if param_set.param_type == "MxParameterPvs":
+                if mxec_rw.pvs_record_ptr == 0:
+                    mxec_rw.pvs_record_ptr = ot.tell()
+                else:
+                    assert 0, "More than one MxParameterPvs in MXE."
+            elif param_set.param_type == "MxParameterMergeFile":
+                if mxec_rw.mergefile_record_ptr == 0:
+                    mxec_rw.mergefile_record_ptr = ot.tell()
+                else:
+                    assert 0, "More than one MxParameterMergeFile in MXE."
+            elif param_set.param_type == "MxParameterTextureMerge":
+                texmerge_offsets.append(ot.tell())
 
-            ####################################
-            # !!!!!!!!!!! REMINDER !!!!!!!!!!! #
-            # PUT IN PVS, MERGEFILE, TEXMERGE! #
-            # !!!!!!!!!!! REMINDER !!!!!!!!!!! #
-            ####################################
 
             # Get strings inside the parameters themselves
             collect_param_strings(prw, param_set)
@@ -286,6 +295,10 @@ class MXECInterface:
         ot.rw_obj_method(mxec_rw.asset_table, mxec_rw.asset_table.rw_asset_slot_offsets)
 
         # Do texmerge ptrs
+        if len(texmerge_offsets):
+            mxec_rw.texmerge_ptrs_ptr = ot.tell()
+            mxec_rw.texmerge_ptr = texmerge_offsets
+            mxec_rw.texmerge_count = len(texmerge_offsets)
         ot.align(ot.tell(), 0x10)
         
         # Do Strings
@@ -308,10 +321,13 @@ class MXECInterface:
         mxec_rw.header.flags = 0x18000000
         mxec_rw.header.data_length = ot.tell() - mxec_rw.header.header_length
         mxec_rw.header.depth = depth
-            
         
-        # Go back and substitute in the IDs of the assets
+        mxec_rw.content_flags +=                                  1 * 0x00000100
+        mxec_rw.content_flags +=    (mxec_rw.texmerge_ptrs_ptr > 0) * 0x00000400
+        mxec_rw.content_flags +=       (mxec_rw.pvs_record_ptr > 0) * 0x00001800
+        mxec_rw.content_flags += (mxec_rw.mergefile_record_ptr > 0) * 0x01000000
         
+        print(mxec_rw.content_flags)
         ######################################################################
         #                               PASS 2                               #
         ######################################################################

@@ -20,7 +20,7 @@ class MXECReadWriter(ValkSerializable32BH):
     def __init__(self, endianness=None):
         super().__init__({}, endianness)
         
-        self.content_flags            = 0x00000100
+        self.content_flags            = 0x00000000
         self.parameter_sets_table_ptr = 0
         self.entity_table_ptr         = 0
         self.asset_table_ptr          = 0
