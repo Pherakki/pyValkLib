@@ -234,6 +234,7 @@ class MXECInterface:
             param_names.append(pset_name)
             
         
+        asset_offsets = []
         mxec_rw.parameter_sets_table.rw_entry_headers(ot)
         for param_set, prw in zip(self.param_sets, mxec_rw.parameter_sets_table.entries):
             prw.init_params(param_set.param_type)
@@ -248,7 +249,13 @@ class MXECInterface:
             # Get strings inside the parameters themselves
             collect_param_strings(prw, param_set)
             prw.data_offset = ot.tell()
-            ot.rw_obj_method(prw.data, prw.data.rw_struct)
+            
+            for pname, ptype in zip(prw.data.data, prw.data.datatypes):
+                endianness, typecode = ptype[0], ptype[1:]
+                if typecode == "asset":
+                    asset_offsets.append(ot.tell())
+                prw.data.rw_element(ot, typecode, pname, endianness)
+            
             prw.data_size = ot.tell() - prw.data_offset
             # Now rw subreaders
             struct_obj = prw.data.struct_obj
@@ -302,6 +309,8 @@ class MXECInterface:
         mxec_rw.header.data_length = ot.tell() - mxec_rw.header.header_length
         mxec_rw.header.depth = depth
             
+        
+        # Go back and substitute in the IDs of the assets
         
         ######################################################################
         #                               PASS 2                               #

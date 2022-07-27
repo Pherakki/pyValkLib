@@ -83,19 +83,21 @@ class ParameterSet(Serializable):
         self.rw_struct(rw)
         self.rw_subparams(rw)
         
+    def rw_element(self, rw, typecode, k, endianness):
+        self.data[k] = func_lookup[typecode](rw, self.data[k], endianness)
+        
     def rw_struct(self, rw):
-        if "struct" in self.struct_obj:
-            for param_chunk in self.struct_obj["struct"]:
-                rw.mark_new_contents_array()
-                rw.mark_new_contents_array_member()
-                
-                for k, ktype in param_chunk.items():
-                    try:
-                        endianness, typecode = ktype[0], ktype[1:]
-                        self.data[k] = func_lookup[typecode](rw, self.data[k], endianness)
-                    except Exception as e:
-                        print("Failed to handle", k, "for", self.struct_type)
-                        raise e
+        for param_chunk in self.struct_obj["struct"]:
+            rw.mark_new_contents_array()
+            rw.mark_new_contents_array_member()
+            
+            for k, ktype in param_chunk.items():
+                try:
+                    endianness, typecode = ktype[0], ktype[1:]
+                    self.rw_element(rw, typecode, k, endianness)
+                except Exception as e:
+                    print("Failed to handle", k, "for", self.struct_type)
+                    raise e
                 
     def rw_subparams(self, rw):
         if rw.mode() == "read":
