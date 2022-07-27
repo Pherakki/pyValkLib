@@ -342,7 +342,7 @@ class Writer(ReadWriterBase):
     def mode(self):
         return "write"
 
-class VirtualParser(ReadWriterBase):
+class OffsetTracker(ReadWriterBase):
     open_flags = None
     
     __slots__ = ("virtual_offset", "pointers")
@@ -405,7 +405,6 @@ class VirtualParser(ReadWriterBase):
             raise NotImplementedError
         self.virtual_offset = offset
 
-class OffsetTracker(VirtualParser):
     def assert_file_pointer_now_at(self, location, file_pointer_location=None, use_hex=False):
         pass
  
@@ -421,7 +420,7 @@ class OffsetTracker(VirtualParser):
         pass
 
 
-class POF0Builder(VirtualParser):
+class POF0Builder(OffsetTracker):
     open_flags = None
     
     __slots__ = ("virtual_offset", "pointers")
@@ -460,7 +459,7 @@ class ArrayWrapper:
     def __repr__(self):
         return "<ArrayWrapper><{self.itemsize}>{self.data}"
 
-class ENRSBuilder(VirtualParser):
+class ENRSBuilder(OffsetTracker):
     open_flags = None
     
     __slots__ = ("current_array", "current_array_member", "ref_endianness")
@@ -546,7 +545,7 @@ class ENRSBuilder(VirtualParser):
     def mode(self):
         return "ENRS"
 
-class CCRSBuilder(VirtualParser):
+class CCRSBuilder(OffsetTracker):
     open_flags = None
     
     __slots__ = ("current_array", "current_array_member")
