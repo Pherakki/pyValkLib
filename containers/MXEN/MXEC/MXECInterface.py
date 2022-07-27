@@ -389,7 +389,7 @@ class MXECInterface:
             entry.unknown_0x20    = (asset.unknown_id_1 > 0) - 1
             entry.unknown_0x24    = asset.unknown_id_2
             
-        mxec_rw.asset_table.asset_offsets = asset_offsets
+        mxec_rw.asset_table.asset_slot_offsets = asset_offsets
             
         # Strings
         for string_val, offset in sjis_string_lookup.items():
