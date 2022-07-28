@@ -185,7 +185,7 @@ def compressInt(integer):
 
 def compressSubStencil(starting_offset, diff):
     data = []
-    elem_byte_power = diff << 2
+    elem_byte_power = (diff << 2) & 0x30
     if starting_offset < 2**4:
         power_val = 0x00
         
@@ -264,6 +264,6 @@ def compressENRS(pointer_offsets):
             data.extend(compressSubStencil(starting_offset, diff))
             data.extend(compressInt(sub_stencil_count))
             
-            previous_substencil_offset = sub_stencil[0]
+            previous_substencil_offset = sub_stencil[-1] + diff
 
     return data

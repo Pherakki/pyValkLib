@@ -43,4 +43,5 @@ class AssetTable(Serializable):
         rw.rw_obj(self.entries)
         
     def rw_asset_slot_offsets(self, rw):
+        rw.mark_new_contents_array()
         self.asset_slot_offsets = rw.rw_uint32s(self.asset_slot_offsets, self.asset_use_count)
