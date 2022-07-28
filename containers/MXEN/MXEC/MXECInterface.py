@@ -404,7 +404,7 @@ class MXECInterface:
             mxec_rw.utf8_strings.data.append(string_val)
             mxec_rw.utf8_strings.ptr_to_idx[offset] = idx
             mxec_rw.utf8_strings.idx_to_ptr[idx] = offset
-        ot.align(ot.tell(), 0x10)
+        
         
         # Unknowns
         # Already handled
@@ -490,6 +490,6 @@ class MXECInterface:
         mxec_rw.EOFC.header.data_length     = 0
         mxec_rw.EOFC.header.contents_length = 0
         
-        mxec_rw.header.contents_length = ot.tell() - mxec_rw.header.header_length
+        mxec_rw.header.contents_length = ot.tell()
         
         return mxec_rw
