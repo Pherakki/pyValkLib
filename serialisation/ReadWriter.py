@@ -487,10 +487,10 @@ class ENRSBuilder(OffsetTracker):
         
         # Split offsets into contiguous ranges
         for i, (elem, size) in enumerate(ptr_array[1:]):
-            prev_elem, prev_size = ptr_array[i-1]
+            prev_elem, prev_size = ptr_array[i]
             
             is_same_bitwidth = prev_size == size
-            is_contiguous = elem != prev_elem + prev_size
+            is_contiguous = elem == prev_elem + prev_size
             if (not is_contiguous) or (not is_same_bitwidth):
                 collated_array.append(ArrayWrapper(prev_size, working_array))
                 working_array = []
@@ -528,7 +528,7 @@ class ENRSBuilder(OffsetTracker):
     def _rw_single(self, typecode, size, value, endianness=None):
         if endianness is None:
             endianness = self.ref_endianness
-            
+
         if endianness == '>':
             self.log_offset(size)
         self.adv_offset(size)
