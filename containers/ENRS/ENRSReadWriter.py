@@ -83,7 +83,7 @@ class ENRSSubStencil:
         self.data = array.array('I', data)
     
     def __repr__(self):
-        return "<ENRSSubStencil><{self.itemsize}>{self.data}"
+        return f"<ENRSSubStencil><{self.itemsize}>{self.data}"
 
 def decompressENRS(num_groups, data):
     offset = 0

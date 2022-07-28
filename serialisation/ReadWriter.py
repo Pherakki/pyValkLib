@@ -468,7 +468,7 @@ class ArrayWrapper:
             yield elem
     
     def __repr__(self):
-        return "<ArrayWrapper><{self.itemsize}>{self.data}"
+        return f"<ArrayWrapper><{self.itemsize}>{self.data}"
 
 class ENRSBuilder(OffsetTracker):
     open_flags = None
