@@ -367,7 +367,8 @@ class MXECInterface:
                     for sub_prw, sub_param_set in zip(prw.data[param_name], param_set.parameters[param_name]):
                         fill_param_strings(sub_prw, sub_param_set, sjis_lookup, utf8_lookup)
         
-        for prw, param_set, param_set_name in zip(mxec_rw.parameter_sets_table.entries, self.param_sets, param_names):
+        for i, (prw, param_set, param_set_name) in enumerate(zip(mxec_rw.parameter_sets_table.entries, self.param_sets, param_names)):
+            prw.ID = i
             prw.name_offset = sjis_string_lookup[param_set_name]
             fill_param_strings(prw, param_set, sjis_string_lookup, utf8_string_lookup)
             
