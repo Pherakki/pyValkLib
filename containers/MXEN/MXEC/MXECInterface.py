@@ -296,19 +296,20 @@ class MXECInterface:
         
         # Do Assets
         mxec_rw.asset_table_ptr = ot.tell() if len(self.assets) else 0
-        ot.rw_obj_method(mxec_rw.asset_table, mxec_rw.asset_table.rw_fileinfo)
-        mxec_rw.asset_table.asset_references_offset = ot.tell()
-        mxec_rw.asset_table.asset_references_count = len(self.assets)
-        mxec_rw.asset_table.init_structs()
-        ot.rw_obj_method(mxec_rw.asset_table, mxec_rw.asset_table.rw_entry_headers)
-        for asset in self.assets:
-            folder_name, file_name = asset.filepath.rsplit('/', 1)
-            sjis_strings.add(folder_name)
-            sjis_strings.add(file_name)
-        
-        mxec_rw.asset_table.asset_use_offset = ot.tell()
-        mxec_rw.asset_table.asset_use_count = len(asset_offsets)
-        ot.rw_obj_method(mxec_rw.asset_table, mxec_rw.asset_table.rw_asset_slot_offsets)
+        if len(self.assets):
+            ot.rw_obj_method(mxec_rw.asset_table, mxec_rw.asset_table.rw_fileinfo)
+            mxec_rw.asset_table.asset_references_offset = ot.tell()
+            mxec_rw.asset_table.asset_references_count = len(self.assets)
+            mxec_rw.asset_table.init_structs()
+            ot.rw_obj_method(mxec_rw.asset_table, mxec_rw.asset_table.rw_entry_headers)
+            for asset in self.assets:
+                folder_name, file_name = asset.filepath.rsplit('/', 1)
+                sjis_strings.add(folder_name)
+                sjis_strings.add(file_name)
+            
+            mxec_rw.asset_table.asset_use_offset = ot.tell()
+            mxec_rw.asset_table.asset_use_count = len(asset_offsets)
+            ot.rw_obj_method(mxec_rw.asset_table, mxec_rw.asset_table.rw_asset_slot_offsets)
 
         # Do texmerge ptrs
         if len(texmerge_offsets):
