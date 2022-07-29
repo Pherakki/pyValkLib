@@ -74,9 +74,6 @@ class ReadWriterBase:
     
     def rw_multiple(self, typecode, value, shape, endianness=None):
         self._rw_multiple(typecode, self.type_sizes[typecode], value, shape, endianness)
-    
-    def rw_ccrs(self, value, endianness=None):
-        return self._rw_single('I', 4, value, endianness)
         
     def rw_obj(self, obj):
         previous_context = self.context
