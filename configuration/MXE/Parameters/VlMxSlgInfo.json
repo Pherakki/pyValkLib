@@ -7,7 +7,7 @@
             "unknown_0x08": ">float32",
             "unknown_0x0C": ">float32",
             "unknown_0x10": ">float32",
-            "unknown_0x14": ">float32",
+            "unknown_0x14": ">pad32",
             "unknown_0x18": ">asset",
             "unknown_0x20": ">asset"
         }
