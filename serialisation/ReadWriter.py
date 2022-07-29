@@ -103,6 +103,10 @@ class ReadWriterBase:
     def rw_pad16   (self, value, endianness=None): return self._rw_single('H', 2, value, endianness)
     def rw_pad32   (self, value, endianness=None): return self._rw_single('I', 4, value, endianness)
     def rw_pad64   (self, value, endianness=None): return self._rw_single('Q', 8, value, endianness)
+    def rw_hex8    (self, value, endianness=None): return self._handle_hex('B', 1, value, endianness)
+    def rw_hex16   (self, value, endianness=None): return self._handle_hex('H', 2, value, endianness)
+    def rw_hex32   (self, value, endianness=None): return self._handle_hex('I', 4, value, endianness)
+    def rw_hex64   (self, value, endianness=None): return self._handle_hex('Q', 8, value, endianness)
     def rw_int8    (self, value, endianness=None): return self._rw_single('b', 1, value, endianness)
     def rw_uint8   (self, value, endianness=None): return self._rw_single('B', 1, value, endianness)
     def rw_int16   (self, value, endianness=None): return self._rw_single('h', 2, value, endianness)
@@ -204,6 +208,9 @@ class ReadWriterBase:
     # Pure Virtual Functions #
     ##########################
     
+    def _handle_hex(self, typecode, size, value, endianness):
+        raise NotImplementedError()
+
     def _rw_single(self, typecode, size, value, endianness=None):
         raise NotImplementedError
         
@@ -236,6 +243,11 @@ class Reader(ReadWriterBase):
         b = (data >> 0x10) & 0xFF
         a = (data >> 0x18) & 0xFF
         return [r, g, b, a]
+    
+    def _handle_hex(self, typecode, size, value, endianness=None):
+        data = self._rw_single(typecode, size, value, endianness)
+        
+        return f'0x{{:0{size}x}}'.format(data)
     
     def _rw_single(self, typecode, size, value, endianness=None):
         if endianness is None:
@@ -298,6 +310,10 @@ class Writer(ReadWriterBase):
         
         return value
     
+    def _handle_hex(self, typecode, size, value, endianness=None):
+        self._rw_single(typecode, size, int(value, 16), endianness)
+        return value
+    
     def _rw_single(self, typecode, size, value, endianness=None):
         if endianness is None:
             endianness = self.context.endianness
@@ -355,6 +371,9 @@ class OffsetTracker(ReadWriterBase):
         
     def adv_offset(self, adv):
         self.virtual_offset += adv
+        
+    def _handle_hex(self, typecode, size, value, endianness=None):
+        return self._rw_single(typecode, size, value, endianness)
      
     def _rw_single(self, typecode, size, value, endianness=None):
         self.adv_offset(size)
