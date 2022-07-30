@@ -1,7 +1,6 @@
 import json
 import os
 from pyValkLib.serialisation.Serializable import Serializable
-from pyValkLib.containers.MXEN.MXEC.StructureList import data_types
 
 
 param_structs = {}
