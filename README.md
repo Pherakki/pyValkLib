@@ -3,6 +3,7 @@ Python library for reading and writing files in the Valkyria Chronicles game ser
 
 pyValkLib is intended as a research tool, with an eventual companion ValkLib library providing a clean C++ implementation of the read-and-write logic.
 
+Documentation is available in the `docs` folder of the repository. Since the library is in-development this is currently very barebones. The API for Supported interfaces will be provided in the documentation, as well as a qualitative description of the filetypes pyValkLib reads and writes.
 
 ## Completion Status
 The status of the code is tabulated for the different filetypes given in the sections below, with the following keys:
