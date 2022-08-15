@@ -1,6 +1,7 @@
 from pyValkLib.serialisation.Serializable import Serializable
 from pyValkLib.serialisation.PointerIndexableArray import PointerIndexableArray, PointerIndexableArrayUint32
-    
+
+
 class EntityEntry(Serializable):
     __slots__ = ("ID", "name_offset", "count", "data_offset", "data", "parameter_type",
                  "padding_0x10", "padding_0x14", "controller_entity_id", "padding_0x1C",
@@ -14,23 +15,23 @@ class EntityEntry(Serializable):
         self.count = 0
         self.data_offset = 0
         
-        self.padding_0x10          = 0
-        self.padding_0x14          = 0
-        self.controller_entity_id  = 0
-        self.padding_0x1C          = 0
+        self.padding_0x10         = 0
+        self.padding_0x14         = 0
+        self.controller_entity_id = 0
+        self.padding_0x1C         = 0
         
-        self.padding_0x20          = 0
-        self.padding_0x24          = 0
-        self.has_unknown_data          = 0
-        self.unknown_data_ptr          = 0
+        self.padding_0x20         = 0
+        self.padding_0x24         = 0
+        self.has_unknown_data     = 0
+        self.unknown_data_ptr     = 0
         
-        self.padding_0x30          = 0
-        self.padding_0x34          = 0
-        self.padding_0x38          = 0
-        self.padding_0x3C          = 0
+        self.padding_0x30         = 0
+        self.padding_0x34         = 0
+        self.padding_0x38         = 0
+        self.padding_0x3C         = 0
         
         self.data = None
-        self.parameter_type = None
+        self.parameter_type = None # Useless variable, here to prevent a crash until I fix the EntryTable
         
 
     def read_write(self, rw):
@@ -46,8 +47,8 @@ class EntityEntry(Serializable):
         
         self.padding_0x20          = rw.rw_uint32(self.padding_0x20)
         self.padding_0x24          = rw.rw_uint32(self.padding_0x24)
-        self.has_unknown_data          = rw.rw_uint32(self.has_unknown_data) # 0 or 1
-        self.unknown_data_ptr          = rw.rw_pointer(self.unknown_data_ptr) # Ptr
+        self.has_unknown_data      = rw.rw_uint32(self.has_unknown_data) # 0 or 1
+        self.unknown_data_ptr      = rw.rw_pointer(self.unknown_data_ptr) # Ptr
         
         self.padding_0x30          = rw.rw_pad32(self.padding_0x30)
         self.padding_0x34          = rw.rw_pad32(self.padding_0x34)
@@ -88,9 +89,11 @@ class EntityData(Serializable):
         if rw.mode() == "read":
             self.subentries.data = [EntitySubEntry(self.context) for _ in range(self.count)] 
         rw.rw_obj(self.subentries)
+        
         if rw.mode() == "read":
             n_to_rw = sum([subentry.count for subentry in self.subentries.data])
             self.data.data = [0 for _ in range(n_to_rw)]
+        
         rw.rw_obj(self.data)
 
     def get_data(self):
