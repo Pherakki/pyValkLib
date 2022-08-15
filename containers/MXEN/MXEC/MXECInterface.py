@@ -471,27 +471,27 @@ class MXECInterface:
         # Fill in data
         
         # Fill in Parameter Sets
-        def fill_param_strings(prw, param_set, sjis_lookup, utf8_lookup):
-            for param_name, param_type in zip(prw.data.data, prw.data.datatypes):
-                if type(param_type) is str:
-                    if param_type[1:] == "sjis_string":
-                        prw.data.data[param_name] = sjis_lookup[param_set.parameters[param_name]]
-                    elif param_type[1:] == "utf8_string":
-                        prw.data.data[param_name] = utf8_lookup[param_set.parameters[param_name]]
-                    elif param_type[1:] == "pad32" or param_type[1:] == "pad64":
-                        prw.data.data[param_name] = 0
-                    elif param_type[1:] == "pointer":
-                        pass # Should have already been handled
-                    else:
-                        prw.data.data[param_name] = param_set.parameters[param_name]
-                elif type(param_type) is dict:
-                    for sub_prw, sub_param_set in zip(prw.data[param_name], param_set.parameters[param_name]):
-                        fill_param_strings(sub_prw, sub_param_set, sjis_lookup, utf8_lookup)
+        def fill_param_strings(prw_data, param_set, sjis_lookup, utf8_lookup):
+            for param_name, param_type in zip(prw_data.data, prw_data.datatypes):
+                if param_type[1:] == "sjis_string":
+                    prw_data.data[param_name] = sjis_lookup[param_set.parameters[param_name]]
+                elif param_type[1:] == "utf8_string":
+                    prw_data.data[param_name] = utf8_lookup[param_set.parameters[param_name]]
+                elif param_type[1:] == "pad32" or param_type[1:] == "pad64":
+                    prw_data.data[param_name] = 0
+                elif param_type[1:] == "pointer32":
+                    pass # Should have already been handled
+                else:
+                    prw_data.data[param_name] = param_set.parameters[param_name]
+            
+            for param_name in param_set.subparameters:
+                for sub_prw, sub_param_set in zip(prw_data.subparams[param_name], param_set.subparameters[param_name]):
+                    fill_param_strings(sub_prw, sub_param_set, sjis_lookup, utf8_lookup)
         
         for i, (prw, param_set, param_set_name) in enumerate(zip(mxec_rw.parameter_sets_table.entries, self.param_sets, param_names)):
             prw.ID = i
             prw.name_offset = sjis_string_lookup[param_set_name]
-            fill_param_strings(prw, param_set, sjis_string_lookup, utf8_string_lookup)
+            fill_param_strings(prw.data, param_set, sjis_string_lookup, utf8_string_lookup)
             
         # Entities
         for entity_rw, entity in zip(mxec_rw.entity_table.entries, self.entities):
