@@ -469,7 +469,8 @@ class POF0Builder(OffsetTracker):
         return "POF0"
 
 class ArrayWrapper:
-    def __init__(self, bitwidth, data):
+    def __init__(self, type_, bitwidth, data):
+        self.type = type_
         self.itemsize = bitwidth
         self.data = array.array('I', data)
     
@@ -482,6 +483,9 @@ class ArrayWrapper:
     def __iter__(self):
         for elem in self.data:
             yield elem
+    
+    def get_item_size(self):
+        return self.itemsize
     
     def __repr__(self):
         return f"<ArrayWrapper><{self.itemsize}>{self.data}"
@@ -508,14 +512,13 @@ class ENRSBuilder(OffsetTracker):
             is_same_bitwidth = prev_size == size
             is_contiguous = elem == prev_elem + prev_size
             if (not is_contiguous) or (not is_same_bitwidth):
-                collated_array.append(ArrayWrapper(prev_size, working_array))
+                collated_array.append(ArrayWrapper(prev_size >> 2, prev_size, working_array))
                 working_array = []
             working_array.append(elem)
         
         # Add final array
         elem, size = ptr_array[-1]
-        collated_array.append(ArrayWrapper(size, working_array))
-        
+        collated_array.append(ArrayWrapper(size >> 2, size, working_array))
         return collated_array
 
     def mark_new_contents_array(self):
@@ -557,7 +560,7 @@ class ENRSBuilder(OffsetTracker):
 
     def _rw_multiple(self, typecode, size, value, shape, endianness=None):
         if endianness is None:
-            endianness = self.context.endianness
+            endianness = self.ref_endianness
             
         if not hasattr(shape, "__getitem__"):
             shape = (shape,)
@@ -598,22 +601,20 @@ class CCRSBuilder(OffsetTracker):
         if not len(ptr_array):
             return []
         working_array = [ptr_array[0][0]]
-        
         # Split offsets into contiguous ranges
         for i, (elem, type_) in enumerate(ptr_array[1:]):
-            prev_elem, prev_type_ = ptr_array[i-1]
-            
+            prev_elem, prev_type_ = ptr_array[i]
             is_same_type = prev_type_ == type_
             prev_size = self.typewidths[prev_type_]
-            is_contiguous = elem != prev_elem + prev_size
+            is_contiguous = elem == prev_elem + prev_size
             if (not is_contiguous) or (not is_same_type):
-                collated_array.append((prev_type_, array.array('I', working_array)))
+                collated_array.append(ArrayWrapper(prev_type_, prev_size, working_array))
                 working_array = []
             working_array.append(elem)
         
         # Add final array
         elem, type_ = ptr_array[-1]
-        collated_array.append((type_, array.array('I', working_array)))
+        collated_array.append(ArrayWrapper(type_, self.typewidths[type_], working_array))
         
         return collated_array
 
