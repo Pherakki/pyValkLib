@@ -1,12 +1,29 @@
 from collections import defaultdict
 import os
+import json
+import struct
 
 from .MXECReadWriter import MXECReadWriter
-from .AssetEntry import AssetEntry
+from .ECSEntityEntry import EntityEntry, EntityData, EntitySubEntry
 from pyValkLib.serialisation.ReadWriter import OffsetTracker, POF0Builder, ENRSBuilder, CCRSBuilder
 from pyValkLib.containers.POF0.POF0ReadWriter import compressPOF0
-from pyValkLib.containers.ENRS.ENRSReadWriter import compressENRS
-from pyValkLib.containers.CCRS.CCRSReadWriter import compressCCRS, toCCRSPackedRep
+from pyValkLib.containers.ENRS.ENRSCompression import compressENRS, toENRSPackedRep
+from pyValkLib.containers.CCRS.CCRSCompression import compressCCRS, toCCRSPackedRep
+
+
+entity_structs = {}
+struct_path = os.path.abspath("pyValkLib/configuration/MXE/Entities")
+for file in os.listdir(struct_path):
+    filename, fileext = os.path.splitext(file)
+    if fileext == ".json":
+        filepath = os.path.join(struct_path, file)
+        with open(filepath, 'r') as F:
+            entity_structs[filename] = json.load(F)
+            if "SubEntities" not in entity_structs[filename]:
+                raise Exception(f"Invalid Entity structure file {filename}: No 'SubEntities' member.")
+            if "Parameters" not in entity_structs[filename]:
+                raise Exception(f"Invalid Entity structure file {filename}: No 'Parameters' member.")
+
 
 class ParameterInterface:
     def __init__(self):
@@ -15,43 +32,81 @@ class ParameterInterface:
         self.param_type = None
         self.parameters = None
         self.subparameters = None
+
+class EntityParameterReference:
+    def __init__(self, type_, subtype_):
+        self.param_id = None
+        self.type = type_
+        self.subtype = subtype_
+
+class EntityComponentInferface:
+    def __init__(self, type_):
+        self.type = type_
+        self.subentities = []
+        self.parameters = []
+        def_struct = entity_structs[type_]
+        for en in def_struct["SubEntities"]:
+            self.subentities.append(EntityComponentInferface(en))
+        for subtype_, type_ in def_struct["Parameters"]:
+            self.parameters.append(EntityParameterReference(type_, subtype_))
+        
+    def flat_decendants(self):
+        out = []
+        for subentity in self.subentities:
+            out.append(subentity)
+            for dec in subentity.flat_decendants():
+                out.append(dec)
+        return out
+    
+    def get_param_prefixes(self):
+        out = {}
+        
+        # Append entity name to front of child's stack
+        for subentity in self.subentities:
+            name_strs = subentity.get_param_prefixes()
+            for param_id, name_str in name_strs.items():
+                out[param_id] = "!" + self.type + name_str
+        
+        # Add own parameters to stack
+        for param in self.parameters:
+            name_str = "!" + self.type + "!@" + param.subtype + "@"
+            out[param.param_id] = name_str
+            
+        return out
         
 class EntityInterface:
     def __init__(self):
+        self.ID = None
         self.name = None
         self.unknown = None
         self.controller_id = None
         self.subcomponents = []
+        self.entity = None
         
-class EntityComponentInterface:
-    def __init__(self):
-        self.name = None
-        self.ID = None
-        self.subcomponents = []
+    def all_flat_entities(self):
+        return [self.entity, *self.entity.flat_decendants()]
+    
+    def get_all_param_prefixes(self):
+        return self.entity.get_param_prefixes()
 
 class NodeInterface:
     def __init__(self):
         self.param_id = None
-        self.prev_edges = []
         self.next_edges = []
         
 class EdgeInterface:
     def __init__(self):
-        self.edge_param_ids = []
-        self.prev_node = None
         self.next_node = None
+        self.param_ids = []
 
-class SubpathInterface:
+class SubgraphInterface:
     def __init__(self):
-        self.is_loop = False
-        self.node_ids = []
-        self.edge_ids = []
-        
-class PathingInterface:
+        self.nodes = []
+
+class GraphInterface:
     def __init__(self):
         self.name = None
-        self.nodes = []
-        self.edges = []
+        self.subgraphs = []
         
 class AssetInterface:
     """
@@ -126,10 +181,9 @@ class MXECInterface:
             pi.name = str_name[-1]
             pi.ID = param_set.ID
             pi.param_type = param_set.data.struct_type
-
-                
-            instance.param_sets.append(pi)
             
+            instance.param_sets.append(pi)
+        
         for entity in mxec_rw.entity_table.entries:
             ei = EntityInterface()
             ei.name = mxec_rw.sjis_strings.at_ptr(entity.name_offset)
@@ -140,12 +194,24 @@ class MXECInterface:
                 
                 
             parameter_ids = iter(entity.data.data)
-            for subentry in entity.data.subentries:
-                parameters = [next(parameter_ids) for _ in range(subentry.count)]
-                ei.subcomponents.append((mxec_rw.sjis_strings.at_ptr(subentry.name_offset), parameters ))
-            instance.entities.append(ei)
+            ei.entity = EntityComponentInferface(mxec_rw.sjis_strings.at_ptr(entity.data.subentries[-1].name_offset))
             
-            # Next assign the components of each entity 
+            for canon_subentry, data_subentry in zip(ei.all_flat_entities()[::-1], entity.data.subentries):
+                data_name_type = mxec_rw.sjis_strings.at_ptr(data_subentry.name_offset)
+                if canon_subentry.type != data_name_type or len(ei.all_flat_entities()[::-1]) != len(entity.data.subentries):
+                    all_canon_names = [ce.type for ce in ei.all_flat_entities()[::-1]]
+                    all_data_names = [mxec_rw.sjis_strings.at_ptr(de.name_offset) for de in entity.data.subentries]
+                    
+                    print("ERROR: Mismatch between entity definition and data.")
+                    print(all_canon_names)
+                    print(all_data_names)
+                    raise ValueError()
+                    
+                parameters = [next(parameter_ids) for _ in range(data_subentry.count)]
+                for canon_param, data_param in zip(canon_subentry.parameters, parameters):
+                    assert instance.param_sets[data_param].param_type == canon_param.type
+                    canon_param.param_id = data_param
+            instance.entities.append(ei)
             
         for path in mxec_rw.pathing_table.entries:
             pi = PathingInterface()
@@ -196,8 +262,10 @@ class MXECInterface:
         
         sjis_strings = set()
         utf8_strings = set()
+        unknowns     = set()
         sjis_string_lookup = dict()
         utf8_string_lookup = dict()
+        unknowns_lookup    = dict()
         
         # Execute this in FIVE passes:
         # 1) First, construct the data structures you need,
@@ -212,6 +280,9 @@ class MXECInterface:
         #                               PASS 1                               #
         ######################################################################
         # Generate data structures (also create all needed offsets?)
+        # Would it not be better to include offset-linkage automatically inside
+        # the read/write function definition?
+        # -> Would then allow to you run read/write in another mode: Offset-generator
         mxec_rw.header.read_write(ot)
         mxec_rw.rw_fileinfo(ot)
         
@@ -234,6 +305,16 @@ class MXECInterface:
                     for sub_prw, sub_param_set in zip(prw.subparams[param_name], param_set.subparameters[param_name]):
                         collect_param_strings(sub_prw, sub_param_set)
         
+        # 1) INTERATE THROUGH ENTITIES
+        # 2) CREATE ENTITY STACK FOR EACH PARAM LINKED TO AN ENTITY
+        # 3) ACCUMULATE STRING
+        # 4) ADD STRING TO ARRAY
+        # 5) LOOK UP STRING IN ARRAY WHEN IT NEEDS TO BE LOOKED UP
+        parameter_name_prefixes = {}
+        for entity in self.entities:
+            parameter_name_prefixes.update(entity.get_all_param_prefixes())
+        
+        print("Virtual params read, at", hex(ot.tell()))
         mxec_rw.parameter_sets_table.rw_fileinfo(ot)
         mxec_rw.parameter_sets_table.entry_ptr = ot.tell()
         
@@ -241,10 +322,9 @@ class MXECInterface:
         for i, param_set in enumerate(self.param_sets):
             type_prefix = param_set.param_type
             pset_name = ":".join([type_prefix, param_set.name])
-            
+            pset_name = parameter_name_prefixes.get(i, '') + pset_name
             sjis_strings.add(pset_name)
             param_names.append(pset_name)
-            
         
         asset_offsets = []
         texmerge_offsets = []
@@ -266,7 +346,6 @@ class MXECInterface:
             elif param_set.param_type == "MxParameterTextureMerge":
                 texmerge_offsets.append(ot.tell())
 
-
             # Get strings inside the parameters themselves
             collect_param_strings(prw.data, param_set)
             prw.data_offset = ot.tell()
@@ -282,7 +361,7 @@ class MXECInterface:
             struct_obj = prw.data.struct_obj
             for subparam_name, subparam_def in struct_obj.get("subparams", {}).items():
                 prw.data.data[subparam_def["pointer"]] = ot.tell()
-                param_set.parameters[subparam_def["pointer"]] = ot.tell()
+                param_set.parameters[subparam_def["pointer"]] = ot.tell()               
                 prw.data.rw_subparam(ot, subparam_name, subparam_def)
             ot.align(ot.tell(), 0x10)
         
@@ -290,6 +369,42 @@ class MXECInterface:
         
         # Do Entities
         mxec_rw.entity_table_ptr = ot.tell() if len(self.entities) else 0
+        if len(self.entities):
+            mxec_rw.entity_table.entry_count = len(self.entities)
+            mxec_rw.entity_table.entries.data = [EntityEntry(mxec_rw.context) for _ in range(mxec_rw.entity_table.entry_count)]
+            
+            ot.rw_obj_method(mxec_rw.entity_table, mxec_rw.entity_table.rw_fileinfo)
+            mxec_rw.entity_table.entry_ptr = ot.tell()
+            ot.rw_obj_method(mxec_rw.entity_table, mxec_rw.entity_table.rw_entry_headers)
+            for i, (entity_rw, entity) in enumerate(zip(mxec_rw.entity_table.entries, self.entities)):
+                sjis_strings.add(entity.name)
+                entity_rw.data_offset = ot.tell()
+                entity_rw.count = len(entity.all_flat_entities())
+                
+                if entity.unknown is not None:
+                    unknowns.add(entity.unknown)
+                    
+                entity_rw.data = EntityData(entity_rw.count, entity_rw.context)
+                entity_rw.data.subentries.data = [EntitySubEntry(entity_rw.data.context) for _ in range(entity_rw.count)]
+                
+                #ot.rw_obj_method(entity_rw.data, entity_rw.data.read_write)
+                ot.rw_obj_method(entity_rw.data.subentries, entity_rw.data.subentries.read_write)
+                
+                entity_rw.data.data.data = []
+                idx = 0
+                ref_offset = ot.tell()
+                
+                for dec_rw, dec in zip(entity_rw.data.subentries, entity.all_flat_entities()[::-1]):
+                    entity_rw.data.data.data.extend([0]*len(dec.parameters))
+                    sjis_strings.add(dec.type)
+                    dec_rw.count = len(dec.parameters)
+                    dec_rw.offset = (ref_offset + idx*4) if dec_rw.count else 0
+
+                    idx += dec_rw.count
+                
+                ot.rw_obj_method(entity_rw.data.data, entity_rw.data.data.read_write)
+            
+        ot.align(ot.tell(), 0x10)
         
         # Do Paths
         mxec_rw.pathing_table_ptr = ot.tell() if len(self.path_graphs) else 0
@@ -333,6 +448,12 @@ class MXECInterface:
         ot.align(ot.tell(), 0x10)
         
         # Do Unknowns
+        for i, unknowns_val in enumerate(sorted(unknowns, key=lambda x: struct.unpack('<Q', struct.pack('>Q', x)))):
+            offset = ot.tell()
+            unknowns_lookup[unknowns_val] = offset
+            ot.seek(offset + 8)
+        ot.align(ot.tell(), 0x10)
+        
         
         # Clean up header
         mxec_rw.header.flags = 0x18000000
@@ -373,7 +494,19 @@ class MXECInterface:
             fill_param_strings(prw, param_set, sjis_string_lookup, utf8_string_lookup)
             
         # Entities
-        
+        for entity_rw, entity in zip(mxec_rw.entity_table.entries, self.entities):
+            entity_rw.ID = entity.ID
+            entity_rw.name_offset = sjis_string_lookup[entity.name]
+            entity_rw.controller_entity_id = entity.controller_id
+            entity_rw.has_unknown_data     = (entity.unknown is not None)
+            entity_rw.unknown_data_ptr = unknowns_lookup[entity.unknown] if entity_rw.has_unknown_data else 0
+            
+            idx = 0
+            for dec_rw, dec in zip(entity_rw.data.subentries, entity.all_flat_entities()[::-1]):
+                dec_rw.name_offset = sjis_string_lookup[dec.type]
+                for param in dec.parameters:
+                    entity_rw.data.data.data[idx] = param.param_id
+                    idx += 1
         # Paths
         
         # Assets
@@ -407,7 +540,11 @@ class MXECInterface:
         
         
         # Unknowns
-        # Already handled
+        for unknown, offset in unknowns_lookup.items():
+            idx = len(mxec_rw.unknowns)
+            mxec_rw.unknowns.data.append(unknown)
+            mxec_rw.unknowns.ptr_to_idx[offset] = idx
+            mxec_rw.unknowns.idx_to_ptr[idx] = offset
             
         
         ######################################################################
