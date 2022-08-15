@@ -430,6 +430,7 @@ class MXECInterface:
             mxec_rw.texmerge_ptrs_ptr = ot.tell()
             mxec_rw.texmerge_ptr = texmerge_offsets
             mxec_rw.texmerge_count = len(texmerge_offsets)
+            ot.seek(ot.tell() + 4*len(texmerge_offsets))
         ot.align(ot.tell(), 0x10)
         
         # Do Strings
