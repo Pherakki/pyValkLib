@@ -19,6 +19,9 @@ class AssetTable(Serializable):
         self.asset_slot_offsets = []
                 
     def rw_fileinfo(self, rw):
+        rw.mark_new_contents_array()
+        rw.mark_new_contents_array_member()
+        
         self.padding_0x00            = rw.rw_uint32(self.padding_0x00)
         self.asset_references_count   = rw.rw_uint32(self.asset_references_count)
         self.asset_references_offset = rw.rw_pointer(self.asset_references_offset)
