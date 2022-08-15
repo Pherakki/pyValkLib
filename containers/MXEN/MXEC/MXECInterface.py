@@ -514,14 +514,14 @@ class MXECInterface:
             entry = mxec_rw.asset_table.entries[i]
             folder_name, file_name = asset.filepath.rsplit('/', 1)
             
-            entry.flags           = 0x100 * (asset.unknown_id_1 > 0) + 0x200 * (asset.unknown_id_2 > 0)
+            entry.flags           = 0x100 * (asset.unknown_id_1 > -1) + 0x200 * (asset.unknown_id_2 > -1)
             entry.ID              = i
             entry.folder_name_ptr = sjis_string_lookup[folder_name]
             entry.file_name_ptr   = sjis_string_lookup[file_name]
             entry.filetype        = asset.asset_type
             
             entry.unknown_0x14    = asset.unknown_id_1
-            entry.unknown_0x20    = (asset.unknown_id_1 > 0) - 1
+            entry.unknown_0x20    = (asset.unknown_id_1 > -1) - 1
             entry.unknown_0x24    = asset.unknown_id_2
             
         mxec_rw.asset_table.asset_slot_offsets = asset_offsets
