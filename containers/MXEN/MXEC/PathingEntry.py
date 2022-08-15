@@ -5,9 +5,9 @@ from pyValkLib.serialisation.PointerIndexableArray import PointerIndexableArray
 class PathingEntry(Serializable):
     __slots__ = ("name_offset", "graph_edges", "unused_nodes",
                  "node_count", "nodes_offset", "graph_nodes",
-                 "edge_count", "edges_offset", "t2_data",
-                 "graph_index_count", "graph_indices_offset", "graph_indices",
-                 "unused_node_count", "unused_nodes_offset", "t4_data",
+                 "edge_count", "edges_offset",
+                 "subgraphs_count", "subgraphs_offset", "subgraphs",
+                 "unused_node_count", "unused_nodes_offset",
                  "padding_0x24", "padding_0x28", "padding_0x2C",
                  "padding_0x30", "padding_0x34", "padding_0x38", "padding_0x3C")
 
@@ -18,8 +18,8 @@ class PathingEntry(Serializable):
         self.nodes_offset = 0
         self.edge_count  = 0
         self.edges_offset = 0
-        self.graph_index_count  = 0
-        self.graph_indices_offset = 0
+        self.subgraphs_count  = 0
+        self.subgraphs_offset = 0
         self.unused_node_count  = 0
         self.unused_nodes_offset = 0
         
@@ -32,9 +32,9 @@ class PathingEntry(Serializable):
         self.padding_0x38 = 0
         self.padding_0x3C = 0
 
-        self.graph_nodes = []
-        self.graph_edges = []
-        self.graph_indices = [] # Will always be 1 or 0?
+        self.graph_nodes  = []
+        self.graph_edges  = []
+        self.subgraphs    = []
         self.unused_nodes = []
 
     def read_write(self, rw):
@@ -43,15 +43,15 @@ class PathingEntry(Serializable):
         self.nodes_offset = rw.rw_pointer(self.nodes_offset)
         self.edge_count   = rw.rw_uint32(self.edge_count)
         
-        self.edges_offset         = rw.rw_pointer(self.edges_offset)
-        self.graph_index_count    = rw.rw_uint32(self.graph_index_count)
-        self.graph_indices_offset = rw.rw_pointer(self.graph_indices_offset)
-        self.unused_node_count    = rw.rw_uint32(self.unused_node_count)
+        self.edges_offset      = rw.rw_pointer(self.edges_offset)
+        self.subgraphs_count   = rw.rw_uint32(self.subgraphs_count)
+        self.subgraphs_offset  = rw.rw_pointer(self.subgraphs_offset)
+        self.unused_node_count = rw.rw_uint32(self.unused_node_count)
         
-        self.unused_nodes_offset    = rw.rw_pointer(self.unused_nodes_offset)
-        self.padding_0x24 = rw.rw_pad32(self.padding_0x24)
-        self.padding_0x28 = rw.rw_pad32(self.padding_0x28)
-        self.padding_0x2C = rw.rw_pad32(self.padding_0x2C)
+        self.unused_nodes_offset = rw.rw_pointer(self.unused_nodes_offset)
+        self.padding_0x24        = rw.rw_pad32(self.padding_0x24)
+        self.padding_0x28        = rw.rw_pad32(self.padding_0x28)
+        self.padding_0x2C        = rw.rw_pad32(self.padding_0x2C)
         
         self.padding_0x30 = rw.rw_pad32(self.padding_0x30)
         self.padding_0x34 = rw.rw_pad32(self.padding_0x34)
@@ -91,22 +91,22 @@ class PathingEntry(Serializable):
 
         rw.align(rw.local_tell(), 0x10)
 
-        if self.graph_indices_offset:
-            rw.assert_local_file_pointer_now_at("Graph Indices:", self.graph_indices_offset)
-            rw.rw_obj_method(self, self.rw_graph_indices)
-            for graph_index in self.graph_indices:
-                if graph_index.node_list_offset:
-                    rw.assert_local_file_pointer_now_at("Graph Index Nodes:", graph_index.node_list_offset)
-                rw.rw_obj_method(graph_index, graph_index.rw_node_id_list)
-                if graph_index.edge_list_offset:
-                    rw.assert_local_file_pointer_now_at("Graph Index Edges:", graph_index.edge_list_offset)
-                rw.rw_obj_method(graph_index, graph_index.rw_edge_id_list)
-                if graph_index.start_node_offset:
-                    rw.assert_local_file_pointer_now_at("Graph Index Start Nodes:", graph_index.start_node_offset)
-                rw.rw_obj_method(graph_index, graph_index.rw_start_node_ids)
-                if graph_index.end_node_offset:
-                    rw.assert_local_file_pointer_now_at("Graph Index End Nodes:", graph_index.end_node_offset)
-                rw.rw_obj_method(graph_index, graph_index.rw_end_node_ids)
+        if self.subgraphs_offset:
+            rw.assert_local_file_pointer_now_at("Subgraphs:", self.subgraphs_offset)
+            rw.rw_obj_method(self, self.rw_subgraphs)
+            for subgraph in self.subgraphs:
+                if subgraph.node_list_offset:
+                    rw.assert_local_file_pointer_now_at("Subgraph Nodes:", subgraph.node_list_offset)
+                rw.rw_obj_method(subgraph, subgraph.rw_node_id_list)
+                if subgraph.edge_list_offset:
+                    rw.assert_local_file_pointer_now_at("Subgraph Edges:", subgraph.edge_list_offset)
+                rw.rw_obj_method(subgraph, subgraph.rw_edge_id_list)
+                if subgraph.end_node_offset:
+                    rw.assert_local_file_pointer_now_at("Subgraph End Nodes:", subgraph.end_node_offset)
+                rw.rw_obj_method(subgraph, subgraph.rw_end_node_ids)
+                if subgraph.start_node_offset:
+                    rw.assert_local_file_pointer_now_at("Subgraph Start Nodes:", subgraph.start_node_offset)
+                rw.rw_obj_method(subgraph, subgraph.rw_start_node_ids)
 
         if self.unused_nodes_offset:
             rw.assert_local_file_pointer_now_at("Unused Graph Nodes:", self.unused_nodes_offset)
@@ -126,11 +126,11 @@ class PathingEntry(Serializable):
         for edge in self.graph_edges:
             rw.rw_obj(edge)
 
-    def rw_graph_indices(self, rw):
+    def rw_subgraphs(self, rw):
         if rw.mode() == "read":
-            self.graph_indices = [GraphIndex(self.context) for _ in range(self.graph_index_count)]
-        for graph_index in self.graph_indices:
-            rw.rw_obj(graph_index)
+            self.subgraphs = [SubGraph(self.context) for _ in range(self.subgraphs_count)]
+        for subgraph in self.subgraphs:
+            rw.rw_obj(subgraph)
 
     def rw_unused_nodes(self, rw):
         self.unused_nodes = rw.rw_uint32s(self.unused_nodes, self.unused_node_count)
@@ -180,7 +180,7 @@ class PathEdge(Serializable):
     def __init__(self, endianness):
         super().__init__(endianness)
         
-        self.prev_node     = 0
+        self.prev_node         = 0
         self.next_node         = 0
         self.param_count       = 0
         self.param_list_offset = 0
@@ -199,7 +199,7 @@ class PathEdge(Serializable):
         self.edge_param_ids = rw.rw_uint32s(self.edge_param_ids, self.param_count)
 
 
-class GraphIndex(Serializable):
+class SubGraph(Serializable):
     def __init__(self, endianness):
         super().__init__(endianness)
         
@@ -222,10 +222,10 @@ class GraphIndex(Serializable):
         self.padding_0x38 = 0
         self.padding_0x3C = 0
         
-        self.node_id_list = None
-        self.edge_id_list = None
+        self.node_id_list       = None
+        self.edge_id_list       = None
         self.start_node_id_list = None
-        self.end_node_id_list = None
+        self.end_node_id_list   = None
     
     def read_write(self, rw):
         self.node_count       = rw.rw_uint32(self.node_count)
@@ -233,10 +233,10 @@ class GraphIndex(Serializable):
         self.edge_count       = rw.rw_uint32(self.edge_count)
         self.edge_list_offset = rw.rw_pointer(self.edge_list_offset)
         
-        self.start_node_count  = rw.rw_uint32(self.start_node_count)
-        self.start_node_offset = rw.rw_pointer(self.start_node_offset)
         self.end_node_count    = rw.rw_uint32(self.end_node_count)
         self.end_node_offset   = rw.rw_pointer(self.end_node_offset)
+        self.start_node_count  = rw.rw_uint32(self.start_node_count)
+        self.start_node_offset = rw.rw_pointer(self.start_node_offset)
         
         self.is_loop      = rw.rw_uint32(self.is_loop)
         self.padding_0x24 = rw.rw_pad32(self.padding_0x24)
@@ -263,8 +263,9 @@ class GraphIndex(Serializable):
     def rw_edge_id_list(self, rw):
         self.edge_id_list = rw.rw_uint32s(self.edge_id_list, self.edge_count)
         
+    def rw_end_node_ids(self, rw):
+        self.end_node_id_list = rw.rw_uint32s(self.end_node_id_list, self.end_node_count)
+        
     def rw_start_node_ids(self, rw):
         self.start_node_id_list = rw.rw_uint32s(self.start_node_id_list, self.start_node_count)
         
-    def rw_end_node_ids(self, rw):
-        self.end_node_id_list = rw.rw_uint32s(self.end_node_id_list, self.end_node_count)
