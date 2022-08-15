@@ -46,8 +46,7 @@
             "unknown_0xA4": ">float32",
             "unknown_0xA8": ">float32",
             "unknown_0xAC": ">float32",
-            "unknown_0xB0": ">float32",
-            "unknown_0xB4": ">pad32"
+            "unknown_0xB0": ">float32"
         }
     ]
 }
