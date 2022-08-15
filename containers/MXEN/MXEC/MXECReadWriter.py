@@ -40,10 +40,10 @@ class MXECReadWriter(ValkSerializable32BH):
         self.padding_0x58             = 0
         self.padding_0x5C             = 0
         
-        self.parameter_sets_table   = EntryTable(ParameterEntry, self.context)    # Parameter table
-        self.entity_table       = EntryTable(EntityEntry, self.context)       # Entity table
-        self.pathing_table = EntryTable(PathingEntry, self.context)  # Path Graph table
-        self.asset_table = AssetTable(self.context)          # Asset table
+        self.parameter_sets_table = EntryTable(ParameterEntry, self.context) # Parameter table
+        self.entity_table         = EntryTable(EntityEntry, self.context)    # Entity table
+        self.pathing_table        = EntryTable(PathingEntry, self.context)   # Path Graph table
+        self.asset_table          = AssetTable(self.context)                 # Asset table
 
         self.texmerge_ptr = None
         self.sjis_strings = PointerIndexableArrayCStr(self.context, "cp932")
@@ -185,7 +185,7 @@ class MXECReadWriter(ValkSerializable32BH):
     def rw_strings(self, rw):
         if (rw.mode() == "read"):
             self.read_strings(rw)
-        elif (rw.mode() == "write"):
+        else:# (rw.mode() == "write"):
             self.write_strings(rw)
         #else:
         #    raise Exception("Unknown mode!")
@@ -260,12 +260,14 @@ class MXECReadWriter(ValkSerializable32BH):
         
     def write_strings(self, rw):
         for string in self.sjis_strings:
-            rw.bytestream.write(string.encode("cp932"))
-            rw.bytestream.write(b"\x00")
+            rw.rw_cstr(string, encoding="cp932")
+            #rw.bytestream.write(string.encode("cp932"))
+            #rw.bytestream.write(b"\x00")
         rw.align(rw.local_tell(), 0x10)
         for string in self.utf8_strings:
-            rw.bytestream.write(string.encode("utf8"))
-            rw.bytestream.write(b"\x00")
+            rw.rw_cstr(string, encoding="utf8")
+            #rw.bytestream.write(string.encode("utf8"))
+            #rw.bytestream.write(b"\x00")
         rw.align(rw.local_tell(), 0x10)
         
     def read_unknowns(self, rw):
@@ -279,14 +281,14 @@ class MXECReadWriter(ValkSerializable32BH):
 
     def write_unknowns(self, rw):
         for data in self.unknowns.data:
-            rw.bytestream.write(struct.pack('Q', data))
+            rw.rw_uint64(data)
 
     def rw_unknowns(self, rw):
         # Pretty sure this can just be read/written as a PIA if you put the
         # uniqueness check on it
         if (rw.mode() == "read"):
             self.read_unknowns(rw)
-        elif (rw.mode() == "write"):
+        else:# (rw.mode() == "write"):
             self.write_unknowns(rw)
         #else:
         #    raise Exception("Unknown mode!")
