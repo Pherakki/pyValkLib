@@ -1,4 +1,3 @@
-from collections import defaultdict
 import os
 import json
 import struct
@@ -80,7 +79,6 @@ class EntityInterface:
         self.name = None
         self.unknown = None
         self.controller_id = None
-        self.subcomponents = []
         self.entity = None
         
     def all_flat_entities(self):
@@ -214,30 +212,27 @@ class MXECInterface:
             instance.entities.append(ei)
             
         for path in mxec_rw.pathing_table.entries:
-            pi = PathingInterface()
+            pi = GraphInterface()
             pi.name = mxec_rw.sjis_strings.at_ptr(path.name_offset)
             
-            nodes_in_use = [n_id for subgraph in path.graph_indices for n_id in subgraph.node_id_list]
-            unique_node_ids = set(nodes_in_use)
-            node_lookup = {v : i for i, v in enumerate(sorted(unique_node_ids))}
-            for i, node in enumerate(path.graph_nodes):
-                if node.next_edge_count or node.prev_edge_count or i in unique_node_ids:
+            for subgraph in path.subgraphs:
+                si = SubgraphInterface()
+                node_lookup = {}
+                for i, node_id in enumerate(subgraph.node_id_list):
+                    node_lookup[node_id] = i 
+                for node_id in subgraph.node_id_list:
+                    node = path.graph_nodes[node_id]
+                    
                     ni = NodeInterface()
                     ni.param_id = node.node_param_id
-                    ni.prev_edges = node.prev_edges
-                    ni.next_edges = node.next_edges
-                    pi.nodes.append(ni)
-            for edge in path.graph_edges:
-                ei = EdgeInterface()
-                ei.edge_param_ids = edge.edge_param_ids
-                ei.prev_node = edge.prev_node
-                ei.next_node = edge.next_node
-                pi.edges.append(ei)
-            for graph_index in path.graph_indices:
-                spi = SubpathInterface()
-                spi.is_loop = graph_index.is_loop
-                spi.node_ids = [node_lookup[id_] for id_ in graph_index.node_id_list]
-                spi.edge_ids = graph_index.edge_id_list
+                    for edge_idx in node.next_edges:
+                        edge = path.graph_edges[edge_idx]
+                        ei = EdgeInterface()
+                        ei.param_ids = edge.edge_param_ids
+                        ei.next_node = node_lookup[edge.next_node]
+                        ni.next_edges.append(ei)
+                    si.nodes.append(ni)
+                pi.subgraphs.append(si)
             
             instance.path_graphs.append(pi)
 
@@ -408,6 +403,10 @@ class MXECInterface:
         
         # Do Paths
         mxec_rw.pathing_table_ptr = ot.tell() if len(self.path_graphs) else 0
+        if len(self.path_graphs):
+            # First need to collect all paths of the same type...
+            # Need to know which graphs are attached to which entities!
+            pass
         
         # Do Assets
         mxec_rw.asset_table_ptr = ot.tell() if len(self.assets) else 0
@@ -537,7 +536,6 @@ class MXECInterface:
             mxec_rw.utf8_strings.data.append(string_val)
             mxec_rw.utf8_strings.ptr_to_idx[offset] = idx
             mxec_rw.utf8_strings.idx_to_ptr[idx] = offset
-        
         
         # Unknowns
         for unknown, offset in unknowns_lookup.items():
