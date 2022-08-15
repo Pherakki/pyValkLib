@@ -581,8 +581,8 @@ class MXECInterface:
         eb.anchor_pos = -mxec_rw.header.header_length
         mxec_rw.read_write_contents(eb)
         
-        eb_data = compressENRS(eb.pointers)
-        eb_data += [0]*((0x10 - len(eb_data) % 0x10) % 0x10)
+        eb_rawdata = toENRSPackedRep(eb.pointers)
+        eb_data = compressENRS(eb_rawdata)
         mxec_rw.ENRS.num_groups = len(eb.pointers)
         mxec_rw.ENRS.data = eb_data
         
@@ -605,7 +605,6 @@ class MXECInterface:
         
         cb_rawdata = toCCRSPackedRep(cb.pointers)
         cb_data = compressCCRS(cb_rawdata)
-        cb_data += [0]*((0x10 - len(cb_data) % 0x10) % 0x10)
         mxec_rw.CCRS.num_groups = len(cb.pointers)
         mxec_rw.CCRS.data = cb_data
         
