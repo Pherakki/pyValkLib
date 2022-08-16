@@ -10,7 +10,11 @@ for file in os.listdir(struct_path):
     if fileext == ".json":
         filepath = os.path.join(struct_path, file)
         with open(filepath, 'r') as F:
-            param_structs[filename] = json.load(F)
+            try:
+                param_structs[filename] = json.load(F)
+            except Exception as e:
+                print("Failed to load", filename)
+                raise e
             if "struct" not in param_structs[filename]:
                 raise Exception(f"Invalid structure file {filename}: No 'struct' member.")
 
@@ -37,6 +41,7 @@ func_lookup = {
     "float64"    : lambda rw, x, en: rw.rw_float64(x, endianness=en),
     "pad32"      : lambda rw, x, en: handle_pad(rw, x, rw.rw_pad32),
     "pad64"      : lambda rw, x, en: handle_pad(rw, x, rw.rw_pad64),
+    "path"      : lambda rw, x, en: rw.rw_int32(x, endianness=en),
     "asset"      : lambda rw, x, en: rw.rw_int64(x, endianness=en),
     "pointer32"  : lambda rw, x, en: rw.rw_pointer(x, endianness=en),
     "utf8_string": lambda rw, x, en: rw.rw_pointer(x, endianness=en),
