@@ -143,6 +143,7 @@ class MXECInterface:
         pi.ID = None
         pi.param_type = None
         pi.parameters = {}
+        pi.subparameters = {}
         for (key, value), dtype in zip(param_set.data.items(), param_set.datatypes):
             if dtype[1:] == "pad32" or dtype[1:] == "pad64":
                 continue
@@ -161,7 +162,6 @@ class MXECInterface:
             else:
                 pi.parameters[key] = value
                 
-            pi.subparameters = {}
             for subparam_name, subparams in param_set.subparams.items():
                 pi.subparameters[subparam_name] = []
                 for subparam in subparams:
