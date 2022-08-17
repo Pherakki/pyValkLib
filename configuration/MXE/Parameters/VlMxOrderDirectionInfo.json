@@ -4,7 +4,11 @@
         {
             "unknown_0x00": ">uint32",
             "unknown_0x04": ">uint32",
-            "unknown_0x08": ">asset"
+            "mlx_asset"   : ">asset"
         }
-    ]
+    ],
+    "assets":
+    {
+        "mlx_asset": "mlx"
+    }
 }

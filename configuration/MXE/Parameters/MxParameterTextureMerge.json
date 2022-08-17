@@ -2,10 +2,15 @@
     "struct":
     [
         {
-            "unknown_0x00": ">asset",
-            "unknown_0x08": ">asset",
-            "unknown_0x10": ">pad64",
-            "unknown_0x18": ">pad64"
+            "texmerge_asset": ">asset",
+            "htr_asset"     : ">asset",
+            "unknown_0x10"  : ">pad64",
+            "unknown_0x18"  : ">pad64"
         }
-    ]
+    ],
+    "assets":
+    {
+        "texmerge_asset": "htx_merge",
+        "htr_asset"     : "htr"
+    }
 }

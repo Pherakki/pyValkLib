@@ -2,9 +2,9 @@
     "struct":
     [
         {
-            "unknown_0x00": ">asset",
-            "unknown_0x08": ">pad32",
-            "unknown_0x0C": ">pad32",
+            "cvd_asset"   : ">asset",
+            "padding_0x08": ">pad32",
+            "padding_0x0C": ">pad32",
             "unknown_0x10": ">float32",
             "unknown_0x14": ">float32",
             "unknown_0x18": ">float32",
@@ -23,8 +23,12 @@
             "unknown_0x4C": ">float32",
             "unknown_0x50": ">int32",
             "unknown_0x54": ">int32",
-            "unknown_0x58": ">pad32",
-            "unknown_0x5C": ">pad32"
+            "padding_0x58": ">pad32",
+            "padding_0x5C": ">pad32"
         }
-    ]
+    ],
+    "assets":
+    {
+        "cvd_asset": "cvd"
+    }
 }

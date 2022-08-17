@@ -6,8 +6,8 @@
             "unknown_0x04"  : "<int32",
             "unknown_0x08"  : ">int32",
             "unknown_0x0C"  : ">int32",
-            "unknown_0x10"  : ">asset",
-            "unknown_0x18"  : ">asset",
+            "abd_asset"     : ">asset",
+            "abr_asset"     : ">asset",
             "unknown_0x20"  : ">int32",
             "unknown_0x24"  : ">int32",
             "unknown_0x28"  : ">int32",
@@ -197,5 +197,10 @@
             "unknown_0x02B0": ">float32",
             "unknown_0x02B4": ">float32"
         }
-    ]
+    ],
+    "assets":
+    {
+        "abd_asset": "abd",
+        "abr_asset": "abr"
+    }
 }

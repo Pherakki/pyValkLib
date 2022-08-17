@@ -4,10 +4,15 @@
         {
             "unknown_0x00": ">int32",
             "padding_0x04": ">pad32",
-            "unknown_0x08": ">asset",
-            "unknown_0x10": ">asset",
+            "abd_asset"   : ">asset",
+            "abr_asset"   : ">asset",
             "unknown_0x18": ">float32",
             "unknown_0x1C": ">int32"
         }
-    ]
+    ],
+    "assets":
+    {
+        "abd_asset": "abd",
+        "abr_asset": "abr"
+    }
 }

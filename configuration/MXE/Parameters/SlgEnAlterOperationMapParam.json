@@ -2,13 +2,19 @@
     "struct":
     [
         {
-            "unknown_0x00": ">asset",
-            "unknown_0x08": ">asset",
-            "unknown_0x10": ">asset",
-            "unknown_0x18": ">float32",
-            "unknown_0x1C": ">int32",
-            "unknown_0x20": ">float32",
-            "unknown_0x24": ">int32"
+            "model_asset"    : ">asset",
+            "texture_asset_1": ">asset",
+            "texture_asset_2": ">asset",
+            "unknown_0x18"   : ">float32",
+            "unknown_0x1C"   : ">int32",
+            "unknown_0x20"   : ">float32",
+            "unknown_0x24"   : ">int32"
         }
-    ]
+    ],
+    "assets":
+    {
+        "model_asset"    : "hmd",
+        "texture_asset_1": "htx",
+        "texture_asset_2": "htx"
+    }
 }

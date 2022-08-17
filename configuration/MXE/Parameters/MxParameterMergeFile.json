@@ -2,10 +2,15 @@
     "struct":
     [
         {
-            "unknown_0x00": ">asset",
-            "unknown_0x08": ">asset",
+            "mmf_asset"   : ">asset",
+            "mmr_asset"   : ">asset",
             "padding_0x10": ">pad64",
             "padding_0x18": ">pad64"
         }
-    ]
+    ],
+    "assets":
+    {
+        "mmf_asset": "mmf",
+        "mmr_asset": "mmr"
+    }
 }
