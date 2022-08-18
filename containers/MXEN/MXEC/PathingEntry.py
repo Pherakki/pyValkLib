@@ -222,10 +222,10 @@ class SubGraph(Serializable):
         self.padding_0x38 = 0
         self.padding_0x3C = 0
         
-        self.node_id_list       = None
-        self.edge_id_list       = None
-        self.start_node_id_list = None
-        self.end_node_id_list   = None
+        self.node_id_list       = []
+        self.edge_id_list       = []
+        self.start_node_id_list = []
+        self.end_node_id_list   = []
     
     def read_write(self, rw):
         self.node_count       = rw.rw_uint32(self.node_count)
