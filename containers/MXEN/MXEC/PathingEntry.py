@@ -137,8 +137,8 @@ class PathingEntry(Serializable):
 
         
 class PathNode(Serializable):
-    def __init__(self, endianness):
-        super().__init__(endianness)
+    def __init__(self, context):
+        super().__init__(context)
         
         self.next_edge_count       = 0
         self.next_edge_list_offset = 0
@@ -177,8 +177,8 @@ class PathNode(Serializable):
         
 
 class PathEdge(Serializable):
-    def __init__(self, endianness):
-        super().__init__(endianness)
+    def __init__(self, context):
+        super().__init__(context)
         
         self.prev_node         = 0
         self.next_node         = 0
@@ -200,8 +200,8 @@ class PathEdge(Serializable):
 
 
 class SubGraph(Serializable):
-    def __init__(self, endianness):
-        super().__init__(endianness)
+    def __init__(self, context):
+        super().__init__(context)
         
         self.node_count        = 0
         self.node_list_offset  = 0
