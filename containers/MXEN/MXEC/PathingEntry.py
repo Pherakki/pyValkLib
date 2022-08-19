@@ -38,6 +38,8 @@ class PathingEntry(Serializable):
         self.unused_nodes = []
 
     def read_write(self, rw):
+        rw.mark_new_contents_array()
+        
         self.name_offset  = rw.rw_pointer(self.name_offset)
         self.node_count   = rw.rw_uint32(self.node_count)
         self.nodes_offset = rw.rw_pointer(self.nodes_offset)
