@@ -153,6 +153,17 @@ class PathNode(Serializable):
         
         self.next_edges = []
         self.prev_edges = []
+        
+    def __repr__(self):
+        open_tag   = "<PathNode>\n"
+        elem_1     = f"Next Edge Count/Offset: {self.next_edge_count}/{self.next_edge_list_offset}\n"
+        elem_2     = f"Prev Edge Count/Offset: {self.prev_edge_count}/{self.prev_edge_list_offset}\n"
+        param      = f"Param: {self.node_param_id}\n"
+        next_edges = f"Next Edges: {', '.join([str(elem) for elem in self.next_edges])}\n"
+        prev_edges = f"Prev Edges: {', '.join([str(elem) for elem in self.prev_edges])}\n"
+        close_tag  = "</PathNode>"
+
+        return open_tag + elem_1 + elem_2 + param + next_edges + prev_edges + close_tag
 
     def read_write(self, rw):
         self.next_edge_count       = rw.rw_uint32(self.next_edge_count)
@@ -187,6 +198,15 @@ class PathEdge(Serializable):
         self.param_count       = 0
         self.param_list_offset = 0
         self.edge_param_ids    = []
+    
+    def __repr__(self):
+        open_tag = "<PathEdge>\n"
+        line_1    = f"  Prev Node: {self.prev_node} Next Node: {self.next_node}\n"
+        line_2    = f"  Param Count/Offset: {self.param_count}/{self.param_list_offset}\n"
+        line_3    = f"  Param IDs: {self.edge_param_ids}\n"
+        close_tag = "</PathEdge>"
+        
+        return open_tag + line_1 + line_2 + line_3 + close_tag
     
     def read_write(self, rw):     
         self.prev_node         = rw.rw_uint32(self.prev_node)
