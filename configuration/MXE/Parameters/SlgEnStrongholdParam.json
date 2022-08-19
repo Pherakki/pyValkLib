@@ -62,7 +62,8 @@
             "path_id"        : ">path",
             "unknown_0x0150" : ">int32",
             "unknown_0x0154" : ">int32",
-            "unknown_0x0158" : ">int32"
+            "unknown_0x0158" : ">int32",
+            "unknown_0x015C" : ">pad32"
         }
     ],
     "assets":
