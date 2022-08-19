@@ -4,6 +4,7 @@ import struct
 
 from .MXECReadWriter import MXECReadWriter
 from .ECSEntityEntry import EntityEntry, EntityData, EntitySubEntry
+from .PathingEntry import PathNode, PathEdge, SubGraph, PathingEntry
 from pyValkLib.serialisation.ReadWriter import OffsetTracker, POF0Builder, ENRSBuilder, CCRSBuilder
 from pyValkLib.containers.POF0.POF0ReadWriter import compressPOF0
 from pyValkLib.containers.ENRS.ENRSCompression import compressENRS, toENRSPackedRep
@@ -104,6 +105,7 @@ class SubgraphInterface:
 class GraphInterface:
     def __init__(self):
         self.name = None
+        self.node_type = None
         self.subgraphs = []
         
 class AssetInterface:
@@ -215,9 +217,27 @@ class MXECInterface:
             pi = GraphInterface()
             pi.name = mxec_rw.sjis_strings.at_ptr(path.name_offset)
             
+            # Find the type of the graph
+            # Graphs can only contain one type of node, so if you locate any
+            # node in the graph, that gives you the type...
+            if len(path.unused_nodes):
+                param_id = path.graph_nodes[path.unused_nodes[0]].node_param_id
+                pi.node_type = mxec_rw.parameter_sets_table.entries[param_id].data.struct_type
+            elif len(path.subgraphs):
+                for subgraph in path.subgraphs:
+                    if len(subgraph.node_id_list):
+                        param_id = path.graph_nodes[subgraph.node_id_list[0]].node_param_id
+                        pi.node_type = mxec_rw.parameter_sets_table.entries[param_id].data.struct_type
+                        break
+            else:
+                pi.node_type = None
+            
+            # Convert the subgraphs
             for subgraph in path.subgraphs:
                 si = SubgraphInterface()
                 node_lookup = {}
+                
+                
                 for i, node_id in enumerate(subgraph.node_id_list):
                     node_lookup[node_id] = i 
                 for node_id in subgraph.node_id_list:
@@ -232,6 +252,7 @@ class MXECInterface:
                         ei.next_node = node_lookup[edge.next_node]
                         ni.next_edges.append(ei)
                     si.nodes.append(ni)
+                    
                 pi.subgraphs.append(si)
             
             instance.path_graphs.append(pi)
@@ -343,7 +364,7 @@ class MXECInterface:
 
             # Get strings inside the parameters themselves
             collect_param_strings(prw.data, param_set)
-            prw.data_offset = ot.tell()
+            start_offset = ot.tell()
             
             for pname, ptype in zip(prw.data.data, prw.data.datatypes):
                 endianness, typecode = ptype[0], ptype[1:]
@@ -351,7 +372,10 @@ class MXECInterface:
                     asset_offsets.append(ot.tell())
                 prw.data.rw_element(ot, typecode, pname, endianness)
             
-            prw.data_size = ot.tell() - prw.data_offset
+            prw.data_size = ot.tell() - start_offset
+            if prw.data_size > 0:
+                prw.data_offset = start_offset
+                
             # Now rw subreaders
             struct_obj = prw.data.struct_obj
             for subparam_name, subparam_def in struct_obj.get("subparams", {}).items():
@@ -404,10 +428,174 @@ class MXECInterface:
         # Do Paths
         mxec_rw.pathing_table_ptr = ot.tell() if len(self.path_graphs) else 0
         if len(self.path_graphs):
-            # First need to collect all paths of the same type...
-            # Need to know which graphs are attached to which entities!
-            pass
+            # First, collect all nodes from graphs of common types
+            local_to_global_node_mappings = []
+            global_nodes = {}
+            graph_types = []
+            global_nodes_param_lookup = {}
+            for graph in self.path_graphs:
+                if graph.node_type not in global_nodes:
+                    global_nodes[graph.node_type] = []
+                    global_nodes_param_lookup[graph.node_type] = {}
+                graph_types.append(graph.node_type)
+                local_to_global_node_mapping = {}
+                local_idx = 0
+                for subgraph in graph.subgraphs:
+                    for node in subgraph.nodes:
+                        param_id = node.param_id
+                        if param_id in global_nodes_param_lookup[graph.node_type]:
+                            global_idx = global_nodes_param_lookup[graph.node_type][param_id]
+                        else:
+                            global_idx = len(global_nodes[graph.node_type])
+                            global_nodes[graph.node_type].append(node)
+                            global_nodes_param_lookup[graph.node_type][param_id] = global_idx
+                        local_to_global_node_mapping[local_idx] = global_idx
+                        local_idx += 1
+                    
+                local_to_global_node_mappings.append(local_to_global_node_mapping)
+
+            # Nodes are sorted by parameter ID
+            global_nodes = {k: sorted(v, key=lambda x: x.param_id) for k, v in global_nodes.items()}            
+
+            # Now each graph can be dumped using the global information, since
+            # each graph actually lists all nodes of a given type and only
+            # uses a subset of them..!
+            for local_to_global_node_mapping, graph in zip(local_to_global_node_mappings, self.path_graphs):
+                path_rw = PathingEntry(mxec_rw.pathing_table.context)
+                sjis_strings.add(graph.name)
+                
+                local_node_idx = 0
+                edge_idx = 0
+                                                           
+                # Create global nodes on each graph
+                for node in global_nodes[graph.node_type]:
+                    node_rw = PathNode(mxec_rw.pathing_table.context)
+                    node_rw.node_param_id = node.param_id
+                    path_rw.graph_nodes.append(node_rw)
+                
+                # Now collect the edges and create the subgraphs
+                for subgraph in graph.subgraphs:
+                    subgraph_rw = SubGraph(path_rw.context)
+                    for node in subgraph.nodes:
+                        global_node_idx = local_to_global_node_mapping[local_node_idx]
+                        subgraph_rw.node_id_list.append(global_node_idx)
+                        for edge in node.next_edges:
+                            subgraph_rw.edge_id_list.append(edge_idx)
+                           
+                            next_node_global_idx = local_to_global_node_mapping[edge.next_node]
+                            
+                            edge_rw = PathEdge(path_rw.context)
+                            edge_rw.prev_node      = global_idx
+                            edge_rw.next_node      = next_node_global_idx
+                            edge_rw.edge_param_ids = sorted(edge.param_ids)
+                            edge_rw.param_count    = len(edge.param_ids)
+                            path_rw.graph_edges.append(edge_rw)
+                        
+                            path_rw.graph_nodes[global_node_idx].next_edges.append(edge_idx)
+                            path_rw.graph_nodes[next_node_global_idx].prev_edges.append(edge_idx)
+                        
+                            edge_idx += 1
+                        local_node_idx += 1
+                        
+                    for node_rw in path_rw.graph_nodes:
+                        node_rw.next_edge_count = len(node_rw.next_edges)
+                        node_rw.prev_edge_count = len(node_rw.prev_edges)
+                        
+                    for node_id in subgraph_rw.node_id_list:
+                        node_rw = path_rw.graph_nodes[node_id]
+                        if len(node_rw.prev_edges) == 0:
+                            subgraph_rw.start_node_id_list.append(node_id)
+                        if len(node_rw.next_edges) == 0:
+                            subgraph_rw.end_node_id_list.append(node_id)
+                    subgraph_rw.is_loop = (len(subgraph_rw.start_node_id_list) == 0) and (len(subgraph_rw.end_node_id_list) == 0)
+                    
+                    subgraph_rw.node_count       = len(subgraph_rw.node_id_list)
+                    subgraph_rw.edge_count       = len(subgraph_rw.edge_id_list)
+                    subgraph_rw.start_node_count = len(subgraph_rw.start_node_id_list)
+                    subgraph_rw.end_node_count   = len(subgraph_rw.end_node_id_list)
+                    
+                    path_rw.subgraphs.append(subgraph_rw)
+                    
+                # Now register unused nodes
+                all_nodes_in_this_graph = set(local_to_global_node_mapping.values())
+                for i in range(len(global_nodes[graph.node_type])):
+                    if i not in all_nodes_in_this_graph:
+                        path_rw.unused_nodes.append(i)
+                        
+                path_rw.node_count        = len(path_rw.graph_nodes)
+                path_rw.edge_count        = len(path_rw.graph_edges)
+                path_rw.subgraphs_count   = len(path_rw.subgraphs)
+                path_rw.unused_node_count = len(path_rw.unused_nodes)
+                
+                mxec_rw.pathing_table.entries.data.append(path_rw)
+            
+            mxec_rw.pathing_table.entry_count = len(mxec_rw.pathing_table.entries)
+            
+            # Now we need to sort the edges by parameter
+            sorted_edges = sorted([(i, edge) for i, edge in enumerate(path_rw.graph_edges)], key=lambda x: x[1].edge_param_ids)
+            edge_mapping = {i: idx for idx, (i, edge) in enumerate(sorted_edges)}
+            path_rw.graph_edges = [x[1] for x in sorted_edges]
+            for node_rw in path_rw.graph_nodes:
+                node_rw.prev_edges = [edge_mapping[idx] for idx in node_rw.prev_edges]
+                node_rw.next_edges = [edge_mapping[idx] for idx in node_rw.next_edges]
+            for subgraph_rw in path_rw.subgraphs:
+                subgraph_rw.edge_id_list = sorted([edge_mapping[idx] for idx in subgraph_rw.edge_id_list])
+            
+            # Now that the structs have all been generated (phew!), let's calculate the offsets
+            ot.rw_obj_method(mxec_rw.pathing_table, mxec_rw.pathing_table.rw_fileinfo_brt)
+            mxec_rw.pathing_table.entry_ptr = ot.tell()
+            for path_rw in mxec_rw.pathing_table.entries:
+                ot.rw_obj(path_rw)
+            for path_rw in mxec_rw.pathing_table.entries:
+                # Do nodes
+                if len(path_rw.graph_nodes):
+                    path_rw.nodes_offset = ot.tell()
+                    ot.rw_obj_method(path_rw, path_rw.rw_nodes)
+                
+                # Do edges
+                if len(path_rw.graph_edges):
+                    path_rw.edges_offset = ot.tell()
+                    ot.rw_obj_method(path_rw, path_rw.rw_edges)
+                
+                # Now collect the node and edge data
+                for node_rw in path_rw.graph_nodes:
+                    if node_rw.next_edge_count:
+                        node_rw.next_edge_list_offset = ot.tell()
+                        ot.rw_obj_method(node_rw, node_rw.rw_next_edge_ids)
+                    if node_rw.prev_edge_count:
+                        node_rw.prev_edge_list_offset = ot.tell()
+                        ot.rw_obj_method(node_rw, node_rw.rw_prev_edge_ids)    
+                for edge_rw in path_rw.graph_edges:
+                    if len(edge_rw.edge_param_ids):
+                        edge_rw.param_list_offset = ot.tell()
+                        ot.rw_obj_method(edge_rw, edge_rw.rw_param_ids)
+                ot.align(ot.tell(), 0x10)
+                
+                # Do subgraphs
+                if len(path_rw.subgraphs):
+                    path_rw.subgraphs_offset = ot.tell()
+                    ot.rw_obj_method(path_rw, path_rw.rw_subgraphs)
+                    for subgraph_rw in path_rw.subgraphs:
+                        if len(subgraph_rw.node_id_list):
+                            subgraph_rw.node_list_offset = ot.tell()
+                            ot.rw_obj_method(subgraph_rw, subgraph_rw.rw_node_id_list)
+                        if len(subgraph_rw.edge_id_list):
+                            subgraph_rw.edge_list_offset = ot.tell()
+                            ot.rw_obj_method(subgraph_rw, subgraph_rw.rw_edge_id_list)
+                        if len(subgraph_rw.end_node_id_list):
+                            subgraph_rw.end_node_offset = ot.tell()
+                            ot.rw_obj_method(subgraph_rw, subgraph_rw.rw_end_node_ids)
+                        if len(subgraph_rw.start_node_id_list):
+                            subgraph_rw.start_node_offset = ot.tell()
+                            ot.rw_obj_method(subgraph_rw, subgraph_rw.rw_start_node_ids)
+                    
+                # Do unused nodes
+                if len(path_rw.unused_nodes):
+                    path_rw.unused_nodes_offset = ot.tell()
+                    ot.rw_obj_method(path_rw, path_rw.rw_unused_nodes)
         
+                ot.align(ot.tell(), 0x10)
+                
         # Do Assets
         mxec_rw.asset_table_ptr = ot.tell() if len(self.assets) else 0
         if len(self.assets):
@@ -508,6 +696,8 @@ class MXECInterface:
                     entity_rw.data.data.data[idx] = param.param_id
                     idx += 1
         # Paths
+        for path_rw, path in zip(mxec_rw.pathing_table.entries, self.path_graphs):
+            path_rw.name_offset = sjis_string_lookup[path.name]
         
         # Assets
         for i, asset in enumerate(self.assets):
