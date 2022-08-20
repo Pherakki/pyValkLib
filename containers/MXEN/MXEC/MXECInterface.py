@@ -429,38 +429,32 @@ class MXECInterface:
         mxec_rw.pathing_table_ptr = ot.tell() if len(self.path_graphs) else 0
         if len(self.path_graphs):
             # First, collect all nodes from graphs of common types
-            local_to_global_node_mappings = []
             global_nodes = {}
-            graph_types = []
             global_nodes_param_lookup = {}
             for graph in self.path_graphs:
                 if graph.node_type not in global_nodes:
                     global_nodes[graph.node_type] = []
-                    global_nodes_param_lookup[graph.node_type] = {}
-                graph_types.append(graph.node_type)
-                local_to_global_node_mapping = {}
-                local_idx = 0
+                    global_nodes_param_lookup[graph.node_type] = set()
+                    
                 for subgraph in graph.subgraphs:
                     for node in subgraph.nodes:
                         param_id = node.param_id
                         if param_id in global_nodes_param_lookup[graph.node_type]:
-                            global_idx = global_nodes_param_lookup[graph.node_type][param_id]
+                            continue
                         else:
-                            global_idx = len(global_nodes[graph.node_type])
                             global_nodes[graph.node_type].append(node)
-                            global_nodes_param_lookup[graph.node_type][param_id] = global_idx
-                        local_to_global_node_mapping[local_idx] = global_idx
-                        local_idx += 1
+                            global_nodes_param_lookup[graph.node_type].add(param_id)
                     
-                local_to_global_node_mappings.append(local_to_global_node_mapping)
+            # Now sort the nodes by parameter ID
+            global_nodes = {k: sorted(v, key=lambda x: x.param_id) for k, v in global_nodes.items()}
+            param_id_to_node_idx_mappings = {k: {x.param_id: idx for idx, x in enumerate(v)} for k,v in global_nodes.items()}
 
-            # Nodes are sorted by parameter ID
-            global_nodes = {k: sorted(v, key=lambda x: x.param_id) for k, v in global_nodes.items()}            
-
+            
             # Now each graph can be dumped using the global information, since
             # each graph actually lists all nodes of a given type and only
             # uses a subset of them..!
-            for local_to_global_node_mapping, graph in zip(local_to_global_node_mappings, self.path_graphs):
+            for graph in self.path_graphs:
+                param_id_to_node_idx_mapping = param_id_to_node_idx_mappings[graph.node_type]
                 path_rw = PathingEntry(mxec_rw.pathing_table.context)
                 sjis_strings.add(graph.name)
                 
@@ -477,12 +471,13 @@ class MXECInterface:
                 for subgraph in graph.subgraphs:
                     subgraph_rw = SubGraph(path_rw.context)
                     for node in subgraph.nodes:
-                        global_node_idx = local_to_global_node_mapping[local_node_idx]
+                        global_node_idx = param_id_to_node_idx_mapping[node.param_id]
                         subgraph_rw.node_id_list.append(global_node_idx)
                         for edge in node.next_edges:
                             subgraph_rw.edge_id_list.append(edge_idx)
                            
-                            next_node_global_idx = local_to_global_node_mapping[edge.next_node]
+                            next_node = subgraph.nodes[edge.next_node]
+                            next_node_global_idx = param_id_to_node_idx_mapping[next_node.param_id]
                             
                             edge_rw = PathEdge(path_rw.context)
                             edge_rw.prev_node      = global_node_idx
@@ -517,9 +512,9 @@ class MXECInterface:
                     path_rw.subgraphs.append(subgraph_rw)
                     
                 # Now register unused nodes
-                all_nodes_in_this_graph = set(local_to_global_node_mapping.values())
-                for i in range(len(global_nodes[graph.node_type])):
-                    if i not in all_nodes_in_this_graph:
+                # First we need to see which nodes *are* used
+                for i, node_rw in enumerate(path_rw.graph_nodes):
+                    if not(len(node_rw.prev_edges) or len(node_rw.next_edges)):
                         path_rw.unused_nodes.append(i)
                         
                 path_rw.node_count        = len(path_rw.graph_nodes)
