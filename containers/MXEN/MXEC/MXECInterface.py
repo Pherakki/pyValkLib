@@ -485,7 +485,7 @@ class MXECInterface:
                             next_node_global_idx = local_to_global_node_mapping[edge.next_node]
                             
                             edge_rw = PathEdge(path_rw.context)
-                            edge_rw.prev_node      = global_idx
+                            edge_rw.prev_node      = global_node_idx
                             edge_rw.next_node      = next_node_global_idx
                             edge_rw.edge_param_ids = sorted(edge.param_ids)
                             edge_rw.param_count    = len(edge.param_ids)
