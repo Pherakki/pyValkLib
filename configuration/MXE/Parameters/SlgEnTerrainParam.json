@@ -51,8 +51,8 @@
             "padding_0x0100" : ">pad64",
             "padding_0x0108" : ">pad64",
             
-            "unknown_asset_5": ">asset",
-            "texture_asset_2": ">asset"
+            "texture_asset_2": ">asset",
+            "padding_0x0118" : ">int64"
         }
     ],
     "assets":
@@ -65,7 +65,6 @@
         "unknown_asset_2": "???",
         "unknown_asset_3": "???",
         "unknown_asset_4": "???",
-        "unknown_asset_5": "???",
         "texture_asset_2": "htx"
     }
 }
