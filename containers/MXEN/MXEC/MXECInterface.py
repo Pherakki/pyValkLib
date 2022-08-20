@@ -527,20 +527,22 @@ class MXECInterface:
                 path_rw.subgraphs_count   = len(path_rw.subgraphs)
                 path_rw.unused_node_count = len(path_rw.unused_nodes)
                 
+                # Now we need to sort the edges by parameter
+                sorted_edges = sorted([(i, edge) for i, edge in enumerate(path_rw.graph_edges)], key=lambda x: x[1].edge_param_ids)
+                edge_mapping = {i: idx for idx, (i, edge) in enumerate(sorted_edges)}
+                
+                path_rw.graph_edges = [x[1] for x in sorted_edges]
+                for node_rw in path_rw.graph_nodes:
+                    node_rw.prev_edges = [edge_mapping[idx] for idx in node_rw.prev_edges]
+                    node_rw.next_edges = [edge_mapping[idx] for idx in node_rw.next_edges]
+                for subgraph_rw in path_rw.subgraphs:
+                    subgraph_rw.edge_id_list = sorted([edge_mapping[idx] for idx in subgraph_rw.edge_id_list])
+                
                 mxec_rw.pathing_table.entries.data.append(path_rw)
-            
+                
             mxec_rw.pathing_table.entry_count = len(mxec_rw.pathing_table.entries)
             
-            # Now we need to sort the edges by parameter
-            sorted_edges = sorted([(i, edge) for i, edge in enumerate(path_rw.graph_edges)], key=lambda x: x[1].edge_param_ids)
-            edge_mapping = {i: idx for idx, (i, edge) in enumerate(sorted_edges)}
-            path_rw.graph_edges = [x[1] for x in sorted_edges]
-            for node_rw in path_rw.graph_nodes:
-                node_rw.prev_edges = [edge_mapping[idx] for idx in node_rw.prev_edges]
-                node_rw.next_edges = [edge_mapping[idx] for idx in node_rw.next_edges]
-            for subgraph_rw in path_rw.subgraphs:
-                subgraph_rw.edge_id_list = sorted([edge_mapping[idx] for idx in subgraph_rw.edge_id_list])
-            
+
             # Now that the structs have all been generated (phew!), let's calculate the offsets
             ot.rw_obj_method(mxec_rw.pathing_table, mxec_rw.pathing_table.rw_fileinfo_brt)
             mxec_rw.pathing_table.entry_ptr = ot.tell()
