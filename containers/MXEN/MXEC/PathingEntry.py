@@ -37,6 +37,17 @@ class PathingEntry(Serializable):
         self.subgraphs    = []
         self.unused_nodes = []
 
+    def __repr__(self):
+        out = "<PathingEntry>\n"
+        out += f"Name Offset: {self.name_offset}\n"
+        out += f"Node Count/Offset: {self.node_count}/{self.nodes_offset}\n"
+        out += f"Edge Count/Offset: {self.edge_count}/{self.edges_offset}\n"
+        out += f"Subgraph Count/Offset: {self.subgraphs_count}/{self.subgraphs_offset}\n"
+        out += f"Unused Count/Offset: {self.unused_node_count}/{self.unused_nodes_offset}\n"
+        out += "</PathingEntry>"
+        
+        return out
+        
     def read_write(self, rw):
         rw.mark_new_contents_array()
         
@@ -153,6 +164,18 @@ class PathNode(Serializable):
         
         self.next_edges = []
         self.prev_edges = []
+        
+    def __eq__(self, other):
+        res = True
+        res &= self.next_edge_count       == other.next_edge_count
+        res &= self.next_edge_list_offset == other.next_edge_list_offset
+        res &= self.prev_edge_count       == other.prev_edge_count
+        res &= self.prev_edge_list_offset == other.prev_edge_list_offset
+        res &= self.node_param_id         == other.node_param_id
+        res &= all(e1 == e2 for e1, e2 in zip(self.next_edges, other.next_edges))
+        res &= all(e1 == e2 for e1, e2 in zip(self.prev_edges, other.prev_edges))
+        
+        return res
         
     def __repr__(self):
         open_tag   = "<PathNode>\n"
