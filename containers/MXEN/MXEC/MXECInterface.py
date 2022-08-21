@@ -131,6 +131,8 @@ class MXECInterface:
         self.path_graphs = []
         self.assets = []
         
+        self.loose_nodes = []
+        
     def __repr__(self):
         return "::MXECInterface Object::\n"\
               f"{len(self.param_sets)} parameter sets.\n"\
@@ -213,6 +215,9 @@ class MXECInterface:
                     canon_param.param_id = data_param
             instance.entities.append(ei)
             
+        all_nodes = {}
+        used_nodes = {}
+        node_params = {}
         for path in mxec_rw.pathing_table.entries:
             pi = GraphInterface()
             pi.name = mxec_rw.sjis_strings.at_ptr(path.name_offset)
@@ -232,14 +237,22 @@ class MXECInterface:
             else:
                 pi.node_type = None
             
+            if pi.node_type not in all_nodes:
+                all_nodes[pi.node_type]  = set()
+                used_nodes[pi.node_type] = set()
+                node_params[pi.node_type] = {}
+            
+            all_nodes[pi.node_type].update(i for i in range(len(path.graph_nodes)))
+            node_params[pi.node_type].update({idx: node.node_param_id for idx, node in enumerate(path.graph_nodes)})
+            
             # Convert the subgraphs
             for subgraph in path.subgraphs:
                 si = SubgraphInterface()
                 node_lookup = {}
                 
-                
                 for i, node_id in enumerate(subgraph.node_id_list):
-                    node_lookup[node_id] = i 
+                    node_lookup[node_id] = i
+                    used_nodes[pi.node_type].add(node_id)
                 for node_id in subgraph.node_id_list:
                     node = path.graph_nodes[node_id]
                     
@@ -256,6 +269,17 @@ class MXECInterface:
                 pi.subgraphs.append(si)
             
             instance.path_graphs.append(pi)
+
+        for param_type in all_nodes:
+            this_all_nodes = all_nodes[param_type]
+            this_used_nodes = used_nodes[param_type]
+            this_node_params = node_params[param_type]
+            
+            unused_nodes = sorted(this_all_nodes.difference(this_used_nodes))
+            for node_id in unused_nodes:
+                ni = NodeInterface()
+                ni.param_id = this_node_params[node_id]
+                instance.loose_nodes.append(ni)
 
         for asset_entry in sorted(mxec_rw.asset_table.entries, key=lambda entry: entry.ID):
             ai = AssetInterface()
@@ -431,6 +455,20 @@ class MXECInterface:
             # First, collect all nodes from graphs of common types
             global_nodes = {}
             global_nodes_param_lookup = {}
+            
+            for node in self.loose_nodes:
+                param_set = self.param_sets[node.param_id]
+                if param_set.param_type not in global_nodes:
+                    global_nodes[param_set.param_type] = []
+                    global_nodes_param_lookup[param_set.param_type] = set()
+                
+                param_id = node.param_id
+                if param_id in global_nodes_param_lookup[param_set.param_type]:
+                    continue
+                else:
+                    global_nodes[param_set.param_type].append(node)
+                    global_nodes_param_lookup[param_set.param_type].add(param_id)
+            
             for graph in self.path_graphs:
                 if graph.node_type not in global_nodes:
                     global_nodes[graph.node_type] = []
