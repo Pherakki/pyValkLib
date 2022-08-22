@@ -14,7 +14,6 @@ class AssetEntry(Serializable):
         self.filetype = None
         self.unknown_0x14 = 0
         self.unknown_0x18 = 0
-        self.padding_0x1C = 0
         
         self.unknown_0x20 = 0
         self.unknown_0x24 = 0
@@ -57,8 +56,7 @@ class AssetEntry(Serializable):
         self.file_name_ptr   = rw.rw_pointer(self.file_name_ptr)
         self.filetype        = rw.rw_uint32(self.filetype)
         self.unknown_0x14    = rw.rw_int32(self.unknown_0x14)
-        self.unknown_0x18    = rw.rw_uint32(self.unknown_0x18)
-        self.padding_0x1C    = rw.rw_pad32(self.padding_0x1C)
+        self.unknown_0x18    = rw.rw_uint64(self.unknown_0x18)
    
         self.unknown_0x20    = rw.rw_int32(self.unknown_0x20)
         self.unknown_0x24    = rw.rw_int32(self.unknown_0x24)
@@ -71,7 +69,6 @@ class AssetEntry(Serializable):
         self.padding_0x3C    = rw.rw_pad32(self.padding_0x3C)
         
         rw.assert_is_zero(self.unknown_0x18)
-        rw.assert_is_zero(self.padding_0x1C)
         
         rw.assert_is_zero(self.padding_0x28)
         rw.assert_is_zero(self.padding_0x2C)
