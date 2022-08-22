@@ -50,6 +50,7 @@
             "padding_0xF8"   : ">pad64",
             "padding_0x0100" : ">pad64",
             "padding_0x0108" : ">pad64",
+            
             "unknown_0x0110" : ">int32",
             "unknown_0x0114" : ">pad32",
             "abd_asset"      : ">asset",
@@ -60,7 +61,8 @@
             "unknown_0x0138" : ">int32",
             "unknown_0x013C" : ">int32",
             "cvd_asset_2"    : ">asset",
-            "unknown_0x0148" : ">int64"
+            "unknown_0x0148" : ">int32",
+            "padding_0x014C" : ">pad32"
         }
     ],
     "assets":

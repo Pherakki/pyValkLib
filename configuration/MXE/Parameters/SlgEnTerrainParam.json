@@ -52,7 +52,8 @@
             "padding_0x0108" : ">pad64",
             
             "texture_asset_2": ">asset",
-            "padding_0x0118" : ">int64"
+            "padding_0x0118" : ">int32",
+            "padding_0x011C" : ">pad32"
         }
     ],
     "assets":
