@@ -3,6 +3,7 @@ import json
 import struct
 
 from .MXECReadWriter import MXECReadWriter
+from .ParameterEntry import param_structs
 from .ECSEntityEntry import EntityEntry, EntityData, EntitySubEntry
 from .PathingEntry import PathNode, PathEdge, SubGraph, PathingEntry
 from pyValkLib.serialisation.ReadWriter import OffsetTracker, POF0Builder, ENRSBuilder, CCRSBuilder
@@ -32,6 +33,36 @@ class ParameterInterface:
         self.param_type = None
         self.parameters = None
         self.subparameters = None
+        
+    @classmethod
+    def init_from_type(cls, typename):
+        if typename not in param_structs:
+            raise ValueError(f"{typename} is not a known ParameterSet type.")
+        
+        param_def = param_structs[typename]
+        
+        pi = ParameterInterface()
+        pi.param_type = typename
+        pi.parameters = {}
+        for param_chunk in param_def.get("struct", []):
+            for param_name, param_type in param_chunk.items():
+                param_type_string = param_type[1:]
+                if any(param_type_string == ty for ty in ["pad8", "pad16", "pad32", "pad64"]):
+                    continue
+                else:
+                    pi.parameters[param_name] = None
+        
+        pi.subparameters = {}
+        for param_name in param_def.get("subparams", {}):
+            pi.subparameters[param_name] = []
+            
+        return pi
+            
+    def get_type_def(self):
+        if self.param_type not in param_structs:
+            raise ValueError(f"{self.param_type} is not a known ParameterSet type.")
+        
+        return param_structs[self.param_type]
 
 class EntityParameterReference:
     def __init__(self, type_, subtype_):
