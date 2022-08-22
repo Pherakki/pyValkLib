@@ -149,7 +149,7 @@ class MXECInterface:
         pi.parameters = {}
         pi.subparameters = {}
         for (key, value), dtype in zip(param_set.data.items(), param_set.datatypes):
-            if dtype[1:] == "pad32" or dtype[1:] == "pad64":
+            if dtype[1:] == "pad8" or dtype[1:] == "pad16" or dtype[1:] == "pad32" or dtype[1:] == "pad64":
                 continue
             elif dtype[1:] == "sjis_string":
                 try:
@@ -354,7 +354,6 @@ class MXECInterface:
         for entity in self.entities:
             parameter_name_prefixes.update(entity.get_all_param_prefixes())
         
-        print("Virtual params read, at", hex(ot.tell()))
         mxec_rw.parameter_sets_table.rw_fileinfo(ot)
         mxec_rw.parameter_sets_table.entry_ptr = ot.tell()
         
@@ -430,7 +429,6 @@ class MXECInterface:
                 entity_rw.data = EntityData(entity_rw.count, entity_rw.context)
                 entity_rw.data.subentries.data = [EntitySubEntry(entity_rw.data.context) for _ in range(entity_rw.count)]
                 
-                #ot.rw_obj_method(entity_rw.data, entity_rw.data.read_write)
                 ot.rw_obj_method(entity_rw.data.subentries, entity_rw.data.subentries.read_write)
                 
                 entity_rw.data.data.data = []
@@ -676,7 +674,6 @@ class MXECInterface:
             unknowns_lookup[unknowns_val] = offset
             ot.seek(offset + 8)
         ot.align(ot.tell(), 0x10)
-        
         
         # Clean up header
         mxec_rw.header.flags = 0x18000000
