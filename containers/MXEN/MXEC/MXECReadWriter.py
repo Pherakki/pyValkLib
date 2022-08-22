@@ -154,6 +154,7 @@ class MXECReadWriter(ValkSerializable32BH):
             rw.assert_local_file_pointer_now_at("Entity Table Entry Headers", self.entity_table.entry_ptr)
             rw.rw_obj_method(self.entity_table, self.entity_table.rw_entry_headers)
             rw.rw_obj_method(self.entity_table, self.entity_table.rw_entries)
+            
             rw.align(rw.local_tell(), 0x10)
             
     def rw_pathing_table(self, rw):
@@ -176,10 +177,11 @@ class MXECReadWriter(ValkSerializable32BH):
                 
             rw.assert_local_file_pointer_now_at("Asset Table Entries", self.asset_table.asset_use_offset)
             rw.rw_obj_method(self.asset_table, self.asset_table.rw_asset_slot_offsets)
-    
+            
             if self.texmerge_ptrs_ptr != 0:
                 rw.assert_local_file_pointer_now_at("Texmerge pointers", self.texmerge_ptrs_ptr)
                 self.texmerge_ptr = rw.rw_pointers(self.texmerge_ptr, self.texmerge_count)
+            
             rw.align(rw.local_tell(), 0x10)
         
     def rw_strings(self, rw):
