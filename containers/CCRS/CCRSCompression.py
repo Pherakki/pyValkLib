@@ -46,6 +46,7 @@ class CCRSUnpackedRep(SCUnpackedRep):
         return CCRSAbsRep
     
 class CCRSTemplateComponent(SCTemplateComponent):
+    @property
     def classname(self):
         return "CCRSTemplateComponent"
             

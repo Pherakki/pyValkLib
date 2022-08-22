@@ -46,6 +46,7 @@ class ENRSUnpackedRep(SCUnpackedRep):
         return ENRSAbsRep
     
 class ENRSTemplateComponent(SCTemplateComponent):
+    @property
     def classname(self):
         return "ENRSTemplateComponent"
             
