@@ -146,6 +146,17 @@ class SCUnpackedRep:
     def __getitem__(self, idx):
         return self.template_packs[idx]
     
+    def __setitem__(self, idx, item):
+        if type(item) is not SCTemplatePack:
+            raise TypeError(f"Tried to set index {idx} to type \'{type(item)}\', expected SCTemplatePack.")
+        self.template_packs[idx] = item
+    
+    def __delitem__(self, idx):
+        del self.template_packs[idx]
+        
+    def insert(self, idx, item):
+        self.template_packs.insert(idx, item)
+    
     def __len__(self):
         return len(self.template_packs)
     
