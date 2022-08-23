@@ -75,6 +75,10 @@ class EntityComponentInferface:
         self.type = type_
         self.subentities = []
         self.parameters = []
+        
+        if type_ not in entity_structs:
+            raise TypeError(f"No known entity type '{type_}'.")
+            
         def_struct = entity_structs[type_]
         for en in def_struct["SubEntities"]:
             self.subentities.append(EntityComponentInferface(en))
@@ -113,12 +117,19 @@ class EntityInterface:
         self.controller_id = None
         self.entity = None
         
+    @classmethod
+    def init_from_type(cls, typename):
+        ei = EntityInterface()
+        ei.entity = EntityComponentInferface(typename)
+        
+        return ei
+        
     def all_flat_entities(self):
         return [self.entity, *self.entity.flat_decendants()]
     
     def get_all_param_prefixes(self):
         return self.entity.get_param_prefixes()
-
+    
 class NodeInterface:
     def __init__(self):
         self.param_id = None
