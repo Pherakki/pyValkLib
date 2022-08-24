@@ -58,11 +58,13 @@ class ParameterInterface:
             
         return pi
             
-    def get_type_def(self):
-        if self.param_type not in param_structs:
+    def get_type_def(self, param_type=None):
+        if param_type is None:
+            param_type = self.param_type
+        if param_type not in param_structs:
             raise ValueError(f"{self.param_type} is not a known ParameterSet type.")
         
-        return param_structs[self.param_type]
+        return param_structs[param_type]
 
 class EntityParameterReference:
     def __init__(self, type_, subtype_):
