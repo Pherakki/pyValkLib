@@ -75,6 +75,8 @@
         "unknown_asset_2": "???",
         "unknown_asset_3": "???",
         "unknown_asset_4": "???",
+        "abd_asset"      : "abd",
+        "abr_asset"      : "abr",
         "cvd_asset_1"    : "cvd",
         "cvd_asset_2"    : "cvd"
     }
