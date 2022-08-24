@@ -156,6 +156,25 @@ class AssetInterface:
     Unknown ID 1 order: ??? Related to entity / parameter types?
     Unknown ID 2 assigned by sorting by extension, then filepath (or file?)
     """
+    
+    asset_defs = {
+        "hmd"           : ( 1, "hmd"),
+        "htx"           : ( 2, "htx"),
+        "hmt"           : ( 3, "hmt"),
+        "mcl"           : ( 6, "mcl"),
+        "mlx"           : ( 8, "mlx"),
+        "abr"           : ( 9, "abr"),
+        "abd"           : (10, "abd"),
+        "cvd"           : (12, "cvd"),
+        "hst"           : (12, "hst"),
+        "bhv"           : (12, "bhv"),
+        "pvs"           : (20, "pvs"),
+        "texmerge_asset": (21, "htx"),
+        "htr"           : (22, "htr"),
+        "mmf"           : (24, "mmf"),
+        "mmr"           : (25, "mmr")  
+    }
+    
     def __init__(self):
         self.ID = None
         self.filepath = None
