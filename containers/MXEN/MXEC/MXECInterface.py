@@ -739,7 +739,7 @@ class MXECInterface:
                     prw_data.data[param_name] = sjis_lookup[param_set.parameters[param_name]]
                 elif param_type[1:] == "utf8_string":
                     prw_data.data[param_name] = utf8_lookup[param_set.parameters[param_name]]
-                elif param_type[1:] == "pad32" or param_type[1:] == "pad64":
+                elif param_type[1:] in set(["pad8", "pad16", "pad32", "pad64"]):
                     prw_data.data[param_name] = 0
                 elif param_type[1:] == "pointer32":
                     pass # Should have already been handled
