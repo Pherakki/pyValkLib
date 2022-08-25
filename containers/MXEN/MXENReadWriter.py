@@ -8,6 +8,8 @@ class MXENReadWriter(ValkSerializable32BH):
     def __init__(self, endianness=None):
         super().__init__(endianness)
         
+        self.header.data_length = 0
+        self.header.flags = 0x10000005
         self.MXEC = MXECReadWriter(endianness)
         
     def get_subcontainers(self):
