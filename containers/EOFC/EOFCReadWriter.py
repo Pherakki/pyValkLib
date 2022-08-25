@@ -6,8 +6,8 @@ class EOFCReadWriter(ValkSerializable32BH):
     
     __slots__ = tuple()
     
-    def __init__(self, containers, endianness=None):
-        super().__init__(containers, endianness)
+    def __init__(self, endianness=None):
+        super().__init__(endianness)
         
     def read_write_contents(self, rw):
         rw.assert_equal(self.header.flags, 0x10000000, lambda x: hex(x))

@@ -1,13 +1,14 @@
 from pyValkLib.serialisation.ValkSerializable import ValkSerializable32BH
+from pyValkLib.containers.MXEN.MXEC.MXECReadWriter import MXECReadWriter
 
 
 class MXENReadWriter(ValkSerializable32BH):
     FILETYPE = "MXEN"
     
-    def __init__(self, containers, endianness=None):
-        super().__init__(containers, endianness)
+    def __init__(self, endianness=None):
+        super().__init__(endianness)
         
-        self.MXEC = containers["MXEC"](endianness)
+        self.MXEC = MXECReadWriter(endianness)
         
     def get_subcontainers(self):
         return [self.MXEC]
