@@ -171,7 +171,7 @@ class AssetInterface:
         "hst"           : (12, "hst"),
         "bhv"           : (12, "bhv"),
         "pvs"           : (20, "pvs"),
-        "texmerge_asset": (21, "htx"),
+        "htx_merge"     : (21, "htx"),
         "htr"           : (22, "htr"),
         "mmf"           : (24, "mmf"),
         "mmr"           : (25, "mmr")  
