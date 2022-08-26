@@ -1,4 +1,5 @@
 from pyValkLib.containers.MXEN.MXENReadWriter import MXENReadWriter
+from pyValkLib.containers.MXEN.MXEC.MXECInterface import MXECInterface
 from pyValkLib.containers.EOFC.EOFCReadWriter import EOFCReadWriter
 from pyValkLib.serialisation.Serializable import Context, Serializable
 
@@ -15,7 +16,7 @@ class MXE(Serializable):
     def init_from_file(cls, filepath):
         instance = cls()
         instance.read(filepath)
-        return instance
+        return MXECInterface.from_subreader(instance.MXEN.MXEC)
     
     @classmethod
     def init_from_mxecinterface(cls, mxec):
