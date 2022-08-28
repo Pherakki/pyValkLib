@@ -7,9 +7,9 @@ from .ParameterEntry import param_structs
 from .ECSEntityEntry import EntityEntry, EntityData, EntitySubEntry
 from .PathingEntry import PathNode, PathEdge, SubGraph, PathingEntry
 from pyValkLib.serialisation.ReadWriter import OffsetTracker, POF0Builder, ENRSBuilder, CCRSBuilder
-from pyValkLib.containers.POF0.POF0ReadWriter import compressPOF0
-from pyValkLib.containers.ENRS.ENRSCompression import compressENRS, toENRSPackedRep
-from pyValkLib.containers.CCRS.CCRSCompression import compressCCRS, toCCRSPackedRep
+from pyValkLib.containers.Metadata.POF0.POF0ReadWriter import compressPOF0
+from pyValkLib.containers.Metadata.ENRS.ENRSCompression import compressENRS, toENRSPackedRep
+from pyValkLib.containers.Metadata.CCRS.CCRSCompression import compressCCRS, toCCRSPackedRep
 
 
 entity_structs = {}

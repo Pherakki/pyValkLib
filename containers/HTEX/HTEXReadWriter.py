@@ -1,6 +1,6 @@
 from pyValkLib.serialisation.ValkSerializable import Context, Serializable, ValkSerializable32BH
 from pyValkLib.containers.HTEX.HTSF.HTSFReadWriter import HTSFReadWriter
-from pyValkLib.containers.EOFC.EOFCReadWriter import EOFCReadWriter
+from pyValkLib.containers.Metadata.EOFC.EOFCReadWriter import EOFCReadWriter
 
 
 class HTEXReadWriter(ValkSerializable32BH):

@@ -1,6 +1,6 @@
 from pyValkLib.containers.MXEN.MXENReadWriter import MXENReadWriter
 from pyValkLib.containers.MXEN.MXEC.MXECInterface import MXECInterface
-from pyValkLib.containers.EOFC.EOFCReadWriter import EOFCReadWriter
+from pyValkLib.containers.Metadata.EOFC.EOFCReadWriter import EOFCReadWriter
 from pyValkLib.serialisation.Serializable import Context, Serializable
 
 # Most of this should go into an MXENInterface

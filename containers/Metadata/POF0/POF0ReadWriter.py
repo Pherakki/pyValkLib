@@ -21,8 +21,20 @@ class POF0ReadWriter(ValkSerializable32BH):
         rw.align(rw.local_tell(), 0x10)
 
 
+def pull_bytecode(ENRS_iter, byte_power, bytecode_value):
+    for _ in range((1 << byte_power) - 1):
+        elem = next(ENRS_iter)
+        bytecode_value <<= 8
+        bytecode_value |= elem
         
+    return bytecode_value
 
+def decompressInt(ENRS_iter):
+    elem = next(ENRS_iter)
+    byte_power = elem >> 6
+    bytecode_value = elem & 0x3F
+    
+    return pull_bytecode(ENRS_iter, byte_power, bytecode_value)
 
 def decompressPOF0(POF0_data, num_offsets):
     offset = 0

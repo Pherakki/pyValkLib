@@ -6,10 +6,10 @@ from pyValkLib.containers.MXEN.MXEC.ParameterEntry import ParameterEntry
 from pyValkLib.containers.MXEN.MXEC.ECSEntityEntry import EntityEntry
 from pyValkLib.containers.MXEN.MXEC.PathingEntry import PathingEntry
 from pyValkLib.containers.MXEN.MXEC.AssetTable import AssetTable
-from pyValkLib.containers.POF0.POF0ReadWriter import POF0ReadWriter
-from pyValkLib.containers.ENRS.ENRSReadWriter import ENRSReadWriter
-from pyValkLib.containers.CCRS.CCRSReadWriter import CCRSReadWriter
-from pyValkLib.containers.EOFC.EOFCReadWriter import EOFCReadWriter
+from pyValkLib.containers.Metadata.POF0.POF0ReadWriter import POF0ReadWriter
+from pyValkLib.containers.Metadata.ENRS.ENRSReadWriter import ENRSReadWriter
+from pyValkLib.containers.Metadata.CCRS.CCRSReadWriter import CCRSReadWriter
+from pyValkLib.containers.Metadata.EOFC.EOFCReadWriter import EOFCReadWriter
 
 import struct
 

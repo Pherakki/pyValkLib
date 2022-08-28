@@ -1,6 +1,3 @@
-from .CCRS.CCRSReadWriter import CCRSReadWriter
-from .ENRS.ENRSReadWriter import ENRSReadWriter
-from .EOFC.EOFCReadWriter import EOFCReadWriter
 # from .IZCA.IZCAReadWriter import IZCAReadWriter
 # from .IZCA.CCOL.CCOLReadWriter import CCOLReadWriter
 # from .IZCA.HMDL.HMDLReadWriter import HMDLReadWriter
@@ -11,7 +8,11 @@ from .EOFC.EOFCReadWriter import EOFCReadWriter
 # from .IZCA.PACT.PACTReadWriter import PACTReadWriter
 from .MXEN.MXENReadWriter import MXENReadWriter
 from .MXEN.MXEC.MXECReadWriter import MXECReadWriter
-from .POF0.POF0ReadWriter import POF0ReadWriter
+
+from .Metadata.CCRS.CCRSReadWriter import CCRSReadWriter
+from .Metadata.ENRS.ENRSReadWriter import ENRSReadWriter
+from .Metadata.EOFC.EOFCReadWriter import EOFCReadWriter
+from .Metadata.POF0.POF0ReadWriter import POF0ReadWriter
 
 containers = {
     # "CCOL": CCOLReadWriter,

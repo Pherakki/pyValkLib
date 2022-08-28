@@ -1,6 +1,6 @@
 import os
 
-from pyValkLib.containers.EOFC.EOFCReadWriter import EOFCReadWriter
+from pyValkLib.containers.Metadata.EOFC.EOFCReadWriter import EOFCReadWriter
 from pyValkLib.containers.HTEX.HTEXInterface import HTEXInterface, HTEXReadWriter
 from pyValkLib.containers.HTEX.HTSF.HTSFInterface import HTSFInterface
 from pyValkLib.serialisation.Serializable import Context, Serializable
