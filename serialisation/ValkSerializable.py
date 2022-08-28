@@ -76,7 +76,11 @@ class ValkSerializable(Serializable):
         self.start_pos = rw.global_tell()
         rw.anchor_pos = self.start_pos
         
-        self.header = rw.rw_obj(self.header)
+        try:
+            self.header = rw.rw_obj(self.header)
+        except Exception as e:
+            raise Exception(f"Failed to read header on {self.FILETYPE}: {e}") from e
+            
         if self.FILETYPE != self.header.filetype:
             raise TypeError(f"Container is {self.header.filetype}, expected {self.FILETYPE}.")
         self.check_header_size(rw)
