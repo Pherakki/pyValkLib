@@ -222,6 +222,9 @@ class ReadWriterBase:
         
     def rw_cstr(self, value, encoding='ascii'):
         raise NotImplementedError
+        
+    def rw_bytestring(self, value, count):
+        raise NotImplementedError
 
     def align(self, offset, alignment, padval=b'\x00'):
         raise NotImplementedError
@@ -281,6 +284,14 @@ class Reader(ReadWriterBase):
         while ((val := self.bytestream.read(1)) != end_char and val != b''):
             out += val
         return out.decode(encoding)
+    
+    def rw_bytestring(self, value, count):
+        return self.bytestream.read(count)
+        
+    def peek_bytestring(self, count):
+        val = self.bytestream.read(count)
+        self.bytestream.seek(-count, 1)
+        return val
     
     def align(self, offset, alignment, padval=b'\x00'):
         n_to_read = (alignment - (offset % alignment)) % alignment
@@ -345,6 +356,12 @@ class Writer(ReadWriterBase):
         self.bytestream.write(out)
         return value
     
+    def rw_bytestring(self, value, count):
+        if len(value) != count:
+            raise ValueError(f"Expected to write a bytestring of length {count}, but it was length {len(value)}.")
+        self.bytestream.write(value)
+        return value
+    
     def align(self, offset, alignment, padval=b'\x00'):
         n_to_read = (alignment - (offset % alignment)) % alignment
         data = padval * (n_to_read // len(padval))
@@ -402,6 +419,10 @@ class OffsetTracker(ReadWriterBase):
         self.adv_offset(length)
         return value
     
+    def rw_bytestring(self, value, count):
+        self.virtual_offset += count
+        return value
+        
     def align(self, offset, alignment, padval=b'\x00'):
         n_to_read = (alignment - (offset % alignment)) % alignment
         data = padval * (n_to_read // len(padval))
