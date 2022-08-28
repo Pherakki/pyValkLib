@@ -24,37 +24,39 @@ The status of the code is tabulated for the different filetypes given in the sec
 
 ### Valkyria Chronicles 1
 
-| Filetype | Read | Write | API 
-| --- | --- | ---| -- |
-| ABD | ❌ | ❌ | ❌ | 
-| ABR | ❌ | ❌ | ❌ | 
-| BF1 | ❌ | ❌ | ❌ | 
-| BHV | ❌ | ❌ | ❌ | 
-| BIN | ❌ | ❌ | ❌ | 
-| CSD | ❌ | ❌ | ❌ | 
-| ESR | ❌ | ❌ | ❌ | 
-| GRD | ❌ | ❌ | ❌ | 
-| HCA | ❌ | ❌ | ❌ | 
-| HCM | ❌ | ❌ | ❌ | 
-| HMD | ❌ | ❌ | ❌ | 
-| HMM | ❌ | ❌ | ❌ | 
-| HMO | ❌ | ❌ | ❌ | 
-| HMT | ❌ | ❌ | ❌ | 
-| HSC | ❌ | ❌ | ❌ | 
-| HSM | ❌ | ❌ | ❌ | 
-| HSP | ❌ | ❌ | ❌ | 
-| HTR | ❌ | ❌ | ❌ | 
-| HTX | ❌ | ❌ | ❌ | 
-| MCL | ❌ | ❌ | ❌ | 
-| MLX | ❌ | ❌ | ❌ | 
-| MMF | ❌ | ❌ | ❌ | 
-| MMR | ❌ | ❌ | ❌ | 
-| MSB | ❌ | ❌ | ❌ | 
-| MTP | ❌ | ❌ | ❌ | 
-| MXE | 🟡 | 🟡 | ❌ | 
-| NAD | ❌ | ❌ | ❌ | 
-| PVS | ❌ | ❌ | ❌ | 
+| Filetype | Read | Write | API | Notes |
+| --- | --- | ---| -- | -- |
+| ABD | ❌ | ❌ | ❌ | |
+| ABR | ❌ | ❌ | ❌ | |
+| BF1 | ❌ | ❌ | ❌ | |
+| BHV | ❌ | ❌ | ❌ | |
+| BIN | ❌ | ❌ | ❌ | |
+| CSD | ❌ | ❌ | ❌ | |
+| ESR | ❌ | ❌ | ❌ | |
+| GRD | ❌ | ❌ | ❌ | |
+| HCA | ❌ | ❌ | ❌ | |
+| HCM | ❌ | ❌ | ❌ | |
+| HMD | ❌ | ❌ | ❌ | |
+| HMM | ❌ | ❌ | ❌ | |
+| HMO | ❌ | ❌ | ❌ | |
+| HMT | ❌ | ❌ | ❌ | |
+| HSC | ❌ | ❌ | ❌ | |
+| HSM | ❌ | ❌ | ❌ | |
+| HSP | ❌ | ❌ | ❌ | |
+| HTR | ❌ | ❌ | ❌ | |
+| HTX | 🟡 | 🟡 | 🟡 |(1)|
+| MCL | ❌ | ❌ | ❌ | |
+| MLX | ❌ | ❌ | ❌ | |
+| MMF | ❌ | ❌ | ❌ | |
+| MMR | ❌ | ❌ | ❌ | |
+| MSB | ❌ | ❌ | ❌ | |
+| MTP | ❌ | ❌ | ❌ | |
+| MXE | 🟡 | 🟡 | ❌ |(2)|
+| NAD | ❌ | ❌ | ❌ | |
+| PVS | ❌ | ❌ | ❌ | |
 
+1) Some HTSF containers have header flags of 0x10000000, and some have 0x10000004. It should be determined if these flags are determinable from the input DDS file or not before marking the Interface and "Complete" and upgrading the status of the API stability. The interface can be simplified to just a list of bytestrings they can be calculated.
+2) First interface written, and thus is not as clean as it could be. Should be tidied up and given a proper interface. Some questions remain over whether some unknowns in the data can be calculated from the rest of the data, and being able to calculate them would simplify and alter the API.
 
 ### Valkyria Chronicles 2
 
