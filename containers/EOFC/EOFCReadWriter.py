@@ -8,6 +8,9 @@ class EOFCReadWriter(ValkSerializable32BH):
     
     def __init__(self, endianness=None):
         super().__init__(endianness)
+        self.header.flags = 0x10000000
+        self.header.data_length = 0
+        self.header.contents_length = 0
         
     def read_write_contents(self, rw):
         rw.assert_equal(self.header.flags, 0x10000000, lambda x: hex(x))
