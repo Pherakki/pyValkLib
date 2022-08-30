@@ -266,8 +266,12 @@ class Reader(ReadWriterBase):
         n_to_read = 1
         for elem in shape:
             n_to_read *= elem
-            
-        data = array.array(typecode, struct.unpack(endianness + typecode*n_to_read, self.bytestream.read(size*n_to_read)))
+        
+        if typecode == "e":
+            arr_typecode = "f"
+        else:
+            arr_typecode = typecode
+        data = array.array(arr_typecode, struct.unpack(endianness + typecode*n_to_read, self.bytestream.read(size*n_to_read)))
         # Group the lists up
         # Skip the outer index because we don't need it (we'll automatically
         # get an end result of that length) and create groups by iterating
