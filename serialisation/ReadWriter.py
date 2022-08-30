@@ -189,7 +189,7 @@ class ReadWriterBase:
                 formatter = lambda x: f"0x{x:0{size(x) + (((size(x) + 1)//2) - (size(x) // 2))}x}"
             else:
                 formatter = lambda x: x
-            raise Exception(f"{msg} file pointer at {formatter(file_pointer_location)}, not at {formatter(location)}.")
+            raise Exception(f"File pointer at {formatter(file_pointer_location)}, expected find {msg} with the pointer at {formatter(location)}.")
             
     ############################
     # Arg Validation Functions #

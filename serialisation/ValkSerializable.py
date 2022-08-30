@@ -150,4 +150,4 @@ class ValkSerializable32BH(ValkSerializable):
         self.header.context.endianness = "<"
         
     def check_data_size(self, rw):
-        rw.assert_local_file_pointer_now_at("End of Container Data", self.header.header_length + self.header.data_length)
+        rw.assert_local_file_pointer_now_at(f"End of {self.FILETYPE} Container Data", self.header.header_length + self.header.data_length)
