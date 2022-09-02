@@ -38,6 +38,7 @@ class MXMCReadWriter(ValkSerializable32BH):
         self.rw_strings(rw)
         
     def rw_fileinfo(self, rw):
+        rw.mark_new_contents_array()
         self.unknown_0x00           = rw.rw_uint32(self.unknown_0x00)
         self.mmf_folder_name_offset = rw.rw_pointer(self.mmf_folder_name_offset)
         self.mmf_file_name_offset   = rw.rw_pointer(self.mmf_file_name_offset)
