@@ -11,3 +11,6 @@ class AssetReference(Serializable):
         self.file_type = rw.rw_uint32(self.file_type)
         self.mmf_offset = rw.rw_uint32(self.mmf_offset)
         rw.align(rw.local_tell(), 0x10)
+
+    def __repr__(self):
+        return f"[Asset Reference] Filetype: {self.file_type} Offset: {self.mmf_offset}"
