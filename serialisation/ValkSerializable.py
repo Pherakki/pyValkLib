@@ -105,8 +105,11 @@ class ValkSerializable(Serializable):
         return []
         
     def read_write_subcontainers(self, rw):
-        for subcontainer in self.get_subcontainers():
-            rw.rw_obj(subcontainer)
+        for i, subcontainer in enumerate(self.get_subcontainers()):
+            try:
+                rw.rw_obj(subcontainer)
+            except Exception as e:
+                raise Exception(f"Attempted to read subcontainer {i} on {self.FILETYPE}: {e}")
             
     def check_contents_size(self, rw):
         try:
