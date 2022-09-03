@@ -32,6 +32,7 @@ The status of the code is tabulated for the different filetypes given in the sec
 | BHV | ❌ | ❌ | ❌ | |
 | BIN | ❌ | ❌ | ❌ | |
 | CSD | ❌ | ❌ | ❌ | |
+| CVD | ❌ | ❌ | ❌ | |
 | ESR | ❌ | ❌ | ❌ | |
 | GRD | ❌ | ❌ | ❌ | |
 | HCA | ❌ | ❌ | ❌ | |
@@ -43,6 +44,7 @@ The status of the code is tabulated for the different filetypes given in the sec
 | HSC | ❌ | ❌ | ❌ | |
 | HSM | ❌ | ❌ | ❌ | |
 | HSP | ❌ | ❌ | ❌ | |
+| HST | ❌ | ❌ | ❌ | |
 | HTR | ❌ | ❌ | ❌ | |
 | HTX | 🟡 | 🟡 | 🟡 |(1)|
 | MCL | ❌ | ❌ | ❌ | |
