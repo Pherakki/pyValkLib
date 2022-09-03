@@ -75,10 +75,10 @@ class ReadWriterBase:
     def rw_multiple(self, typecode, value, shape, endianness=None):
         self._rw_multiple(typecode, self.type_sizes[typecode], value, shape, endianness)
         
-    def rw_obj(self, obj):
+    def rw_obj(self, obj, *args, **kwargs):
         previous_context = self.context
         self.context = obj.context
-        obj.read_write(self)
+        obj.read_write(self, *args, **kwargs)
         self.context = previous_context
         return obj
     
@@ -99,44 +99,52 @@ class ReadWriterBase:
         self.align_with(offset, alignment, typecode, value, endianness)
         
     # RW functions (should be defined in a loop...)
-    def rw_pad8    (self, value, endianness=None): return self._rw_single('B', 1, value, endianness)
-    def rw_pad16   (self, value, endianness=None): return self._rw_single('H', 2, value, endianness)
-    def rw_pad32   (self, value, endianness=None): return self._rw_single('I', 4, value, endianness)
-    def rw_pad64   (self, value, endianness=None): return self._rw_single('Q', 8, value, endianness)
-    def rw_hex8    (self, value, endianness=None): return self._handle_hex('B', 1, value, endianness)
-    def rw_hex16   (self, value, endianness=None): return self._handle_hex('H', 2, value, endianness)
-    def rw_hex32   (self, value, endianness=None): return self._handle_hex('I', 4, value, endianness)
-    def rw_hex64   (self, value, endianness=None): return self._handle_hex('Q', 8, value, endianness)
-    def rw_int8    (self, value, endianness=None): return self._rw_single('b', 1, value, endianness)
-    def rw_uint8   (self, value, endianness=None): return self._rw_single('B', 1, value, endianness)
-    def rw_int16   (self, value, endianness=None): return self._rw_single('h', 2, value, endianness)
-    def rw_uint16  (self, value, endianness=None): return self._rw_single('H', 2, value, endianness)
-    def rw_int32   (self, value, endianness=None): return self._rw_single('i', 4, value, endianness)
-    def rw_uint32  (self, value, endianness=None): return self._rw_single('I', 4, value, endianness)
-    def rw_int64   (self, value, endianness=None): return self._rw_single('q', 8, value, endianness)
-    def rw_uint64  (self, value, endianness=None): return self._rw_single('Q', 8, value, endianness)
-    def rw_float16 (self, value, endianness=None): return self._rw_single('e', 2, value, endianness)
-    def rw_float32 (self, value, endianness=None): return self._rw_single('f', 4, value, endianness)
-    def rw_float64 (self, value, endianness=None): return self._rw_single('d', 8, value, endianness)
-    def rw_color32 (self, value, endianness=None): return self._rw_single('I', 4, value, endianness)
-    def rw_color128(self, value, endianness=None): return self._rw_multiple('f', 4, value, 4, endianness)
+    def rw_pad8    (self, value, endianness=None)     : return self._rw_single('B', 1, value, endianness)
+    def rw_pad16   (self, value, endianness=None)     : return self._rw_single('H', 2, value, endianness)
+    def rw_pad32   (self, value, endianness=None)     : return self._rw_single('I', 4, value, endianness)
+    def rw_pad64   (self, value, endianness=None)     : return self._rw_single('Q', 8, value, endianness)
+    def rw_hex8    (self, value, endianness=None)     : return self._handle_hex('B', 1, value, endianness)
+    def rw_hex16   (self, value, endianness=None)     : return self._handle_hex('H', 2, value, endianness)
+    def rw_hex32   (self, value, endianness=None)     : return self._handle_hex('I', 4, value, endianness)
+    def rw_hex64   (self, value, endianness=None)     : return self._handle_hex('Q', 8, value, endianness)
+    def rw_int8    (self, value, endianness=None)     : return self._rw_single('b', 1, value, endianness)
+    def rw_uint8   (self, value, endianness=None)     : return self._rw_single('B', 1, value, endianness)
+    def rw_int16   (self, value, endianness=None)     : return self._rw_single('h', 2, value, endianness)
+    def rw_uint16  (self, value, endianness=None)     : return self._rw_single('H', 2, value, endianness)
+    def rw_int32   (self, value, endianness=None)     : return self._rw_single('i', 4, value, endianness)
+    def rw_uint32  (self, value, endianness=None)     : return self._rw_single('I', 4, value, endianness)
+    def rw_int64   (self, value, endianness=None)     : return self._rw_single('q', 8, value, endianness)
+    def rw_uint64  (self, value, endianness=None)     : return self._rw_single('Q', 8, value, endianness)
+    def rw_float16 (self, value, endianness=None)     : return self._rw_single('e', 2, value, endianness)
+    def rw_float32 (self, value, endianness=None)     : return self._rw_single('f', 4, value, endianness)
+    def rw_float64 (self, value, endianness=None)     : return self._rw_single('d', 8, value, endianness)
+    def rw_ratio8  (self, value, div, endianness=None): return self._handle_ratio('b', 1, value, div, endianness)
+    def rw_ratio16 (self, value, div, endianness=None): return self._handle_ratio('h', 2, value, div, endianness)
+    def rw_ratio32 (self, value, div, endianness=None): return self._handle_ratio('i', 4, value, div, endianness)
+    def rw_ratio64 (self, value, div, endianness=None): return self._handle_ratio('q', 8, value, div, endianness)
+    def rw_color32 (self, value, endianness=None)     : return self._rw_single('I', 4, value, endianness)
+    def rw_color128(self, value, endianness=None)     : return self._rw_multiple('f', 4, value, 4, endianness)
     
-    def rw_pad8s   (self, value, shape, endianness=None): return self._rw_multiple('B', 1, value, shape, endianness)
-    def rw_pad16s  (self, value, shape, endianness=None): return self._rw_multiple('H', 2, value, shape, endianness)
-    def rw_pad32s  (self, value, shape, endianness=None): return self._rw_multiple('I', 4, value, shape, endianness)
-    def rw_pad64s  (self, value, shape, endianness=None): return self._rw_multiple('Q', 8, value, shape, endianness)
-    def rw_int8s   (self, value, shape, endianness=None): return self._rw_multiple('b', 1, value, shape, endianness)
-    def rw_uint8s  (self, value, shape, endianness=None): return self._rw_multiple('B', 1, value, shape, endianness)
-    def rw_int16s  (self, value, shape, endianness=None): return self._rw_multiple('h', 2, value, shape, endianness)
-    def rw_uint16s (self, value, shape, endianness=None): return self._rw_multiple('H', 2, value, shape, endianness)
-    def rw_int32s  (self, value, shape, endianness=None): return self._rw_multiple('i', 4, value, shape, endianness)
-    def rw_uint32s (self, value, shape, endianness=None): return self._rw_multiple('I', 4, value, shape, endianness)
-    def rw_int64s  (self, value, shape, endianness=None): return self._rw_multiple('q', 8, value, shape, endianness)
-    def rw_uint64s (self, value, shape, endianness=None): return self._rw_multiple('Q', 8, value, shape, endianness)
-    def rw_float16s(self, value, shape, endianness=None): return self._rw_multiple('e', 2, value, shape, endianness)
-    def rw_float32s(self, value, shape, endianness=None): return self._rw_multiple('f', 4, value, shape, endianness)
-    def rw_float64s(self, value, shape, endianness=None): return self._rw_multiple('d', 8, value, shape, endianness)
-
+    def rw_pad8s   (self, value, shape, endianness=None)     : return self._rw_multiple('B', 1, value, shape, endianness)
+    def rw_pad16s  (self, value, shape, endianness=None)     : return self._rw_multiple('H', 2, value, shape, endianness)
+    def rw_pad32s  (self, value, shape, endianness=None)     : return self._rw_multiple('I', 4, value, shape, endianness)
+    def rw_pad64s  (self, value, shape, endianness=None)     : return self._rw_multiple('Q', 8, value, shape, endianness)
+    def rw_int8s   (self, value, shape, endianness=None)     : return self._rw_multiple('b', 1, value, shape, endianness)
+    def rw_uint8s  (self, value, shape, endianness=None)     : return self._rw_multiple('B', 1, value, shape, endianness)
+    def rw_int16s  (self, value, shape, endianness=None)     : return self._rw_multiple('h', 2, value, shape, endianness)
+    def rw_uint16s (self, value, shape, endianness=None)     : return self._rw_multiple('H', 2, value, shape, endianness)
+    def rw_int32s  (self, value, shape, endianness=None)     : return self._rw_multiple('i', 4, value, shape, endianness)
+    def rw_uint32s (self, value, shape, endianness=None)     : return self._rw_multiple('I', 4, value, shape, endianness)
+    def rw_int64s  (self, value, shape, endianness=None)     : return self._rw_multiple('q', 8, value, shape, endianness)
+    def rw_uint64s (self, value, shape, endianness=None)     : return self._rw_multiple('Q', 8, value, shape, endianness)
+    def rw_float16s(self, value, shape, endianness=None)     : return self._rw_multiple('e', 2, value, shape, endianness)
+    def rw_float32s(self, value, shape, endianness=None)     : return self._rw_multiple('f', 4, value, shape, endianness)
+    def rw_float64s(self, value, shape, endianness=None)     : return self._rw_multiple('d', 8, value, shape, endianness)
+    def rw_ratio8s (self, value, div, shape, endianness=None): return self._handle_multiple_ratio('b', 1, value, div, shape, endianness)
+    def rw_ratio16s(self, value, div, shape, endianness=None): return self._handle_multiple_ratio('h', 2, value, div, shape, endianness)
+    def rw_ratio32s(self, value, div, shape, endianness=None): return self._handle_multiple_ratio('i', 4, value, div, shape, endianness)
+    def rw_ratio64s(self, value, div, shape, endianness=None): return self._handle_multiple_ratio('q', 8, value, div, shape, endianness)
+    
     
     ####################################
     # Bytestream Interaction Functions #
@@ -210,6 +218,12 @@ class ReadWriterBase:
     
     def _handle_hex(self, typecode, size, value, endianness):
         raise NotImplementedError()
+        
+    def _handle_ratio(self, typecode, size, value, div, endianness=None):
+        raise NotImplementedError
+        
+    def _handle_multiple_ratio(self, typecode, size, value, div, shape, endianness=None):
+        raise NotImplementedError
 
     def _rw_single(self, typecode, size, value, endianness=None):
         raise NotImplementedError
@@ -252,6 +266,32 @@ class Reader(ReadWriterBase):
         
         return f'0x{{:0{size}x}}'.format(data)
     
+    def _handle_ratio(self, typecode, size, value, div, endianness=None):
+        if endianness is None:
+            endianness = self.context.endianness
+        return struct.unpack(endianness + typecode, self.bytestream.read(size))[0] / div
+        
+    def _handle_multiple_ratio(self, typecode, size, value, div, shape, endianness=None):
+        if endianness is None:
+            endianness = self.context.endianness
+            
+        if not hasattr(shape, "__getitem__"):
+            shape = (shape,)
+        n_to_read = 1
+        for elem in shape:
+            n_to_read *= elem
+        
+        arr_typecode = "f"
+        data = struct.unpack(endianness + typecode*n_to_read, self.bytestream.read(size*n_to_read))
+        data = array.array(arr_typecode, [d/div for d in data])
+        # Group the lists up
+        # Skip the outer index because we don't need it (we'll automatically
+        # get an end result of that length) and create groups by iterating
+        # over the shape in reverse
+        for subshape in shape[1::][::-1]:
+            data = chunk_list(data, subshape)
+        return data
+        
     def _rw_single(self, typecode, size, value, endianness=None):
         if endianness is None:
             endianness = self.context.endianness
@@ -329,6 +369,28 @@ class Writer(ReadWriterBase):
         self._rw_single(typecode, size, int(value, 16), endianness)
         return value
     
+    def _handle_ratio(self, typecode, size, value, div, endianness=None):
+        if endianness is None:
+            endianness = self.context.endianness
+        self.bytestream.write(int(div*struct.pack(endianness + typecode, value)))
+        return value
+            
+    def _handle_multiple_ratio(self, typecode, size, value, div, shape, endianness=None):
+        if endianness is None:
+            endianness = self.context.endianness
+        
+        if not hasattr(shape, "__getitem__"):
+            shape = (shape,)
+        n_to_read = 1
+        for elem in shape:
+            n_to_read *= elem
+            
+        data = value # Shouldn't need to deepcopy since flatten_list will copy
+        for _ in range(len(shape)-1):
+            data = flatten_list(data)
+        self.bytestream.write(struct.pack(endianness + typecode*n_to_read, *[int(div*d) for d in data]))
+        return value
+        
     def _rw_single(self, typecode, size, value, endianness=None):
         if endianness is None:
             endianness = self.context.endianness
@@ -396,6 +458,12 @@ class OffsetTracker(ReadWriterBase):
     def _handle_hex(self, typecode, size, value, endianness=None):
         return self._rw_single(typecode, size, value, endianness)
      
+    def _handle_ratio(self, typecode, size, value, div, endianness=None):
+        return self._rw_single(typecode, size, value, endianness)
+    
+    def _handle_multiple_ratio(self, typecode, size, value, div, shape, endianness=None):
+        return self._rw_multiple(typecode, size, value, shape, endianness)
+    
     def _rw_single(self, typecode, size, value, endianness=None):
         self.adv_offset(size)
         return value
