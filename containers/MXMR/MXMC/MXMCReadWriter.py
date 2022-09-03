@@ -36,6 +36,7 @@ class MXMCReadWriter(ValkSerializable32BH):
         self.rw_fileinfo(rw)
         self.rw_asset_references(rw)
         self.rw_strings(rw)
+        rw.mark_new_contents_array()
         
     def rw_fileinfo(self, rw):
         rw.mark_new_contents_array()
