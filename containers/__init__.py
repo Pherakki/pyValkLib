@@ -1,6 +1,6 @@
 # from .IZCA.IZCAReadWriter import IZCAReadWriter
-# from .IZCA.CCOL.CCOLReadWriter import CCOLReadWriter
 # from .IZCA.HMDL.HMDLReadWriter import HMDLReadWriter
+from .CCOL.CCOLReadWriter import CCOLReadWriter
 from .HMOT.HMOTReadWriter import HMOTReadWriter
 from .HTEX.HTEXReadWriter import HTEXReadWriter
 # from .IZCA.HSHP.HSHPReadWriter import HSHPReadWriter
@@ -9,7 +9,7 @@ from .IZCA.MLX0.MLX0ReadWriter import MLX0ReadWriter
 # from .IZCA.PACT.PACTReadWriter import PACTReadWriter
 
 containers = {
-    # "CCOL": CCOLReadWriter,
+    "CCOL": CCOLReadWriter,
     "HMDL": HMDLReadWriter,
     "HMOT": HMOTReadWriter,
     # "HSHP": HSHPReadWriter,
