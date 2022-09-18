@@ -19,7 +19,7 @@ class FCurve(Serializable):
         
         rw.assert_is_zero(self.padding_0x04)
         rw.assert_is_zero(self.padding_0x08)
-    
+
     def rw_framedata(self, rw, frame_count):
         unknown = (self.flags & 0xFF000000) >> 0x18
         type_   = (self.flags & 0x00FF0000) >> 0x10
@@ -36,4 +36,3 @@ class FCurve(Serializable):
             op = lambda x, shape: rw.rw_ratio8s(x, divisor, shape)
         
         self.frame_data = op(self.frame_data, frame_count + 1)
-        

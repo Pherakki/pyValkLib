@@ -1,9 +1,11 @@
 from pyValkLib.serialisation.ValkSerializable import ValkSerializable32BH
 from pyValkLib.serialisation.PointerIndexableArray import PointerIndexableArray, PointerIndexableArrayFloat32
+from pyValkLib.serialisation.BufferViewArray import BufferViewArray
 
 from .StructureNode import StructureNode
 from .FCurve import FCurve
 from .StructureNodeFCurves import StructureNodeFCurves
+from .StructureNodeTransform import StructureNodeTransform
 from pyValkLib.containers.Metadata.POF0.POF0ReadWriter import POF0ReadWriter
 from pyValkLib.containers.Metadata.ENRS.ENRSReadWriter import ENRSReadWriter
 from pyValkLib.containers.Metadata.EOFC.EOFCReadWriter import EOFCReadWriter
@@ -20,23 +22,23 @@ class KFMOReadWriter(ValkSerializable32BH):
         self.ENRS = ENRSReadWriter("<")
         self.EOFC = EOFCReadWriter("<")
         
-        self.flags = None
-        self.structure_node_count = None
-        self.unknown_0x08 = None
-        self.unknown_0x0C = None
-        self.unknown_0x10 = None
-        self.unknown_0x14 = None
-        self.unknown_0x18 = None
-        self.structure_nodes_offset = None
+        self.flags                       = None
+        self.structure_node_count        = None
+        self.unknown_0x08                = None
+        self.unknown_0x0C                = None
+        self.frame_count                 = None
+        self.frames_per_second           = None
+        self.unknown_0x18                = None
+        self.structure_nodes_offset      = None
         self.structure_node_flags_offset = None
-        self.unknown_offset_3 = None
+        self.fcurve_metadata_offset      = None
         
-        self.structure_node_flags   = []
-        self.structure_nodes        = PointerIndexableArray(self.context)
-        self.fcurves                = PointerIndexableArray(self.context)
-        self.unknown_bstring        = b''
-        self.structure_node_fcurves = PointerIndexableArray(self.context)
-        self.unknown_float_buffer   = PointerIndexableArrayFloat32(self.context)
+        self.structure_node_flags      = []
+        self.structure_nodes           = PointerIndexableArray(self.context)
+        self.fcurves                   = PointerIndexableArray(self.context)
+        self.unknown_bstring           = b''
+        self.structure_node_fcurves    = BufferViewArray(self.context, StructureNodeFCurves)
+        self.structure_node_transforms = BufferViewArray(self.context, StructureNodeTransform)
 
     def get_subcontainers(self):
         return [self.POF0, self.ENRS, self.EOFC]
@@ -50,8 +52,8 @@ class KFMOReadWriter(ValkSerializable32BH):
         self.rw_structure_nodes(rw)
         self.rw_fcurve_metadata(rw)
         self.rw_structure_node_fcurves(rw)
-        self.rw_unknown_float_buffer(rw)
-        self.rw_animation_frame_data(rw)
+        self.rw_structure_node_static_transforms(rw)
+        self.rw_structure_node_anim_transforms(rw)
         rw.mark_new_contents_array()
         
     def rw_fileinfo(self, rw):
@@ -59,12 +61,12 @@ class KFMOReadWriter(ValkSerializable32BH):
         self.structure_node_count        = rw.rw_uint32(self.structure_node_count)
         self.unknown_0x08                = rw.rw_uint32(self.unknown_0x08)
         self.unknown_0x0C                = rw.rw_uint32(self.unknown_0x0C)
-        self.frame_count                 = rw.rw_float32(self.unknown_0x10)
-        self.frames_per_second           = rw.rw_float32(self.unknown_0x14)
+        self.frame_count                 = rw.rw_float32(self.frame_count)
+        self.frames_per_second           = rw.rw_float32(self.frames_per_second)
         self.unknown_0x18                = rw.rw_float32(self.unknown_0x18)
         self.structure_nodes_offset      = rw.rw_pointer(self.structure_nodes_offset)
         self.structure_node_flags_offset = rw.rw_pointer(self.structure_node_flags_offset)
-        self.unknown_offset_3            = rw.rw_pointer(self.unknown_offset_3)
+        self.fcurve_metadata_offset      = rw.rw_pointer(self.fcurve_metadata_offset)
         rw.align(rw.local_tell(), 0x60)
         
     def rw_structure_node_flags(self, rw):
@@ -83,48 +85,40 @@ class KFMOReadWriter(ValkSerializable32BH):
 
     def rw_fcurve_metadata(self, rw):
         if rw.mode() == "read":
-            fcurve_count = (self.unknown_offset_3 - rw.local_tell()) // 0x10
+            fcurve_count = (self.fcurve_metadata_offset - rw.local_tell()) // 0x10
             self.fcurves.data = [FCurve(self.context) for _ in range(fcurve_count)]
         rw.rw_obj(self.fcurves)
         
     def rw_structure_node_fcurves(self, rw):
-        # Make these members of the structure nodes
-        # Something isn't right here. It seems like the flags dictate which channels are active...
-        # but this doesn't always lead to the correct numbers of fcurves being identified.
-        # In fact, it often overruns.
-        if self.unknown_offset_3:
-            rw.assert_local_file_pointer_now_at("Structure Node FCurves", self.unknown_offset_3)
+        if self.fcurve_metadata_offset:
+            rw.assert_local_file_pointer_now_at("Structure Node FCurves", self.fcurve_metadata_offset)
             self.unknown_bstring = rw.rw_bytestring(self.unknown_bstring, 0x10) # Not present in all files...
-            if rw.mode() == "read":
-                self.structure_node_fcurves.data = [StructureNodeFCurves(self.context, sn.flags) 
-                                                    for sn in self.structure_nodes
-                                                    if sn.offset_1 != 0]
-            rw.rw_obj(self.structure_node_fcurves)
 
-    def rw_unknown_float_buffer(self, rw):
-        # This one feels really strange.
-        # Some quats seem to be given the value (0, 0, 0, 0), which is not good.
-        # Moreover, parts of the buffer seem to overlap with each other. Perhaps common numbers are
-        # allowed to overlap as a form of compression.
-        # Very confusing. Leave it as an unknown buffer for now.
-        info = sorted(set((sn.offset_2, sn.flags) for sn in self.structure_nodes if sn.offset_2 != 0))
-        first_ptr = info[0][0]
-        final_ptr = info[-1][0]
-        final_count = bin(info[-1][1]).count('1')
+            info = sorted(set((sn.animation_offset, sn.flags) for sn in self.structure_nodes if sn.animation_offset > 0))
+            offsets = [s[0] for s in info]
+            flags = [s[1] for s in info]
+            flag_bitcount = bin(flags[-1]).count('1')
+            buffer_size = (offsets[-1] - offsets[0] + 4*flag_bitcount) // 4
+            
+            self.structure_node_fcurves = rw.rw_obj(self.structure_node_fcurves,
+                                                    buffer_size, offsets, zip(flags))
+            
+
+    def rw_structure_node_static_transforms(self, rw):
+        info = sorted(set((sn.transform_offset, sn.flags) for sn in self.structure_nodes if sn.transform_offset != 0))
+        offsets = [s[0] for s in info]
+        flags = [s[1] for s in info]
+        flag_bitcount = bin(flags[-1]).count('1')
+        buffer_size = (offsets[-1] - offsets[0] + 4*flag_bitcount) // 4
         
-        rw.assert_local_file_pointer_now_at("Unknown Buffer", first_ptr)
+        rw.assert_local_file_pointer_now_at("Structure Node Transforms", offsets[0])
         
-        total_elements = (final_ptr - first_ptr + 4*final_count) // 4
-        if rw.mode() == "read":
-            self.unknown_float_buffer.data = [0 for _ in range(total_elements)]
-        rw.rw_obj(self.unknown_float_buffer)
+        self.structure_node_transforms = rw.rw_obj(self.structure_node_transforms,
+                                                   buffer_size, offsets, zip(flags))
         
-        # for idx, ptr in self.unknown_float_buffer.idx_to_ptr.items():
-        #     print(">", idx, ptr, self.unknown_float_buffer[idx])
-        
-    def rw_animation_frame_data(self, rw):
+    def rw_structure_node_anim_transforms(self, rw):
         for fcurve in sorted(self.fcurves, key=lambda x: x.offset):
-            print(">>", fcurve.offset)
+            rw.local_seek(fcurve.offset)
             rw.assert_local_file_pointer_now_at("FCurve Data", fcurve.offset)
             rw.rw_obj_method(fcurve, fcurve.rw_framedata, int(self.frame_count))
         rw.align(rw.local_tell(), 0x10)
