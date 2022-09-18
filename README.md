@@ -12,7 +12,7 @@ The status of the code is tabulated for the different filetypes given in the sec
 | Key | Status | Definition |
 | --- | --- | --- |
 |✔️| Supported | A complete production-ready Interface Object exists.|
-|🟡| Partial Support | A partially-complete Interface Object or fully complete Read/Writer object exists.|
+|🟡| Partial Support | A partially-complete Interface Object or usable Read/Writer object exists.|
 |❌| Not supported | Insufficient code exists for a complete Read/Writer. |
 
 #### API Key
@@ -40,26 +40,28 @@ The status of the code is tabulated for the different filetypes given in the sec
 | HMD | ❌ | ❌ | ❌ | |
 | HMM | ❌ | ❌ | ❌ | |
 | HMO | ❌ | ❌ | ❌ | |
-| HMT | ❌ | ❌ | ❌ | |
+| HMT | 🟡 | 🟡 | ❌ |(1) |
 | HSC | ❌ | ❌ | ❌ | |
 | HSM | ❌ | ❌ | ❌ | |
 | HSP | ❌ | ❌ | ❌ | |
 | HST | ❌ | ❌ | ❌ | |
 | HTR | ❌ | ❌ | ❌ | |
-| HTX | 🟡 | 🟡 | 🟡 |(1)|
-| MCL | ❌ | ❌ | ❌ | |
+| HTX | 🟡 | 🟡 | 🟡 |(2)|
+| MCL | 🟡 | 🟡 | ❌ |(3)|
 | MLX | ❌ | ❌ | ❌ | |
-| MMF | ✔️ | 🟡 | ❌ | (2) |
-| MMR | 🟡 | 🟡 | ❌ | (2) |
+| MMF | ✔️ | 🟡 | ❌ | (4) |
+| MMR | 🟡 | 🟡 | ❌ | (4) |
 | MSB | ❌ | ❌ | ❌ | |
 | MTP | ❌ | ❌ | ❌ | |
-| MXE | 🟡 | 🟡 | ❌ |(3)|
+| MXE | 🟡 | 🟡 | ❌ |(5)|
 | NAD | ❌ | ❌ | ❌ | |
 | PVS | ❌ | ❌ | ❌ | |
 
-1) Some HTSF containers have header flags of 0x10000000, and some have 0x10000004. It should be determined if these flags are determinable from the input DDS file or not before marking the Interface as "Complete" and upgrading the status of the API stability. The interface can be simplified to just a list of bytestrings if they can be calculated.
-2) MMFReadWriter and MMRReadWriter present. The MMR and MMF files are tightly coupled, and so these two files should be dealt with simultaneously. MMF files can in principle be parsed without the need for an MMR file. An MMF Interface is also present that is capable of extracting the contained files.
-3) First interface written, and thus is not as clean as it could be. Should be tidied up and given a proper interface. Some questions remain over whether some unknowns in the data can be calculated from the rest of the data, and being able to calculate them would simplify and alter the API.
+1) Basic read/write functionality achieved, but the purpose of the elements in the ReadWriters need to be more carefully defined.
+2) Some HTSF containers have header flags of 0x10000000, and some have 0x10000004. It should be determined if these flags are determinable from the input DDS file or not before marking the Interface as "Complete" and upgrading the status of the API stability. The interface can be simplified to just a list of bytestrings if they can be calculated.
+3) Basic read/write functionality achieved, but the purpose of the elements in the ReadWriters need to be more carefully defined.
+4) MMFReadWriter and MMRReadWriter present. The MMR and MMF files are tightly coupled, and so these two files should be dealt with simultaneously. MMF files can in principle be parsed without the need for an MMR file. An MMF Interface is also present that is capable of extracting the contained files.
+5) First interface written, and thus is not as clean as it could be. Should be tidied up and given a proper interface. Some questions remain over whether some unknowns in the data can be calculated from the rest of the data, and being able to calculate them would simplify and alter the API.
 
 ### Valkyria Chronicles 2
 
