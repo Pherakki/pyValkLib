@@ -1,10 +1,10 @@
 from pyValkLib.serialisation.BufferViewArray import View
 
-class StructureNodeFCurves(View):
+class SceneNodeTransform(View):
     element_size = 4
     @staticmethod
     def rw_op(rw, val, size):
-        return rw.rw_pointers(val, size)
+        return rw.rw_float32s(val, size)
     
     def __init__(self, buffer, flags):
         
@@ -55,49 +55,49 @@ class StructureNodeFCurves(View):
         return self.offsets[member] if member > -1 else 0 
 
     @property
-    def pos_x_offset(self):
+    def pos_x(self):
         return self.__get_offset(self.pxo_idx)
         
     @property
-    def pos_y_offset(self):
+    def pos_y(self):
         return self.__get_offset(self.pyo_idx)
         
     @property
-    def pos_z_offset(self):
+    def pos_z(self):
         return self.__get_offset(self.pzo_idx)
         
     @property
-    def pos_w_offset(self):
+    def pos_w(self):
         return self.__get_offset(self.pwo_idx)
         
     @property
-    def rot_x_offset(self):
+    def rot_x(self):
         return self.__get_offset(self.rxo_idx)
         
     @property
-    def rot_y_offset(self):
+    def rot_y(self):
         return self.__get_offset(self.ryo_idx)
     
     @property
-    def rot_z_offset(self):
+    def rot_z(self):
         return self.__get_offset(self.rzo_idx)
     
     @property
-    def rot_w_offset(self):
+    def rot_w(self):
         return self.__get_offset(self.rwo_idx)
     
     @property
-    def scale_x_offset(self):
+    def scale_x(self):
         return self.__get_offset(self.sxo_idx)
     
     @property
-    def scale_y_offset(self):
+    def scale_y(self):
         return self.__get_offset(self.syo_idx)
     
     @property
-    def scale_z_offset(self):
+    def scale_z(self):
         return self.__get_offset(self.szo_idx)
     
     @property
-    def scale_w_offset(self):
+    def scale_w(self):
         return self.__get_offset(self.swo_idx)

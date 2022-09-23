@@ -1,6 +1,6 @@
 from pyValkLib.serialisation.Serializable import Serializable
 
-class StructureNode(Serializable):
+class SceneNode(Serializable):
     def __init__(self, context):
         super().__init__(context)
         
