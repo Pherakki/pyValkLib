@@ -79,11 +79,11 @@ class Vertex0x2C(Serializable):
         self.position = rw.rw_float32s(self.position, 3)
         self.unknown  = rw.rw_int8s(self.unknown, 4)
         self.normal   = rw.rw_float16s(self.normal, 4)
-        self.color_1    = rw.rw_color32(self.color)
+        self.color_1    = rw.rw_color32(self.color_1)
         self.color_2  = rw.rw_color32(self.color_2)
-        self.UV_1      = rw.rw_float16s(self.uv1, 2)
-        self.UV_2      = rw.rw_float16s(self.uv2, 2)
-        self.UV_3      = rw.rw_float16s(self.uv3, 2)
+        self.UV_1      = rw.rw_float16s(self.UV_1, 2)
+        self.UV_2      = rw.rw_float16s(self.UV_2, 2)
+        self.UV_3      = rw.rw_float16s(self.UV_3, 2)
         
 
 class Vertex0x30(Serializable):
@@ -105,9 +105,9 @@ class Vertex0x30(Serializable):
         self.vertex_groups  = rw.rw_uint8s(self.vertex_groups, 4)
         self.vertex_weights = rw.rw_float16s(self.vertex_weights, 2)
         self.color          = rw.rw_color32(self.color)
-        self.UV_1            = rw.rw_float16s(self.uv1, 2)
-        self.UV_2            = rw.rw_float16s(self.uv2, 2)
-        self.UV_3            = rw.rw_float16s(self.uv3, 2)
+        self.UV_1            = rw.rw_float16s(self.UV_1, 2)
+        self.UV_2            = rw.rw_float16s(self.UV_2, 2)
+        self.UV_3            = rw.rw_float16s(self.UV_3, 2)
         self.normal         = rw.rw_float16s(self.normal, 4)
         self.unknown        = rw.rw_int8s(self.unknown, 4)
 
