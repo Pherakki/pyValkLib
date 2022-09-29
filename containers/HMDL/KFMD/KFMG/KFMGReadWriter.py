@@ -67,7 +67,7 @@ class Vertex0x2C(Serializable):
         super().__init__(context)
         
         self.position = None
-        self.tangent = None
+        self.unknown = None
         self.normal = None
         self.color_1 = None
         self.color_2 = None
