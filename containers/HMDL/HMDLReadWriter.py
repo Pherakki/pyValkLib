@@ -35,8 +35,8 @@ class KFMDArray(Serializable):
             ctr_type = rw.peek_bytestring(4)
             while ctr_type == b"KFMD":
                 kfmd = KFMDReadWriter(self.context.endianness)
-                rw.rw_obj(kfmd)
                 self.KFMDs.append(kfmd)
+                rw.rw_obj(kfmd)
                 ctr_type = rw.peek_bytestring(4)
         else:
             for obj in self.KFMDs:
