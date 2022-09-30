@@ -18,7 +18,7 @@ class Texture(Serializable):
         self.unknown_0x1C = None
         
         self.padding_0x20 = 0
-        self.padding_0x24 = 0
+        self.padding_0x24 = 0 # Flags?
         self.padding_0x28 = 0
         self.padding_0x2C = 0
         
@@ -56,7 +56,6 @@ class Texture(Serializable):
         self.padding_0x3C = rw.rw_pad32(self.padding_0x3C)
         
         rw.assert_is_zero(self.padding_0x20)
-        rw.assert_is_zero(self.padding_0x24)
         rw.assert_is_zero(self.padding_0x28)
         rw.assert_is_zero(self.padding_0x2C)
         
