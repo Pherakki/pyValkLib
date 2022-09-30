@@ -4,7 +4,7 @@ from pyValkLib.serialisation.PointerIndexableArray import PointerIndexableArray
 from pyValkLib.containers.Metadata.POF0.POF0ReadWriter import POF0ReadWriter
 from pyValkLib.containers.Metadata.ENRS.ENRSReadWriter import ENRSReadWriter
 from pyValkLib.containers.Metadata.CCRS.CCRSReadWriter import CCRSReadWriter
-from .MTXSReadWriter import MTXSReadWriter
+from pyValkLib.containers.Metadata.MTXS.MTXSReadWriter import MTXSReadWriter
 from pyValkLib.containers.Metadata.EOFC.EOFCReadWriter import EOFCReadWriter
 
 from .SceneNode import SceneNode
@@ -181,7 +181,7 @@ class KFMSReadWriter(ValkSerializable32BH):
         self.unknown_0x78                 = rw.rw_pad32(self.unknown_0x78)
         self.unknown_0x7C                 = rw.rw_pad32(self.unknown_0x7C)
         
-        self.unknown_0x80                 = rw.rw_int32(self.unknown_0x80) # Probably flags
+        self.unknown_0x80                 = rw.rw_uint32(self.unknown_0x80) # Probably flags
         self.fileinfo_pads                = rw.rw_pad32s(self.fileinfo_pads, 0x1F)
         
         rw.assert_equal(list(self.fileinfo_pads), [0]*0x1F)
