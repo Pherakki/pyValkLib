@@ -99,31 +99,32 @@ class ReadWriterBase:
         self.align_with(offset, alignment, typecode, value, endianness)
         
     # RW functions (should be defined in a loop...)
-    def rw_pad8    (self, value, endianness=None)     : return self._rw_single('B', 1, value, endianness)
-    def rw_pad16   (self, value, endianness=None)     : return self._rw_single('H', 2, value, endianness)
-    def rw_pad32   (self, value, endianness=None)     : return self._rw_single('I', 4, value, endianness)
-    def rw_pad64   (self, value, endianness=None)     : return self._rw_single('Q', 8, value, endianness)
-    def rw_hex8    (self, value, endianness=None)     : return self._handle_hex('B', 1, value, endianness)
-    def rw_hex16   (self, value, endianness=None)     : return self._handle_hex('H', 2, value, endianness)
-    def rw_hex32   (self, value, endianness=None)     : return self._handle_hex('I', 4, value, endianness)
-    def rw_hex64   (self, value, endianness=None)     : return self._handle_hex('Q', 8, value, endianness)
-    def rw_int8    (self, value, endianness=None)     : return self._rw_single('b', 1, value, endianness)
-    def rw_uint8   (self, value, endianness=None)     : return self._rw_single('B', 1, value, endianness)
-    def rw_int16   (self, value, endianness=None)     : return self._rw_single('h', 2, value, endianness)
-    def rw_uint16  (self, value, endianness=None)     : return self._rw_single('H', 2, value, endianness)
-    def rw_int32   (self, value, endianness=None)     : return self._rw_single('i', 4, value, endianness)
-    def rw_uint32  (self, value, endianness=None)     : return self._rw_single('I', 4, value, endianness)
-    def rw_int64   (self, value, endianness=None)     : return self._rw_single('q', 8, value, endianness)
-    def rw_uint64  (self, value, endianness=None)     : return self._rw_single('Q', 8, value, endianness)
-    def rw_float16 (self, value, endianness=None)     : return self._rw_single('e', 2, value, endianness)
-    def rw_float32 (self, value, endianness=None)     : return self._rw_single('f', 4, value, endianness)
-    def rw_float64 (self, value, endianness=None)     : return self._rw_single('d', 8, value, endianness)
-    def rw_ratio8  (self, value, div, endianness=None): return self._handle_ratio('b', 1, value, div, endianness)
-    def rw_ratio16 (self, value, div, endianness=None): return self._handle_ratio('h', 2, value, div, endianness)
-    def rw_ratio32 (self, value, div, endianness=None): return self._handle_ratio('i', 4, value, div, endianness)
-    def rw_ratio64 (self, value, div, endianness=None): return self._handle_ratio('q', 8, value, div, endianness)
-    def rw_color32 (self, value, endianness=None)     : return self._rw_single('I', 4, value, endianness)
-    def rw_color128(self, value, endianness=None)     : return self._rw_multiple('f', 4, value, 4, endianness)
+    def rw_pad8     (self, value, endianness=None)     : return self._rw_single('B', 1, value, endianness)
+    def rw_pad16    (self, value, endianness=None)     : return self._rw_single('H', 2, value, endianness)
+    def rw_pad32    (self, value, endianness=None)     : return self._rw_single('I', 4, value, endianness)
+    def rw_pad64    (self, value, endianness=None)     : return self._rw_single('Q', 8, value, endianness)
+    def rw_hex8     (self, value, endianness=None)     : return self._handle_hex('B', 1, value, endianness)
+    def rw_hex16    (self, value, endianness=None)     : return self._handle_hex('H', 2, value, endianness)
+    def rw_hex32    (self, value, endianness=None)     : return self._handle_hex('I', 4, value, endianness)
+    def rw_hex64    (self, value, endianness=None)     : return self._handle_hex('Q', 8, value, endianness)
+    def rw_int8     (self, value, endianness=None)     : return self._rw_single('b', 1, value, endianness)
+    def rw_uint8    (self, value, endianness=None)     : return self._rw_single('B', 1, value, endianness)
+    def rw_int16    (self, value, endianness=None)     : return self._rw_single('h', 2, value, endianness)
+    def rw_uint16   (self, value, endianness=None)     : return self._rw_single('H', 2, value, endianness)
+    def rw_int32    (self, value, endianness=None)     : return self._rw_single('i', 4, value, endianness)
+    def rw_uint32   (self, value, endianness=None)     : return self._rw_single('I', 4, value, endianness)
+    def rw_int64    (self, value, endianness=None)     : return self._rw_single('q', 8, value, endianness)
+    def rw_uint64   (self, value, endianness=None)     : return self._rw_single('Q', 8, value, endianness)
+    def rw_float16  (self, value, endianness=None)     : return self._rw_single('e', 2, value, endianness)
+    def rw_float32  (self, value, endianness=None)     : return self._rw_single('f', 4, value, endianness)
+    def rw_float64  (self, value, endianness=None)     : return self._rw_single('d', 8, value, endianness)
+    def rw_ratio8   (self, value, div, endianness=None): return self._handle_ratio('b', 1, value, div, endianness)
+    def rw_ratio16  (self, value, div, endianness=None): return self._handle_ratio('h', 2, value, div, endianness)
+    def rw_ratio32  (self, value, div, endianness=None): return self._handle_ratio('i', 4, value, div, endianness)
+    def rw_ratio64  (self, value, div, endianness=None): return self._handle_ratio('q', 8, value, div, endianness)
+    def rw_color32  (self, value, endianness=None)     : return self._rw_single('I', 4, value, endianness)
+    def rw_color128 (self, value, endianness=None)     : return self._rw_multiple('f', 4, value, 4, endianness)
+    def rw_matrix4x4(self, value, endianness=None)     : return self._rw_multiple('f', 4, value, (4, 4), endianness)
     
     def rw_pad8s   (self, value, shape, endianness=None)     : return self._rw_multiple('B', 1, value, shape, endianness)
     def rw_pad16s  (self, value, shape, endianness=None)     : return self._rw_multiple('H', 2, value, shape, endianness)
@@ -744,3 +745,65 @@ class CCRSBuilder(OffsetTracker):
 
     def mode(self):
         return "CCRS"
+
+
+class MTXSBuilder(OffsetTracker):
+    open_flags = None
+    
+    __slots__ = ("current_array", "current_array_member")
+
+    
+    def __init__(self):
+        super().__init__()
+        self.current_array = None
+        self.current_array_member = None
+
+    typewidths = {0 : 0x40}
+
+    def collate_array(self, ptr_array):
+        collated_array = []
+        if not len(ptr_array):
+            return []
+        working_array = [ptr_array[0][0]]
+        # Split offsets into contiguous ranges
+        for i, (elem, type_) in enumerate(ptr_array[1:]):
+            prev_elem, prev_type_ = ptr_array[i]
+            is_same_type = prev_type_ == type_
+            prev_size = self.typewidths[prev_type_]
+            is_contiguous = elem == prev_elem + prev_size
+            if (not is_contiguous) or (not is_same_type):
+                collated_array.append(ArrayWrapper(prev_type_, prev_size, working_array))
+                working_array = []
+            working_array.append(elem)
+        
+        # Add final array
+        elem, type_ = ptr_array[-1]
+        collated_array.append(ArrayWrapper(type_, self.typewidths[type_], working_array))
+        
+        return collated_array
+
+    def mark_new_contents_array(self):
+        if self.current_array is not None:
+            if len(self.current_array_member):
+                self.current_array.append(self.collate_array(self.current_array_member))
+            if len(self.current_array):
+                self.pointers.append(self.current_array)
+        self.current_array = []
+        self.current_array_member = []
+    
+    def mark_new_contents_array_member(self):
+        if self.current_array_member is not None:
+            if len(self.current_array_member):
+                self.current_array.append(self.collate_array(self.current_array_member))
+        self.current_array_member = []
+        
+    def log_offset(self, type_):
+        self.current_array_member.append((self.virtual_offset, type_))
+      
+    def rw_matrix4x4(self, value, endianness=None):
+        self.log_offset(0)
+        self.adv_offset(0x40)
+        return value
+      
+    def mode(self):
+        return "MTXS"
