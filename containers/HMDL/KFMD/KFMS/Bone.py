@@ -11,6 +11,9 @@ class Bone(Serializable):
         self.ibpm_offset = None
         self.ID = None
     
+    def __repr__(self):
+        return f"[Bone] {self.ID} {self.ibpm_offset}"
+    
     def read_write(self, rw):
         self.ibpm_offset = rw.rw_pointer(self.ibpm_offset)
         self.ID          = rw.rw_uint32(self.ID)
