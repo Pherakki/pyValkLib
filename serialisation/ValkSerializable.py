@@ -109,7 +109,7 @@ class ValkSerializable(Serializable):
             try:
                 rw.rw_obj(subcontainer)
             except Exception as e:
-                raise Exception(f"Attempted to read subcontainer {i} on {self.FILETYPE}: {e}")
+                raise Exception(f"Attempted to read subcontainer {i} on {self.FILETYPE}: {e}") from e
             
     def check_contents_size(self, rw):
         try:
