@@ -1,8 +1,5 @@
-#from pyValkLib.utils.Compression.Stencilled import SCRelRep, SCRelativeTemplateGenerator, CCRSTemplateComponent
-#from pyValkLib.utils.Compression.Stencilled import SCUnpackedRep, SCTemplatePack, SCTemplate, CCRSUnpackedTemplateComponents
-
 from pyValkLib.serialisation.ValkSerializable import ValkSerializable32BH
-#from pyValkLib.utils.Compression.integers import compressInt, decompressInt
+
 
 class CCRSReadWriter(ValkSerializable32BH):
     FILETYPE = "CCRS"
