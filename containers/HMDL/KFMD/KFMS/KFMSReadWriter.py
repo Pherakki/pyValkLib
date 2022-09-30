@@ -254,19 +254,18 @@ class KFMSReadWriter(ValkSerializable32BH):
             rw.align(rw.local_tell(), 0x10)
     
     def rw_bones(self, rw):
-        ptrs = sorted(set([sn.bone_data_offset for sn in self.scene_nodes if sn.bone_data_offset != 0]))
         if rw.mode() == "read":
-            self.bones.data = [Bone(self.context) for _ in range(len(ptrs))]
-        if len(ptrs):
-            rw.assert_local_file_pointer_now_at("Bones", ptrs[0])
-            rw.rw_obj(self.bones)
-            rw.align(rw.local_tell(), 0x10)
+            self.bones.data = [Bone(self.context) for _ in range(self.bone_count)]
+        rw.rw_obj(self.bones)
+        rw.align(rw.local_tell(), 0x10)
+        
         
     def rw_bone_ibpms(self, rw):
         rw.mark_new_contents_array()
         
         ptrs = sorted(set([bone.ibpm_offset for bone in self.bones if bone.ibpm_offset != 0]))
         if len(ptrs):
+            rw.assert_local_file_pointer_now_at("IBPMs", ptrs[0])
             if rw.mode() == "read":
                 self.bone_ibpms.data = [None for _ in ptrs]
             rw.rw_obj(self.bone_ibpms)
