@@ -1,5 +1,5 @@
 from pyValkLib.serialisation.ValkSerializable import ValkSerializable32BH
-from pyValkLib.serialisation.PointerIndexableArray import PointerIndexableArray
+from pyValkLib.serialisation.PointerIndexableArray import PointerIndexableArray, PointerIndexableArrayMatrix4x4
 
 from pyValkLib.containers.Metadata.POF0.POF0ReadWriter import POF0ReadWriter
 from pyValkLib.containers.Metadata.ENRS.ENRSReadWriter import ENRSReadWriter
@@ -12,7 +12,6 @@ from .MeshDefinition import MeshDefinition
 from .BoundingBox import BoundingBox
 from .Skeleton import Skeleton
 from .Bone import Bone
-from .InverseBindPoseMatrix import InverseBindPoseMatrix
 from .MeshGroup import MeshGroup
 from .Material import Material
 from .Mesh import Mesh
@@ -94,7 +93,7 @@ class KFMSReadWriter(ValkSerializable32BH):
         self.bounding_boxes        = PointerIndexableArray(self.context)
         self.skeletons             = PointerIndexableArray(self.context)
         self.bones                 = PointerIndexableArray(self.context)
-        self.bone_ibpms            = PointerIndexableArray(self.context)
+        self.bone_ibpms            = PointerIndexableArrayMatrix4x4(self.context)
         self.mesh_groups           = PointerIndexableArray(self.context)
         self.materials             = PointerIndexableArray(self.context)
         self.meshes                = PointerIndexableArray(self.context)
@@ -269,7 +268,7 @@ class KFMSReadWriter(ValkSerializable32BH):
         ptrs = sorted(set([bone.ibpm_offset for bone in self.bones if bone.ibpm_offset != 0]))
         if len(ptrs):
             if rw.mode() == "read":
-                self.bone_ibpms.data = [InverseBindPoseMatrix(self.context) for _ in ptrs]
+                self.bone_ibpms.data = [None for _ in ptrs]
             rw.rw_obj(self.bone_ibpms)
         
     def rw_mesh_groups(self, rw):
