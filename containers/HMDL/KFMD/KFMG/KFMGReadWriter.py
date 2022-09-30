@@ -26,11 +26,12 @@ class KFMGReadWriter(ValkSerializable32BH):
         return [self.ENRS, self.CCRS, self.EOFC]
     
     def read_write_contents(self, rw):
-        # Removed if little-endian?
-        # if self.header.data_length:
-        #     rw.assert_equal(self.header.flags, 0x18000000, lambda x: hex(x))
-        # else:
-        #     rw.assert_equal(self.header.flags, 0x10000000, lambda x: hex(x))
+        is_big_endian = self.KFMS_ref.flags & 1 == 1
+        self.context.endianness = '>' if is_big_endian else '<'
+        if self.header.data_length and is_big_endian:
+            rw.assert_equal(self.header.flags, 0x18000000, lambda x: hex(x))
+        else:
+            rw.assert_equal(self.header.flags, 0x10000000, lambda x: hex(x))
         self.rw_faces(rw)
         self.rw_verts(rw)
 

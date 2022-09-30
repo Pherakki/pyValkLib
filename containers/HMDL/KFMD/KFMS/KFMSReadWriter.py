@@ -106,13 +106,6 @@ class KFMSReadWriter(ValkSerializable32BH):
         return [self.POF0, self.ENRS, self.CCRS, self.MTXS, self.EOFC]
     
     def read_write_contents(self, rw):
-        print(self.header.data_length, hex(self.header.flags))
-        # Removed if little-endian?
-        # if self.header.data_length:
-        #     rw.assert_equal(self.header.flags, 0x18000000, lambda x: hex(x))
-        # else:
-        #     rw.assert_equal(self.header.flags, 0x10000000, lambda x: hex(x))
-
         self.rw_fileinfo(rw)
         self.rw_scene_node_flags(rw)
         self.rw_scene_nodes(rw)
@@ -138,7 +131,15 @@ class KFMSReadWriter(ValkSerializable32BH):
         rw.mark_new_contents_array()
         
         self.flags                        = rw.rw_int32(self.flags)
-        self.context.endianness = '>' if (self.flags & 1 == 1) else '<'
+        is_big_endian = self.flags & 1 == 1
+        self.context.endianness = '>' if is_big_endian else '<'
+        
+        if self.header.data_length and is_big_endian:
+            rw.assert_equal(self.header.flags, 0x18000000, lambda x: hex(x))
+        else:
+            rw.assert_equal(self.header.flags, 0x10000000, lambda x: hex(x))
+
+        
         self.scene_node_count             = rw.rw_int32(self.scene_node_count)
         self.bone_count                   = rw.rw_int32(self.bone_count)
         self.unknown_0x0C                 = rw.rw_int32(self.unknown_0x0C)
