@@ -116,7 +116,7 @@ def toMTXSPackedRep(data):
         for template_data in tpack_data:
             template = SCTemplate()
             for comp_data in template_data:
-                template.append(MTXSUnpackedTemplateComponents(comp_data, comp_data.get_item_size() >> 2))
+                template.append(MTXSUnpackedTemplateComponents(comp_data, comp_data.type))
             templates.append(template)
         
         # Shouldn't need to calculate this, should receive it..!!!
