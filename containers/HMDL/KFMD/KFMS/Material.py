@@ -46,6 +46,20 @@ class Material(Serializable):
         self.padding_0x98     = 0
         self.unknown_0x9C     = None
         
+    def __repr__(self):
+        return f"[Material] {self.unknown_0x00} {hex(self.shader_ID)} {self.padding_0x08}\n" \
+               f"{self.num_textures} {self.src_blend} {self.dst_blend} {self.backface_culling}\n" \
+               f"{self.texture_1_offset} {self.texture_2_offset} {self.texture_3_offset} {self.padding_0x1C}\n" \
+               f"{self.padding_0x20} {self.padding_0x24} {self.padding_0x28} {self.padding_0x2C}\n" \
+               f"{self.color_1}\n" \
+               f"{self.color_2}\n" \
+               f"{self.color_3}\n" \
+               f"{self.color_4}\n" \
+               f"{self.padding_0x70} {self.padding_0x74} {self.padding_0x78} {self.padding_0x7C}\n" \
+               f"{self.padding_0x80} {self.padding_0x88} {self.padding_0x8C}\n" \
+               f"{self.unknown_0x90} {self.unknown_0x91} {self.unknown_0x92} {self.unknown_0x93}\n" \
+               f"{self.unknown_0x94} {self.padding_0x98} {self.unknown_0x9C}"
+        
     def read_write(self, rw):
         self.unknown_0x00     = rw.rw_uint32(self.unknown_0x00)
         self.shader_ID        = rw.rw_uint32(self.shader_ID)
@@ -76,6 +90,10 @@ class Material(Serializable):
         self.padding_0x7C     = rw.rw_uint32(self.padding_0x7C)
         
         self.padding_0x80     = rw.rw_uint64(self.padding_0x80)
+        # if self.padding_0x88 == 0:
+        #     rw_func = rw.rw_pad32
+        # else:
+        #     rw_func = rw.rw_uint32
         self.padding_0x88     = rw.rw_uint32(self.padding_0x88)
         self.padding_0x8C     = rw.rw_uint32(self.padding_0x8C)
         

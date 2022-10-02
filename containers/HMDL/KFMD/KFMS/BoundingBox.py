@@ -12,5 +12,6 @@ class BoundingBox(Serializable):
         self.vertices = []
         
     def read_write(self, rw):
+        rw.mark_new_contents_array()
         self.vertices = rw.rw_float32s(self.vertices, (self.vertex_count, 4))
         

@@ -41,14 +41,17 @@ class UnknownIndices(Serializable):
         return f"[UnknownIndices] {self.index_groups.data}"
         
     def read_write(self, rw):
+        rw.mark_new_contents_array()
         self.index_group_count   = rw.rw_uint32(self.index_group_count)
         self.unknown_objs_offset = rw.rw_pointer(self.unknown_objs_offset)
         rw.align(0x08, 0x10)
         
+        rw.mark_new_contents_array()
         if rw.mode() == "read":
             self.index_groups.data = [UnknownIndexGroup(self.context) for _ in range(self.index_group_count)]
         rw.rw_obj(self.index_groups)
         rw.align(rw.local_tell(), 0x10)
+        rw.mark_new_contents_array()
         for ig in self.index_groups:
             rw.rw_obj_method(ig, ig.read_write_indices)
         rw.align(rw.local_tell(), 0x10)

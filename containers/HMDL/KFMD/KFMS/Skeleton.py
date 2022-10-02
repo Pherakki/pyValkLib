@@ -12,4 +12,5 @@ class Skeleton(Serializable):
         self.bone_ids = []
     
     def read_write(self, rw):
+        rw.mark_new_contents_array()
         self.bone_ids = rw.rw_uint16s(self.bone_ids, self.id_count)
