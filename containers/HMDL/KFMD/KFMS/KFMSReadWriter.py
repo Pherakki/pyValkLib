@@ -17,6 +17,7 @@ from .Material import Material
 from .Mesh import Mesh
 from .VertexGroup import VertexGroup
 from .Texture import Texture
+from .UnknownIndices import UnknownIndices
 from .UnknownObject import UnknownObject
 
 class KFMSReadWriter(ValkSerializable32BH):
@@ -67,7 +68,7 @@ class KFMSReadWriter(ValkSerializable32BH):
         
         self.mesh_defs_offset             = None
         self.unknown_0x64                 = None
-        self.unknown_0x68                 = None
+        self.unknown_indices_offset       = None
         self.unknown_0x6C                 = None
         
         self.unknown_0x70                 = None
@@ -99,7 +100,7 @@ class KFMSReadWriter(ValkSerializable32BH):
         self.meshes                = PointerIndexableArray(self.context)
         self.vertex_groups         = PointerIndexableArray(self.context)
         self.textures              = PointerIndexableArray(self.context)
-        self.end_tex_padding       = b'\x00'*0x10
+        self.unknown_indices       = UnknownIndices(self.context)
         self.unknown_objects       = PointerIndexableArray(self.context)
 
     def get_subcontainers(self):
@@ -123,6 +124,7 @@ class KFMSReadWriter(ValkSerializable32BH):
         self.rw_meshes(rw)
         self.rw_vertex_groups(rw)
         self.rw_textures(rw)
+        self.rw_unknown_indices(rw)
         self.rw_unknown_objects(rw)
         rw.mark_new_contents_array()
         
@@ -133,6 +135,7 @@ class KFMSReadWriter(ValkSerializable32BH):
         self.flags                        = rw.rw_int32(self.flags)
         is_big_endian = self.flags & 1 == 1
         self.context.endianness = '>' if is_big_endian else '<'
+        self.unknown_indices.context.endianness = self.context.endianness
         
         if self.header.data_length and is_big_endian:
             rw.assert_equal(self.header.flags, 0x18000000, lambda x: hex(x))
@@ -173,7 +176,7 @@ class KFMSReadWriter(ValkSerializable32BH):
         
         self.mesh_defs_offset             = rw.rw_pointer(self.mesh_defs_offset)
         self.unknown_0x64                 = rw.rw_int32(self.unknown_0x64)
-        self.unknown_0x68                 = rw.rw_int32(self.unknown_0x68)
+        self.unknown_indices_offset       = rw.rw_pointer(self.unknown_indices_offset)
         self.unknown_0x6C                 = rw.rw_int32(self.unknown_0x6C)
         
         self.unknown_0x70                 = rw.rw_int32(self.unknown_0x70)
@@ -306,8 +309,14 @@ class KFMSReadWriter(ValkSerializable32BH):
             if rw.mode() == "read":
                 self.textures.data = [Texture(self.context) for _ in range(self.texture_count)]
             rw.rw_obj(self.textures)
-            self.end_tex_padding = rw.rw_bytestring(self.end_tex_padding, self.unknown_objs_offset - rw.local_tell())
-            #rw.assert_equal(self.end_tex_padding, b'\x00'*0x10)
+
+    def rw_unknown_indices(self, rw):
+        if self.unknown_indices_offset:
+            rw.assert_local_file_pointer_now_at("Unknown Indices", self.unknown_indices_offset)
+            rw.rw_obj(self.unknown_indices)
+        elif (rw.local_tell() != self.unknown_objs_offset): # Pattern not yet identified
+            rw.align(0x10, 0x20)
+
             
     def rw_unknown_objects(self, rw):
         if self.unknown_objs_offset:
