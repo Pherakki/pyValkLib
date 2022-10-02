@@ -57,7 +57,9 @@ class KFMGReadWriter(ValkSerializable32BH):
             }[mesh_definition.bytes_per_vertex]
             self.vertices.data = [vertex_type(self.context) for _ in range(mesh_definition.vertices_count)]
         
+        rw.mark_new_contents_array()
         rw.rw_obj(self.vertices)
+        rw.mark_new_contents_array()
         rw.align(rw.local_tell(), 0x10)
 
     def __repr__(self):
@@ -80,11 +82,11 @@ class Vertex0x2C(Serializable):
         self.position = rw.rw_float32s(self.position, 3)
         self.unknown  = rw.rw_vec32(self.unknown) # Tangent?
         self.normal   = rw.rw_float16s(self.normal, 4)
-        self.color_1    = rw.rw_color32(self.color_1)
+        self.color_1  = rw.rw_color32(self.color_1)
         self.color_2  = rw.rw_color32(self.color_2)
-        self.UV_1      = rw.rw_float16s(self.UV_1, 2)
-        self.UV_2      = rw.rw_float16s(self.UV_2, 2)
-        self.UV_3      = rw.rw_float16s(self.UV_3, 2)
+        self.UV_1     = rw.rw_float16s(self.UV_1, 2)
+        self.UV_2     = rw.rw_float16s(self.UV_2, 2)
+        self.UV_3     = rw.rw_float16s(self.UV_3, 2)
         
 
 class Vertex0x30(Serializable):
@@ -106,9 +108,9 @@ class Vertex0x30(Serializable):
         self.vertex_groups  = rw.rw_uint8s(self.vertex_groups, 4)
         self.vertex_weights = rw.rw_float16s(self.vertex_weights, 2)
         self.color          = rw.rw_color32(self.color)
-        self.UV_1            = rw.rw_float16s(self.UV_1, 2)
-        self.UV_2            = rw.rw_float16s(self.UV_2, 2)
-        self.UV_3            = rw.rw_float16s(self.UV_3, 2)
+        self.UV_1           = rw.rw_float16s(self.UV_1, 2)
+        self.UV_2           = rw.rw_float16s(self.UV_2, 2)
+        self.UV_3           = rw.rw_float16s(self.UV_3, 2)
         self.normal         = rw.rw_float16s(self.normal, 4)
         self.unknown        = rw.rw_vec32(self.unknown) # Tangent?
 
@@ -117,7 +119,21 @@ class Vertex0x50(Serializable):
         super().__init__(context)
         
         self.position       = None
-        self.unknown        = None
+        self.vertex_groups  = None
+        self.vertex_weights = None
+        self.unknown_1      = None
+        self.unknown_2      = None
+        self.normal         = None
+        self.color          = None
+        self.UV_1           = None
+        self.UV_2           = None
+        self.UV_3           = None
+        self.unknown_3      = None
+        
+    def __repr__(self):
+        return f"{self.position} {self.vertex_groups} {self.vertex_weights} "\
+               f"{self.unknown_1} {self.unknown_2} {self.normal} {self.color}"\
+               f"{self.UV_1} {self.UV_2} {self.UV_3} {self.unknown_3}"
         
     def read_write(self, rw):
         self.position       = rw.rw_float32s(self.position, 3)
