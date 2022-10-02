@@ -217,8 +217,6 @@ class ReadWriterBase:
     ##########################
     # Pure Virtual Functions #
     ##########################
-    def rw_vec32(self, value):
-        raise NotImplementedError()
         
     def _handle_hex(self, typecode, size, value, endianness):
         raise NotImplementedError()
