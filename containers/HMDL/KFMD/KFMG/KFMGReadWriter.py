@@ -78,7 +78,7 @@ class Vertex0x2C(Serializable):
         
     def read_write(self, rw):
         self.position = rw.rw_float32s(self.position, 3)
-        self.unknown  = rw.rw_int8s(self.unknown, 4)
+        self.unknown  = rw.rw_vec32(self.unknown) # Tangent?
         self.normal   = rw.rw_float16s(self.normal, 4)
         self.color_1    = rw.rw_color32(self.color_1)
         self.color_2  = rw.rw_color32(self.color_2)
@@ -110,7 +110,7 @@ class Vertex0x30(Serializable):
         self.UV_2            = rw.rw_float16s(self.UV_2, 2)
         self.UV_3            = rw.rw_float16s(self.UV_3, 2)
         self.normal         = rw.rw_float16s(self.normal, 4)
-        self.unknown        = rw.rw_int8s(self.unknown, 4)
+        self.unknown        = rw.rw_vec32(self.unknown) # Tangent?
 
 class Vertex0x50(Serializable):
     def __init__(self, context):
@@ -121,4 +121,14 @@ class Vertex0x50(Serializable):
         
     def read_write(self, rw):
         self.position       = rw.rw_float32s(self.position, 3)
-        self.unknown  = rw.rw_uint8s(self.unknown, 0x44)
+        self.vertex_groups  = rw.rw_int8s(self.vertex_groups, 4)
+        self.vertex_weights = rw.rw_float32s(self.vertex_weights, 2)
+        self.unknown_1      = rw.rw_vec32(self.unknown_1) # Tangent?
+        self.unknown_2      = rw.rw_vec32(self.unknown_2) # Binormal?
+        self.normal         = rw.rw_float32s(self.normal, 3)
+        self.color          = rw.rw_color32(self.color)
+        self.UV_1           = rw.rw_float32s(self.UV_1, 2)
+        self.UV_2           = rw.rw_float32s(self.UV_2, 2)
+        self.UV_3           = rw.rw_float32s(self.UV_3, 2)
+        self.unknown_3      = rw.rw_float32s(self.unknown_3, 2) # padding?
+

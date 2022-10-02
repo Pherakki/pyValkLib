@@ -122,6 +122,7 @@ class ReadWriterBase:
     def rw_ratio16  (self, value, div, endianness=None): return self._handle_ratio('h', 2, value, div, endianness)
     def rw_ratio32  (self, value, div, endianness=None): return self._handle_ratio('i', 4, value, div, endianness)
     def rw_ratio64  (self, value, div, endianness=None): return self._handle_ratio('q', 8, value, div, endianness)
+    def rw_vec32    (self, value, endianness=None)     : return self._rw_single('I', 4, value, endianness)
     def rw_color32  (self, value, endianness=None)     : return self._rw_single('I', 4, value, endianness)
     def rw_color128 (self, value, endianness=None)     : return self._rw_multiple('f', 4, value, 4, endianness)
     def rw_matrix4x4(self, value, endianness=None)     : return self._rw_multiple('f', 4, value, (4, 4), endianness)
@@ -216,7 +217,9 @@ class ReadWriterBase:
     ##########################
     # Pure Virtual Functions #
     ##########################
-    
+    def rw_vec32(self, value):
+        raise NotImplementedError()
+        
     def _handle_hex(self, typecode, size, value, endianness):
         raise NotImplementedError()
         
@@ -262,6 +265,14 @@ class Reader(ReadWriterBase):
         a = (data >> 0x18) & 0xFF
         return [r, g, b, a]
     
+    def rw_vec32(self, value, endianness=None):
+        data = self._rw_single('I', 4, value, endianness)
+        c1 = (((data >> 0x18) & 0xFF) - 0x7F) / 0x80
+        c2 = (((data >> 0x10) & 0xFF) - 0x7F) / 0x80
+        c3 = (((data >> 0x08) & 0xFF) - 0x7F) / 0x80
+        c4 = (((data >> 0x00) & 0xFF) - 0x7F) / 0x80
+        return [c1, c2, c3, c4]
+        
     def _handle_hex(self, typecode, size, value, endianness=None):
         data = self._rw_single(typecode, size, value, endianness)
         
@@ -321,6 +332,7 @@ class Reader(ReadWriterBase):
             data = chunk_list(data, subshape)
         return data
         
+    
     def rw_str(self, value, length, encoding='ascii'):
         return self.bytestream.read(length).decode(encoding)
         
@@ -365,6 +377,16 @@ class Writer(ReadWriterBase):
             data |= (int(val) & 0xFF) << offset
 
         self._rw_single('I', 4, data, endianness)
+        
+        return value
+    
+    def rw_vec32(self, value, endianness=None):
+        data = 0
+        for val, offset in zip(value, [0x18, 0x10, 0x08, 0x00]):
+            # convert float to ubyte, clamp between 0x00 and 0xFF
+            data |= min(0xFF, max(0, int(val * 0x80) + 0x7F)) << offset
+        
+        data = self._rw_single('I', 4, data, endianness)
         
         return value
     
@@ -645,8 +667,7 @@ class ENRSBuilder(OffsetTracker):
         if endianness is None:
             endianness = self.ref_endianness
 
-        if endianness == '>':
-            self.log_offset(size)
+        self.log_offset(size)
         self.adv_offset(size)
         return value
 
@@ -666,8 +687,7 @@ class ENRSBuilder(OffsetTracker):
             n_to_read *= elem
             
         for i in range(n_to_read):
-            if endianness == '>':
-                self.log_offset(size)
+            self.log_offset(size)
             self.adv_offset(size)
             
         return value
