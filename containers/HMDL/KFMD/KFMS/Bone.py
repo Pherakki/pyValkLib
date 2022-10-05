@@ -10,13 +10,12 @@ class Bone(Serializable):
         
         self.ibpm_offset = None
         self.ID = None
-        self.unknown_0x04 = 0
+        self.unknown_0x04 = None # Can be 0, 1...
     
     def __repr__(self):
-        return f"[Bone] {self.ID} {self.ibpm_offset}"
+        return f"[Bone] {self.ID} {self.unknown_0x04} {self.ibpm_offset}"
     
     def read_write(self, rw):
         self.ibpm_offset  = rw.rw_pointer(self.ibpm_offset)
         self.unknown_0x04 = rw.rw_uint16(self.unknown_0x04)
         self.ID           = rw.rw_uint16(self.ID)
-        rw.assert_is_zero(self.unknown_0x04)
