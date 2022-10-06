@@ -17,13 +17,10 @@ class UnknownIndexGroup(Serializable):
     def read_write(self, rw):
         self.count  = rw.rw_uint32(self.count)
         self.offset = rw.rw_pointer(self.offset)
-        print(">>", self.count)
-        print(">>", self.offset)
         
     def read_write_indices(self, rw):
         rw.assert_local_file_pointer_now_at("Unknown Index Group Indices", self.offset)
         self.indices = rw.rw_uint32s(self.indices, 2*self.count)
-        print(">>>>", self.indices)
 
 class UnknownIndices(Serializable):
     def __init__(self, context=None):
