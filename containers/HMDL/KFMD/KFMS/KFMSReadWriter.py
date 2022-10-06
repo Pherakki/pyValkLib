@@ -183,8 +183,8 @@ class KFMSReadWriter(ValkSerializable32BH):
         self.unknown_0x74                 = rw.rw_int32(self.unknown_0x74)
         self.unknown_0x78                 = rw.rw_pad32(self.unknown_0x78)
         self.unknown_0x7C                 = rw.rw_pad32(self.unknown_0x7C)
-        
-        self.unknown_0x80                 = rw.rw_uint32(self.unknown_0x80) # Probably flags
+
+        self.unknown_0x80                 = rw.rw_uint32(self.unknown_0x80) # This one sometimes has no ENRS
         self.fileinfo_pads                = rw.rw_pad32s(self.fileinfo_pads, 0x1F)
         
         rw.assert_equal(list(self.fileinfo_pads), [0]*0x1F)

@@ -90,10 +90,6 @@ class Material(Serializable):
         self.padding_0x7C     = rw.rw_uint32(self.padding_0x7C)
         
         self.padding_0x80     = rw.rw_uint64(self.padding_0x80)
-        # if self.padding_0x88 == 0:
-        #     rw_func = rw.rw_pad32
-        # else:
-        #     rw_func = rw.rw_uint32
         self.padding_0x88     = rw.rw_uint32(self.padding_0x88)
         self.padding_0x8C     = rw.rw_uint32(self.padding_0x8C)
         
@@ -103,7 +99,7 @@ class Material(Serializable):
         self.unknown_0x93     = rw.rw_uint8(self.unknown_0x93)
         self.unknown_0x94     = rw.rw_float32(self.unknown_0x94)
         self.padding_0x98     = rw.rw_pad32(self.padding_0x98)
-        self.unknown_0x9C     = rw.rw_uint32(self.unknown_0x9C)
+        self.unknown_0x9C     = rw.rw_uint32(self.unknown_0x9C) # This one sometimes has no ENRS
         
         rw.assert_is_zero(self.padding_0x08)
         rw.assert_is_zero(self.padding_0x1C)

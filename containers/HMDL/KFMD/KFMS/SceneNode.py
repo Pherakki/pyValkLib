@@ -74,7 +74,7 @@ class SceneNode(Serializable):
         self.unknown_0x4E              = rw.rw_uint8(self.unknown_0x4E)
         self.unknown_0x4F              = rw.rw_uint8(self.unknown_0x4F)
         
-        self.unknown_0x50 = rw.rw_uint32(self.unknown_0x50)
+        self.unknown_0x50 = rw.rw_uint32(self.unknown_0x50) # This one sometimes has no ENRS
         rw.align(rw.local_tell(), 0x10)
         
         rw.assert_is_zero(self.unknown_0x40)
