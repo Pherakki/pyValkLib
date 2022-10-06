@@ -239,9 +239,15 @@ class ReadWriterBase:
     def rw_cstr(self, value, encoding='ascii'):
         raise NotImplementedError
         
+    def rw_cstrs(self, value, encoding='ascii'):
+        raise NotImplementedError
+        
     def rw_bytestring(self, value, count):
         raise NotImplementedError
-
+        
+    def rw_obj_array(self, value, obj_constructor, shape, validator=None):
+        raise NotImplementedError
+        
     def align(self, offset, alignment, padval=b'\x00'):
         raise NotImplementedError
 
@@ -342,6 +348,18 @@ class Reader(ReadWriterBase):
             val = self.bytestream.read(1)
         return out.decode(encoding)
     
+    def rw_cstrs(self, value, shape, encoding='ascii', end_char=b"\x00"):
+        if not hasattr(shape, "__getitem__"):
+            shape = (shape,)
+        n_to_read = 1
+        for elem in shape:
+            n_to_read *= elem
+
+        data = [self.rw_cstr(None, encoding, end_char) for _ in range(n_to_read)]
+        for subshape in shape[1::][::-1]:
+            data = chunk_list(data, subshape)
+        return data
+        
     def rw_bytestring(self, value, count):
         return self.bytestream.read(count)
         
@@ -349,6 +367,23 @@ class Reader(ReadWriterBase):
         val = self.bytestream.read(count)
         self.bytestream.seek(-count, 1)
         return val
+
+    def rw_obj_array(self, value, obj_constructor, shape, validator=None):
+        if not hasattr(shape, "__getitem__"):
+            shape = (shape,)
+        n_to_read = 1
+        for elem in shape:
+            n_to_read *= elem
+
+        data = [obj_constructor() for _ in range(n_to_read)]
+        for d in data:
+            if validator is not None:
+                validator(d)
+            self.rw_obj(d)
+
+        for subshape in shape[1::][::-1]:
+            data = chunk_list(data, subshape)
+        return data
     
     def align(self, offset, alignment, padval=b'\x00'):
         n_to_read = (alignment - (offset % alignment)) % alignment
@@ -444,11 +479,43 @@ class Writer(ReadWriterBase):
         out = value.encode(encoding) + end_char
         self.bytestream.write(out)
         return value
+        
+    def rw_cstrs(self, value, shape, encoding='ascii', end_char=b"\x00"):
+        if not hasattr(shape, "__getitem__"):
+            shape = (shape,)
+        n_to_read = 1
+        for elem in shape:
+            n_to_read *= elem
+
+        data = value  # Shouldn't need to deepcopy since flatten_list will copy
+        for _ in range(len(shape) - 1):
+            data = flatten_list(data)
+        for d in data:
+            self.rw_cstr(d, encoding, end_char)
+
+        return value
     
     def rw_bytestring(self, value, count):
         if len(value) != count:
             raise ValueError(f"Expected to write a bytestring of length {count}, but it was length {len(value)}.")
         self.bytestream.write(value)
+        return value
+
+    def rw_obj_array(self, value, obj_constructor, shape, validator=None):
+        if not hasattr(shape, "__getitem__"):
+            shape = (shape,)
+        n_to_read = 1
+        for elem in shape:
+            n_to_read *= elem
+
+        data = value  # Shouldn't need to deepcopy since flatten_list will copy
+        for _ in range(len(shape) - 1):
+            data = flatten_list(data)
+        for d in data:
+            if validator is not None:
+                validator(d)
+            self.rw_obj(d)
+
         return value
     
     def align(self, offset, alignment, padval=b'\x00'):
@@ -513,11 +580,41 @@ class OffsetTracker(ReadWriterBase):
         length = len(out)
         self.adv_offset(length)
         return value
+            
+    def rw_cstrs(self, value, shape, encoding='ascii', end_char=b"\x00"):
+        if not hasattr(shape, "__getitem__"):
+            shape = (shape,)
+        n_to_read = 1
+        for elem in shape:
+            n_to_read *= elem
+
+        data = value  # Shouldn't need to deepcopy since flatten_list will copy
+        for _ in range(len(shape) - 1):
+            data = flatten_list(data)
+        for d in data:
+            self.rw_cstr(d, encoding, end_char)
+
+        return value
     
     def rw_bytestring(self, value, count):
         self.virtual_offset += count
         return value
-        
+
+    def rw_obj_array(self, value, obj_constructor, shape, validator=None):
+        if not hasattr(shape, "__getitem__"):
+            shape = (shape,)
+        n_to_read = 1
+        for elem in shape:
+            n_to_read *= elem
+
+        data = value  # Shouldn't need to deepcopy since flatten_list will copy
+        for _ in range(len(shape) - 1):
+            data = flatten_list(data)
+        for d in data:
+            self.rw_obj(d)
+
+        return value
+    
     def align(self, offset, alignment, padval=b'\x00'):
         n_to_read = (alignment - (offset % alignment)) % alignment
         data = padval * (n_to_read // len(padval))
