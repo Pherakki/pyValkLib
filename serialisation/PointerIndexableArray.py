@@ -24,7 +24,7 @@ class PointerIndexableArray(Serializable):
         for elem in self.data:
             yield elem
     
-    def read_write(self, rw):
+    def read_write(self, rw, *args, **kwargs):
         rw.mark_new_contents_array()
         for i, elem in enumerate(self.data):
             rw.mark_new_contents_array_member()
@@ -34,11 +34,11 @@ class PointerIndexableArray(Serializable):
             self.ptr_to_idx[curpos] = i
             self.idx_to_ptr[i] = curpos
 
-            self.rw_element(rw, i)
+            self.rw_element(rw, i, *args, **kwargs)
             
 
-    def rw_element(self, rw, idx):
-        rw.rw_obj(self.data[idx])
+    def rw_element(self, rw, idx, *args, **kwargs):
+        rw.rw_obj(self.data[idx], *args, **kwargs)
         
     def rw_element_method(self, rw, func, idx):
         rw.rw_obj_method(self.data[idx], getattr(self.data[idx], func.__name__))
