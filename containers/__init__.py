@@ -7,6 +7,7 @@ from .HTEX.HTEXReadWriter import HTEXReadWriter
 from .IZCA.MLX0.MLX0ReadWriter import MLX0ReadWriter
 # from .IZCA.PJNT.PJNTReadWriter import PJNTReadWriter
 # from .IZCA.PACT.PACTReadWriter import PACTReadWriter
+from .IZCA.MXTL.MXTLReadWriter import MXTLReadWriter
 
 containers = {
     "CCOL": CCOLReadWriter,
@@ -17,4 +18,5 @@ containers = {
     "MLX0": MLX0ReadWriter,
     # "PACT": PACTReadWriter,
     # "PJNT": PJNTReadWriter,
+    "MXTL": MXTLReadWriter,
 }
