@@ -1,6 +1,6 @@
 # from .IZCA.IZCAReadWriter import IZCAReadWriter
-# from .IZCA.HMDL.HMDLReadWriter import HMDLReadWriter
 from .CCOL.CCOLReadWriter import CCOLReadWriter
+from .HMDL.HMDLReadWriter import HMDLReadWriter
 from .HMOT.HMOTReadWriter import HMOTReadWriter
 from .HTEX.HTEXReadWriter import HTEXReadWriter
 # from .IZCA.HSHP.HSHPReadWriter import HSHPReadWriter
