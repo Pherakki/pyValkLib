@@ -1,4 +1,3 @@
-# from .IZCA.IZCAReadWriter import IZCAReadWriter
 from .CCOL.CCOLReadWriter import CCOLReadWriter
 from .HMDL.HMDLReadWriter import HMDLReadWriter
 from .HMOT.HMOTReadWriter import HMOTReadWriter
