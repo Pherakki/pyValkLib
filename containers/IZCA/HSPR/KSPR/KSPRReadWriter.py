@@ -23,11 +23,16 @@ class KSPRReadWriter(ValkSerializable32BH):
         self.unknown_0x1C = None
         
         self.unk_obj_1s = []
+        self.unknown_blob = []
         self.unknown_index_list = PointerIndexableArray(self.context)
         self.unk_obj_3s = PointerIndexableArray(self.context)
         self.unk_obj_4s = PointerIndexableArray(self.context)
         self.unk_obj_5s = PointerIndexableArray(self.context)
         self.unk_obj_6s = PointerIndexableArray(self.context)
+        self.unk_obj_7s = PointerIndexableArray(self.context)
+        self.unk_obj_8s = PointerIndexableArray(self.context)
+        self.unk_obj_9s = PointerIndexableArray(self.context)
+        self.remainder = None
         
         self.POF0 = POF0ReadWriter("<")
         self.ENRS = ENRSReadWriter("<")
@@ -62,7 +67,9 @@ class KSPRReadWriter(ValkSerializable32BH):
         print(">>", rw.local_tell())
         print(self.unk_obj_1s)
         
-        rw.align(0x10, 0x50)
+        # Pointed to by obj 1s
+        self.unknown_blob = rw.rw_uint32s(self.unknown_blob, 5)
+        rw.align(5*4, 0x40)
         print(">>", rw.local_tell())
         
         
@@ -110,9 +117,35 @@ class KSPRReadWriter(ValkSerializable32BH):
         print(self.unk_obj_6s)
         rw.align(0x50*sum(o[1] for o in info), 0x40)
         print(">>", rw.local_tell())
-        print(">>>>", self.header.data_length)
-        print(rw.peek_bytestring(0x80))
-        print(rw.rw_int32s(None, 0x74))
+        
+        
+        # Obj list 7
+        if rw.mode() == "read":
+            self.unk_obj_7s.data = [UnknownObject7(self.context) for _ in range(4)]
+        self.unk_obj_7s = rw.rw_obj(self.unk_obj_7s)
+        print(self.unk_obj_7s)
+        print(">>", rw.local_tell())
+        
+        # Obj list 8
+        info = sorted(set(o.unknown_0x18 for o in self.unk_obj_7s if o.unknown_0x18 != 0))
+        if rw.mode() == "read":
+            self.unk_obj_8s.data = [UnknownObject8(self.context) for _ in info]
+        self.unk_obj_8s = rw.rw_obj(self.unk_obj_8s)
+        print(self.unk_obj_8s)
+        print(">>", rw.local_tell())
+        
+        # Obj list 9
+        if rw.mode() == "read":
+            self.unk_obj_9s.data = [UnknownObject9(self.context) for _ in range(5)]
+        self.unk_obj_9s = rw.rw_obj(self.unk_obj_9s)
+        print(self.unk_obj_9s)
+        print(">>", rw.local_tell())
+        
+        if rw.mode() == "read":
+            print(rw.peek_bytestring(0x80))
+        self.remainder = (rw.rw_int32s(self.remainder, 0x20))
+        print(self.remainder)
+        
 
     def __repr__(self):
         return f"KSPR Object [{self.header.depth}] [0x{self.header.flags:0>8x}]."
@@ -163,7 +196,7 @@ class UnknownObject1(Serializable):
         self.unknown_0x30 = rw.rw_pointer(self.unknown_0x30)
         self.unknown_0x34 = rw.rw_uint32(self.unknown_0x34)
         self.unknown_0x38 = rw.rw_uint32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_uint32(self.unknown_0x3C)
+        self.unknown_0x3C = rw.rw_pointer(self.unknown_0x3C)
         
     def rw_unknown_floats(self, rw):
         self.unknown_floats = rw.rw_uint32s(self.unknown_floats, self.unknown_float_count)
@@ -221,7 +254,7 @@ class UnknownObject3SubObject(Serializable):
         self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
         self.unknown_offset_1 = rw.rw_pointer(self.unknown_offset_1)
         
-        self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
+        self.unknown_0x10 = rw.rw_pointer(self.unknown_0x10)
         self.unknown_offset_2 = rw.rw_pointer(self.unknown_offset_2)
         self.unknown_0x18 = rw.rw_uint32(self.unknown_0x18)
         self.unknown_0x1C = rw.rw_uint32(self.unknown_0x1C)
@@ -329,3 +362,98 @@ class UnknownObject6SubObject(Serializable):
         self.unknown_0x44 = rw.rw_uint32(self.unknown_0x44)
         self.unknown_0x48 = rw.rw_uint32(self.unknown_0x48)
         self.unknown_0x4C = rw.rw_uint32(self.unknown_0x4C)
+        
+
+class UnknownObject7(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        
+        self.unknown_0x00 = None
+        self.unknown_0x04 = None
+        self.unknown_0x08 = None
+        self.unknown_0x0C = None
+        self.unknown_0x10 = None
+        self.unknown_0x14 = None
+        self.unknown_0x18 = None
+        self.unknown_0x1C = None
+        
+    def __repr__(self):
+        return f"[KSPR::UnkObj7] "\
+            f"{self.unknown_0x00} {self.unknown_0x04} {self.unknown_0x08} {self.unknown_0x0C} "\
+            f"{self.unknown_0x10} {self.unknown_0x14} {self.unknown_0x18} {self.unknown_0x1C} "
+        
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
+        self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_pointer(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_pointer(self.unknown_0x1C)
+        
+class UnknownObject8(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        
+        self.unknown_0x00 = None
+        self.unknown_0x04 = None
+        self.unknown_0x08 = None
+        self.unknown_0x0C = None
+        self.unknown_0x10 = None
+        self.unknown_0x14 = None
+        self.unknown_0x18 = None
+        self.unknown_0x1C = None
+        self.unknown_0x20 = None
+        self.unknown_0x24 = None
+        self.unknown_0x28 = None
+        self.unknown_0x2C = None
+        self.unknown_0x30 = None
+        self.unknown_0x34 = None
+        self.unknown_0x38 = None
+        self.unknown_0x3C = None
+        
+    def __repr__(self):
+        return f"[KSPR::UnkObj8] "\
+            f"{self.unknown_0x00} {self.unknown_0x04} {self.unknown_0x08} {self.unknown_0x0C} "\
+            f"{self.unknown_0x10} {self.unknown_0x14} {self.unknown_0x18} {self.unknown_0x1C} "\
+            f"{self.unknown_0x20} {self.unknown_0x24} {self.unknown_0x28} {self.unknown_0x2C} "\
+            f"{self.unknown_0x30} {self.unknown_0x34} {self.unknown_0x38} {self.unknown_0x3C} "
+        
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
+        self.unknown_0x10 = rw.rw_uint32(self.unknown_0x10)
+        self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
+        self.unknown_0x18 = rw.rw_uint32(self.unknown_0x18)
+        self.unknown_0x1C = rw.rw_uint32(self.unknown_0x1C)
+        self.unknown_0x20 = rw.rw_uint32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_uint32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_uint32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_uint32(self.unknown_0x2C)
+        self.unknown_0x30 = rw.rw_uint32(self.unknown_0x30)
+        self.unknown_0x34 = rw.rw_uint32(self.unknown_0x34)
+        self.unknown_0x38 = rw.rw_uint32(self.unknown_0x38)
+        self.unknown_0x3C = rw.rw_uint32(self.unknown_0x3C)
+        
+class UnknownObject9(Serializable):
+    def __init__(self, context):
+        super().__init__(context)
+        
+        self.unknown_0x00 = None
+        self.unknown_0x04 = None
+        self.unknown_0x08 = None
+        self.unknown_0x0C = None
+        
+    def __repr__(self):
+        return f"[KSPR::UnkObj9] "\
+            f"{self.unknown_0x00} {self.unknown_0x04} {self.unknown_0x08} {self.unknown_0x0C}"
+        
+    def read_write(self, rw):
+        self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
+        self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
+        self.unknown_0x08 = rw.rw_pointer(self.unknown_0x08)
+        self.unknown_0x0C = rw.rw_pointer(self.unknown_0x0C)
+        
