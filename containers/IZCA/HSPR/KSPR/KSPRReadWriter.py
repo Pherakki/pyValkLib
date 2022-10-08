@@ -161,7 +161,9 @@ class KSPRReadWriter(ValkSerializable32BH):
             
         for i in range(4):
             rw.rw_uint16s(None, 2)
-            rw.rw_uint32s(None, 3)
+            rw.rw_color32(None)
+            rw.rw_color32(None)
+            rw.rw_uint32s(None, 1)
         
         rw.rw_uint16s(None, 1)
         rw.rw_pad16s(None, 1)
@@ -397,14 +399,14 @@ class UnknownObject6SubObject(Serializable):
         self.unknown_0x08 = rw.rw_float32(self.unknown_0x08)
         self.unknown_0x0C = rw.rw_float32(self.unknown_0x0C)
         self.unknown_0x10 = rw.rw_float32(self.unknown_0x10)
-        self.unknown_0x14 = rw.rw_int32(self.unknown_0x14)
+        self.unknown_0x14 = rw.rw_color32(self.unknown_0x14)
         self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
         self.unknown_0x1A = rw.rw_int16(self.unknown_0x1A)
         self.unknown_0x1C = rw.rw_int16(self.unknown_0x1C)
-        self.unknown_0x20 = rw.rw_int32(self.unknown_0x20)
-        self.unknown_0x24 = rw.rw_int32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_int32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_int32(self.unknown_0x2C)
+        self.unknown_0x20 = rw.rw_color32(self.unknown_0x20)
+        self.unknown_0x24 = rw.rw_color32(self.unknown_0x24)
+        self.unknown_0x28 = rw.rw_color32(self.unknown_0x28)
+        self.unknown_0x2C = rw.rw_color32(self.unknown_0x2C)
         
         self.unknown_0x30 = rw.rw_uint32(self.unknown_0x30)
         self.unknown_0x34 = rw.rw_uint32(self.unknown_0x34)
