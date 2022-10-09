@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 from pyValkLib.serialisation.ValkSerializable import Serializable, ValkSerializable32BH
 from pyValkLib.serialisation.PointerIndexableArray import PointerIndexableArray
 from pyValkLib.containers.Metadata.POF0.POF0ReadWriter import POF0ReadWriter
@@ -23,6 +25,7 @@ class KSPRReadWriter(ValkSerializable32BH):
         self.unknown_0x1C = None
         
         self.unk_obj_1s = []
+        self.unk_obj_1_subobj_1s = PointerIndexableArray(self.context)
         self.unknown_blob = []
         self.unknown_index_list = PointerIndexableArray(self.context)
         self.unk_obj_3s = PointerIndexableArray(self.context)
@@ -65,13 +68,23 @@ class KSPRReadWriter(ValkSerializable32BH):
         # Obj list 1
         rw.mark_new_contents_array()
         self.unk_obj_1s = rw.rw_obj_array(self.unk_obj_1s, lambda: UnknownObject1(self.context), self.unk_obj_1_count)
-        
-        # Should do this with the pointers contained inside the objs
-        for i, obj in enumerate(self.unk_obj_1s):
-            rw.rw_obj_method(obj, obj.rw_unknown_floats, i == len(self.unk_obj_1s) - 1)
-
         print(self.unk_obj_1s)
         print(">>", rw.local_tell())
+        
+        info = sorted(set((o.unknown_0x2C, o.unknown_float_count) for o in self.unk_obj_1s if o.unknown_0x28 != 0))
+        aux_info = defaultdict(lambda: [])
+        for offset, count in info:
+            aux_info[offset].append(count)
+        aux_info = {k: max(v) for k, v in aux_info.items()}
+        info = [(k, v) for k, v in sorted(aux_info.items())]
+        print(info)
+        if rw.mode() == "read":
+            self.unk_obj_1_subobj_1s.data = [UnknownObject1SubObj1(self.context, ptr, count, i == len(info)-1) for i, (ptr, count) in enumerate(info)]
+        self.unk_obj_1_subobj_1s = rw.rw_obj(self.unk_obj_1_subobj_1s)
+        print(self.unk_obj_1_subobj_1s)
+        print(">>", rw.local_tell())
+        
+
         
         # Pointed to by obj 1s
         self.unknown_blob = rw.rw_uint32s(self.unknown_blob, 5)
@@ -235,13 +248,30 @@ class UnknownObject1(Serializable):
         rw.assert_is_zero(self.padding_0x12)
         rw.assert_is_zero(self.padding_0x34)
         
-    def rw_unknown_floats(self, rw, is_final):
-        self.unknown_floats = rw.rw_uint32s(self.unknown_floats, self.unknown_float_count)
-        if is_final:
-            rw.align(self.unknown_float_count*4, 0x40)
+        
+class UnknownObject1SubObj1(Serializable):
+    def __init__(self, context, offset, count, is_final):
+        super().__init__(context)
+        
+        self.contents = []
+        self.__offset = offset
+        self.__count = count
+        self.__is_final = is_final
+        
+    def __repr__(self):
+        return f"[KSPR::UnkObj1SubObj1] {list(self.contents)}"
+        
+    def read_write(self, rw):
+        rw.mark_new_contents_array()
+        rw.assert_local_file_pointer_now_at("UnkObj1SubObj1", self.__offset)
+        self.contents = rw.rw_uint32s(self.contents, self.__count)
+        
+        # Clean up
+        if self.__is_final:
+            rw.align(self.__count*4, 0x40)
         else:
             # Keeps the ENRS happy
-            count = ((0x10 - self.unknown_float_count % 0x10) % 0x10)
+            count = ((0x10 - self.__count % 0x10) % 0x10)
             blanks = [0x00]*count
             blanks = rw.rw_uint32s(blanks, count)
             rw.assert_equal(list(blanks), [0x00]*count)
@@ -472,7 +502,7 @@ class UnknownObject8(Serializable):
             blanks = [0x00]*count
             blanks = rw.rw_uint32s(blanks, count)
             rw.assert_equal(list(blanks), [0x00]*count)
-        
+
 class UnknownObject9(Serializable):
     def __init__(self, context):
         super().__init__(context)
@@ -491,4 +521,3 @@ class UnknownObject9(Serializable):
         self.unknown_0x04 = rw.rw_uint32(self.unknown_0x04)
         self.unknown_0x08 = rw.rw_pointer(self.unknown_0x08)
         self.unknown_0x0C = rw.rw_pointer(self.unknown_0x0C)
-        
