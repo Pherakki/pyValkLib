@@ -1,7 +1,8 @@
 from collections import defaultdict
 
 from pyValkLib.serialisation.ValkSerializable import Serializable, ValkSerializable32BH
-from pyValkLib.serialisation.PointerIndexableArray import PointerIndexableArray
+from pyValkLib.serialisation.PointerIndexableArray import PointerIndexableArray, PointerIndexableArrayUint32
+
 from pyValkLib.containers.Metadata.POF0.POF0ReadWriter import POF0ReadWriter
 from pyValkLib.containers.Metadata.ENRS.ENRSReadWriter import ENRSReadWriter
 from pyValkLib.containers.Metadata.CCRS.CCRSReadWriter import CCRSReadWriter
@@ -25,8 +26,8 @@ class KSPRReadWriter(ValkSerializable32BH):
         self.unknown_0x1C = None
         
         self.unk_obj_1s = []
-        self.unk_obj_1_subobj_1s = PointerIndexableArray(self.context)
-        self.unknown_blob = []
+        self.unk_obj_1_subobj_1s = PointerIndexableArrayUint32(self.context)
+        self.unknown_blob = PointerIndexableArrayUint32(self.context)
         self.unknown_index_list = PointerIndexableArray(self.context)
         self.unk_obj_3s = PointerIndexableArray(self.context)
         self.unk_obj_4s = PointerIndexableArray(self.context)
@@ -71,24 +72,26 @@ class KSPRReadWriter(ValkSerializable32BH):
         print(self.unk_obj_1s)
         print(">>", rw.local_tell())
         
-        info = sorted(set((o.unknown_0x2C, o.unknown_float_count) for o in self.unk_obj_1s if o.unknown_0x28 != 0))
-        aux_info = defaultdict(lambda: [])
-        for offset, count in info:
-            aux_info[offset].append(count)
-        aux_info = {k: max(v) for k, v in aux_info.items()}
-        info = [(k, v) for k, v in sorted(aux_info.items())]
-        print(info)
-        if rw.mode() == "read":
-            self.unk_obj_1_subobj_1s.data = [UnknownObject1SubObj1(self.context, ptr, count, i == len(info)-1) for i, (ptr, count) in enumerate(info)]
-        self.unk_obj_1_subobj_1s = rw.rw_obj(self.unk_obj_1_subobj_1s)
-        print(self.unk_obj_1_subobj_1s)
-        print(">>", rw.local_tell())
-        
-
         
         # Pointed to by obj 1s
-        self.unknown_blob = rw.rw_uint32s(self.unknown_blob, 5)
-        rw.align(5*4, 0x40)
+        info = sorted(set((o.unknown_0x2C, o.unknown_float_count) for o in self.unk_obj_1s if o.unknown_0x28 != 0))
+        buffer_size = info[-1][1] + (info[-1][0] - rw.local_tell())//4
+        if rw.mode() == "read":
+            self.unk_obj_1_subobj_1s.data = [None for _ in range(buffer_size)]
+        self.unk_obj_1_subobj_1s = rw.rw_obj(self.unk_obj_1_subobj_1s)
+        print([hex(e) for e in self.unk_obj_1_subobj_1s])
+        rw.align(buffer_size*4, 0x40)
+        print(">>", rw.local_tell())
+        
+        
+        # Pointed to by obj 1s
+        info = sorted(set((o.unknown_0x30, o.unknown_float_count) for o in self.unk_obj_1s if o.unknown_0x28 != 0))
+        buffer_size = info[-1][1] + (info[-1][0] - rw.local_tell())//4
+        if rw.mode() == "read":
+            self.unknown_blob.data = [None for _ in range(buffer_size)]
+        self.unknown_blob = rw.rw_obj(self.unknown_blob)
+        print([hex(e) for e in self.unknown_blob])
+        rw.align(buffer_size*4, 0x40)
         print(">>", rw.local_tell())
         
         
@@ -215,15 +218,12 @@ class UnknownObject1(Serializable):
         self.unknown_0x38 = None
         self.unknown_0x3C = None
         
-        self.unknown_floats = []
-        
     def __repr__(self):
         return f"[KSPR::UnkObj1] {self.ID} {print_flag(self.flags)} {self.unknown_float_count} {self.unknown_0x0C} {self.unknown_0x0E} "\
                f"{self.unknown_0x10} {self.padding_0x12} {self.unknown_0x14} " \
                f"{self.unknown_0x18} {self.unknown_0x1C} " \
                f"{self.unknown_0x20} {self.unknown_0x24} {self.unknown_0x28} {self.unknown_0x2C} " \
-               f"{self.unknown_0x30} {self.padding_0x34} {self.unknown_0x38} {self.unknown_0x3C} " \
-               f"{list(self.unknown_floats)}"
+               f"{self.unknown_0x30} {self.padding_0x34} {self.unknown_0x38} {self.unknown_0x3C}"
     
     def read_write(self, rw):
         self.ID = rw.rw_uint32(self.ID)
@@ -263,6 +263,8 @@ class UnknownObject1SubObj1(Serializable):
         
     def read_write(self, rw):
         rw.mark_new_contents_array()
+        print(">> At", rw.local_tell(), "Expected:", self.__offset)
+        print(">> Bytecount:", self.__count*4, "Alignment:", 0x40)
         rw.assert_local_file_pointer_now_at("UnkObj1SubObj1", self.__offset)
         self.contents = rw.rw_uint32s(self.contents, self.__count)
         
