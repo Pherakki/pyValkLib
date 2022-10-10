@@ -85,6 +85,9 @@ class PointerIndexableArrayFloat64(PointerIndexableArray):
 class PointerIndexableArrayMatrix4x4(PointerIndexableArray):
     def rw_element(self, rw, idx): self.data[idx] = rw.rw_matrix4x4(self.data[idx])
     
+class PointerIndexableArrayVec32(PointerIndexableArray):
+    def rw_element(self, rw, idx): self.data[idx] = rw.rw_vec32(self.data[idx])
+    
 class PointerIndexableArrayCStr(PointerIndexableArray):
     def __init__(self, context, encoding='ascii'):
         super().__init__(context)
