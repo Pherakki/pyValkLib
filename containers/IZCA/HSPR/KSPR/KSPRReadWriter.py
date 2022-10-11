@@ -189,12 +189,12 @@ class KSPRReadWriter(ValkSerializable32BH):
         self.unknown_0x18 = None
         self.unknown_0x1C = None
         
-        self.objects = []
-        self.data_1 = PointerIndexableArrayUint32(self.context)
-        self.data_2 = PointerIndexableArrayUint32(self.context)
-        self.data_3 = PointerIndexableArrayUint16(self.context)
-        self.data_4 = PointerIndexableArray(self.context)
-        self.unk_obj_4s = PointerIndexableArray(self.context)
+        self.objects  = []
+        self.data_1   = PointerIndexableArrayUint32(self.context)
+        self.data_2   = PointerIndexableArrayUint32(self.context)
+        self.data_3   = PointerIndexableArrayUint16(self.context)
+        self.data_4   = PointerIndexableArray(self.context)
+        self.data_4A  = PointerIndexableArray(self.context)
         self.unk_obj_5s = PointerIndexableArray(self.context)
         self.unk_obj_6s = PointerIndexableArray(self.context)
         self.unk_obj_7s = PointerIndexableArray(self.context)
@@ -216,6 +216,7 @@ class KSPRReadWriter(ValkSerializable32BH):
         self.rw_data_2(rw)
         self.rw_data_3(rw)
         self.rw_data_4(rw)
+        self.rw_data_4A(rw)
         
     def rw_header(self, rw):
         rw.mark_new_contents_array()
@@ -287,14 +288,15 @@ class KSPRReadWriter(ValkSerializable32BH):
         self.data_4 = rw.rw_obj(self.data_4)
         print(">>", rw.local_tell())
         
-        assert 0
-        
-        # Obj list 4
+    def rw_data_4A(self, rw):
         rw.mark_new_contents_array()
-        info = sorted(set((so.unknown_offset_2) for o in self.unk_obj_3s for so in o.subobjs if so.unknown_offset_2 != 0))
+        element_size = 0x08
+        offsets = sorted(set([o.unknown_offset_3 for o in self.data_4]))
+        element_count = ((offsets[-1] - offsets[0]) // element_size) + 1
+        rw.assert_local_file_pointer_now_at("Data 4A", offsets[0])
         if rw.mode() == "read":
-            self.unk_obj_4s.data = [UnknownObject4(self.context) for ptr in info]
-        self.unk_obj_4s = rw.rw_obj(self.unk_obj_4s)
+            self.data_4A.data = [UnknownObject4A(self.context) for _ in range(element_count)]
+        self.data_4A = rw.rw_obj(self.data_4A)
         rw.align(rw.local_tell(), 0x10)
         print(self.unk_obj_4s)
         print(">>", rw.local_tell())
@@ -308,6 +310,7 @@ class KSPRReadWriter(ValkSerializable32BH):
         
         print(self.unk_obj_5s)
         print(">>", rw.local_tell())
+        assert 0
                        
         # Obj list 6
         rw.mark_new_contents_array()
@@ -452,17 +455,15 @@ class UnknownObject4(Serializable):
         self.unknown_0x1C = rw.rw_uint16(self.unknown_0x1C)
         self.unknown_0x1E = rw.rw_uint16(self.unknown_0x1E)
         
-class UnknownObject4(Serializable):
+class UnknownObject4A(Serializable):
     def __init__(self, context):
         super().__init__(context)
         
         self.idx = None
         self.offset = None
         
-        self.obj = None
-        
     def __repr__(self):
-        return f"[KSPR::UnkObj4] {self.idx} {self.offset} {self.obj}"
+        return f"[KSPR::UnknownObject4A] {self.idx} {self.offset}"
         
     def read_write(self, rw):
         self.idx = rw.rw_int32(self.idx)
