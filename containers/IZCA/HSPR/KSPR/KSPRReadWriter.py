@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 from pyValkLib.serialisation.ValkSerializable import Serializable, ValkSerializable32BH
-from pyValkLib.serialisation.PointerIndexableArray import PointerIndexableArray, PointerIndexableArrayUint32, PointerIndexableArrayVec32
+from pyValkLib.serialisation.PointerIndexableArray import PointerIndexableArray, PointerIndexableArrayUint16, PointerIndexableArrayUint32
 
 from pyValkLib.containers.Metadata.POF0.POF0ReadWriter import POF0ReadWriter
 from pyValkLib.containers.Metadata.ENRS.ENRSReadWriter import ENRSReadWriter
@@ -192,7 +192,7 @@ class KSPRReadWriter(ValkSerializable32BH):
         self.objects = []
         self.data_1 = PointerIndexableArrayUint32(self.context)
         self.data_2 = PointerIndexableArrayUint32(self.context)
-        self.unknown_index_list = PointerIndexableArray(self.context)
+        self.data_3 = PointerIndexableArrayUint16(self.context)
         self.unk_obj_3s = PointerIndexableArray(self.context)
         self.unk_obj_4s = PointerIndexableArray(self.context)
         self.unk_obj_5s = PointerIndexableArray(self.context)
@@ -214,6 +214,7 @@ class KSPRReadWriter(ValkSerializable32BH):
         self.rw_sprite_objs(rw)
         self.rw_data_1(rw)
         self.rw_data_2(rw)
+        self.rw_data_3(rw)
         
     def rw_header(self, rw):
         rw.mark_new_contents_array()
@@ -260,20 +261,18 @@ class KSPRReadWriter(ValkSerializable32BH):
         rw.align(element_count*element_size, 0x40)
         rw.assert_equal(list(self.data_2), [0]*element_count)
         print(">>", rw.local_tell())
-        assert 0
         
-        
-        # Obj list 2
+    def rw_data_3(self, rw):
         rw.mark_new_contents_array()
-        info = sorted(set((o.unknown_0x28, o.unknown_float_count) for o in self.objects if o.unknown_0x28 != 0))
-        buffer_size = info[-1][1] + (info[-1][0] - rw.local_tell())//4
+        element_size = 2
+        element_count = gen_element_count(self.objects, element_size, lambda x: x.data_3_offset)
         if rw.mode() == "read":
-            self.unknown_index_list.data = [UnknownObject2(self.context, count) for ptr, count in info]
-        self.unknown_index_list = rw.rw_obj(self.unknown_index_list)
-        print(self.unknown_index_list)
+            self.data_3.data = [None for _ in range(element_count)]
+        self.data_3 = rw.rw_obj(self.data_3)
         rw.align(rw.local_tell(), 0x40)
         print(">>", rw.local_tell())
         
+        assert 0
         
         # Obj list 3
         rw.mark_new_contents_array()
@@ -414,20 +413,6 @@ class SpriteObject(Serializable):
         self.unknown_0x38 = rw.rw_uint32(self.unknown_0x38)
         self.data_6_offset = rw.rw_pointer(self.data_6_offset)
         
-        
-class UnknownObject2(Serializable):
-    def __init__(self, context, count):
-        super().__init__(context)
-        
-        self.indices = None
-        self.count = count
-        
-    def __repr__(self):
-        return f"[KSPR::UnkObj2] {list(self.indices)}"
-        
-    def read_write(self, rw):
-        self.indices = rw.rw_uint16s(self.indices, self.count)
-        rw.align(rw.local_tell(), 0x10)
 
 class UnknownObject3(Serializable):
     def __init__(self, context, count):
