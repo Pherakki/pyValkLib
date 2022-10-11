@@ -8,10 +8,10 @@ from pyValkLib.containers.Metadata.ENRS.ENRSReadWriter import ENRSReadWriter
 from pyValkLib.containers.Metadata.CCRS.CCRSReadWriter import CCRSReadWriter
 from pyValkLib.containers.Metadata.EOFC.EOFCReadWriter import EOFCReadWriter
 
-def gen_element_count(objs, element_size, offset_accessor):
+def gen_element_count(objs, element_size, offset_accessor, count_accessor=lambda x: x.element_count):
     offsets = set()
     for o in objs:
-        for i in range(o.element_count):
+        for i in range(count_accessor(o)):
             offsets.add(offset_accessor(o) + element_size*i)
     offsets = sorted(offsets)
                 
@@ -197,7 +197,7 @@ class KSPRReadWriter(ValkSerializable32BH):
         self.data_4A  = PointerIndexableArray(self.context)
         self.data_4AA = PointerIndexableArray(self.context)
         self.data_5   = PointerIndexableArray(self.context)
-        self.unk_obj_6s = PointerIndexableArray(self.context)
+        self.data_6   = PointerIndexableArray(self.context)
         self.unk_obj_7s = PointerIndexableArray(self.context)
         self.unk_obj_8s = PointerIndexableArray(self.context)
         self.unk_obj_9s = PointerIndexableArray(self.context)
@@ -220,6 +220,7 @@ class KSPRReadWriter(ValkSerializable32BH):
         self.rw_data_4A(rw)
         self.rw_data_4AA(rw)
         self.rw_data_5(rw)
+        self.rw_data_6(rw)
         
     def rw_header(self, rw):
         rw.mark_new_contents_array()
@@ -326,16 +327,19 @@ class KSPRReadWriter(ValkSerializable32BH):
         self.data_5 = rw.rw_obj(self.data_5)
         rw.align(element_count*element_size, 0x40)
         print(">>", rw.local_tell())
-        assert 0
         
-        
-        # Obj list 7
+    def rw_data_6(self, rw):
         rw.mark_new_contents_array()
+        element_size = 0x20
+        element_count, offsets = gen_element_count(self.objects, element_size, lambda x: x.data_6_offset, lambda x: x.unknown_0x38)
+        rw.assert_local_file_pointer_now_at("Data 6", offsets[0])
+        print(offsets)
+        print(sorted([[o.data_6_offset, o.element_count, o.unknown_0x10, o.unknown_0x38] for o in self.objects]))
         if rw.mode() == "read":
-            self.unk_obj_7s.data = [UnknownObject7(self.context) for _ in range(4)]
-        self.unk_obj_7s = rw.rw_obj(self.unk_obj_7s)
-        print(self.unk_obj_7s)
+            self.data_6.data = [UnknownObject6(self.context) for _ in range(element_count)]
+        self.data_6 = rw.rw_obj(self.data_6)
         print(">>", rw.local_tell())
+        assert 0
         
         # Obj list 8
         rw.mark_new_contents_array()
@@ -561,7 +565,7 @@ class UnknownObject5(Serializable):
         self.unknown_0x4E = rw.rw_uint16(self.unknown_0x4E)
         
 
-class UnknownObject7(Serializable):
+class UnknownObject6(Serializable):
     def __init__(self, context):
         super().__init__(context)
         
@@ -571,13 +575,13 @@ class UnknownObject7(Serializable):
         self.unknown_0x0C = None
         self.unknown_0x10 = None
         self.unknown_0x14 = None
-        self.unknown_0x18 = None
-        self.unknown_0x1C = None
+        self.unknown_offset_1 = None
+        self.unknown_offset_2 = None
         
     def __repr__(self):
-        return f"[KSPR::UnkObj7] "\
+        return f"[KSPR::UnkObj6] "\
             f"{self.unknown_0x00} {self.flags} {self.unknown_0x08} {self.unknown_0x0C} "\
-            f"{self.unknown_0x10} {self.unknown_0x14} {self.unknown_0x18} {self.unknown_0x1C} "
+            f"{self.unknown_0x10} {self.unknown_0x14} {self.unknown_offset_1} {self.unknown_offset_2} "
         
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
@@ -586,8 +590,8 @@ class UnknownObject7(Serializable):
         self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
         self.unknown_0x10 = rw.rw_float32(self.unknown_0x10)
         self.unknown_0x14 = rw.rw_float32(self.unknown_0x14)
-        self.unknown_0x18 = rw.rw_pointer(self.unknown_0x18)
-        self.unknown_0x1C = rw.rw_pointer(self.unknown_0x1C)
+        self.unknown_offset_1 = rw.rw_pointer(self.unknown_offset_1)
+        self.unknown_offset_2 = rw.rw_pointer(self.unknown_offset_2)
         
 class UnknownObject8(Serializable):
     def __init__(self, context, count, is_final):
