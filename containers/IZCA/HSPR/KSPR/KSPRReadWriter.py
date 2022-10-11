@@ -17,14 +17,14 @@ class KSPRRipper(ValkSerializable32BH):
         
         self.unknown_0x00 = None
         self.padding_0x04 = None
-        self.unk_obj_1_count = None
-        self.unk_obj_1_offset = None
+        self.obj_count = None
+        self.objs_offset = None
         self.unknown_0x10 = None
         self.unknown_0x14 = None
         self.unknown_0x18 = None
         self.unknown_0x1C = None
         
-        self.unk_obj_1s = []
+        self.objects = []
         
         self.POF0 = POF0ReadWriter("<")
         self.ENRS = ENRSReadWriter("<")
@@ -50,9 +50,9 @@ class KSPRRipper(ValkSerializable32BH):
         rw.align(0x20, 0x40)
         
         
-        rw.assert_local_file_pointer_now_at("RippedObjs", self.unk_obj_1_offset)
-        self.unk_obj_1s = [RippedObj(self.context) for _ in range(self.unk_obj_1_count)]
-        for obj in self.unk_obj_1s:
+        rw.assert_local_file_pointer_now_at("RippedObjs", self.objs_offset)
+        self.objects = [RippedObj(self.context) for _ in range(self.obj_count)]
+        for obj in self.objects:
             rw.rw_obj(obj)
             
         rw.local_seek(self.header.data_length + self.header.header_length)
@@ -172,14 +172,14 @@ class KSPRReadWriter(ValkSerializable32BH):
         
         self.unknown_0x00 = None
         self.padding_0x04 = None
-        self.unk_obj_1_count = None
-        self.unk_obj_1_offset = None
+        self.obj_count = None
+        self.objs_offset = None
         self.unknown_0x10 = None
         self.unknown_0x14 = None
         self.unknown_0x18 = None
         self.unknown_0x1C = None
         
-        self.unk_obj_1s = []
+        self.objects = []
         self.unk_obj_1_subobj_1s = PointerIndexableArrayUint32(self.context)
         self.unknown_blob = PointerIndexableArrayUint32(self.context)
         self.unknown_index_list = PointerIndexableArray(self.context)
@@ -205,8 +205,8 @@ class KSPRReadWriter(ValkSerializable32BH):
         
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.padding_0x04 = rw.rw_pad32(self.padding_0x04)
-        self.unk_obj_1_count = rw.rw_uint32(self.unk_obj_1_count)
-        self.unk_obj_1_offset = rw.rw_pointer(self.unk_obj_1_offset)
+        self.obj_count    = rw.rw_uint32(self.obj_count)
+        self.objs_offset  = rw.rw_pointer(self.objs_offset)
         self.unknown_0x10 = rw.rw_float32(self.unknown_0x10)
         self.unknown_0x14 = rw.rw_float32(self.unknown_0x14)
         self.unknown_0x18 = rw.rw_float32(self.unknown_0x18)
@@ -214,20 +214,20 @@ class KSPRReadWriter(ValkSerializable32BH):
         rw.assert_is_zero(self.padding_0x04)
         rw.align(0x20, 0x40)
         
-        print(self.unknown_0x00, self.padding_0x04, self.unk_obj_1_count, self.unk_obj_1_offset)
+        print(self.unknown_0x00, self.padding_0x04, self.obj_count, self.objs_offset)
         print(self.unknown_0x10, self.unknown_0x14, self.unknown_0x18, self.unknown_0x1C)
         print(">>", rw.local_tell())
         
         
         # Obj list 1
         rw.mark_new_contents_array()
-        self.unk_obj_1s = rw.rw_obj_array(self.unk_obj_1s, lambda: UnknownObject1(self.context), self.unk_obj_1_count)
-        print(self.unk_obj_1s)
+        self.objects = rw.rw_obj_array(self.objects, lambda: UnknownObject1(self.context), self.obj_count)
+        print(self.objects)
         print(">>", rw.local_tell())
         
         
         # Pointed to by obj 1s
-        info = sorted(set((o.unknown_0x2C, o.unknown_float_count) for o in self.unk_obj_1s if o.unknown_0x28 != 0))
+        info = sorted(set((o.unknown_0x2C, o.unknown_float_count) for o in self.objects if o.unknown_0x28 != 0))
         buffer_size = info[-1][1] + (info[-1][0] - rw.local_tell())//4
         if rw.mode() == "read":
             self.unk_obj_1_subobj_1s.data = [None for _ in range(buffer_size)]
@@ -238,7 +238,7 @@ class KSPRReadWriter(ValkSerializable32BH):
         
         
         # Pointed to by obj 1s
-        info = sorted(set((o.unknown_0x30, o.unknown_float_count) for o in self.unk_obj_1s if o.unknown_0x28 != 0))
+        info = sorted(set((o.unknown_0x30, o.unknown_float_count) for o in self.objects if o.unknown_0x28 != 0))
         buffer_size = info[-1][1] + (info[-1][0] - rw.local_tell())//4
         if rw.mode() == "read":
             self.unknown_blob.data = [None for _ in range(buffer_size)]
@@ -250,7 +250,7 @@ class KSPRReadWriter(ValkSerializable32BH):
         
         # Obj list 2
         rw.mark_new_contents_array()
-        info = sorted(set((o.unknown_0x28, o.unknown_float_count) for o in self.unk_obj_1s if o.unknown_0x28 != 0))
+        info = sorted(set((o.unknown_0x28, o.unknown_float_count) for o in self.objects if o.unknown_0x28 != 0))
         buffer_size = info[-1][1] + (info[-1][0] - rw.local_tell())//4
         if rw.mode() == "read":
             self.unknown_index_list.data = [UnknownObject2(self.context, count) for ptr, count in info]
@@ -262,7 +262,7 @@ class KSPRReadWriter(ValkSerializable32BH):
         
         # Obj list 3
         rw.mark_new_contents_array()
-        info = sorted(set((o.unknown_0x20, o.unknown_float_count) for o in self.unk_obj_1s if o.unknown_0x20 != 0))
+        info = sorted(set((o.unknown_0x20, o.unknown_float_count) for o in self.objects if o.unknown_0x20 != 0))
         if rw.mode() == "read":
             self.unk_obj_3s.data = [UnknownObject3(self.context, count) for ptr, count in info]
         self.unk_obj_3s = rw.rw_obj(self.unk_obj_3s)
@@ -291,7 +291,7 @@ class KSPRReadWriter(ValkSerializable32BH):
                        
         # Obj list 6
         rw.mark_new_contents_array()
-        info = sorted(set((o.unknown_0x24, o.unknown_float_count) for o in self.unk_obj_1s if o.unknown_0x24 != 0))
+        info = sorted(set((o.unknown_0x24, o.unknown_float_count) for o in self.objects if o.unknown_0x24 != 0))
         if rw.mode() == "read":
             self.unk_obj_6s.data = [UnknownObject6(self.context, count) for ptr, count in info]
         self.unk_obj_6s = rw.rw_obj(self.unk_obj_6s)
