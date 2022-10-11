@@ -221,7 +221,7 @@ class KSPRReadWriter(ValkSerializable32BH):
         
         # Obj list 1
         rw.mark_new_contents_array()
-        self.objects = rw.rw_obj_array(self.objects, lambda: UnknownObject1(self.context), self.obj_count)
+        self.objects = rw.rw_obj_array(self.objects, lambda: SpriteObject(self.context), self.obj_count)
         print(self.objects)
         print(">>", rw.local_tell())
         
@@ -349,7 +349,7 @@ class KSPRReadWriter(ValkSerializable32BH):
 def print_flag(flag):
     return hex(flag[0] << 0x18 | flag[1] << 0x10 | flag[2] << 0x08 | flag[3] << 0x00)
 
-class UnknownObject1(Serializable):
+class SpriteObject(Serializable):
     def __init__(self, context):
         super().__init__(context)
         
