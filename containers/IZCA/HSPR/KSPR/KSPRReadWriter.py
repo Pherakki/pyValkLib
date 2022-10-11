@@ -191,7 +191,7 @@ class KSPRReadWriter(ValkSerializable32BH):
         
         self.objects = []
         self.data_1 = PointerIndexableArrayUint32(self.context)
-        self.unknown_blob = PointerIndexableArrayUint32(self.context)
+        self.data_2 = PointerIndexableArrayUint32(self.context)
         self.unknown_index_list = PointerIndexableArray(self.context)
         self.unk_obj_3s = PointerIndexableArray(self.context)
         self.unk_obj_4s = PointerIndexableArray(self.context)
@@ -213,6 +213,7 @@ class KSPRReadWriter(ValkSerializable32BH):
         self.rw_header(rw)
         self.rw_sprite_objs(rw)
         self.rw_data_1(rw)
+        self.rw_data_2(rw)
         
     def rw_header(self, rw):
         rw.mark_new_contents_array()
@@ -242,7 +243,6 @@ class KSPRReadWriter(ValkSerializable32BH):
         
         
     def rw_data_1(self, rw):
-        offsets = set()
         element_size = 4
         element_count = gen_element_count(self.objects, element_size, lambda x: x.data_1_offset)
         if rw.mode() == "read":
@@ -250,18 +250,17 @@ class KSPRReadWriter(ValkSerializable32BH):
         self.data_1 = rw.rw_obj(self.data_1)
         rw.align(element_count*element_size, 0x40)
         print(">>", rw.local_tell())
-        assert 0
         
-        
-        # Pointed to by obj 1s
-        info = sorted(set((o.unknown_0x30, o.unknown_float_count) for o in self.objects if o.unknown_0x28 != 0))
-        buffer_size = info[-1][1] + (info[-1][0] - rw.local_tell())//4
+    def rw_data_2(self, rw):
+        element_size = 4
+        element_count = gen_element_count(self.objects, element_size, lambda x: x.data_2_offset)
         if rw.mode() == "read":
-            self.unknown_blob.data = [None for _ in range(buffer_size)]
-        self.unknown_blob = rw.rw_obj(self.unknown_blob)
-        print([hex(e) for e in self.unknown_blob])
-        rw.align(buffer_size*4, 0x40)
+            self.data_2.data = [None for _ in range(element_count)]
+        self.data_2 = rw.rw_obj(self.data_2)
+        rw.align(element_count*element_size, 0x40)
+        rw.assert_equal(list(self.data_2), [0]*element_count)
         print(">>", rw.local_tell())
+        assert 0
         
         
         # Obj list 2
