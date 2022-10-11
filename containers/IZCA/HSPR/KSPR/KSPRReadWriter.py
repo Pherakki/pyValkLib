@@ -8,6 +8,16 @@ from pyValkLib.containers.Metadata.ENRS.ENRSReadWriter import ENRSReadWriter
 from pyValkLib.containers.Metadata.CCRS.CCRSReadWriter import CCRSReadWriter
 from pyValkLib.containers.Metadata.EOFC.EOFCReadWriter import EOFCReadWriter
 
+def gen_element_count(objs, element_size, offset_accessor):
+    offsets = set()
+    for o in objs:
+        for i in range(o.element_count):
+            offsets.add(offset_accessor(o) + element_size*i)
+    offsets = sorted(offsets)
+                
+    return ((offsets[-1] - offsets[0]) // element_size) + 1
+    
+
 class KSPRRipper(ValkSerializable32BH):
     FILETYPE = "KSPR"
     
@@ -234,12 +244,7 @@ class KSPRReadWriter(ValkSerializable32BH):
     def rw_data_1(self, rw):
         offsets = set()
         element_size = 4
-        for o in self.objects:
-            for i in range(o.element_count):
-                offsets.add(o.data_1_offset + element_size*i)
-        offsets = sorted(offsets)
-                
-        element_count = ((offsets[-1] - offsets[0]) // element_size) + 1
+        element_count = gen_element_count(self.objects, element_size, lambda x: x.data_1_offset)
         if rw.mode() == "read":
             self.data_1.data = [None for _ in range(element_count)]
         self.data_1 = rw.rw_obj(self.data_1)
