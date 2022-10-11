@@ -201,6 +201,7 @@ class KSPRReadWriter(ValkSerializable32BH):
         
     def read_write_contents(self, rw):
         self.rw_header(rw)
+        self.rw_sprite_objs(rw)
         self.rw_data_1(rw)
         
     def rw_header(self, rw):
@@ -223,7 +224,7 @@ class KSPRReadWriter(ValkSerializable32BH):
         print(">>", rw.local_tell())
         
         
-        # Obj list 1
+    def rw_sprite_objs(self, rw):
         rw.mark_new_contents_array()
         self.objects = rw.rw_obj_array(self.objects, lambda: SpriteObject(self.context), self.obj_count)
         print(self.objects)
