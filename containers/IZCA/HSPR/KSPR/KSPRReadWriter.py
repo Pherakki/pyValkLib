@@ -180,7 +180,7 @@ class KSPRReadWriter(ValkSerializable32BH):
         self.unknown_0x1C = None
         
         self.objects = []
-        self.unk_obj_1_subobj_1s = PointerIndexableArrayUint32(self.context)
+        self.data_1 = PointerIndexableArrayUint32(self.context)
         self.unknown_blob = PointerIndexableArrayUint32(self.context)
         self.unknown_index_list = PointerIndexableArray(self.context)
         self.unk_obj_3s = PointerIndexableArray(self.context)
@@ -200,6 +200,10 @@ class KSPRReadWriter(ValkSerializable32BH):
         return [self.POF0, self.ENRS, self.CCRS, self.EOFC]
         
     def read_write_contents(self, rw):
+        self.rw_header(rw)
+        self.rw_data_1(rw)
+        
+    def rw_header(self, rw):
         rw.mark_new_contents_array()
         rw.assert_equal(self.header.flags, 0x18000000, lambda x: hex(x))
         
@@ -226,15 +230,21 @@ class KSPRReadWriter(ValkSerializable32BH):
         print(">>", rw.local_tell())
         
         
-        # Pointed to by obj 1s
-        info = sorted(set((o.unknown_0x2C, o.unknown_float_count) for o in self.objects if o.unknown_0x28 != 0))
-        buffer_size = info[-1][1] + (info[-1][0] - rw.local_tell())//4
+    def rw_data_1(self, rw):
+        offsets = set()
+        element_size = 4
+        for o in self.objects:
+            for i in range(o.element_count):
+                offsets.add(o.data_1_offset + element_size*i)
+        offsets = sorted(offsets)
+                
+        element_count = ((offsets[-1] - offsets[0]) // element_size) + 1
         if rw.mode() == "read":
-            self.unk_obj_1_subobj_1s.data = [None for _ in range(buffer_size)]
-        self.unk_obj_1_subobj_1s = rw.rw_obj(self.unk_obj_1_subobj_1s)
-        print([hex(e) for e in self.unk_obj_1_subobj_1s])
-        rw.align(buffer_size*4, 0x40)
+            self.data_1.data = [None for _ in range(element_count)]
+        self.data_1 = rw.rw_obj(self.data_1)
+        rw.align(element_count*element_size, 0x40)
         print(">>", rw.local_tell())
+        assert 0
         
         
         # Pointed to by obj 1s
@@ -355,82 +365,50 @@ class SpriteObject(Serializable):
         
         self.ID = None
         self.type = None
-        self.unknown_float_count = None
+        self.element_count = None
         self.unknown_0x0C = None
         self.unknown_0x0E = None
         self.unknown_0x10 = None
         self.padding_0x12 = None
         self.unknown_0x14 = None
         self.unknown_0x18 = None
-        self.unknown_0x1C = None
-        self.unknown_0x20 = None
-        self.unknown_0x24 = None
-        self.unknown_0x28 = None
-        self.unknown_0x2C = None
-        self.unknown_0x30 = None
+        self.data_7_offset = None
+        self.data_4_offset = None
+        self.data_5_offset = None
+        self.data_3_offset = None
+        self.data_1_offset = None
+        self.data_2_offset = None
         self.padding_0x34 = None
         self.unknown_0x38 = None
-        self.unknown_0x3C = None
+        self.data_6_offset = None
         
     def __repr__(self):
-        return f"[KSPR::UnkObj1] {self.ID} {self.type} {self.unknown_float_count} {self.unknown_0x0C} {self.unknown_0x0E} "\
-               f"{self.unknown_0x10} {self.padding_0x12} {self.unknown_0x14} " \
-               f"{self.unknown_0x18} {self.unknown_0x1C} " \
-               f"{self.unknown_0x20} {self.unknown_0x24} {self.unknown_0x28} {self.unknown_0x2C} " \
-               f"{self.unknown_0x30} {self.padding_0x34} {self.unknown_0x38} {self.unknown_0x3C}"
+        return f"[KSPR::SpriteObject] {self.ID} {self.type} {self.element_count} "\
+               f"{self.unknown_0x10} {self.unknown_0x38} " \
+               f"{self.data_1_offset} {self.data_2_offset} {self.data_3_offset} " \
+               f"{self.data_4_offset} {self.data_5_offset} " \
+               f"{self.data_6_offset} {self.data_7_offset} "
     
     def read_write(self, rw):
         self.ID = rw.rw_uint32(self.ID)
         self.type = rw.rw_bytestring(self.type, 4)
-        self.unknown_float_count = rw.rw_uint32(self.unknown_float_count)
+        self.element_count = rw.rw_uint32(self.element_count)
         self.unknown_0x0C = rw.rw_uint16(self.unknown_0x0C)
         self.unknown_0x0E = rw.rw_uint16(self.unknown_0x0E)
         self.unknown_0x10 = rw.rw_uint16(self.unknown_0x10)
         self.padding_0x12 = rw.rw_pad16(self.padding_0x12)
         self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
         self.unknown_0x18 = rw.rw_uint32(self.unknown_0x18)
-        self.unknown_0x1C = rw.rw_pointer(self.unknown_0x1C)
-        self.unknown_0x20 = rw.rw_pointer(self.unknown_0x20)
-        self.unknown_0x24 = rw.rw_pointer(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_pointer(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_pointer(self.unknown_0x2C)
-        self.unknown_0x30 = rw.rw_pointer(self.unknown_0x30)
+        self.data_7_offset = rw.rw_pointer(self.data_7_offset)
+        self.data_4_offset = rw.rw_pointer(self.data_4_offset)
+        self.data_5_offset = rw.rw_pointer(self.data_5_offset)
+        self.data_3_offset = rw.rw_pointer(self.data_3_offset)
+        self.data_1_offset = rw.rw_pointer(self.data_1_offset)
+        self.data_2_offset = rw.rw_pointer(self.data_2_offset)
         self.padding_0x34 = rw.rw_pad32(self.padding_0x34)
         self.unknown_0x38 = rw.rw_uint32(self.unknown_0x38)
-        self.unknown_0x3C = rw.rw_pointer(self.unknown_0x3C)
+        self.data_6_offset = rw.rw_pointer(self.data_6_offset)
         
-        rw.assert_is_zero(self.padding_0x12)
-        rw.assert_is_zero(self.padding_0x34)
-        
-        
-class UnknownObject1SubObj1(Serializable):
-    def __init__(self, context, offset, count, is_final):
-        super().__init__(context)
-        
-        self.contents = []
-        self.__offset = offset
-        self.__count = count
-        self.__is_final = is_final
-        
-    def __repr__(self):
-        return f"[KSPR::UnkObj1SubObj1] {list(self.contents)}"
-        
-    def read_write(self, rw):
-        rw.mark_new_contents_array()
-        print(">> At", rw.local_tell(), "Expected:", self.__offset)
-        print(">> Bytecount:", self.__count*4, "Alignment:", 0x40)
-        rw.assert_local_file_pointer_now_at("UnkObj1SubObj1", self.__offset)
-        self.contents = rw.rw_uint32s(self.contents, self.__count)
-        
-        # Clean up
-        if self.__is_final:
-            rw.align(self.__count*4, 0x40)
-        else:
-            # Keeps the ENRS happy
-            count = ((0x10 - self.__count % 0x10) % 0x10)
-            blanks = [0x00]*count
-            blanks = rw.rw_uint32s(blanks, count)
-            rw.assert_equal(list(blanks), [0x00]*count)
         
 class UnknownObject2(Serializable):
     def __init__(self, context, count):
