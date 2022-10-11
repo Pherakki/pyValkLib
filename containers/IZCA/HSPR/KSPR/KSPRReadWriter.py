@@ -15,7 +15,7 @@ def gen_element_count(objs, element_size, offset_accessor):
             offsets.add(offset_accessor(o) + element_size*i)
     offsets = sorted(offsets)
                 
-    return ((offsets[-1] - offsets[0]) // element_size) + 1
+    return ((offsets[-1] - offsets[0]) // element_size) + 1, offsets
     
 
 class KSPRRipper(ValkSerializable32BH):
@@ -238,6 +238,7 @@ class KSPRReadWriter(ValkSerializable32BH):
         
     def rw_sprite_objs(self, rw):
         rw.mark_new_contents_array()
+        rw.assert_local_file_pointer_now_at("SpriteObjects", self.objs_offset)
         self.objects = rw.rw_obj_array(self.objects, lambda: SpriteObject(self.context), self.obj_count)
         print(self.objects)
         print(">>", rw.local_tell())
@@ -245,7 +246,8 @@ class KSPRReadWriter(ValkSerializable32BH):
         
     def rw_data_1(self, rw):
         element_size = 4
-        element_count = gen_element_count(self.objects, element_size, lambda x: x.data_1_offset)
+        element_count, offsets = gen_element_count(self.objects, element_size, lambda x: x.data_1_offset)
+        rw.assert_local_file_pointer_now_at("Data 1", offsets[0])
         if rw.mode() == "read":
             self.data_1.data = [None for _ in range(element_count)]
         self.data_1 = rw.rw_obj(self.data_1)
@@ -254,7 +256,8 @@ class KSPRReadWriter(ValkSerializable32BH):
         
     def rw_data_2(self, rw):
         element_size = 4
-        element_count = gen_element_count(self.objects, element_size, lambda x: x.data_2_offset)
+        element_count, offsets = gen_element_count(self.objects, element_size, lambda x: x.data_2_offset)
+        rw.assert_local_file_pointer_now_at("Data 2", offsets[0])
         if rw.mode() == "read":
             self.data_2.data = [None for _ in range(element_count)]
         self.data_2 = rw.rw_obj(self.data_2)
@@ -265,7 +268,8 @@ class KSPRReadWriter(ValkSerializable32BH):
     def rw_data_3(self, rw):
         rw.mark_new_contents_array()
         element_size = 2
-        element_count = gen_element_count(self.objects, element_size, lambda x: x.data_3_offset)
+        element_count, offsets = gen_element_count(self.objects, element_size, lambda x: x.data_3_offset)
+        rw.assert_local_file_pointer_now_at("Data 3", offsets[0])
         if rw.mode() == "read":
             self.data_3.data = [None for _ in range(element_count)]
         self.data_3 = rw.rw_obj(self.data_3)
