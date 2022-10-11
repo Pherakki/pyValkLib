@@ -193,7 +193,7 @@ class KSPRReadWriter(ValkSerializable32BH):
         self.data_1 = PointerIndexableArrayUint32(self.context)
         self.data_2 = PointerIndexableArrayUint32(self.context)
         self.data_3 = PointerIndexableArrayUint16(self.context)
-        self.unk_obj_3s = PointerIndexableArray(self.context)
+        self.data_4 = PointerIndexableArray(self.context)
         self.unk_obj_4s = PointerIndexableArray(self.context)
         self.unk_obj_5s = PointerIndexableArray(self.context)
         self.unk_obj_6s = PointerIndexableArray(self.context)
@@ -215,6 +215,7 @@ class KSPRReadWriter(ValkSerializable32BH):
         self.rw_data_1(rw)
         self.rw_data_2(rw)
         self.rw_data_3(rw)
+        self.rw_data_4(rw)
         
     def rw_header(self, rw):
         rw.mark_new_contents_array()
@@ -276,16 +277,17 @@ class KSPRReadWriter(ValkSerializable32BH):
         rw.align(rw.local_tell(), 0x40)
         print(">>", rw.local_tell())
         
-        assert 0
-        
-        # Obj list 3
+    def rw_data_4(self, rw):
         rw.mark_new_contents_array()
-        info = sorted(set((o.unknown_0x20, o.unknown_float_count) for o in self.objects if o.unknown_0x20 != 0))
+        element_size = 0x20
+        element_count, offsets = gen_element_count(self.objects, element_size, lambda x: x.data_4_offset)
+        rw.assert_local_file_pointer_now_at("Data 4", offsets[0])
         if rw.mode() == "read":
-            self.unk_obj_3s.data = [UnknownObject3(self.context, count) for ptr, count in info]
-        self.unk_obj_3s = rw.rw_obj(self.unk_obj_3s)
-        print(self.unk_obj_3s)
+            self.data_4.data = [UnknownObject4(self.context) for _ in range(element_count)]
+        self.data_4 = rw.rw_obj(self.data_4)
         print(">>", rw.local_tell())
+        
+        assert 0
         
         # Obj list 4
         rw.mark_new_contents_array()
@@ -417,23 +419,7 @@ class SpriteObject(Serializable):
         self.unknown_0x38 = rw.rw_uint32(self.unknown_0x38)
         self.data_6_offset = rw.rw_pointer(self.data_6_offset)
         
-
-class UnknownObject3(Serializable):
-    def __init__(self, context, count):
-        super().__init__(context)
-        
-        self.__count = count
-        self.subobjs = PointerIndexableArray(self.context)
-        
-    def __repr__(self):
-        return f"[KSPR::UnkObj3] {self.subobjs}"
-        
-    def read_write(self, rw):
-        if rw.mode() == "read":
-            self.subobjs.data = [UnknownObject3SubObject(self.context) for _ in range(self.__count)]
-        rw.rw_obj(self.subobjs)
-        
-class UnknownObject3SubObject(Serializable):
+class UnknownObject4(Serializable):
     def __init__(self, context):
         super().__init__(context)
         
@@ -441,19 +427,17 @@ class UnknownObject3SubObject(Serializable):
         self.type = None
         self.unknown_0x08 = None
         self.unknown_offset_1 = None
-        self.unknown_0x10 = None
         self.unknown_offset_2 = None
+        self.unknown_offset_3 = None
         self.unknown_0x18 = None
         self.unknown_0x1A = None
         self.unknown_0x1C = None
         self.unknown_0x1E = None
         
-        self.obj = None
-        
     def __repr__(self):
-        return f"[KSPR::UnkObj3SubObj] {self.ID} {self.type} {self.unknown_0x08} {self.unknown_offset_1} " \
-               f"{self.unknown_0x10} {self.unknown_offset_2} "\
-               f"{self.unknown_0x18} {self.unknown_0x1A} {self.unknown_0x1C}{self.unknown_0x1E} {self.obj}"
+        return f"[KSPR::UnknownObject4] {self.ID} {self.type} {self.unknown_0x08} {self.unknown_offset_1} " \
+               f"{self.unknown_offset_2} {self.unknown_offset_3} "\
+               f"{self.unknown_0x18} {self.unknown_0x1A} {self.unknown_0x1C} {self.unknown_0x1E}"
         
     def read_write(self, rw):
         self.ID = rw.rw_uint32(self.ID)
@@ -461,8 +445,8 @@ class UnknownObject3SubObject(Serializable):
         self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
         self.unknown_offset_1 = rw.rw_pointer(self.unknown_offset_1)
         
-        self.unknown_0x10 = rw.rw_pointer(self.unknown_0x10)
         self.unknown_offset_2 = rw.rw_pointer(self.unknown_offset_2)
+        self.unknown_offset_3 = rw.rw_pointer(self.unknown_offset_3)
         self.unknown_0x18 = rw.rw_uint16(self.unknown_0x18)
         self.unknown_0x1A = rw.rw_uint16(self.unknown_0x1A)
         self.unknown_0x1C = rw.rw_uint16(self.unknown_0x1C)
