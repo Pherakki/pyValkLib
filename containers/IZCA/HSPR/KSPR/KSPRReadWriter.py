@@ -354,7 +354,7 @@ class KSPRReadWriter(ValkSerializable32BH):
             # Element count is not correct...
             self.data_6B.data = [UnknownObject6B(self.context) for _ in range(element_count+1)]
         self.data_6B = rw.rw_obj(self.data_6B)
-        rw.align(element_count*element_size, 0x40)
+        rw.align(element_count*element_size, 0x40) # Alignment also wrong
         
 
     def rw_data_6BA(self, rw):
