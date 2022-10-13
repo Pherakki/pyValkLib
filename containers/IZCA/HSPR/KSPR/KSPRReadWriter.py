@@ -639,6 +639,9 @@ class UnknownObject6B(Serializable):
         if self.unknown_0x04 > 0:
             self.unknown_offset_1 = rw.rw_pointer(self.unknown_offset_1)
             self.unknown_offset_2 = rw.rw_pointer(self.unknown_offset_2)
+        elif self.unknown_0x00 == 4:
+            self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
+            self.unknown_0x0C = rw.rw_color32(self.unknown_0x0C)
         else:
             self.unknown_0x08 = rw.rw_uint32(self.unknown_0x08)
             self.unknown_0x0C = rw.rw_uint32(self.unknown_0x0C)
