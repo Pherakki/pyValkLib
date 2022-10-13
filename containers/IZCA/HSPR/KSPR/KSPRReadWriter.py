@@ -526,19 +526,19 @@ class UnknownObject5(Serializable):
     def __init__(self, context):
         super().__init__(context)
         
-        self.unknown_0x00 = None
-        self.unknown_0x04 = None
-        self.unknown_0x08 = None
-        self.unknown_0x0C = None
-        self.unknown_0x10 = None
-        self.unknown_0x14 = None
+        self.pos_x = None
+        self.pos_y = None
+        self.rotation = None
+        self.scale_x = None
+        self.scale_y = None
+        self.main_color = None
         self.unknown_0x18 = None
         self.unknown_0x1A = None
         self.unknown_0x1C = None
-        self.unknown_0x20 = None
-        self.unknown_0x24 = None
-        self.unknown_0x28 = None
-        self.unknown_0x2C = None
+        self.topleft_color = None
+        self.botleft_color = None
+        self.topright_color = None
+        self.botright_color = None
         self.unknown_0x30 = None
         self.unknown_0x34 = None
         self.unknown_0x38 = None
@@ -553,27 +553,27 @@ class UnknownObject5(Serializable):
         
     def __repr__(self):
         return f"[KSPR::UnknownObject5] "\
-            f"{self.unknown_0x00} {self.unknown_0x04} {self.unknown_0x08} {self.unknown_0x0C} "\
-            f"{self.unknown_0x10} {self.unknown_0x14} {self.unknown_0x18} {self.unknown_0x1A} {self.unknown_0x1C} "\
-            f"{self.unknown_0x20} {self.unknown_0x24} {self.unknown_0x28} {self.unknown_0x2C} "\
+            f"{self.pos_x} {self.pos_y} {self.rotation} {self.scale_x} "\
+            f"{self.scale_y} {self.main_color} {self.unknown_0x18} {self.unknown_0x1A} {self.unknown_0x1C} "\
+            f"{self.topleft_color} {self.botleft_color} {self.topright_color} {self.botright_color} "\
             f"{self.unknown_0x30} {self.unknown_0x34} {self.unknown_0x38} {self.unknown_0x3A} {self.unknown_0x3C} "\
             f"{self.unknown_0x40} {self.unknown_0x44} {self.unknown_0x48} "\
             f"{self.unknown_0x4A} {self.unknown_0x4C} {self.unknown_0x4E} "
         
     def read_write(self, rw):
-        self.unknown_0x00 = rw.rw_float32(self.unknown_0x00)
-        self.unknown_0x04 = rw.rw_float32(self.unknown_0x04)
-        self.unknown_0x08 = rw.rw_float32(self.unknown_0x08)
-        self.unknown_0x0C = rw.rw_float32(self.unknown_0x0C)
-        self.unknown_0x10 = rw.rw_float32(self.unknown_0x10)
-        self.unknown_0x14 = rw.rw_color32(self.unknown_0x14)
-        self.unknown_0x18 = rw.rw_int32(self.unknown_0x18)
-        self.unknown_0x1A = rw.rw_int16(self.unknown_0x1A)
-        self.unknown_0x1C = rw.rw_int16(self.unknown_0x1C)
-        self.unknown_0x20 = rw.rw_color32(self.unknown_0x20)
-        self.unknown_0x24 = rw.rw_color32(self.unknown_0x24)
-        self.unknown_0x28 = rw.rw_color32(self.unknown_0x28)
-        self.unknown_0x2C = rw.rw_color32(self.unknown_0x2C)
+        self.pos_x          = rw.rw_float32(self.pos_x)
+        self.pos_y          = rw.rw_float32(self.pos_y)
+        self.rotation       = rw.rw_float32(self.rotation)
+        self.scale_x        = rw.rw_float32(self.scale_x)
+        self.scale_y        = rw.rw_float32(self.scale_y)
+        self.main_color     = rw.rw_color32(self.main_color)
+        self.unknown_0x18   = rw.rw_int32(self.unknown_0x18)
+        self.unknown_0x1A   = rw.rw_int16(self.unknown_0x1A)
+        self.unknown_0x1C   = rw.rw_int16(self.unknown_0x1C)
+        self.topleft_color  = rw.rw_color32(self.topleft_color)
+        self.botleft_color  = rw.rw_color32(self.botleft_color)
+        self.topright_color = rw.rw_color32(self.topright_color)
+        self.botright_color = rw.rw_color32(self.botright_color)
         
         self.unknown_0x30 = rw.rw_uint32(self.unknown_0x30)
         self.unknown_0x34 = rw.rw_uint32(self.unknown_0x34)
