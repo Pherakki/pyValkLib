@@ -657,7 +657,7 @@ class UnknownObject6BA(Serializable):
         
     def __repr__(self):
         return f"[KSPR::UnknownObject6BA] "\
-            f"{self.unknown_0x00} {self.unknown_0x04} {self.unknown_0x08} {self.unknown_0x0C}"
+            f"{None if self.unknown_0x00 is None else hex(self.unknown_0x00)} {self.unknown_0x04} {self.unknown_0x08} {self.unknown_0x0C}"
         
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
