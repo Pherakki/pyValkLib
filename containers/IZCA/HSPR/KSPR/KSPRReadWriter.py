@@ -22,6 +22,29 @@ def gen_element_count(objs, element_size, offset_accessor, count_accessor=lambda
     return ((offsets[-1] - offsets[0]) // element_size) + 1, offsets
 
 
+
+class KSPRSkipper(ValkSerializable32BH):
+    FILETYPE = "KSPR"
+    
+    def __init__(self, endianness=None):
+        super().__init__({}, endianness)
+        self.header.flags = 0x18000000
+            
+        self.contents = []
+        
+        self.POF0 = POF0ReadWriter("<")
+        self.ENRS = ENRSReadWriter("<")
+        self.CCRS = CCRSReadWriter("<")
+        self.EOFC = EOFCReadWriter("<")
+
+    def get_subcontainers(self):
+        return [self.POF0, self.ENRS, self.CCRS, self.EOFC]
+        
+    def read_write_contents(self, rw):
+        self.contents = rw.rw_bytestring(self.contents, self.header.data_length)
+        
+    
+
 class KSPRReadWriter(ValkSerializable32BH):
     FILETYPE = "KSPR"
     
