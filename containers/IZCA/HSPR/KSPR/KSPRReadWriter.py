@@ -45,7 +45,7 @@ class KSPRReadWriter(ValkSerializable32BH):
         self.data_3   = PointerIndexableArrayUint16(self.context)
         self.data_4   = PointerIndexableArray(self.context)
         self.data_4A  = PointerIndexableArray(self.context)
-        self.data_4AA = PointerIndexableArray(self.context)
+        self.texture_clipboxes = PointerIndexableArray(self.context)
         self.data_5   = PointerIndexableArray(self.context)
         self.data_6   = PointerIndexableArray(self.context)
         self.data_6A  = PointerIndexableArrayUint32(self.context)
@@ -70,7 +70,7 @@ class KSPRReadWriter(ValkSerializable32BH):
         self.rw_data_3(rw)
         self.rw_data_4(rw)
         self.rw_data_4A(rw)
-        self.rw_data_4AA(rw)
+        self.rw_texture_clipboxes(rw)
         self.rw_data_5(rw)
         self.rw_data_6(rw)
         self.rw_data_6A(rw)
@@ -150,15 +150,15 @@ class KSPRReadWriter(ValkSerializable32BH):
         self.data_4A = rw.rw_obj(self.data_4A)
         rw.align(rw.local_tell(), 0x10)
                 
-    def rw_data_4AA(self, rw):
+    def rw_texture_clipboxes(self, rw):
         rw.mark_new_contents_array()
         element_size = 0x10
-        offsets = sorted(set([o.offset for o in self.data_4A]))
+        offsets = sorted(set([o.clipbox_offset for o in self.data_4A]))
         element_count = ((offsets[-1] - offsets[0]) // element_size) + 1
-        rw.assert_local_file_pointer_now_at("Data 4AA", offsets[0])
+        rw.assert_local_file_pointer_now_at("Texture ClipBoxes", offsets[0])
         if rw.mode() == "read":
-            self.data_4AA.data = [UnknownObject4AA(self.context) for _ in range(element_count)]
-        self.data_4AA = rw.rw_obj(self.data_4AA)
+            self.texture_clipboxes.data = [TextureClipBox(self.context) for _ in range(element_count)]
+        self.texture_clipboxes = rw.rw_obj(self.texture_clipboxes)
         rw.align(element_count*element_size, 0x50) # Not convinced this is right
                        
     def rw_data_5(self, rw):
@@ -340,32 +340,35 @@ class UnknownObject4A(Serializable):
         super().__init__(context)
         
         self.idx = None
-        self.offset = None
+        self.clipbox_offset = None
         
     def __repr__(self):
-        return f"[KSPR::UnknownObject4A] {self.idx} {self.offset}"
+        return f"[KSPR::UnknownObject4A] {self.idx} {self.clipbox_offset}"
         
     def read_write(self, rw):
         self.idx = rw.rw_int32(self.idx)
-        self.offset = rw.rw_pointer(self.offset)
+        self.clipbox_offset = rw.rw_pointer(self.clipbox_offset)
         
-class UnknownObject4AA(Serializable):
+class TextureClipBox(Serializable):
+    """
+    Clip coordinates are modular over [0, 1), like UV coordinates
+    """
     def __init__(self, context):
         super().__init__(context)
         
-        self.unknown_0x00 = None
-        self.unknown_0x04 = None
-        self.unknown_0x08 = None
-        self.unknown_0x0C = None
+        self.left_clip = None
+        self.top_clip = None
+        self.right_clip = None
+        self.bot_clip = None
         
     def __repr__(self):
-        return f"[KSPR::UnknownObject4AA] {self.unknown_0x00} {self.unknown_0x04} {self.unknown_0x08} {self.unknown_0x0C}"
+        return f"[KSPR::ImageClipBox] {self.left_clip} {self.top_clip} {self.right_clip} {self.bot_clip}"
         
     def read_write(self, rw):
-        self.unknown_0x00 = rw.rw_float32(self.unknown_0x00)
-        self.unknown_0x04 = rw.rw_float32(self.unknown_0x04)
-        self.unknown_0x08 = rw.rw_float32(self.unknown_0x08)
-        self.unknown_0x0C = rw.rw_float32(self.unknown_0x0C)
+        self.left_clip = rw.rw_float32(self.left_clip)
+        self.top_clip = rw.rw_float32(self.top_clip)
+        self.right_clip = rw.rw_float32(self.right_clip)
+        self.bot_clip = rw.rw_float32(self.bot_clip)
 
         
 class UnknownObject5(Serializable):
