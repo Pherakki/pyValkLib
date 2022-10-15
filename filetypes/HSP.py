@@ -1,7 +1,7 @@
 import os
 
 from pyValkLib.containers.Metadata.EOFC.EOFCReadWriter import EOFCReadWriter
-from pyValkLib.containers.IZCA.HSPR.HSPRReadWriter import HSPRReadWriter
+from pyValkLib.containers.HSPR.HSPRReadWriter import HSPRReadWriter
 from pyValkLib.serialisation.Serializable import Context, Serializable
 
 
