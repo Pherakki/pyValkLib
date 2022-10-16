@@ -233,6 +233,9 @@ class VertexFormat(Serializable):
         rw.assert_equal(self.unknown_0x10, 0)
         
     def rw_vertex_partitions(self, rw):
+        # These list (unused vertex count, used vertex count) pairs such that all numbers
+        # sum to the total vertices on the target model
+        # Doesn't necessarily occur in the order in which the meshes are defined, however...
         rw.mark_new_contents_array_member()
         if self.vertex_partitions_offset != 0:
             rw.assert_local_file_pointer_now_at("Vertex Partitions", self.vertex_partitions_offset)
