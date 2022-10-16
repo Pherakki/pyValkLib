@@ -220,8 +220,11 @@ class ENRSValidator(Validator):
         super().__init__(lambda: compareENRS(ctr, ctr, print_errs))
         
     def read_write(self, rw):
-        ctr = self.ctr
-        print(decompressENRS(ctr.ENRS.num_groups, ctr.ENRS.data).to_abs_rep())
-        print(toENRSPackedRep(buildENRS(ctr)).to_abs_rep())
         
-        super().read_write(rw)
+        try:
+            super().read_write(rw)
+        except Exception as e:
+            ctr = self.ctr
+            print(decompressENRS(ctr.ENRS.num_groups, ctr.ENRS.data).to_abs_rep())
+            print(toENRSPackedRep(buildENRS(ctr)).to_abs_rep())
+            raise e
