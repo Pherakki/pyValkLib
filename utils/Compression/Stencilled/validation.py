@@ -20,10 +20,10 @@ def compareStencil(ctr_1, ctr_2, accessor, decompress, compress, build, to_packe
                 print(f"{stencil_type} DID NOT MATCH: {i} {c1} --- {c2}")
                 raise Exception()
         if len(ptrs_1) > len(ptrs_2):
-            print("Input {stencil_type} HAS ADDITIONAL POINTERS:", ptrs_1[len(ptrs_2):])
+            print(f"Input {stencil_type} HAS ADDITIONAL POINTERS:", ptrs_1[len(ptrs_2):])
             raise Exception()
         if len(ptrs_2) > len(ptrs_1):
-            print("Output {stencil_type} HAS ADDITIONAL POINTERS:", ptrs_2[len(ptrs_1):])
+            print(f"Output {stencil_type} HAS ADDITIONAL POINTERS:", ptrs_2[len(ptrs_1):])
             raise Exception()            
 
 def validateStencil(pointers, nm, packed_rep_op, compress_op, decompress_op, print_errs=False):
@@ -40,7 +40,7 @@ def validateStencil(pointers, nm, packed_rep_op, compress_op, decompress_op, pri
         if test_data != reference_ptrs:
             for i, (c1, c2) in enumerate(zip(reference_ptrs, test_data)):
                 if print_errs:
-                    print("> {nm} TEST {op_idx+1}", i, c1, "---", c2)
+                    print(f"> {nm} TEST {op_idx+1}", i, c1, "---", c2)
                 
                 if c1 != c2:
                     print(f"{i} {c1} --- {c2}")
