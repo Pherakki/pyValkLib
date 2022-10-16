@@ -4,6 +4,7 @@ from .HMOT.HMOTReadWriter import HMOTReadWriter
 from .HTEX.HTEXReadWriter import HTEXReadWriter
 from .IZCA.HSHP.HSHPReadWriter import HSHPReadWriter
 from .HSPR.HSPRReadWriter import HSPRSkipper
+from .IZCA.HSHP.HSHPReadWriter import HSHPReadWriter
 from .IZCA.MLX0.MLX0ReadWriter import MLX0ReadWriter
 # from .IZCA.PJNT.PJNTReadWriter import PJNTReadWriter
 # from .IZCA.PACT.PACTReadWriter import PACTReadWriter
