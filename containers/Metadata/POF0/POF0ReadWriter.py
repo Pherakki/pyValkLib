@@ -1,5 +1,4 @@
-from pyValkLib.serialisation import Serializable
-from pyValkLib.serialisation.ValkSerializable import ValkSerializable32BH, Header32B
+from pyValkLib.serialisation.ValkSerializable import ValkSerializable32BH
 
 
 class POF0ReadWriter(ValkSerializable32BH):

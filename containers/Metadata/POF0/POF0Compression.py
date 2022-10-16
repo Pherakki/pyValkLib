@@ -95,6 +95,11 @@ def compressPOF0(offsets):
         previous_offset = offset
     return data
 
+
+##############
+# VALIDATION #
+##############
+
 def buildPOF0(ctr):
     pb = POF0Builder()
     pb.virtual_offset = ctr.header.header_length
