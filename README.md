@@ -43,38 +43,38 @@ The status of the code is tabulated for the different filetypes given in the sec
 
 ### Valkyria Chronicles 1
 
-| Filetype | Read | Write | API | Notes |
-| --- | --- | ---| -- | -- |
-| ABD | ❌ | ❌ | ❌ | |
-| ABR | ❌ | ❌ | ❌ | |
-| BF1 | ❌ | ❌ | ❌ | |
-| BHV | ❌ | ❌ | ❌ | |
-| BIN | ❌ | ❌ | ❌ | |
-| CSD | ❌ | ❌ | ❌ | |
-| CVD | ❌ | ❌ | ❌ | |
-| ESR | ❌ | ❌ | ❌ | |
-| GRD | ❌ | ❌ | ❌ | |
-| HCA | ❌ | ❌ | ❌ | |
-| HCM | ❌ | ❌ | ❌ | |
-| HMD | ❌ | ❌ | ❌ | |
-| HMM | ❌ | ❌ | ❌ | |
-| HMO | ❌ | ❌ | ❌ | |
-| HMT | 🟡 | 🟡 | ❌ |(1) |
-| HSC | ❌ | ❌ | ❌ | |
-| HSM | ❌ | ❌ | ❌ | |
-| HSP | ❌ | ❌ | ❌ | |
-| HST | ❌ | ❌ | ❌ | |
-| HTR | ❌ | ❌ | ❌ | |
-| HTX | 🟡 | 🟡 | 🟡 |(2)|
-| MCL | 🟡 | 🟡 | ❌ |(3)|
-| MLX | ❌ | ❌ | ❌ | |
-| MMF | ✔️ | 🟡 | ❌ | (4) |
-| MMR | 🟡 | 🟡 | ❌ | (4) |
-| MSB | ❌ | ❌ | ❌ | |
-| MTP | ❌ | ❌ | ❌ | |
-| MXE | 🟡 | 🟡 | ❌ |(5)|
-| NAD | ❌ | ❌ | ❌ | |
-| PVS | ❌ | ❌ | ❌ | |
+| Filetype | Read | Write | API | Purpose | Notes |
+| --- | --- | ---| -- | -- | -- |
+| ABD | ❌ | ❌ | ❌ | 3D Model? | |
+| ABR | ❌ | ❌ | ❌ | 3D Model? | |
+| BF1 | ❌ | ❌ | ❌ | Font | |
+| BHV | ❌ | ❌ | ❌ | ??? | |
+| BIN | ❌ | ❌ | ❌ | ??? | |
+| CSD | ❌ | ❌ | ❌ | SFX/VFX | |
+| CVD | ❌ | ❌ | ❌ | ??? | |
+| ESR | ❌ | ❌ | ❌ | ??? | |
+| GRD | ❌ | ❌ | ❌ | ??? | |
+| HCA | ❌ | ❌ | ❌ | ??? | |
+| HCM | ❌ | ❌ | ❌ | Camera Animation | |
+| HMD | ❌ | ❌ | ❌ | 3D Model | |
+| HMM | ❌ | ❌ | ❌ | ??? | |
+| HMO | ❌ | ❌ | ❌ | ??? | |
+| HMT | 🟡 | 🟡 | ❌ | 3D Model Animation | (1) |
+| HSC | ❌ | ❌ | ❌ | ??? | |
+| HSM | ❌ | ❌ | ❌ | ??? | |
+| HSP | ❌ | ❌ | ❌ | 2D Sprite | |
+| HST | ❌ | ❌ | ❌ | ??? | |
+| HTR | ❌ | ❌ | ❌ | Texture Pack Metadata | |
+| HTX | 🟡 | 🟡 | 🟡 | Texture Pack | (2)|
+| MCL | 🟡 | 🟡 | ❌ | 3D Physics | (3)|
+| MLX | ❌ | ❌ | ❌ | Generic 3D Data Pack | |
+| MMF | ✔️ | 🟡 | ❌ | Asset Pack Metadata | (4) |
+| MMR | 🟡 | 🟡 | ❌ | Asset Pack | (4) |
+| MSB | ❌ | ❌ | ❌ | ??? | |
+| MTP | ❌ | ❌ | ❌ | ??? | |
+| MXE | 🟡 | 🟡 | ❌ | Database | (5)|
+| NAD | ❌ | ❌ | ❌ | Script? | |
+| PVS | ❌ | ❌ | ❌ | ??? | |
 
 1) Basic read/write functionality achieved, but the purpose of the elements in the ReadWriters need to be more carefully defined.
 2) Some HTSF containers have header flags of 0x10000000, and some have 0x10000004. It should be determined if these flags are determinable from the input DDS file or not before marking the Interface as "Complete" and upgrading the status of the API stability. The interface can be simplified to just a list of bytestrings if they can be calculated.
