@@ -55,7 +55,52 @@ class Header32B(Serializable):
     def __repr__(self):
         return f"::0x20 Header:: Filetype: {self.filetype}, Contents Size: {self.contents_length}, Header Size: {self.header_length}, Flags: 0x{self.flags:0>8x}, Depth: {self.depth}, Data Size: {self.data_length}"
         
+class Header48B(Serializable):
+    __slots__ = ("filetype", "contents_length", "header_length", "flags",
+                 "depth", "data_length", "padding_0x18", "padding_0x1C",
+                 "unknown_0x20", "unknown_0x24", "unknown_0x28", "unknown_0x2C")
     
+    def __init__(self, context, filetype):
+        super().__init__(context)
+        self.filetype = filetype
+        self.contents_length = None
+        self.header_length = 0x30
+        self.flags = None
+        
+        self.depth = None
+        self.data_length = None
+        self.padding_0x18 = 0
+        self.padding_0x1C = 0
+        
+        self.unknown_0x20    = None
+        self.unknown_0x24    = None
+        self.unknown_0x28    = None
+        self.unknown_0x2C    = None
+        
+    def read_write(self, rw):
+        self.filetype        = rw.rw_str(self.filetype, 4)
+        self.contents_length = rw.rw_uint32(self.contents_length)
+        self.header_length   = rw.rw_uint32(self.header_length)
+        self.flags           = rw.rw_uint32(self.flags)
+        
+        self.depth           = rw.rw_uint32(self.depth)
+        self.data_length     = rw.rw_uint32(self.data_length)
+        self.padding_0x18    = rw.rw_uint32(self.padding_0x18)
+        self.padding_0x1C    = rw.rw_uint32(self.padding_0x1C)
+        
+        rw.assert_is_zero(self.padding_0x18)
+        rw.assert_is_zero(self.padding_0x1C)
+        
+        self.unknown_0x20    = rw.rw_uint32(self.unknown_0x20)
+        self.unknown_0x24    = rw.rw_uint32(self.unknown_0x24)
+        self.unknown_0x28    = rw.rw_uint32(self.unknown_0x28)
+        self.unknown_0x2C    = rw.rw_uint32(self.unknown_0x2C)
+
+    def __repr__(self):
+        return f"::0x30 Header:: Filetype: {self.filetype}, Contents Size: {self.contents_length}, Header Size: {self.header_length}, Flags: 0x{self.flags:0>8x} "\
+               f"Depth: {self.depth}, Data Size: {self.data_length}" \
+               f"Unk0x20: {self.unknown_0x20}, Unk0x24: {self.unknown_0x24}, Unk0x28: {self.unknown_0x28}, Unk0x2C: {self.unknown_0x2C}"
+        
 class ValkSerializable(Serializable):
     FILETYPE=None
     
@@ -150,6 +195,16 @@ class ValkSerializable32BH(ValkSerializable):
     def __init__(self, containers, endianness=None):
         super().__init__(containers, endianness)
         self.header = Header32B(self.context, self.FILETYPE)
+        self.header.context.endianness = "<"
+        
+    def check_data_size(self, rw):
+        rw.assert_local_file_pointer_now_at(f"End of {self.FILETYPE} Container Data", self.header.header_length + self.header.data_length)
+
+
+class ValkSerializable48BH(ValkSerializable):
+    def __init__(self, containers, endianness=None):
+        super().__init__(containers, endianness)
+        self.header = Header48B(self.context, self.FILETYPE)
         self.header.context.endianness = "<"
         
     def check_data_size(self, rw):
