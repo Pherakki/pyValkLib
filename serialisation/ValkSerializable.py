@@ -129,7 +129,9 @@ class ValkSerializable(Serializable):
         if self.FILETYPE != self.header.filetype:
             raise TypeError(f"Container is {self.header.filetype}, expected {self.FILETYPE}.")
         self.check_header_size(rw)
+        rw.mark_new_contents_array()
         self.read_write_contents(rw)
+        rw.mark_new_contents_array()
         self.check_data_size(rw)
         container_origin = rw.anchor_pos
         self.read_write_subcontainers(rw)
