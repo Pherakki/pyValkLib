@@ -63,21 +63,6 @@ class KFSSReadWriter(ValkSerializable32BH):
         self.rw_vertex_info(rw)
         self.rw_mesh_defs(rw)
         
-        if rw.mode() == "read":
-            print(self.unknown_0x00, self.unknown_0x04)
-            
-            for k in self.data_1:
-                print(k)
-                
-            for k in self.mesh_deforms:
-                print(k)
-                
-            for k in self.vertex_info:
-                print(k)
-                
-            for k in self.mesh_defs:
-                print(k)
-            
         rw.mark_new_contents_array()
         
     def rw_data_1(self, rw):
