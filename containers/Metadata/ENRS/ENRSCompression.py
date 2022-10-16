@@ -150,7 +150,9 @@ def toENRSPackedRep(data):
 def buildENRS(ctr):
     eb = ENRSBuilder(ctr.context.endianness)
     eb.anchor_pos = -ctr.header.header_length
+    eb.mark_new_contents_array()
     ctr.read_write_contents(eb)
+    eb.mark_new_contents_array()
     
     return eb.pointers
 
@@ -214,4 +216,12 @@ def validateENRS(pointers, print_errs=False):
 
 class ENRSValidator(Validator):
     def __init__(self, ctr, print_errs=True):
+        self.ctr = ctr
         super().__init__(lambda: compareENRS(ctr, ctr, print_errs))
+        
+    def read_write(self, rw):
+        ctr = self.ctr
+        print(decompressENRS(ctr.ENRS.num_groups, ctr.ENRS.data).to_abs_rep())
+        print(toENRSPackedRep(buildENRS(ctr)).to_abs_rep())
+        
+        super().read_write(rw)

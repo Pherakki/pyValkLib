@@ -150,7 +150,9 @@ def toCCRSPackedRep(data):
 def buildCCRS(ctr):
     cb = CCRSBuilder()
     cb.anchor_pos = -ctr.header.header_length
+    cb.mark_new_contents_array()
     ctr.read_write_contents(cb)
+    cb.mark_new_contents_array()
     
     return cb.pointers
 

@@ -143,7 +143,9 @@ def toMTXSPackedRep(data):
 def buildMTXS(ctr):
     mb = MTXSBuilder()
     mb.anchor_pos = -ctr.header.header_length
+    mb.mark_new_contents_array()
     ctr.read_write_contents(mb)
+    mb.mark_new_contents_array()
     
     return mb.pointers
 
