@@ -16,7 +16,6 @@ class HSHPReadWriter(ValkSerializable32BH):
         return [self.KFSH, self.EOFC]
         
     def read_write_contents(self, rw):
-        print("### NEW HSHP ###")
         rw.assert_equal(self.header.flags, 0x10000000, lambda x: hex(x))
         
 
