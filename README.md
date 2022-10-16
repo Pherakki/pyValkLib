@@ -5,6 +5,25 @@ pyValkLib is intended as a research tool, with an eventual companion ValkLib lib
 
 Documentation is available in the `docs` folder of the repository. Since the library is in-development this is currently very barebones. The API for Supported interfaces will be provided in the documentation, as well as a qualitative description of the filetypes pyValkLib reads and writes.
 
+## README Table of Contents
+| Section | Contents |
+|---|---|
+| [Used By](#used-by) | A list of programs known to use pyValkLib. |
+| [Acknowledgements](#acknowledgements) | Important acknowledgements of assistance and resources used in the development of this library. |
+| [Completion Status](#completion-status) | Which filetypes can currently be read by the library, and to which degree. |
+
+## Used By
+- [MXEEditor](https://github.com/Pherakki/MXEEditor)
+    - Capable of unpacking and rebuilding entire MXE files, and allowing the deletion and addition of new records in these files. 
+    - Intended to be a more powerful successor program to [ValkyrieEdit](https://github.com/dhavard/ValkyrieEdit).
+
+## Acknowledgements
+This library does not exist in a vacuum; several others have written codebases for reading Canvas engine formats. Two (at the time of writing, unmaintained?) repositories have influenced the development of pyValkLib, for which I give credit to the authors:
+- [import_valkyria](https://github.com/gomtuu/import_valkyria) by [gomtuu](https://github.com/gomtuu), featuring contributions and research from chrrox and [angavrilov](https://github.com/angavrilov).
+    - The goal of this repository was to read the model formats in Valkyria Chronicles. Although the scope was limited to reading and extracting information only relevant for importing the models to Blender, this repository nonetheless provided valueable information on the structure of several formats, as well as the general container-tree structure used by the files. In particular, this repository has so far greatly assisted in sketching out the overall structure of HMDL, HSHP, and HMOT containers.
+- [ValkyrieEdit](https://github.com/dhavard/ValkyrieEdit) by [dhavard](https://github.com/dhavard).
+    - The goal of this repository was to allow the editing of game data records contained within the MXE files. This repository has helped with identifying the purpose of many variables contained within these records.
+
 ## Completion Status
 The status of the code is tabulated for the different filetypes given in the sections below, with the following keys:
 
