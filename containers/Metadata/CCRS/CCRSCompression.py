@@ -4,6 +4,9 @@ from pyValkLib.utils.Compression.Stencilled import SCRelRep, SCAbsRep, SCUnpacke
 from pyValkLib.utils.Compression.Stencilled.common import SCTemplateComponent
 from pyValkLib.utils.Compression.Stencilled.relative import SCRelativeTemplateGenerator
 from pyValkLib.utils.Compression.Stencilled.unpacked import SCUnpackedTemplateComponents, SCTemplate, SCTemplatePack
+from pyValkLib.utils.Compression.Stencilled.validation import flattenStencil, compareStencil
+from pyValkLib.utils.Compression.Stencilled.validation import Validator
+from pyValkLib.serialisation.ReadWriter import CCRSBuilder
 
 class CCRSRelRep(SCRelRep):
     @property
@@ -139,3 +142,76 @@ def toCCRSPackedRep(data):
         out.append(tpack)
 
     return out
+
+##############
+# VALIDATION #
+##############
+
+def buildCCRS(ctr):
+    cb = CCRSBuilder()
+    cb.anchor_pos = -ctr.header.header_length
+    ctr.read_write_contents(cb)
+    
+    return cb.pointers
+
+def compareCCRS(ctr_1, ctr_2, print_errs=True):
+    compareStencil(ctr_1, ctr_2, lambda x: x.CCRS, decompressCCRS, compressCCRS, buildCCRS, toCCRSPackedRep, print_errs)
+
+def validateCCRS(pointers, print_errs=False):
+    reference_ccrs = flattenStencil(pointers)
+    
+    # Test if moving to structure works
+    ccrs_test_1 = toCCRSPackedRep(pointers)
+    ccrs_test_1 = ccrs_test_1.flatten()
+    if ccrs_test_1 != reference_ccrs:
+        for i, (c1, c2) in enumerate(zip(reference_ccrs, ccrs_test_1)):
+            if print_errs:
+                print("> CCRS TEST 1", i, c1, "---", c2)
+            
+            if c1 != c2:
+                print(f"{i} {c1} --- {c2}")
+                raise Exception()
+                
+    # Test if moving to AbsRep works
+    ccrs_test_2 = toCCRSPackedRep(pointers)
+    ccrs_test_2 = ccrs_test_2.to_abs_rep().to_unpacked_rep()
+    ccrs_test_2 = flattenStencil(ccrs_test_2)
+    if ccrs_test_2 != reference_ccrs:
+        for i, (c1, c2) in enumerate(zip(reference_ccrs, ccrs_test_2)):
+            if print_errs:
+                print("> CCRS TEST 2", i, c1, "---", c2)
+            
+            if c1 != c2:
+                print(f"{i} {c1} --- {c2}")
+                raise Exception()   
+                
+    # Test if moving to RelRep works
+    ccrs_test_2 = toCCRSPackedRep(pointers)
+    ccrs_test_2 = ccrs_test_2.to_abs_rep().to_rel_rep().to_abs_rep().to_unpacked_rep()
+    ccrs_test_2 = flattenStencil(ccrs_test_2)
+    if ccrs_test_2 != reference_ccrs:
+        for i, (c1, c2) in enumerate(zip(reference_ccrs, ccrs_test_2)):
+            if print_errs:
+                print("> CCRS TEST 3", i, c1, "---", c2)
+            
+            if c1 != c2:
+                print(f"{i} {c1} --- {c2}")
+                raise Exception()   
+                
+    # Test if compressing and decompressing works
+    ccrs_test_3 = toCCRSPackedRep(pointers)
+    ccrs_test_3 = compressCCRS(ccrs_test_3)
+    ccrs_test_3 = decompressCCRS(len(pointers), ccrs_test_3).flatten()
+    
+    if ccrs_test_3 != reference_ccrs:
+        for i, (c1, c2) in enumerate(zip(reference_ccrs, ccrs_test_3)):
+            if print_errs:
+                print("> CCRS TEST 4", i, c1, "---", c2)
+            
+            if c1 != c2:
+                print(f"{i} {c1} --- {c2}")
+                raise Exception()
+
+class CCRSValidator(Validator):
+    def __init__(self, ctr, print_errs=True):
+        super().__init__(lambda: compareCCRS(ctr, ctr, print_errs))

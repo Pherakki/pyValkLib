@@ -1,4 +1,5 @@
 from pyValkLib.serialisation.ReadWriter import POF0Builder
+from pyValkLib.utils.Compression.Stencilled.validation import Validator
 
 def pull_bytecode(POF0_iter, byte_power, bytecode_value):
     for _ in range((1 << byte_power) - 1):
@@ -125,3 +126,8 @@ def comparePOF0(ctr_1, ctr_2, print_errs=True):
         if len(pof0_2) > len(pof0_1):
             print("Output POF0 HAS ADDITIONAL POINTERS:", pof0_2[len(pof0_1):])
             raise Exception()
+
+class POF0Validator(Validator):
+    def __init__(self, ctr, print_errs=True):
+        super().__init__(lambda: comparePOF0(ctr, ctr, print_errs))
+    

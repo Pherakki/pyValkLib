@@ -4,6 +4,9 @@ from pyValkLib.utils.Compression.Stencilled import SCRelRep, SCAbsRep, SCUnpacke
 from pyValkLib.utils.Compression.Stencilled.common import SCTemplateComponent
 from pyValkLib.utils.Compression.Stencilled.relative import SCRelativeTemplateGenerator
 from pyValkLib.utils.Compression.Stencilled.unpacked import SCUnpackedTemplateComponents, SCTemplate, SCTemplatePack
+from pyValkLib.utils.Compression.Stencilled.validation import flattenStencil, compareStencil, validateStencil
+from pyValkLib.utils.Compression.Stencilled.validation import Validator
+from pyValkLib.serialisation.ReadWriter import MTXSBuilder
 
 class MTXSRelRep(SCRelRep):
     @property
@@ -132,3 +135,24 @@ def toMTXSPackedRep(data):
         out.append(tpack)
 
     return out
+
+##############
+# VALIDATION #
+##############
+
+def buildMTXS(ctr):
+    mb = MTXSBuilder()
+    mb.anchor_pos = -ctr.header.header_length
+    ctr.read_write_contents(mb)
+    
+    return mb.pointers
+
+def compareMTXS(ctr_1, ctr_2, print_errs=True):
+    compareStencil(ctr_1, ctr_2, lambda x: x.MTXS, decompressMTXS, compressMTXS, buildMTXS, toMTXSPackedRep, print_errs)
+
+def validateMTXS(pointers, print_errs=False):
+    validateStencil(pointers, "MTXS", toMTXSPackedRep, compressMTXS, decompressMTXS, print_errs)
+
+class MTXSValidator(Validator):
+    def __init__(self, ctr, print_errs=True):
+        super().__init__(lambda: compareMTXS(ctr, ctr, print_errs))

@@ -4,6 +4,9 @@ from pyValkLib.utils.Compression.Stencilled import SCRelRep, SCAbsRep, SCUnpacke
 from pyValkLib.utils.Compression.Stencilled.common import SCTemplateComponent
 from pyValkLib.utils.Compression.Stencilled.relative import SCRelativeTemplateGenerator
 from pyValkLib.utils.Compression.Stencilled.unpacked import SCUnpackedTemplateComponents, SCTemplate, SCTemplatePack
+from pyValkLib.utils.Compression.Stencilled.validation import flattenStencil, compareStencil
+from pyValkLib.utils.Compression.Stencilled.validation import Validator
+from pyValkLib.serialisation.ReadWriter import ENRSBuilder
 
 class ENRSRelRep(SCRelRep):
     @property
@@ -138,3 +141,77 @@ def toENRSPackedRep(data):
         out.append(tpack)
 
     return out
+
+
+##############
+# VALIDATION #
+##############
+
+def buildENRS(ctr):
+    eb = ENRSBuilder(ctr.context.endianness)
+    eb.anchor_pos = -ctr.header.header_length
+    ctr.read_write_contents(eb)
+    
+    return eb.pointers
+
+def compareENRS(ctr_1, ctr_2, print_errs=True):
+    compareStencil(ctr_1, ctr_2, lambda x: x.ENRS, decompressENRS, compressENRS, buildENRS, toENRSPackedRep, print_errs)
+
+def validateENRS(pointers, print_errs=False):
+    reference_enrs = flattenStencil(pointers)
+    
+    # Test if moving to structure works
+    enrs_test_1 = toENRSPackedRep(pointers)
+    enrs_test_1 = enrs_test_1.flatten()
+    if enrs_test_1 != reference_enrs:
+        for i, (c1, c2) in enumerate(zip(reference_enrs, enrs_test_1)):
+            if print_errs:
+                print("> ENRS TEST 1", i, c1, "---", c2)
+            
+            if c1 != c2:
+                print(f"Critical ENRS Structural Error: {i} {c1} --- {c2}")
+                raise Exception()
+                
+    # Test if moving to AbsRep works
+    enrs_test_2 = toENRSPackedRep(pointers)
+    enrs_test_2 = enrs_test_2.to_abs_rep().to_unpacked_rep()
+    enrs_test_2 = flattenStencil(enrs_test_2)
+    if enrs_test_2 != reference_enrs:
+        for i, (c1, c2) in enumerate(zip(reference_enrs, enrs_test_2)):
+            if print_errs:
+                print("> ENRS TEST 2", i, c1, "---", c2)
+            
+            if c1 != c2:
+                print(f"Critical ENRS AbsRep Error: {i} {c1} --- {c2}")
+                raise Exception()   
+                
+    # Test if moving to RelRep works
+    enrs_test_2 = toENRSPackedRep(pointers)
+    enrs_test_2 = enrs_test_2.to_abs_rep().to_rel_rep().to_abs_rep().to_unpacked_rep()
+    enrs_test_2 = flattenStencil(enrs_test_2)
+    if enrs_test_2 != reference_enrs:
+        for i, (c1, c2) in enumerate(zip(reference_enrs, enrs_test_2)):
+            if print_errs:
+                print("> ENRS TEST 3", i, c1, "---", c2)
+            
+            if c1 != c2:
+                print(f"Critical ENRS RelRep Error: {i} {c1} --- {c2}")
+                raise Exception()   
+                
+    # Test if compressing and decompressing works
+    enrs_test_3 = toENRSPackedRep(pointers)
+    enrs_test_3 = compressENRS(enrs_test_3)
+    enrs_test_3 = decompressENRS(len(pointers), enrs_test_3).flatten()
+    
+    if enrs_test_3 != reference_enrs:
+        for i, (c1, c2) in enumerate(zip(reference_enrs, enrs_test_3)):
+            if print_errs:
+                print("> ENRS TEST 4", i, c1, "---", c2)
+            
+            if c1 != c2:
+                print(f"Critical ENRS Compression Error: {i} {c1} --- {c2}")
+                raise Exception()
+
+class ENRSValidator(Validator):
+    def __init__(self, ctr, print_errs=True):
+        super().__init__(lambda: compareENRS(ctr, ctr, print_errs))
