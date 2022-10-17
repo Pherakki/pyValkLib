@@ -113,6 +113,10 @@ class ValkSerializable(Serializable):
         self.start_pos = None
         self.containers = containers
         
+    
+    def __repr__(self):
+        return f"{self.FILETYPE} Object [{self.header.depth}] [0x{self.header.flags:0>8x}]. Contains {', '.join(o.FILETYPE for o in self.get_subcontainers())}."
+        
     # RW methods
     
     def read_write(self, rw):
