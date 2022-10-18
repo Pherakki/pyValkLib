@@ -1,9 +1,9 @@
 from .CCOL.CCOLReadWriter import CCOLReadWriter
 from .HMDL.HMDLReadWriter import HMDLReadWriter
 from .HMOT.HMOTReadWriter import HMOTReadWriter
-from .HTEX.HTEXReadWriter import HTEXReadWriter
+from .HMRP.HMRPReadWriter import HMRPReadWriter
 from .HSPR.HSPRReadWriter import HSPRSkipper
-from .IZCA.HMRP.HMRPReadWriter import HMRPReadWriter
+from .HTEX.HTEXReadWriter import HTEXReadWriter
 from .IZCA.HSHP.HSHPReadWriter import HSHPReadWriter
 from .IZCA.MLX0.MLX0ReadWriter import MLX0ReadWriter
 # from .IZCA.PJNT.PJNTReadWriter import PJNTReadWriter
