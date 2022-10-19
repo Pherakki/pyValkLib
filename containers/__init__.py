@@ -1,4 +1,5 @@
 from .CCOL.CCOLReadWriter import CCOLReadWriter
+from .HCMT.HCMTReadWriter import HCMTReadWriter
 from .HMDL.HMDLReadWriter import HMDLReadWriter
 from .HMOT.HMOTReadWriter import HMOTReadWriter
 from .HMRP.HMRPReadWriter import HMRPReadWriter
@@ -12,6 +13,7 @@ from .IZCA.MXTL.MXTLReadWriter import MXTLReadWriter
 
 containers = {
     "CCOL": CCOLReadWriter,
+    "HCMT": HCMTReadWriter,
     "HMDL": HMDLReadWriter,
     "HMOT": HMOTReadWriter,
     "HMRP": HMRPReadWriter,
