@@ -1,6 +1,7 @@
 from .CCOL.CCOLReadWriter import CCOLReadWriter
 from .HCMT.HCMTReadWriter import HCMTReadWriter
 from .HMDL.HMDLReadWriter import HMDLReadWriter
+from .HMMT.HMMTReadWriter import HMMTReadWriter
 from .HMOT.HMOTReadWriter import HMOTReadWriter
 from .HMRP.HMRPReadWriter import HMRPReadWriter
 from .HSPR.HSPRReadWriter import HSPRSkipper
@@ -16,6 +17,7 @@ containers = {
     "HCMT": HCMTReadWriter,
     "HMDL": HMDLReadWriter,
     "HMOT": HMOTReadWriter,
+    "HMMT": HMMTReadWriter,
     "HMRP": HMRPReadWriter,
     "HSHP": HSHPReadWriter,
     "HSPR": HSPRSkipper,
