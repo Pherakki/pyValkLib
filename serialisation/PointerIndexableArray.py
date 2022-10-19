@@ -82,6 +82,9 @@ class PointerIndexableArrayFloat32(PointerIndexableArray):
 class PointerIndexableArrayFloat64(PointerIndexableArray):
     def rw_element(self, rw, idx): self.data[idx] = rw.rw_float64(self.data[idx])
     
+class PointerIndexableArrayPointer(PointerIndexableArray):
+    def rw_element(self, rw, idx): self.data[idx] = rw.rw_pointer(self.data[idx])
+    
 class PointerIndexableArrayMatrix4x4(PointerIndexableArray):
     def rw_element(self, rw, idx): self.data[idx] = rw.rw_matrix4x4(self.data[idx])
     
