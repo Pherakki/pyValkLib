@@ -55,13 +55,13 @@ The status of the code is tabulated for the different filetypes given in the sec
 | ESR | ❌ | ❌ | ❌ | ??? | |
 | GRD | ❌ | ❌ | ❌ | ??? | |
 | HCA | ❌ | ❌ | ❌ | ??? | |
-| HCM | ❌ | ❌ | ❌ | Camera Animation | |
+| HCM | 🟡 | 🟡 | ❌ | Camera Animation | |
 | HMD | ❌ | ❌ | ❌ | 3D Model | |
-| HMM | ❌ | ❌ | ❌ | ??? | |
+| HMM | 🟡 | 🟡 | ❌ | ??? | |
 | HMO | 🟡 | 🟡 | ❌ | Animation? | |
 | HMT | 🟡 | 🟡 | ❌ | 3D Model Animation | (1) |
 | HSC | ❌ | ❌ | ❌ | ??? | |
-| HSM | ❌ | ❌ | ❌ | ??? | |
+| HSM | 🟡 | 🟡 | ❌ | ??? | |
 | HSP | ❌ | ❌ | ❌ | 2D Sprite | |
 | HST | ❌ | ❌ | ❌ | ??? | |
 | HTR | ❌ | ❌ | ❌ | Texture Pack Metadata | |
