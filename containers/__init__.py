@@ -4,6 +4,7 @@ from .HMDL.HMDLReadWriter import HMDLReadWriter
 from .HMMT.HMMTReadWriter import HMMTReadWriter
 from .HMOT.HMOTReadWriter import HMOTReadWriter
 from .HMRP.HMRPReadWriter import HMRPReadWriter
+from .HSCM.HSCMReadWriter import HSCMReadWriter
 from .HSPR.HSPRReadWriter import HSPRSkipper
 from .HTEX.HTEXReadWriter import HTEXReadWriter
 from .IZCA.HSHP.HSHPReadWriter import HSHPReadWriter
@@ -19,6 +20,7 @@ containers = {
     "HMOT": HMOTReadWriter,
     "HMMT": HMMTReadWriter,
     "HMRP": HMRPReadWriter,
+    "HSCM": HSCMReadWriter,
     "HSHP": HSHPReadWriter,
     "HSPR": HSPRSkipper,
     "HTEX": HTEXReadWriter,
