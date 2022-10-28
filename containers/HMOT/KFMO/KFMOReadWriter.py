@@ -40,14 +40,10 @@ class KFMOReadWriter(ValkSerializable32BH):
                 POF0Validator(self)]
     
     def read_write_contents(self, rw):
-        print("##################")
-        print("#### NEW KFMO ####")
-        print("##################")
         rw.assert_equal(self.header.flags, 0x18000000, lambda x: hex(x))
         
         rw.mark_new_contents_array()
         self.contents = rw.rw_obj(self.contents)
-        print(self.contents)
         self.rw_scene_node_flags(rw)
         self.rw_scene_nodes(rw)
         self.rw_fcurve_defs(rw)
@@ -63,7 +59,6 @@ class KFMOReadWriter(ValkSerializable32BH):
         if self.contents.scene_node_flags_offset:
             rw.assert_local_file_pointer_now_at("Scene Node Flags", self.contents.scene_node_flags_offset)
             self.scene_node_flags = rw.rw_uint16s(self.scene_node_flags, self.contents.scene_node_count)
-            print("SN Flags", self.scene_node_flags)
             rw.align(rw.local_tell(), 0x10)
             
     def rw_scene_nodes(self, rw):
@@ -72,14 +67,12 @@ class KFMOReadWriter(ValkSerializable32BH):
             if rw.mode() == "read":
                 self.scene_nodes.data = [SceneNode(self.context) for _ in range(self.contents.scene_node_count)]
             rw.rw_obj(self.scene_nodes)
-            print(self.scene_nodes)
 
     def rw_fcurve_defs(self, rw):
         if rw.mode() == "read":
             fcurve_count = (self.contents.fcurve_offsets_offset - rw.local_tell()) // 0x10
             self.fcurve_defs.data = [FCurveDef(self.context) for _ in range(fcurve_count)]
         rw.rw_obj(self.fcurve_defs)
-        print(self.fcurve_defs)
         
     def rw_unknown_bytes(self, rw):
         if self.contents.fcurve_offsets_offset:
@@ -88,7 +81,6 @@ class KFMOReadWriter(ValkSerializable32BH):
             if rw.mode() == "read":
                 self.unknown_bytes.data = [UnknownSection(self.context) for _ in range(self.contents.unknown_0x08)]
             rw.rw_obj(self.unknown_bytes)
-            print(self.unknown_bytes)
         
     def rw_fcurve_offsets(self, rw):
         offsets = sorted(set(sn.animation_offset + 4*i
@@ -102,7 +94,6 @@ class KFMOReadWriter(ValkSerializable32BH):
             if rw.mode() == "read":
                 self.fcurve_offsets.data = [None for _ in range(len(offsets))]
             self.fcurve_offsets = rw.rw_obj(self.fcurve_offsets)
-            print(self.fcurve_offsets)
 
     def rw_scene_node_transforms(self, rw):
         offsets = sorted(set(sn.transform_offset + 4*i
