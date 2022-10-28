@@ -47,6 +47,7 @@ class KFMAReadWriter(ValkSerializable32BH):
         self.fcurve_offsets  = []
         self.fcurve_defs     = []
         self.bone_transforms = []
+        self.frame_data = PointerIndexableArray(self.context)
         
         self.POF0 = POF0ReadWriter(endianness)
         self.ENRS = ENRSReadWriter(endianness)
@@ -117,6 +118,7 @@ class KFMAReadWriter(ValkSerializable32BH):
             rw.mark_new_contents_array()
             rw.assert_local_file_pointer_now_at("Data 2", self.offset_2)
             self.data_2 = rw.rw_obj_array(self.data_2, lambda: Data2(self.context), self.count_2)
+            
             rw.align(rw.local_tell(), 0x10)
     
     def rw_data3(self, rw):
@@ -189,9 +191,72 @@ class KFMAReadWriter(ValkSerializable32BH):
             rw.align(rw.local_tell(), 0x10)
             
     def rw_fcurve_data(self, rw):
-        for fcurve_def in self.fcurve_defs:
-            fcurve_def.rw_framedata(rw, int(self.frame_count))
+        if len(self.fcurve_defs):
+            # Init loop
+            sorted_fcurves = sorted(self.fcurve_defs, key=lambda x: x.offset)
+            buffer_pos    = 0
+            buffer_offset = 0
+            working_type  = sorted_fcurves[0].type
+            working_div   = sorted_fcurves[0].divisor
+            if working_type == 1:
+                working_size = 4
+            elif working_type == 2:
+                working_size = 2
+            elif working_type == 3:
+                working_size = 1
+            else:
+                raise NotImplementedError(f"FCurve Data Type '{working_type}' not known.")
+            
+            # R/W Data
+            rw.mark_new_contents_array()
+            offsets = set()
+            for fcurve in sorted_fcurves:
+                if not(fcurve.type == working_type and fcurve.divisor == working_div):
+                    offsets = sorted(offsets)
+                    rw.assert_local_file_pointer_now_at("FCurve Frame Data", offsets[0])
+                    buffer_pos, buffer_offset = self.rw_framedata_block(rw, fcurve, working_type, working_div, working_size, buffer_pos, buffer_offset, offsets)
+                    
+                    if fcurve.type != working_type:
+                        rw.mark_new_contents_array()
+                        rw.align(rw.local_tell(), 0x04)
+                        
+                    working_type = fcurve.type
+                    working_div = fcurve.divisor
+                    if working_type == 1:
+                        working_size = 4
+                    elif working_type == 2:
+                        working_size = 2
+                    elif working_type == 3:
+                        working_size = 1
+                    else:
+                        raise NotImplementedError(f"FCurve Data Type '{working_type}' not known.")
+    
+                    offsets = set()
+                    
+                fcount = int(self.frame_count) + 1
+                offsets.update(fcurve.offset + working_size*i for i in range(fcount))
+                    
+            if len(offsets):
+                offsets = sorted(offsets)
+                rw.assert_local_file_pointer_now_at("FCurve Frame Data", offsets[0])
+                self.rw_framedata_block(rw, fcurve, working_type, working_div, working_size, buffer_pos, buffer_offset, offsets)
+            
         rw.align(rw.local_tell(), 0x10)
+            
+    def rw_framedata_block(self, rw, fcurve, working_type, working_div, working_size, buffer_pos, buffer_offset, offsets):
+            count = len(offsets)
+            if rw.mode() == "read":
+                self.frame_data.data.extend(None for _ in range(count))
+            
+            op = fcurve.get_framedata_rw(rw, working_type, working_div)
+            self.frame_data.data[buffer_pos:buffer_pos+count] = list(op(self.frame_data.data[buffer_pos:buffer_pos+count], count))
+            for i in range(count):
+                self.frame_data.ptr_to_idx[buffer_offset] = buffer_pos
+                self.frame_data.idx_to_ptr[buffer_pos]    = buffer_offset
+                buffer_offset += working_size
+                buffer_pos += 1
+                
+            return buffer_pos, buffer_offset
             
         
 class Data1(Serializable):
@@ -257,11 +322,11 @@ class Data2(Serializable):
         rw.align(0x06, 0x0B)
         self.count_1      = rw.rw_uint8(self.count_1)
         self.offset_1     = rw.rw_pointer(self.offset_1)
-        
         self.unknown_0x10 = rw.rw_uint16(self.unknown_0x10)
         rw.align(0x12, 0x14)
         self.unknown_0x14 = rw.rw_uint32(self.unknown_0x14)
-                
+        rw.align(0x18, 0x20)
+
 class Data3(Serializable):
     def __init__(self, context):
         super().__init__(context)
@@ -343,17 +408,17 @@ class FCurveDef(Serializable):
         rw.assert_is_zero(self.unknown_0x04)
         rw.assert_is_zero(self.unknown_0x08)
 
-    def rw_framedata(self, rw, frame_count):
-        divisor = self.divisor
+    @staticmethod
+    def get_framedata_rw(rw, type_, divisor):
         divisor = 2**divisor
         
-        rw.assert_local_file_pointer_now_at("Frame Data", self.offset)
-        
-        if self.type == 1:
+        if type_ == 1:
             op = rw.rw_float32s
-        elif self.type == 2:
+        elif type_ == 2:
             op = lambda x, shape: rw.rw_ratio16s(x, divisor, shape)
-        elif self.type == 3:
+        elif type_ == 3:
             op = lambda x, shape: rw.rw_ratio8s(x, divisor, shape)
-        
-        self.frame_data = op(self.frame_data, frame_count + 1)
+        else:
+            raise NotImplementedError
+            
+        return op
