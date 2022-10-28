@@ -156,7 +156,7 @@ class ValkSerializable(Serializable):
         rw.anchor_pos = old_origin
 
     def check_header_size(self, rw):
-        rw.assert_local_file_pointer_now_at("End-Of-Header", self.header.header_length)
+        rw.assert_local_file_pointer_now_at(f"{self.FILETYPE}: End-Of-Header", self.header.header_length)
         
     def read_write_contents(self, rw):
         raise NotImplementedError()
