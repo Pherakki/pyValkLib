@@ -49,7 +49,7 @@ class Header32B(Serializable):
         self.padding_0x18    = rw.rw_uint32(self.padding_0x18)
         self.padding_0x1C    = rw.rw_uint32(self.padding_0x1C)
         
-        rw.assert_is_zero(self.padding_0x18)
+        #rw.assert_is_zero(self.padding_0x18)
         rw.assert_is_zero(self.padding_0x1C)
 
     def __repr__(self):
