@@ -22,6 +22,10 @@ class Header16B(Serializable):
     def __repr__(self):
         return f"::0x10 Header:: Filetype: {self.filetype}, Contents Size: {self.contents_length}, Header Size: {self.header_length}, Flags: 0x{self.flags:0>8x}"
         
+    def info_string(self):
+        flagline = f"{self.flags}" if self.flags is None else f"0x{self.flags:0>8x}"
+        return f"[{flagline}]"
+    
 class Header32B(Serializable):
     __slots__ = ("filetype", "contents_length", "header_length", "flags",
                  "depth", "data_length", "padding_0x18", "padding_0x1C")
@@ -52,6 +56,10 @@ class Header32B(Serializable):
         #rw.assert_is_zero(self.padding_0x18)
         rw.assert_is_zero(self.padding_0x1C)
 
+    def info_string(self):
+        flagline = f"{self.flags}" if self.flags is None else f"0x{self.flags:0>8x}"
+        return f"[{self.depth}] [{flagline}]"
+    
     def __repr__(self):
         return f"::0x20 Header:: Filetype: {self.filetype}, Contents Size: {self.contents_length}, Header Size: {self.header_length}, Flags: 0x{self.flags:0>8x}, Depth: {self.depth}, Data Size: {self.data_length}"
         
@@ -96,6 +104,10 @@ class Header48B(Serializable):
         self.unknown_0x28    = rw.rw_uint32(self.unknown_0x28)
         self.unknown_0x2C    = rw.rw_uint32(self.unknown_0x2C)
 
+    def info_string(self):
+        flagline = f"{self.flags}" if self.flags is None else f"0x{self.flags:0>8x}"
+        return f"[{self.depth}] [{flagline}]"
+    
     def __repr__(self):
         return f"::0x30 Header:: Filetype: {self.filetype}, Contents Size: {self.contents_length}, Header Size: {self.header_length}, Flags: 0x{self.flags:0>8x} "\
                f"Depth: {self.depth}, Data Size: {self.data_length}" \
@@ -115,7 +127,9 @@ class ValkSerializable(Serializable):
         
     
     def __repr__(self):
-        return f"{self.FILETYPE} Object [{self.header.depth}] [0x{self.header.flags:0>8x}]. Contains {', '.join(o.FILETYPE for o in self.get_subcontainers())}."
+        subcon = self.get_subcontainers()
+        containsline = f": Contains {', '.join(o.FILETYPE for o in subcon)}" if len(subcon) else ""
+        return f"{self.FILETYPE} Object {self.header.info_string()}{containsline}"
         
     # RW methods
     
