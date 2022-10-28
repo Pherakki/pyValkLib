@@ -156,5 +156,6 @@ def validateMTXS(pointers, print_errs=False):
     validateStencil(pointers, "MTXS", toMTXSPackedRep, compressMTXS, decompressMTXS, print_errs)
 
 class MTXSValidator(Validator):
+    FILETYPE="MTXSVALIDATOR"
     def __init__(self, ctr, print_errs=True):
         super().__init__(lambda: compareMTXS(ctr, ctr, print_errs))

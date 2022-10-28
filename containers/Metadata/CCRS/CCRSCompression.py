@@ -215,5 +215,7 @@ def validateCCRS(pointers, print_errs=False):
                 raise Exception()
 
 class CCRSValidator(Validator):
+    FILETYPE="CCRSVALIDATOR"
+    
     def __init__(self, ctr, print_errs=True):
         super().__init__(lambda: compareCCRS(ctr, ctr, print_errs))

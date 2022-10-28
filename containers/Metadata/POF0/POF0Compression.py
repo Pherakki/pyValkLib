@@ -128,6 +128,8 @@ def comparePOF0(ctr_1, ctr_2, print_errs=True):
             raise Exception()
 
 class POF0Validator(Validator):
+    FILETYPE="POF0VALIDATOR"
+    
     def __init__(self, ctr, print_errs=True):
         super().__init__(lambda: comparePOF0(ctr, ctr, print_errs))
     

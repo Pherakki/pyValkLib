@@ -215,6 +215,8 @@ def validateENRS(pointers, print_errs=False):
                 raise Exception()
 
 class ENRSValidator(Validator):
+    FILETYPE="ENRSVALIDATOR"
+    
     def __init__(self, ctr, print_errs=True):
         self.ctr = ctr
         super().__init__(lambda: compareENRS(ctr, ctr, print_errs))
