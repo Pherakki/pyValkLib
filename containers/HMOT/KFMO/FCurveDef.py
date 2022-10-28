@@ -11,8 +11,6 @@ class FCurveDef(Serializable):
         self.unknown_0x08 = 0
         self.offset = None
         
-        self.frame_data = []
-        
     def __repr__(self):
         return f"[KFMO::FCurveDef] {self.unknown_0x00} {self.type} {self.divisor} "\
                f"{self.unknown_0x04} {self.unknown_0x08} {self.offset}"
@@ -30,14 +28,15 @@ class FCurveDef(Serializable):
         rw.assert_is_zero(self.unknown_0x04)
         rw.assert_is_zero(self.unknown_0x08)
 
-    def rw_framedata(self, rw, frame_count):
-        divisor = 2**self.divisor
-        
-        if self.type == 1:
+    @staticmethod
+    def get_framedata_rw(rw, type_, divisor):
+        if type_ == 1:
             op = rw.rw_float32s
-        elif self.type == 2:
-            op = lambda x, shape: rw.rw_ratio16s(x, divisor, shape)
-        elif self.type == 3:
-            op = lambda x, shape: rw.rw_ratio8s(x, divisor, shape)
-        
-        self.frame_data = op(self.frame_data, frame_count + 1)
+        elif type_ == 2:
+            op = rw.rw_uint16s
+        elif type_ == 3:
+            op = rw.rw_uint8s
+        else:
+            raise NotImplementedError
+            
+        return op

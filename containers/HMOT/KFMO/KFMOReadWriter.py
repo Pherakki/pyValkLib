@@ -32,6 +32,7 @@ class KFMOReadWriter(ValkSerializable32BH):
         self.unknown_bytes         = PointerIndexableArray(self.context)
         self.fcurve_offsets        = PointerIndexableArrayPointer(self.context)
         self.scene_node_transforms = PointerIndexableArrayFloat32(self.context)
+        self.frame_data            = PointerIndexableArray(self.context)
 
     def get_subcontainers(self):
         return [self.POF0, self.ENRS, self.EOFC,
@@ -117,15 +118,72 @@ class KFMOReadWriter(ValkSerializable32BH):
             
         
     def rw_scene_node_fcurve_data(self, rw):
-        # Looks like this one can overlap too...
-        # Need to expressly evaluate each set of offsets?
-        rw.mark_new_contents_array()
-        for fcurve in sorted(self.fcurve_defs, key=lambda x: x.offset):
-            rw.local_seek(fcurve.offset)
-            rw.assert_local_file_pointer_now_at("FCurve Data", fcurve.offset)
-            rw.rw_obj_method(fcurve, fcurve.rw_framedata, int(self.contents.frame_count))
+        if len(self.fcurve_defs):
+            # Init loop
+            sorted_fcurves = sorted(self.fcurve_defs, key=lambda x: x.offset)
+            buffer_pos    = 0
+            buffer_offset = 0
+            working_type  = sorted_fcurves[0].type
+            working_div   = sorted_fcurves[0].divisor
+            if working_type == 1:
+                working_size = 4
+            elif working_type == 2:
+                working_size = 2
+            elif working_type == 3:
+                working_size = 1
+            else:
+                raise NotImplementedError(f"FCurve Data Type '{working_type}' not known.")
+            
+            # R/W Data
+            rw.mark_new_contents_array()
+            offsets = set()
+            for fcurve in sorted_fcurves:
+                if not(fcurve.type == working_type):
+                    offsets = sorted(offsets)
+                    rw.assert_local_file_pointer_now_at("FCurve Frame Data", offsets[0])
+                    buffer_pos, buffer_offset = self.rw_framedata_block(rw, fcurve, working_type, working_div, working_size, buffer_pos, buffer_offset, offsets)
+                    
+                    if fcurve.type != working_type:
+                        rw.mark_new_contents_array()
+                        rw.align(rw.local_tell(), 0x04)
+                        
+                    working_type = fcurve.type
+                    working_div = fcurve.divisor
+                    if working_type == 1:
+                        working_size = 4
+                    elif working_type == 2:
+                        working_size = 2
+                    elif working_type == 3:
+                        working_size = 1
+                    else:
+                        raise NotImplementedError(f"FCurve Data Type '{working_type}' not known.")
+    
+                    offsets = set()
+                    
+                fcount = int(self.contents.frame_count) + 1
+                offsets.update(fcurve.offset + working_size*i for i in range(fcount))
+                    
+            if len(offsets):
+                offsets = sorted(offsets)
+                rw.assert_local_file_pointer_now_at("FCurve Frame Data", offsets[0])
+                self.rw_framedata_block(rw, fcurve, working_type, working_div, working_size, buffer_pos, buffer_offset, offsets)
+            
         rw.align(rw.local_tell(), 0x10)
             
+    def rw_framedata_block(self, rw, fcurve, working_type, working_div, working_size, buffer_pos, buffer_offset, offsets):
+            count = len(offsets)
+            if rw.mode() == "read":
+                self.frame_data.data.extend(None for _ in range(count))
+            
+            op = fcurve.get_framedata_rw(rw, working_type, working_div)
+            self.frame_data.data[buffer_pos:buffer_pos+count] = list(op(self.frame_data.data[buffer_pos:buffer_pos+count], count))
+            for i in range(count):
+                self.frame_data.ptr_to_idx[buffer_offset] = buffer_pos
+                self.frame_data.idx_to_ptr[buffer_pos]    = buffer_offset
+                buffer_offset += working_size
+                buffer_pos += 1
+                
+            return buffer_pos, buffer_offset
 
     def __repr__(self):
         return f"KFMO Object [{self.header.depth}] [0x{self.header.flags:0>8x}]. Contains {', '.join(c.FILETYPE for c in self.get_subcontainers())}"
