@@ -23,7 +23,7 @@ class MXTLReadWriter(ValkSerializable16BH):
             for t in h.htsf_data:
                 texture_idxs.add(t.htsf_idx)
         self.htsf_names = rw.rw_cstrs(self.htsf_names, len(texture_idxs))
-        rw.align(rw.local_tell(), 0x10)
+        rw.align(rw.local_tell(), 0x4)
 
         
 class HMDLTextureData(Serializable):

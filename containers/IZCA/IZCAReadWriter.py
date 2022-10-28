@@ -17,7 +17,7 @@ class IZCAReadWriter(ValkSerializable16BH):
     ##############
     def read_write_contents(self, rw):
         rw.assert_equal(self.header.flags, 0x00000000, lambda x: hex(x))
-        
+
         self.rw_sections(rw)
         rw.align(rw.local_tell(), 0x10)
         
@@ -73,4 +73,5 @@ class IZCASection(Serializable):
                 ctr = containers[magic_value](endianness)
                 self.containers.append(ctr)
             rw.rw_obj(self.containers[i])
+            rw.align(rw.local_tell(), 0x10)
             
