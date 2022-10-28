@@ -1,9 +1,8 @@
-from pyValkLib.serialisation.ValkSerializable import ValkSerializable32BH
+from pyValkLib.serialisation.ValkSerializable import ValkSerializable16BH, ValkSerializable32BH
 
 
 class HTSFReadWriter(ValkSerializable32BH):
     FILETYPE = "HTSF"
-    
     
     def __init__(self, endianness=None):
         super().__init__({}, endianness)
@@ -19,7 +18,23 @@ class HTSFReadWriter(ValkSerializable32BH):
         
         self.lead_padding = rw.rw_bytestring(self.lead_padding, 0x20)
         rw.assert_equal(self.lead_padding, b'\x00'*0x20)
-        self.dds_data = rw.rw_bytestring(self.dds_data, self.header.data_length - 0x20)
+        self.dds_data = rw.rw_bytestring(self.dds_data, self.header.contents_length - 0x20)
+        
+    
+class InlineHTSFReadWriter(ValkSerializable16BH):
+    FILETYPE = "HTSF"
+     
+    def __init__(self, endianness=None):
+        super().__init__({}, endianness)
+        
+        self.header.flags = 0x00000000
+        self.lead_padding = b'\x00'*0x20
+        self.dds_data = None
 
-    def __repr__(self):
-        return f"HTSF Object [{self.header.depth}] [0x{self.header.flags:0>8x}]."
+    def read_write_contents(self, rw):
+        rw.assert_equal(self.header.flags, 0x00000000, lambda x: hex(x))
+        
+        self.lead_padding = rw.rw_bytestring(self.lead_padding, 0x20)
+        rw.assert_equal(self.lead_padding, b'\x00'*0x20)
+        self.dds_data = rw.rw_bytestring(self.dds_data, self.header.contents_length - 0x20)
+
