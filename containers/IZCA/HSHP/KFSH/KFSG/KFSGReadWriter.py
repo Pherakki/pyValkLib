@@ -16,20 +16,30 @@ class KFSGReadWriter(ValkSerializable32BH):
         self.EOFC = EOFCReadWriter("<")
 
     def get_subcontainers(self):
-        return [self.ENRS, self.EOFC]
+        if self.header.flags == 0x18000000:
+            return [self.ENRS, self.EOFC]
+        elif self.header.flags == 0x10000000:
+            return []
+        else:
+            raise NotImplementedError(f"Unexpected header flags for KFSG: {self.header.flags}")
     
     def __repr__(self):
         return f"KFSG Object [{self.header.depth}] [0x{self.header.flags:0>8x}]. Contains ENRS."    
         
     def read_write_contents(self, rw):
         rw.mark_new_contents_array()
-        rw.assert_equal(self.header.flags, 0x18000000, lambda x: hex(x))
+        if self.header.data_length:
+            rw.assert_equal(self.header.flags, 0x18000000, lambda x: hex(x))
+        else:
+            rw.assert_equal(self.header.flags, 0x10000000, lambda x: hex(x))
         
         mesh_def = self.KFSS_ref.mesh_defs[0]
         vsize    = mesh_def.vertex_size
         vcount   = mesh_def.vertex_count
         
-        if vsize == 0x14:
+        if vsize == 0x00:
+            vformat = lambda x: None
+        elif vsize == 0x14:
             vformat = Vertex0x14
         elif vsize == 0x0C:
             vformat = Vertex0x0C

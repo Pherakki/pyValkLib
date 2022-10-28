@@ -43,7 +43,10 @@ class KFSSReadWriter(ValkSerializable32BH):
         
     def read_write_contents(self, rw):
         rw.mark_new_contents_array()
-        rw.assert_equal(self.header.flags, 0x18000000, lambda x: hex(x))
+        if self.header.data_length:
+            rw.assert_equal(self.header.flags, 0x18000000, lambda x: hex(x))
+        else:
+            rw.assert_equal(self.header.flags, 0x10000000, lambda x: hex(x))
         
         self.unknown_0x00            = rw.rw_uint32(self.unknown_0x00)
         self.unknown_0x04            = rw.rw_uint32(self.unknown_0x04)
@@ -79,11 +82,13 @@ class KFSSReadWriter(ValkSerializable32BH):
         rw.mark_new_contents_array()
         rw.assert_local_file_pointer_now_at("Mesh Deforms", self.mesh_deforms_offset)
         self.mesh_deforms = rw.rw_obj_array(self.mesh_deforms, lambda: MeshDeform(self.context), self.mesh_deform_count)
+        rw.align(rw.local_tell(), 0x10)
         
     def rw_vertex_info(self, rw):
         rw.mark_new_contents_array()
         rw.assert_local_file_pointer_now_at("Vertex Info", self.vertex_info_offset)
         self.vertex_info = rw.rw_obj_array(self.vertex_info, lambda: VertexInfo(self.context), self.vertex_info_count)
+        rw.align(rw.local_tell(), 0x10)
         
     def rw_mesh_defs(self, rw):
         rw.mark_new_contents_array()
@@ -163,14 +168,14 @@ class MeshDeform(Serializable):
         
     def read_write(self, rw):
         rw.mark_new_contents_array_member()
-        self.unknown_0x00 = rw.rw_uint16(self.unknown_0x00)
+        self.unknown_0x00 = rw.rw_uint16(self.unknown_0x00) # Can be 4
         self.unknown_0x02 = rw.rw_uint16(self.unknown_0x02)
         self.unknown_0x04 = rw.rw_uint16(self.unknown_0x04)
         self.kfsg_vertex_count = rw.rw_uint16(self.kfsg_vertex_count)
         self.vertex_info_offset = rw.rw_pointer(self.vertex_info_offset)
         self.kfsg_vertex_offset = rw.rw_uint32(self.kfsg_vertex_offset)
         
-        rw.assert_equal(self.unknown_0x00, 0)
+        #rw.assert_equal(self.unknown_0x00, 0)
         rw.assert_equal(self.unknown_0x02, 0)
         rw.assert_equal(self.unknown_0x04, 1)
         
@@ -227,7 +232,7 @@ class VertexFormat(Serializable):
         self.vertex_partitions_offset = rw.rw_pointer(self.vertex_partitions_offset)
         self.partition_count = rw.rw_uint32(self.partition_count)
         
-        rw.assert_equal(self.unknown_0x00, 0x03000000)
+        #rw.assert_equal(self.unknown_0x00, 0x03000000)
         rw.assert_equal(self.unknown_0x04, 0x80000006)
         rw.assert_equal(self.unknown_0x0C, 0)
         rw.assert_equal(self.unknown_0x10, 0)
