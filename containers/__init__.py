@@ -11,10 +11,10 @@ from .HTEX.HTSF.HTSFReadWriter import InlineHTSFReadWriter
 from .IZCA.CLDC.CLDCReadWriter import CLDCReadWriter
 from .IZCA.HSHP.HSHPReadWriter import HSHPReadWriter
 from .IZCA.MLX0.MLX0ReadWriter import MLX0ReadWriter
-# from .IZCA.PJNT.PJNTReadWriter import PJNTReadWriter
-# from .IZCA.PACT.PACTReadWriter import PACTReadWriter
 from .IZCA.MXTF.MXTFReadWriter import MXTFReadWriter
 from .IZCA.MXTL.MXTLReadWriter import MXTLReadWriter
+from .IZCA.PACT.PACTReadWriter import PACTReadWriter
+from .IZCA.PJNT.PJNTReadWriter import PJNTReadWriter
 
 containers = {
     "CCOL": CCOLReadWriter,
@@ -30,8 +30,8 @@ containers = {
     "HTEX": HTEXReadWriter,
     "HTSF": InlineHTSFReadWriter,
     "MLX0": MLX0ReadWriter,
-    # "PACT": PACTReadWriter,
-    # "PJNT": PJNTReadWriter,
     "MXTF": MXTFReadWriter,
     "MXTL": MXTLReadWriter,
+    "PACT": PACTReadWriter,
+    "PJNT": PJNTReadWriter,
 }
