@@ -374,7 +374,7 @@ class ColliderSubData3(Serializable):
         rw.mark_new_contents_array_member()
         
         self.unknown_0x00 = rw.rw_uint8(self.unknown_0x00)
-        self.unknown_0x00 = rw.rw_uint8(self.unknown_0x01)
+        self.unknown_0x01 = rw.rw_uint8(self.unknown_0x01)
         rw.align(0x02, 0x04)
         self.unknown_0x04 = rw.rw_float32(self.unknown_0x04)
         self.unknown_0x08 = rw.rw_float32(self.unknown_0x08)
