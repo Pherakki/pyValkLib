@@ -314,7 +314,7 @@ class KFMSReadWriter(ValkSerializable32BH):
         if self.unknown_indices_offset:
             rw.assert_local_file_pointer_now_at("Unknown Indices", self.unknown_indices_offset)
             rw.rw_obj(self.unknown_indices)
-        elif (rw.local_tell() != self.unknown_objs_offset): # Pattern not yet identified
+        else: # Works for all MLXs, but not for HMDLs - see dummy_grass.hmd
             rw.align(0x10, 0x20)
 
             
