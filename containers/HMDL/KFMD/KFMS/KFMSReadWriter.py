@@ -7,17 +7,22 @@ from pyValkLib.containers.Metadata.CCRS.CCRSReadWriter import CCRSReadWriter
 from pyValkLib.containers.Metadata.MTXS.MTXSReadWriter import MTXSReadWriter
 from pyValkLib.containers.Metadata.EOFC.EOFCReadWriter import EOFCReadWriter
 
-from .SceneNode import SceneNode
-from .MeshDefinition import MeshDefinition
+from pyValkLib.containers.Metadata.POF0.POF0Compression import POF0Validator
+from pyValkLib.containers.Metadata.ENRS.ENRSCompression import ENRSValidator
+from pyValkLib.containers.Metadata.CCRS.CCRSCompression import CCRSValidator
+from pyValkLib.containers.Metadata.MTXS.MTXSCompression import MTXSValidator
+
+from .SceneNode import SceneNodeBinary
+from .MeshDefinition import MeshDefinitionBinary
 from .BoundingBox import BoundingBox
-from .Skeleton import Skeleton
-from .Bone import Bone
-from .MeshGroup import MeshGroup
-from .Material import Material
-from .Mesh import Mesh
+from .Skeleton import SkeletonBinary
+from .Bone import BoneBinary
+from .MeshGroup import MeshGroupBinary
+from .Material import MaterialBinary
+from .Mesh import MeshBinary
 from .VertexGroup import VertexGroup
-from .Texture import Texture
-from .UnknownIndices import UnknownIndices
+from .Texture import TextureBinary
+from .UnknownIndices import UnknownIndicesBinary
 from .UnknownObject import UnknownObject
 
 class KFMSReadWriter(ValkSerializable32BH):
@@ -100,11 +105,17 @@ class KFMSReadWriter(ValkSerializable32BH):
         self.meshes                = PointerIndexableArray(self.context)
         self.vertex_groups         = PointerIndexableArray(self.context)
         self.textures              = PointerIndexableArray(self.context)
-        self.unknown_indices       = UnknownIndices(self.context)
+        self.unknown_indices       = UnknownIndicesBinary(self.context)
         self.unknown_objects       = PointerIndexableArray(self.context)
 
     def get_subcontainers(self):
-        return [self.POF0, self.ENRS, self.CCRS, self.MTXS, self.EOFC]
+        return [
+            self.POF0, self.ENRS, self.CCRS, self.MTXS, self.EOFC,
+            #ENRSValidator(self),
+            POF0Validator(self),
+            CCRSValidator(self),
+            MTXSValidator(self)
+        ]
     
     def read_write_contents(self, rw):
         self.rw_fileinfo(rw)
@@ -201,7 +212,7 @@ class KFMSReadWriter(ValkSerializable32BH):
         if self.scene_nodes_offset:
             rw.assert_local_file_pointer_now_at("Scene Nodes", self.scene_nodes_offset)
             if rw.mode() == "read":
-                self.scene_nodes.data = [SceneNode(self.context) for _ in range(self.scene_node_count)]
+                self.scene_nodes.data = [SceneNodeBinary(self.context) for _ in range(self.scene_node_count)]
             rw.rw_obj(self.scene_nodes)
         
     def rw_scene_node_transforms(self, rw):
@@ -235,7 +246,7 @@ class KFMSReadWriter(ValkSerializable32BH):
         if self.mesh_defs_offset:
             rw.assert_local_file_pointer_now_at("Mesh Definitions", self.mesh_defs_offset)
             if rw.mode() == "read":
-                self.mesh_definitions.data = [MeshDefinition(self.context) for _ in range(self.mesh_defs_count)]
+                self.mesh_definitions.data = [MeshDefinitionBinary(self.context) for _ in range(self.mesh_defs_count)]
             rw.rw_obj(self.mesh_definitions)
         
     def rw_bounding_boxes(self, rw):
@@ -250,7 +261,7 @@ class KFMSReadWriter(ValkSerializable32BH):
     def rw_skeletons(self, rw):
         info = sorted(set([(sn.skeletons_offset, sn.skeleton_count) for sn in self.scene_nodes if sn.skeletons_offset != 0]))
         if rw.mode() == "read":
-            self.skeletons.data = [Skeleton(count, self.context) for offset, count in info]
+            self.skeletons.data = [SkeletonBinary(count, self.context) for offset, count in info]
         if len(info):
             first_offset = info[0][0]
             rw.assert_local_file_pointer_now_at("Skeletons", first_offset)
@@ -259,11 +270,10 @@ class KFMSReadWriter(ValkSerializable32BH):
     
     def rw_bones(self, rw):
         if rw.mode() == "read":
-            self.bones.data = [Bone(self.context) for _ in range(self.bone_count)]
+            self.bones.data = [BoneBinary(self.context) for _ in range(self.bone_count)]
         rw.rw_obj(self.bones)
         rw.align(rw.local_tell(), 0x10)
-        
-        
+    
     def rw_bone_ibpms(self, rw):
         rw.mark_new_contents_array()
         
@@ -278,21 +288,21 @@ class KFMSReadWriter(ValkSerializable32BH):
         if self.mesh_groups_offset:
             rw.assert_local_file_pointer_now_at("Mesh Groups", self.mesh_groups_offset)
             if rw.mode() == "read":
-                self.mesh_groups.data = [MeshGroup(self.context) for _ in range(self.mesh_group_count)]
+                self.mesh_groups.data = [MeshGroupBinary(self.context) for _ in range(self.mesh_group_count)]
             rw.rw_obj(self.mesh_groups)
         
     def rw_materials(self, rw):
         if self.materials_offset:
             rw.assert_local_file_pointer_now_at("Materials", self.materials_offset)
             if rw.mode() == "read":
-                self.materials.data = [Material(self.context) for _ in range(self.material_count)]
+                self.materials.data = [MaterialBinary(self.context) for _ in range(self.material_count)]
             rw.rw_obj(self.materials)
             
     def rw_meshes(self, rw):
         if self.meshes_offset:
             rw.assert_local_file_pointer_now_at("Meshes", self.meshes_offset)
             if rw.mode() == "read":
-                self.meshes.data = [Mesh(self.context) for _ in range(self.mesh_count)]
+                self.meshes.data = [MeshBinary(self.context) for _ in range(self.mesh_count)]
             rw.rw_obj(self.meshes)
         
     def rw_vertex_groups(self, rw):
@@ -307,10 +317,14 @@ class KFMSReadWriter(ValkSerializable32BH):
         if self.textures_offset:
             rw.assert_local_file_pointer_now_at("Textures", self.textures_offset)
             if rw.mode() == "read":
-                self.textures.data = [Texture(self.context) for _ in range(self.texture_count)]
+                self.textures.data = [TextureBinary(self.context) for _ in range(self.texture_count)]
             rw.rw_obj(self.textures)
 
     def rw_unknown_indices(self, rw):
+        # There's probably a setting somewhere that tells the HMDL to skip
+        # these indices
+        # All others try to read it and find a 0 count and 0 offset - hence the 
+        # 0x10 row of blanks found in many HMDLs?
         if self.unknown_indices_offset:
             rw.assert_local_file_pointer_now_at("Unknown Indices", self.unknown_indices_offset)
             rw.rw_obj(self.unknown_indices)

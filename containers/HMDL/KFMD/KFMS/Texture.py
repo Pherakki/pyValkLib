@@ -1,6 +1,6 @@
 from pyValkLib.serialisation.Serializable import Context, Serializable
 
-class Texture(Serializable):
+class TextureBinary(Serializable):
     def __init__(self, context=None):
         if context is None:
             self.context = Context()
@@ -10,7 +10,8 @@ class Texture(Serializable):
         self.texture_ID   = None
         self.unknown_0x06 = None
         self.blend_factor = None
-        self.padding_0x0C = 0
+        self.unknown_0x0C = None
+        self.unknown_0x0D = None
         
         self.padding_0x10 = 0
         self.padding_0x14 = 0
@@ -26,16 +27,15 @@ class Texture(Serializable):
         self.unknown_0x31 = 0x20
         self.unknown_0x32 = 0x20
         self.unknown_0x33 = 0x20
-        self.padding_0x34 = 0
-        self.padding_0x38 = 0
-        self.padding_0x3C = 0
         
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint32(self.unknown_0x00)
         self.texture_ID   = rw.rw_uint16(self.texture_ID)
         self.unknown_0x06 = rw.rw_uint16(self.unknown_0x06)
         self.blend_factor = rw.rw_float32(self.blend_factor)
-        self.padding_0x0C = rw.rw_pad32(self.padding_0x0C)
+        self.unknown_0x0C = rw.rw_uint8(self.unknown_0x0C)
+        self.unknown_0x0D = rw.rw_uint8(self.unknown_0x0D)
+        rw.align(0x0E, 0x10)
 
         self.padding_0x10 = rw.rw_uint32(self.padding_0x10)
         self.padding_0x14 = rw.rw_uint32(self.padding_0x14)
@@ -51,9 +51,7 @@ class Texture(Serializable):
         self.unknown_0x31 = rw.rw_uint8(self.unknown_0x31)
         self.unknown_0x32 = rw.rw_uint8(self.unknown_0x32)
         self.unknown_0x33 = rw.rw_uint8(self.unknown_0x33)
-        self.padding_0x34 = rw.rw_pad32(self.padding_0x34)
-        self.padding_0x38 = rw.rw_pad32(self.padding_0x38)
-        self.padding_0x3C = rw.rw_pad32(self.padding_0x3C)
+        rw.align(0x34, 0x40)
         
         rw.assert_is_zero(self.padding_0x20)
         rw.assert_is_zero(self.padding_0x28)
@@ -63,9 +61,3 @@ class Texture(Serializable):
         rw.assert_equal(self.unknown_0x31, 0x20)
         rw.assert_equal(self.unknown_0x32, 0x20)
         rw.assert_equal(self.unknown_0x33, 0x20)
-        
-        rw.assert_is_zero(self.padding_0x34)
-        rw.assert_is_zero(self.padding_0x38)
-        rw.assert_is_zero(self.padding_0x3C)
-        
-        

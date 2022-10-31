@@ -1,6 +1,6 @@
 from pyValkLib.serialisation.Serializable import Context, Serializable
 
-class Skeleton(Serializable):
+class SkeletonBinary(Serializable):
     __slots__ = ("id_count", "bone_ids")
     
     def __init__(self, id_count, context=None):

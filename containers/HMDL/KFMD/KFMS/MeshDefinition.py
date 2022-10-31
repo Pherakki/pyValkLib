@@ -1,12 +1,12 @@
 from pyValkLib.serialisation.Serializable import Context, Serializable
 
-class MeshDefinition(Serializable):
+class MeshDefinitionBinary(Serializable):
     def __init__(self, context=None):
         if context is None:
             self.context = Context()
         super().__init__(context)
         
-        self.unknown_hash     = None
+        self.flags            = None
         self.bytes_per_vertex = None
         self.faces_offset     = None
         self.faces_count      = None
@@ -17,7 +17,7 @@ class MeshDefinition(Serializable):
         
         
     def read_write(self, rw):
-        self.unknown_hash     = rw.rw_uint32(self.unknown_hash)
+        self.flags            = rw.rw_uint32(self.flags)
         self.bytes_per_vertex = rw.rw_uint32(self.bytes_per_vertex)
         self.faces_offset     = rw.rw_uint32(self.faces_offset)
         self.faces_count      = rw.rw_uint32(self.faces_count)

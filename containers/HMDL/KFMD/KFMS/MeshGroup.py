@@ -1,6 +1,6 @@
 from pyValkLib.serialisation.Serializable import Context, Serializable
 
-class MeshGroup(Serializable):
+class MeshGroupBinary(Serializable):
     def __init__(self, context=None):
         if context is None:
             self.context = Context()
@@ -17,7 +17,7 @@ class MeshGroup(Serializable):
         self.vertex_count       = None
         
     def __repr__(self):
-        return f"[MeshGroup {self.is_root} {self.ID}] {self.material_offset} {self.unknown_0x0A} {self.mesh_count} {self.meshes_offset} {self.vertex_offset} {self.vertex_count}"
+        return f"[MeshGroupBinary {self.is_root} {self.ID}] {self.material_offset} {self.unknown_0x0A} {self.mesh_count} {self.meshes_offset} {self.vertex_offset} {self.vertex_count}"
         
     def read_write(self, rw):
         self.ID                 = rw.rw_uint32(self.ID)

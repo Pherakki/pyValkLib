@@ -1,6 +1,6 @@
 from pyValkLib.serialisation.Serializable import Context, Serializable
 
-class SceneNode(Serializable):
+class SceneNodeBinary(Serializable):
     def __init__(self, context=None):
         if context is None:
             self.context = Context()
@@ -30,13 +30,13 @@ class SceneNode(Serializable):
         self.skeletons_offset          = None
         self.bone_data_offset          = None
         
-        self.unknown_0x40              = None
+        self.unknown_0x40              = 0
         self.unknown_0x44              = None
-        self.unknown_0x48              = None
-        self.unknown_0x4C              = None
-        self.unknown_0x4D              = None
-        self.unknown_0x4E              = None
-        self.unknown_0x4F              = None
+        self.unknown_0x48              = 0
+        self.unknown_0x4C              = 0x20
+        self.unknown_0x4D              = 0x20
+        self.unknown_0x4E              = 0x20
+        self.unknown_0x4F              = 0x20
         
         self.unknown_0x50              = None
     

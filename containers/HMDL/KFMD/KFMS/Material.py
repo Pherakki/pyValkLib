@@ -1,6 +1,6 @@
 from pyValkLib.serialisation.Serializable import Context, Serializable
 
-class Material(Serializable):
+class MaterialBinary(Serializable):
     def __init__(self, context=None):
         if context is None:
             self.context = Context()
@@ -35,13 +35,13 @@ class Material(Serializable):
         self.padding_0x7C     = 0
         
         self.padding_0x80     = 0
-        self.padding_0x88     = None
+        self.unknown_0x88     = None
         self.padding_0x8C     = 0
         
-        self.unknown_0x90     = None
-        self.unknown_0x91     = None
-        self.unknown_0x92     = None
-        self.unknown_0x93     = None
+        self.unknown_0x90     = 0x20
+        self.unknown_0x91     = 0x20
+        self.unknown_0x92     = 0x20
+        self.unknown_0x93     = 0x20
         self.unknown_0x94     = None
         self.padding_0x98     = 0
         self.unknown_0x9C     = None
@@ -56,7 +56,7 @@ class Material(Serializable):
                f"{self.color_3}\n" \
                f"{self.color_4}\n" \
                f"{self.padding_0x70} {self.padding_0x74} {self.padding_0x78} {self.padding_0x7C}\n" \
-               f"{self.padding_0x80} {self.padding_0x88} {self.padding_0x8C}\n" \
+               f"{self.padding_0x80} {self.unknown_0x88} {self.padding_0x8C}\n" \
                f"{self.unknown_0x90} {self.unknown_0x91} {self.unknown_0x92} {self.unknown_0x93}\n" \
                f"{self.unknown_0x94} {self.padding_0x98} {self.unknown_0x9C}"
         
@@ -90,7 +90,7 @@ class Material(Serializable):
         self.padding_0x7C     = rw.rw_uint32(self.padding_0x7C)
         
         self.padding_0x80     = rw.rw_uint64(self.padding_0x80)
-        self.padding_0x88     = rw.rw_uint32(self.padding_0x88)
+        self.unknown_0x88     = rw.rw_uint32(self.unknown_0x88)
         self.padding_0x8C     = rw.rw_uint32(self.padding_0x8C)
         
         self.unknown_0x90     = rw.rw_uint8(self.unknown_0x90)
@@ -101,6 +101,7 @@ class Material(Serializable):
         self.padding_0x98     = rw.rw_pad32(self.padding_0x98)
         self.unknown_0x9C     = rw.rw_uint32(self.unknown_0x9C) # This one sometimes has no ENRS
         
+        rw.assert_equal(0 <= self.num_textures <= 3, True)
         rw.assert_is_zero(self.padding_0x08)
         rw.assert_is_zero(self.padding_0x1C)
         rw.assert_is_zero(self.padding_0x20)
