@@ -12,7 +12,7 @@ class UnknownIndicesBinary(Serializable):
         self.index_groups = []
         
     def __repr__(self):
-        return f"[KFMS::UnknownIndices] {self.index_groups.data}"
+        return f"[KFMS::UnknownIndices] {self.index_groups}"
         
     def read_write(self, rw):
         rw.mark_new_contents_array()

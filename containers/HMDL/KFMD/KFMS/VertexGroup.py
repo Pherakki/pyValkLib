@@ -11,6 +11,9 @@ class VertexGroup(Serializable):
         self.bone_id = None
         self.mesh_group_vertex_group_id = None
         
+    def __repr__(self):
+        return f"[KFMS::VertexGroup] {self.bone_id} {self.mesh_group_vertex_group_id}"
+        
     def read_write(self, rw):
         self.bone_id                    = rw.rw_uint16(self.bone_id)
         self.mesh_group_vertex_group_id = rw.rw_uint16(self.mesh_group_vertex_group_id)

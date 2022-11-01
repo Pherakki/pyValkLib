@@ -22,6 +22,13 @@ class UnknownObject(Serializable):
         self.unknown_0x0E = None
         self.unknown_0x0F = None
         
+    def __repr__(self):
+        return f"[KFMS::UnknownObject] {self.unknown_0x00} {self.unknown_0x02} " \
+            f"{self.unknown_0x03} {self.unknown_0x04} {self.unknown_0x05} {self.unknown_0x06} "\
+            f"{self.unknown_0x07} {self.unknown_0x08} {self.unknown_0x09} {self.unknown_0x0A} "\
+            f"{self.unknown_0x0B} {self.unknown_0x0C} {self.unknown_0x0D} {self.unknown_0x0E} "\
+            f"{self.unknown_0x0F}"
+        
     def read_write(self, rw):
         self.unknown_0x00 = rw.rw_uint16(self.unknown_0x00)
         self.unknown_0x02 = rw.rw_uint8(self.unknown_0x02)
