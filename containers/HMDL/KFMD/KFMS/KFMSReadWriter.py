@@ -14,7 +14,7 @@ from pyValkLib.containers.Metadata.MTXS.MTXSCompression import MTXSValidator
 
 from .SceneNode import SceneNodeBinary
 from .MeshDefinition import MeshDefinitionBinary
-from .BoundingBox import BoundingBox
+from .BoundingBox import BoundingBoxBinary
 from .Skeleton import SkeletonBinary
 from .Bone import BoneBinary
 from .MeshGroup import MeshGroupBinary
@@ -252,7 +252,7 @@ class KFMSReadWriter(ValkSerializable32BH):
     def rw_bounding_boxes(self, rw):
         info = sorted(set([(bm.bounding_box_offset, bm.bounding_box_vertex_count) for bm in self.scene_nodes if bm.bounding_box_offset != 0]))
         if rw.mode() == "read":
-            self.bounding_boxes.data = [BoundingBox(count, self.context) for offset, count in info]
+            self.bounding_boxes.data = [BoundingBoxBinary(count, self.context) for offset, count in info]
         if len(info):
             first_offset = info[0][0]
             rw.assert_local_file_pointer_now_at("Bounding Boxes", first_offset)

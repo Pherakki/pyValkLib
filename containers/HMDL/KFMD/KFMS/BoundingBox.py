@@ -1,6 +1,6 @@
 from pyValkLib.serialisation.Serializable import Context, Serializable
 
-class BoundingBox(Serializable):
+class BoundingBoxBinary(Serializable):
     __slots__ = ("vertex_count", "vertices")
     
     def __init__(self, vertex_count, context=None):
