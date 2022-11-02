@@ -6,8 +6,9 @@ class CCRSReadWriter(ValkSerializable32BH):
     
     __slots__ = ("padding_0x20", "num_groups", "data")
     
-    def __init__(self, containers, endianness=None):
-        super().__init__(containers, endianness)
+    def __init__(self, endianness=None):
+        super().__init__(endianness)
+        self.header.flags = 0x10000000
         
         # Data holders
         self.padding_0x20 = 0
