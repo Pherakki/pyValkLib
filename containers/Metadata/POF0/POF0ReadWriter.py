@@ -6,8 +6,11 @@ class POF0ReadWriter(ValkSerializable32BH):
     
     __slots__ = ("data_size", "data")
     
-    def __init__(self, containers, endianness=None):
-        super().__init__(containers, endianness)
+    def __init__(self, endianness=None):
+        if type(endianness) == dict:
+            raise ValueError("Passed invalid type to 'endianness'.")
+            
+        super().__init__({}, endianness)
         self.header.flags = 0x10000000
         
         # Data holders

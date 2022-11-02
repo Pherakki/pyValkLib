@@ -52,7 +52,7 @@ class MXECReadWriter(ValkSerializable32BH):
 
         subcontainer_context = Context()
         subcontainer_context.endianness = '<'
-        self.POF0 = POF0ReadWriter({}, '<')
+        self.POF0 = POF0ReadWriter('<')
         self.ENRS = ENRSReadWriter({}, '<')
         self.CCRS = CCRSReadWriter({}, '<')
         self.EOFC = EOFCReadWriter('<')
