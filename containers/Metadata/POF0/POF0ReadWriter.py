@@ -24,8 +24,8 @@ class POF0ReadWriter(ValkSerializable32BH):
         rw.align(rw.local_tell(), 0x10)
 
     @classmethod
-    def from_obj(cls, obj):
-        instance = cls({})
+    def from_obj(cls, obj, endianness='<'):
+        instance = cls(endianness)
         data = compressPOF0(buildPOF0(obj))
         data_size = len(data)
         remainder = (0x04 - (data_size % 0x04)) % 0x04
