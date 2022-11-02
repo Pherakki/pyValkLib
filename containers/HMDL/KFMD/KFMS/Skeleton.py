@@ -11,6 +11,9 @@ class SkeletonBinary(Serializable):
         self.id_count = id_count
         self.bone_ids = []
     
+    def __repr__(self):
+        return f"[KFMS::Skeleton] {self.id_count} {self.bone_ids}"
+    
     def read_write(self, rw):
         rw.mark_new_contents_array()
         self.bone_ids = rw.rw_uint16s(self.bone_ids, self.id_count)
