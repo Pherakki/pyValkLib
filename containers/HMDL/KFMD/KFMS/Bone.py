@@ -19,9 +19,3 @@ class BoneBinary(Serializable):
         self.ibpm_offset  = rw.rw_pointer(self.ibpm_offset)
         self.unknown_0x04 = rw.rw_uint16(self.unknown_0x04)
         self.ID           = rw.rw_uint16(self.ID)
-
-        try:
-            rw.assert_equal(self.unknown_0x04 in [0, 1], True)
-        except Exception as e:
-            print(self.unknown_0x04)
-            raise e
