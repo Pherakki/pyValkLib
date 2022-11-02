@@ -125,7 +125,7 @@ class ReadWriterBase:
     def rw_vec32    (self, value, endianness=None)     : return self._rw_single('I', 4, value, endianness)
     def rw_color32  (self, value, endianness=None)     : return self._rw_single('I', 4, value, endianness)
     def rw_color128 (self, value, endianness=None)     : return self._rw_multiple('f', 4, value, 4, endianness)
-    def rw_matrix4x4(self, value, endianness=None)     : return self._rw_multiple('f', 4, value, (4, 4), endianness)
+    def rw_matrix4x4(self, value, endianness=None)     : return self._rw_multiple('f', 4, value, 16, endianness)
     
     def rw_pad8s   (self, value, shape, endianness=None)     : return self._rw_multiple('B', 1, value, shape, endianness)
     def rw_pad16s  (self, value, shape, endianness=None)     : return self._rw_multiple('H', 2, value, shape, endianness)
