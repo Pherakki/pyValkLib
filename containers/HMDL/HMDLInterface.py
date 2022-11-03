@@ -60,31 +60,6 @@ class KFMDInterface:
         
         # Calculable header variables
         instance.model_height                 = binary.model_height
-        instance.scene_node_count             = binary.scene_node_count
-        instance.scene_nodes_offset           = binary.scene_nodes_offset
-        instance.scene_node_flags_offset      = binary.scene_node_flags_offset
-        instance.scene_node_transforms_offset = binary.scene_node_transforms_offset
-        instance.material_count               = binary.material_count
-        instance.materials_offset             = binary.materials_offset
-        instance.mesh_group_count             = binary.mesh_group_count
-        instance.mesh_groups_offset           = binary.mesh_groups_offset
-        instance.mesh_count                   = binary.mesh_count
-        instance.meshes_offset                = binary.meshes_offset
-        instance.unknown_obj_count            = binary.unknown_obj_count
-        instance.unknown_objs_offset          = binary.unknown_objs_offset
-        instance.texture_count                = binary.texture_count
-        instance.textures_offset              = binary.textures_offset
-        instance.unknown_count_1              = binary.unknown_count_1
-        instance.unknown_offset_1             = binary.unknown_offset_1
-        instance.unknown_count_2              = binary.unknown_count_2
-        instance.unknown_offset_2             = binary.unknown_offset_2
-        instance.unknown_count_3              = binary.unknown_count_3
-        instance.unknown_offset_3             = binary.unknown_offset_3
-        instance.mesh_defs_count              = binary.mesh_defs_count
-        instance.mesh_defs_offset             = binary.mesh_defs_offset
-        
-        instance.bone_count                   = binary.bone_count
-        instance.unknown_indices_offset       = binary.unknown_indices_offset
 
         # Contents
         instance.scene_node_flags = binary.scene_node_flags
@@ -103,7 +78,7 @@ class KFMDInterface:
         instance.meshes          = binary.meshes
         instance.vertex_groups   = binary.vertex_groups
         instance.textures        = binary.textures
-        instance.unknown_indices = binary.unknown_indices
+        instance.unknown_indices = UnknownIndicesInterface.from_binary(binary.unknown_indices)
         instance.unknown_objects = binary.unknown_objects
         
 
@@ -147,30 +122,6 @@ class KFMDInterface:
         
         # Calculable header variables
         binary.model_height                 = self.model_height
-        binary.scene_node_count             = self.scene_node_count
-        binary.scene_nodes_offset           = self.scene_nodes_offset
-        binary.scene_node_flags_offset      = self.scene_node_flags_offset
-        binary.scene_node_transforms_offset = self.scene_node_transforms_offset
-        binary.material_count               = self.material_count
-        binary.materials_offset             = self.materials_offset
-        binary.mesh_group_count             = self.mesh_group_count
-        binary.mesh_groups_offset           = self.mesh_groups_offset
-        binary.mesh_count                   = self.mesh_count
-        binary.meshes_offset                = self.meshes_offset
-        binary.unknown_obj_count            = self.unknown_obj_count
-        binary.unknown_objs_offset          = self.unknown_objs_offset
-        binary.texture_count                = self.texture_count
-        binary.textures_offset              = self.textures_offset
-        binary.unknown_count_1              = self.unknown_count_1
-        binary.unknown_offset_1             = self.unknown_offset_1
-        binary.unknown_count_2              = self.unknown_count_2
-        binary.unknown_offset_2             = self.unknown_offset_2
-        binary.unknown_count_3              = self.unknown_count_3
-        binary.unknown_offset_3             = self.unknown_offset_3
-        binary.mesh_defs_count              = self.mesh_defs_count
-        binary.mesh_defs_offset             = self.mesh_defs_offset
-        
-        binary.bone_count                   = self.bone_count
         binary.unknown_indices_offset       = self.unknown_indices_offset
 
         # Contents
@@ -190,22 +141,22 @@ class KFMDInterface:
         binary.meshes           = self.meshes
         binary.vertex_groups    = self.vertex_groups
         binary.textures         = self.textures
-        binary.unknown_indices  = self.unknown_indices
+        binary.unknown_indices = UnknownIndicesInterface.to_binary(ctx, self.unknown_indices)
         binary.unknown_objects  = self.unknown_objects
         
         
-        # binary.scene_node_count  = len(self.scene_nodes)
-        # binary.bone_count        = len(self.bones)
+        binary.scene_node_count  = len(self.scene_nodes)
+        binary.bone_count        = len(self.bones)
         
-        # binary.material_count    = len(self.materials)
-        # binary.mesh_group_count  = len(self.mesh_groups)
-        # binary.mesh_count        = len(self.meshes)
-        # binary.unknown_obj_count = len(self.unknown_objects)
-        # binary.texture_count     = len(self.textures)
-        # binary.unknown_count_1   = len(self.unknown_chunk_1)
-        # binary.unknown_count_2   = len(self.unknown_chunk_2)
-        # binary.unknown_count_3   = len(self.unknown_chunk_3)
-        # binary.mesh_defs_count   = len(self.mesh_defs)
+        binary.material_count    = len(self.materials)
+        binary.mesh_group_count  = len(self.mesh_groups)
+        binary.mesh_count        = len(self.meshes)
+        binary.unknown_obj_count = len(self.unknown_objects)
+        binary.texture_count     = len(self.textures)
+        binary.unknown_count_1   = len(self.unknown_1s)
+        binary.unknown_count_2   = len(self.unknown_2s)
+        binary.unknown_count_3   = len(self.unknown_3s)
+        binary.mesh_defs_count   = len(self.mesh_defs)
         
         # # Fill in data
         
@@ -220,7 +171,6 @@ class KFMDInterface:
         # binary.meshes.data     = [mi.to_binary(ctx) for mi in self.meshes] # Need a PIA constructor that auto-gens pointers...
         # binary.materials.data  = [mi.to_binary(ctx) for mi in self.materials]
         # binary.textures.data   = [ti.to_binary(ctx) for ti in self.textures]
-        # binary.unknown_indices = UnknownIndicesInterface.to_binary(ctx, self.unknown_indices)
         # binary.unknown_objects = [ui.to_binary(ctx) for ui in self.unknown_objects]
         
         # # Now construct derived objects
@@ -231,23 +181,23 @@ class KFMDInterface:
         binary.header.read_write(ot)
         binary.rw_fileinfo(ot)
         
-        #binary.scene_node_flags_offset = ot.local_tell()
+        binary.scene_node_flags_offset = ot.local_tell() if len(self.scene_nodes) else 0
         binary.rw_scene_node_flags(ot)
         
-        #binary.scene_nodes_offset = ot.local_tell()
+        binary.scene_nodes_offset = ot.local_tell() if len(self.scene_nodes) else 0
         binary.rw_scene_nodes(ot)
         
-        #binary.scene_node_transforms_offset = ot.local_tell()
+        binary.scene_node_transforms_offset = ot.local_tell() if len(self.scene_nodes) else 0
         binary.rw_scene_node_transforms(ot)
         
-        #binary.unknown_offset_1 = ot.local_tell()
+        binary.unknown_offset_1 = ot.local_tell() if len(self.unknown_1s) else 0
         binary.rw_unknown_chunk_1(ot)
-        #binary.unknown_offset_2 = ot.local_tell()
+        binary.unknown_offset_2 = ot.local_tell() if len(self.unknown_2s) else 0
         binary.rw_unknown_chunk_2(ot)
-        #binary.unknown_offset_3 = ot.local_tell()
+        binary.unknown_offset_3 = ot.local_tell() if len(self.unknown_3s) else 0
         binary.rw_unknown_chunk_3(ot)
         
-       # binary.mesh_defs_offset = ot.local_tell()
+        binary.mesh_defs_offset = ot.local_tell() if len(self.mesh_defs) else 0
         binary.rw_mesh_definitions(ot)
         
         # Construct bounding boxes...!
@@ -256,25 +206,25 @@ class KFMDInterface:
         binary.rw_bones(ot)
         binary.rw_bone_ibpms(ot)
         
-        #binary.mesh_groups_offset = ot.local_tell()
+        binary.mesh_groups_offset = ot.local_tell() if len(self.mesh_groups) else 0
         binary.rw_mesh_groups(ot)
         
-        #binary.materials_offset = ot.local_tell()
+        binary.materials_offset = ot.local_tell() if len(self.materials) else 0
         binary.rw_materials(ot)
         
-        #binary.meshes_offset = ot.local_tell()
+        binary.meshes_offset = ot.local_tell() if len(self.meshes) else 0
         binary.rw_meshes(ot)
         
         # Construct vertex groups...
         binary.rw_vertex_groups(ot)
         
-        #binary.textures_offset = ot.local_tell()
+        binary.textures_offset = ot.local_tell() if len(self.textures) else 0
         binary.rw_textures(ot)
         
-        #binary.unknown_indices_offset = ot.local_tell()
+        binary.unknown_indices_offset = ot.local_tell() if len(self.unknown_indices) else 0
         binary.rw_unknown_indices(ot)
         
-        #binary.unknown_objs_offset = ot.local_tell()
+        binary.unknown_objs_offset = ot.local_tell() if len(self.unknown_objects) else 0
         binary.rw_unknown_objects(ot)
         
         # Deal with Metadata
