@@ -40,7 +40,50 @@ class SceneNodeBinary(Serializable):
         
         self.unknown_0x50              = None
     
+    def __repr__(self):
+        flags = hex(self.flags) if self.flags is not None else self.flags
+        return f"[KFMS::SceneNode] {flags} {self.ID} {self.parent_ID} {self.unknown_0x08} {self.unknown_0x0C} " \
+            f"{self.parent_offset} {self.first_child_offset} {self.next_sibling_offset} {self.bounding_box_offset} " \
+            f"{self.bounding_box_vertex_count} {self.object_count_1} {self.object_count_2} {self.object_count_3} " \
+            f"{self.skeleton_count} {self.is_bone} {self.object_offset_1} {self.object_offset_2} {self.object_offset_3} " \
+            f"{self.skeletons_offset} {self.bone_data_offset} {self.unknown_0x44} {self.unknown_0x50}"
     
+    def __eq__(self, other):
+        return \
+            self.flags                     == other.flags                     and \
+            self.ID                        == other.ID                        and \
+            self.parent_ID                 == other.parent_ID                 and \
+            self.unknown_0x08              == other.unknown_0x08              and \
+            self.unknown_0x0C              == other.unknown_0x0C              and \
+            \
+            self.parent_offset             == other.parent_offset             and \
+            self.first_child_offset        == other.first_child_offset        and \
+            self.next_sibling_offset       == other.next_sibling_offset       and \
+            self.bounding_box_offset       == other.bounding_box_offset       and \
+            \
+            self.bounding_box_vertex_count == other.bounding_box_vertex_count and \
+            self.object_count_1            == other.object_count_1            and \
+            self.object_count_2            == other.object_count_2            and \
+            self.object_count_3            == other.object_count_3            and \
+            self.skeleton_count            == other.skeleton_count            and \
+            self.is_bone                   == other.is_bone                   and \
+            self.object_offset_1           == other.object_offset_1           and \
+            \
+            self.object_offset_2           == other.object_offset_2           and \
+            self.object_offset_3           == other.object_offset_3           and \
+            self.skeletons_offset          == other.skeletons_offset          and \
+            self.bone_data_offset          == other.bone_data_offset          and \
+            \
+            self.unknown_0x40              == other.unknown_0x40              and \
+            self.unknown_0x44              == other.unknown_0x44              and \
+            self.unknown_0x48              == other.unknown_0x48              and \
+            self.unknown_0x4C              == other.unknown_0x4C              and \
+            self.unknown_0x4D              == other.unknown_0x4D              and \
+            self.unknown_0x4E              == other.unknown_0x4E              and \
+            self.unknown_0x4F              == other.unknown_0x4F              and \
+            \
+            self.unknown_0x50              == other.unknown_0x50 
+            
     def read_write(self, rw):
         self.flags                     = rw.rw_uint32(self.flags)
         self.ID                        = rw.rw_uint16(self.ID)
