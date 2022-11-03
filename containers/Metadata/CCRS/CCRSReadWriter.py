@@ -1,4 +1,5 @@
 from pyValkLib.serialisation.ValkSerializable import ValkSerializable32BH
+from .CCRSCompression import buildCCRS, toCCRSPackedRep, compressCCRS
 
 
 class CCRSReadWriter(ValkSerializable32BH):
@@ -23,3 +24,20 @@ class CCRSReadWriter(ValkSerializable32BH):
         
         rw.assert_is_zero(self.padding_0x20)
         self.data = rw.rw_uint8s(self.data, self.header.data_length - 0x10, endianness='<')
+
+    @classmethod
+    def from_obj(cls, obj, endianness='<'):
+        instance = cls(endianness)
+        groups = toCCRSPackedRep(buildCCRS(obj))
+        instance.num_groups = len(groups)
+        instance.data = compressCCRS(groups)
+        
+        data_length = len(instance.data)
+        remainder = (0x10 - (data_length % 0x10)) % 0x10
+        instance.data += [0]*remainder
+        data_length += remainder
+        
+        instance.header.data_length = data_length + 0x10
+        instance.header.contents_length = data_length + 0x10
+        instance.header.depth = obj.header.depth + 1
+        return instance
