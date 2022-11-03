@@ -40,8 +40,6 @@ class KFSMReadWriter(ValkSerializable32BH):
         self.rw_fcurve_offsets(rw)
         self.rw_transform(rw)
         self.rw_fcurve_data(rw)
-        
-        rw.rw_bytestring(None, self.header.header_length + self.header.data_length - rw.local_tell())
 
     def rw_bone(self, rw):
         rw.mark_new_contents_array()
