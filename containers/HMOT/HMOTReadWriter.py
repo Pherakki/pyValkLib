@@ -42,7 +42,7 @@ class KFMOArray(Serializable):
                 rw.rw_obj(kfmo)
                 ctr_type = rw.peek_bytestring(4)
         else:
-            for obj in self.KFMDs:
+            for obj in self.KFMOs:
                 rw.rw_obj(obj)
                 
     def checkKFMOType(self, value):
