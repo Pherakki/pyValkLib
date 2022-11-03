@@ -125,7 +125,7 @@ class KFMDInterface:
         # instance.unknown_objects = [o for o in binary.unknown_objects]
         return instance
         
-    def to_binary(self, endianness, depth, POF0, ENRS, CCRS, MTXS):
+    def to_binary(self, endianness, depth, ENRS, CCRS):
         KFMD_binary = KFMDReadWriter(endianness)
         
         # First dump KFMG
@@ -281,10 +281,10 @@ class KFMDInterface:
         binary.header.data_length = ot.local_tell() - binary.header.header_length
         binary.header.depth = depth + 1
         
-        binary.POF0 = POF0
+        binary.POF0 = binary.POF0.from_obj(binary)
         binary.ENRS = ENRS
         binary.CCRS = CCRS
-        binary.MTXS = MTXS
+        binary.MTXS = binary.MTXS.from_obj(binary)
         binary.EOFC.header.depth = binary.header.depth + 1
         ot.rw_obj(binary.POF0)
         ot.rw_obj(binary.ENRS)
@@ -293,8 +293,6 @@ class KFMDInterface:
         ot.rw_obj(binary.EOFC)
         
         binary.header.contents_length = ot.local_tell() - binary.header.header_length
-        
-        print(binary.header)
         
         return binary
     
