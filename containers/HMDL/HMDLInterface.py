@@ -24,6 +24,7 @@ class KFMDInterface:
         self.unknown_0x70    = None
         self.unknown_0x74    = None
         self.unknown_0x80    = None
+        self.model_height    = None
     
         self.scene_node_flags = []
         self.scene_nodes     = []
@@ -59,12 +60,11 @@ class KFMDInterface:
         instance.unknown_0x80 = binary.unknown_0x80
         
         # Calculable header variables
-        instance.model_height                 = binary.model_height
+        instance.model_height    = binary.model_height
 
         # Contents
-        instance.scene_node_flags = binary.scene_node_flags
-        instance.scene_nodes     = binary.scene_nodes
-        instance.scene_node_transforms = binary.scene_node_transforms
+        instance.scene_nodes = [SceneNodeInterface.from_binary(sno, flag, transform, binary.scene_nodes, binary.mesh_groups, binary.skeletons, binary.bones, binary.bounding_boxes)
+                                for flag, sno, transform in zip(binary.scene_node_flags, binary.scene_nodes, binary.scene_node_transforms)]
         instance.unknown_1s      = binary.unknown_chunk_1
         instance.unknown_2s      = binary.unknown_chunk_2
         instance.unknown_3s      = binary.unknown_chunk_3
@@ -82,11 +82,7 @@ class KFMDInterface:
         instance.unknown_objects = binary.unknown_objects
         
 
-        # instance.scene_nodes = [SceneNodeInterface.from_binary(sno, flag, transform, binary.mesh_groups, binary.skeletons, binary.bones)
-        #                         for flag, sno, transform in zip(binary.scene_node_flags, binary.scene_nodes, binary.scene_node_transforms)]
-        # instance.unknown_1s = binary.unknown_chunk_1
-        # instance.unknown_2s = binary.unknown_chunk_2
-        # instance.unknown_3s = binary.unknown_chunk_3
+
         # instance.skeletons  = [SkeletonInterface.from_binary(skel) for skel in binary.skeletons]
         # instance.bones      = [BoneInterface.from_binary(bone) for bone in binary.bones]
         # instance.bounding_boxes = [BoundingBoxInterface.from_binary(bbox) for bbox in binary.bounding_boxes]
@@ -95,9 +91,6 @@ class KFMDInterface:
         # instance.materials  = [MaterialInterface.from_binary(mat, binary.textures) for mat in binary.materials]
         # instance.vertex_groups = binary.vertex_groups
         # instance.textures   = [TextureInterface.from_binary(tex) for tex in binary.textures]
-        # print(binary.unknown_indices)
-        # instance.unknown_indices = UnknownIndicesInterface.from_binary(binary.unknown_indices)
-        # instance.unknown_objects = [o for o in binary.unknown_objects]
         return instance
         
     def to_binary(self, endianness, depth, ENRS, CCRS):
@@ -111,6 +104,9 @@ class KFMDInterface:
         ctx = binary.context
 
         
+        #####################
+        # GENERATE CONTENTS #
+        #####################
         # Unknown variables
         binary.flags             = self.flags
         binary.unknown_count_4   = self.unknown_count_4
@@ -119,15 +115,14 @@ class KFMDInterface:
         binary.unknown_0x70      = self.unknown_0x70
         binary.unknown_0x74      = self.unknown_0x74
         binary.unknown_0x80      = self.unknown_0x80
-        
-        # Calculable header variables
-        binary.model_height                 = self.model_height
-        binary.unknown_indices_offset       = self.unknown_indices_offset
+        binary.model_height      = self.model_height
 
         # Contents
-        binary.scene_node_flags = self.scene_node_flags
-        binary.scene_nodes      = self.scene_nodes
-        binary.scene_node_transforms = self.scene_node_transforms
+        (
+            binary.scene_node_flags,
+            scene_nodes,
+            binary.scene_node_transforms
+        ) = zip(*list(sni.to_binary(ctx) for sni in self.scene_nodes))
         binary.unknown_chunk_1  = self.unknown_1s
         binary.unknown_chunk_2  = self.unknown_2s
         binary.unknown_chunk_3  = self.unknown_3s
@@ -142,12 +137,11 @@ class KFMDInterface:
         binary.vertex_groups    = self.vertex_groups
         binary.textures         = self.textures
         binary.unknown_indices = UnknownIndicesInterface.to_binary(ctx, self.unknown_indices)
-        binary.unknown_objects  = self.unknown_objects
+        binary.unknown_objects = self.unknown_objects
         
         
         binary.scene_node_count  = len(self.scene_nodes)
         binary.bone_count        = len(self.bones)
-        
         binary.material_count    = len(self.materials)
         binary.mesh_group_count  = len(self.mesh_groups)
         binary.mesh_count        = len(self.meshes)
@@ -160,23 +154,19 @@ class KFMDInterface:
         
         # # Fill in data
         
-        # binary.scene_node_flags,
-        # binary.scene_nodes,
-        # binary.scene_node_transforms = zip(sni.to_binary(ctx) for sni in self.scene_nodes)
-        # binary.unknown_chunk_1 = self.unknown_1s
-        # binary.unknown_chunk_2 = self.unknown_2s
-        # binary.unknown_chunk_3 = self.unknown_3s
         # binary.skeletons.data  = [si.to_binary(ctx) for si in self.skeletons]
         # binary.bones.data      = [bi.to_binary(ctx) for bi in self.bones]
         # binary.meshes.data     = [mi.to_binary(ctx) for mi in self.meshes] # Need a PIA constructor that auto-gens pointers...
         # binary.materials.data  = [mi.to_binary(ctx) for mi in self.materials]
         # binary.textures.data   = [ti.to_binary(ctx) for ti in self.textures]
-        # binary.unknown_objects = [ui.to_binary(ctx) for ui in self.unknown_objects]
         
         # # Now construct derived objects
         
         
-        # Now fill in offsets...
+        #####################
+        # CALCULATE OFFSETS #
+        #####################
+        # Start off by calculating header-level offsets
         ot = OffsetTracker()
         binary.header.read_write(ot)
         binary.rw_fileinfo(ot)
@@ -185,6 +175,7 @@ class KFMDInterface:
         binary.rw_scene_node_flags(ot)
         
         binary.scene_nodes_offset = ot.local_tell() if len(self.scene_nodes) else 0
+        binary.scene_nodes = binary.scene_nodes.from_data(ctx, scene_nodes, binary.scene_nodes_offset, 0x60)
         binary.rw_scene_nodes(ot)
         
         binary.scene_node_transforms_offset = ot.local_tell() if len(self.scene_nodes) else 0
@@ -227,7 +218,39 @@ class KFMDInterface:
         binary.unknown_objs_offset = ot.local_tell() if len(self.unknown_objects) else 0
         binary.rw_unknown_objects(ot)
         
-        # Deal with Metadata
+        ##################
+        # OBJECT OFFSETS #
+        ##################
+        sn_children = [[] for _ in range(len(self.scene_nodes))]
+        for i, sni in enumerate(self.scene_nodes):
+            if sni.parent_ID > -1:
+                sn_children[sni.parent_ID].append(i)
+        for i, (snb, sni) in enumerate(zip(binary.scene_nodes, self.scene_nodes)):
+            snb.ID = i
+            snb.object_offset_1  = binary.mesh_groups.idx_to_ptr[sni.obj_ID_start_1] if sni.obj_ID_start_1 > -1 else 0
+            snb.object_offset_2  = binary.mesh_groups.idx_to_ptr[sni.obj_ID_start_2] if sni.obj_ID_start_2 > -1 else 0
+            snb.object_offset_3  = binary.mesh_groups.idx_to_ptr[sni.obj_ID_start_3] if sni.obj_ID_start_3 > -1 else 0
+            snb.skeletons_offset = binary.skeletons  .idx_to_ptr[sni.skeleton_idxs]  if sni.skeleton_idxs  > -1 else 0
+            snb.bone_data_offset = binary.bones      .idx_to_ptr[sni.bone_idx]       if sni.bone_idx       > -1 else 0
+            snb.is_bone          = snb.bone_data_offset > 0
+            
+            snb.parent_ID        = sni.parent_ID if sni.parent_ID > -1 else 0
+            snb.parent_offset    = binary.scene_nodes.idx_to_ptr[sni.parent_ID] if sni.parent_ID > -1 else 0
+            
+            children = sn_children[i]
+            snb.first_child_offset  = binary.scene_nodes.idx_to_ptr[children[0]] if len(children) > 0 else 0
+            
+            siblings = sn_children[sni.parent_ID] if sni.parent_ID > -1 else [i]
+            own_sibling_idx = siblings.index(i)
+            next_sibling_id = siblings[own_sibling_idx + 1] if own_sibling_idx < (len(siblings) - 1) else -1
+            snb.next_sibling_offset = binary.scene_nodes.idx_to_ptr[next_sibling_id] if next_sibling_id > -1 else 0
+            
+            snb.bounding_box_offset = binary.bounding_boxes.idx_to_ptr[sni.bounding_box_id]         if sni.bounding_box_id > -1 else 0
+            snb.bounding_box_vertex_count = binary.bounding_boxes[sni.bounding_box_id].vertex_count if sni.bounding_box_id > -1 else 0
+            
+        #######################
+        # HEADER AND METADATA #
+        #######################
         binary.header.data_length = ot.local_tell() - binary.header.header_length
         binary.header.depth = depth + 1
         
@@ -257,13 +280,18 @@ class SceneNodeInterface:
         self.unknown_0x50 = None
         
         # Attached objects
-        self.obj_IDs_1 = None
-        self.obj_IDs_2 = None
-        self.obj_IDs_3 = None
+        self.object_count_1 = None
+        self.object_count_2 = None
+        self.object_count_3 = None
+        self.obj_ID_start_1 = None
+        self.obj_ID_start_2 = None
+        self.obj_ID_start_3 = None
         
-        # Should ideally abstract these two out to a dedicated Armature class
-        self.is_skeleton = None
-        self.is_bone = None
+        # Should ideally abstract these out to a dedicated Armature class
+        self.skeleton_count = None
+        self.skeleton_idxs  = None
+        self.bone_idx       = None
+        self.bounding_box_id = None
         
         # Transform information
         self.position = None
@@ -271,41 +299,42 @@ class SceneNodeInterface:
         self.scale    = None
         
     @classmethod
-    def from_binary(cls, binary, flag, transform, mesh_group_binaries, skeleton_binaries, bone_binaries):
+    def from_binary(cls, binary, flag, transform, scene_nodes, mesh_group_binaries, skeleton_binaries, bone_binaries, bbox_binaries):
         instance = cls()
-        instance.flags_1       = flag
-        instance.flags_2       = binary.flags
-        instance.parent_ID     = binary.parent_ID
-        instance.unknown_0x08  = binary.unknown_0x08
-        instance.unknown_0x0C  = binary.unknown_0x0C
-        instance.unknown_0x44  = binary.unknown_0x44
-        instance.unknown_0x50  = binary.unknown_0x50
-        obj_idx_1 = mesh_group_binaries.ptr_to_idx.get(binary.object_offset_1, -1)
-        instance.obj_IDs_1     = list(range(obj_idx_1, obj_idx_1 + binary.object_count_1))
-        obj_idx_2 = mesh_group_binaries.ptr_to_idx.get(binary.object_offset_2, -1)
-        instance.obj_IDs_2     = list(range(obj_idx_2, obj_idx_2 + binary.object_count_2))
-        obj_idx_3 = mesh_group_binaries.ptr_to_idx.get(binary.object_offset_3, -1)
-        instance.obj_IDs_3     = list(range(obj_idx_3, obj_idx_3 + binary.object_count_3))
-        skel_idx = skeleton_binaries.ptr_to_idx.get(binary.skeletons_offset, -1)
-        instance.skeleton_idxs = list(range(skel_idx, skel_idx + binary.skeleton_count))
-        instance.bone_idx      = bone_binaries.ptr_to_idx.get(binary.bone_data_offset, -1)
-        instance.position      = transform[0:3]
-        instance.rotation      = transform[4:8]
-        instance.scale         = transform[8:11]
+        instance.flags_1         = flag
+        instance.flags_2         = binary.flags
+        instance.parent_ID       = scene_nodes.ptr_to_idx.get(binary.parent_offset, -1)
+        if instance.parent_ID > -1: assert instance.parent_ID == binary.parent_ID
+        instance.unknown_0x08    = binary.unknown_0x08
+        instance.unknown_0x0C    = binary.unknown_0x0C
+        instance.unknown_0x44    = binary.unknown_0x44
+        instance.unknown_0x50    = binary.unknown_0x50
+        instance.object_count_1  = binary.object_count_1
+        instance.object_count_2  = binary.object_count_2
+        instance.object_count_3  = binary.object_count_3
+        instance.skeleton_count  = binary.skeleton_count
+        instance.obj_ID_start_1  = mesh_group_binaries.ptr_to_idx.get(binary.object_offset_1, -1)
+        instance.obj_ID_start_2  = mesh_group_binaries.ptr_to_idx.get(binary.object_offset_2, -1)
+        instance.obj_ID_start_3  = mesh_group_binaries.ptr_to_idx.get(binary.object_offset_3, -1)
+        instance.skeleton_idxs   = skeleton_binaries.ptr_to_idx.get(binary.skeletons_offset, -1)
+        instance.bone_idx        = bone_binaries.ptr_to_idx.get(binary.bone_data_offset, -1)
+        instance.bounding_box_id = bbox_binaries.ptr_to_idx.get(binary.bounding_box_offset, -1)
+        instance.position        = transform[0:3]
+        instance.rotation        = transform[4:8]
+        instance.scale           = transform[8:11]
         return instance
     
     def to_binary(self, context):
         binary = SceneNodeBinary(context)
         binary.flags        = self.flags_2
-        binary.parent_ID    = self.parent_ID
         binary.unknown_0x08 = self.unknown_0x08
         binary.unknown_0x0C = self.unknown_0x0C
         binary.unknown_0x44 = self.unknown_0x44
         binary.unknown_0x50 = self.unknown_0x50
-        binary.object_count_1 = len(self.obj_IDs_1)
-        binary.object_count_2 = len(self.obj_IDs_2)
-        binary.object_count_3 = len(self.obj_IDs_3)
-        binary.skeleton_count = len(self.skeleton_idxs)
+        binary.object_count_1 = self.object_count_1
+        binary.object_count_2 = self.object_count_2
+        binary.object_count_3 = self.object_count_3
+        binary.skeleton_count = self.skeleton_count
         
         return self.flags_1, binary, [*self.position, 0., *self.rotation, *self.scale, 0.]
 
