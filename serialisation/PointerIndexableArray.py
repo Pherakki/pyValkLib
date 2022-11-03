@@ -1,4 +1,7 @@
+import copy
+
 from pyValkLib.serialisation.Serializable import Serializable
+from pyValkLib.serialisation.ReadWriter import OffsetTracker
 
 
 class PointerIndexableArray(Serializable):
@@ -11,6 +14,26 @@ class PointerIndexableArray(Serializable):
         self.ptr_to_idx = {}
         self.idx_to_ptr = {}
         
+    @classmethod
+    def from_data(cls, context, data, offset, element_size=None):
+        instance = cls(context)
+        instance.data = copy.deepcopy(data)
+        instance.ptr_to_idx = {offset + element_size*i : i for i in range(len(data))}
+        instance.idx_to_ptr = {i : offset + element_size*i for i in range(len(data))}
+        return instance
+        
+    @classmethod
+    def from_ragged_data(cls, context, data, offset, *args, **kwargs):
+        instance = cls(context)
+        instance.data = copy.deepcopy(data)
+        ot = OffsetTracker()
+        for i, d in enumerate(instance.data):
+            new_offset = offset + ot.local_tell()
+            instance.ptr_to_idx[new_offset] = i
+            instance.idx_to_ptr[i] = new_offset
+            ot.rw_obj(d, *args, **kwargs)
+        return instance
+    
     def at_ptr(self, ptr):
         return self.data[self.ptr_to_idx[ptr]]
     
