@@ -1,4 +1,5 @@
 from pyValkLib.serialisation.ValkSerializable import ValkSerializable32BH
+from .ENRSCompression import buildENRS, toENRSPackedRep, compressENRS
 
 
 class ENRSReadWriter(ValkSerializable32BH):
@@ -6,9 +7,9 @@ class ENRSReadWriter(ValkSerializable32BH):
     
     __slots__ = ("padding_0x20", "num_groups", "data")
     
-        
     def __init__(self, endianness=None):
         super().__init__({}, endianness)
+        self.header.flags = 0x10000000
         # Data holders
         self.padding_0x20 = 0
         self.num_groups = None
@@ -24,3 +25,20 @@ class ENRSReadWriter(ValkSerializable32BH):
         
         self.data = rw.rw_uint8s(self.data, self.header.data_length - 0x10)
         rw.align(rw.local_tell(), 0x10)
+
+    @classmethod
+    def from_obj(cls, obj, endianness='<'):
+        instance = cls(endianness)
+        groups = toENRSPackedRep(buildENRS(obj))
+        instance.num_groups = len(groups)
+        instance.data = compressENRS(groups)
+        
+        data_length = len(instance.data)
+        remainder = (0x10 - (data_length % 0x10)) % 0x10
+        instance.data += [0]*remainder
+        data_length += remainder
+        
+        instance.header.data_length = data_length + 0x10
+        instance.header.contents_length = data_length + 0x10
+        instance.header.depth = obj.header.depth + 1
+        return instance
