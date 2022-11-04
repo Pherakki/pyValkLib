@@ -74,7 +74,7 @@ class KFMDInterface:
         instance.skeletons       = binary.skeletons
         instance.bones           = [BoneInterface.from_binary(bn, binary.bone_ibpms) for bn in binary.bones]
         instance.ibpms           = binary.bone_ibpms
-        instance.mesh_groups     = binary.mesh_groups
+        instance.mesh_groups     = [MeshGroupInterface.from_binary(mg, binary.meshes, binary.materials) for mg in binary.mesh_groups]
         instance.materials       = binary.materials
         instance.meshes          = binary.meshes
         instance.vertex_groups   = binary.vertex_groups
@@ -130,7 +130,6 @@ class KFMDInterface:
         binary.bounding_boxes   = self.bounding_boxes
         binary.skeletons        = self.skeletons
         binary.bone_ibpms       = self.ibpms
-        binary.mesh_groups      = self.mesh_groups
         binary.materials        = self.materials
         binary.meshes           = self.meshes
         binary.vertex_groups    = self.vertex_groups
@@ -154,7 +153,6 @@ class KFMDInterface:
         # # Fill in data
         
         # binary.skeletons.data  = [si.to_binary(ctx) for si in self.skeletons]
-        # binary.bones.data      = [bi.to_binary(ctx) for bi in self.bones]
         # binary.meshes.data     = [mi.to_binary(ctx) for mi in self.meshes] # Need a PIA constructor that auto-gens pointers...
         # binary.materials.data  = [mi.to_binary(ctx) for mi in self.materials]
         # binary.textures.data   = [ti.to_binary(ctx) for ti in self.textures]
@@ -199,6 +197,7 @@ class KFMDInterface:
         binary.rw_bone_ibpms(ot)
         
         binary.mesh_groups_offset = ot.local_tell() if len(self.mesh_groups) else 0
+        binary.mesh_groups  = binary.mesh_groups.from_data(ctx, [mg.to_binary(ctx) for mg in self.mesh_groups], ot.local_tell(), 0x20)
         binary.rw_mesh_groups(ot)
         
         binary.materials_offset = ot.local_tell() if len(self.materials) else 0
@@ -222,6 +221,7 @@ class KFMDInterface:
         ##################
         # OBJECT OFFSETS #
         ##################
+        # Scene Nodes
         sn_children = [[] for _ in range(len(self.scene_nodes))]
         for i, sni in enumerate(self.scene_nodes):
             if sni.parent_ID > -1:
@@ -253,6 +253,12 @@ class KFMDInterface:
         for i, (bb, bi) in enumerate(zip(binary.bones, self.bones)):
             bb.ID = sn_count + i
             bb.ibpm_offset = binary.bone_ibpms.idx_to_ptr[bi.ibpm_idx]
+            
+        # Mesh Groups
+        for i, (mgb, mgi) in enumerate(zip(binary.mesh_groups, self.mesh_groups)):
+            mgb.ID = i
+            mgb.material_offset = binary.materials.idx_to_ptr[mgi.material_ID]
+            mgb.meshes_offset = binary.meshes.idx_to_ptr[mgi.mesh_start_ID]
             
         #######################
         # HEADER AND METADATA #
@@ -415,29 +421,37 @@ class MeshGroupInterface:
     def __init__(self):
         self.is_root            = None # Should be calculable...
         self.parent_bone_ID     = None
-        self.unknown_0x0A       = None
+        self.unknown_0x0A       = None # ???
         self.material_ID        = None
-        self.mesh_IDs           = None
+        self.mesh_start_ID      = None
+        self.mesh_count         = None
+        
+        self.vertex_offset      = None
+        self.vertex_count       = None
         
     @classmethod
     def from_binary(cls, binary, mesh_binaries, material_binaries):
         instance = cls()
-        instance.is_root = binary.is_root
+        instance.is_root        = binary.is_root
         instance.parent_bone_ID = binary.parent_bone_ID
-        instance.unknown_0x0A = binary.unknown_0x0A
-        instance.material_ID = material_binaries.ptr_to_idx[binary.material_offset]
-        mesh_start_idx = mesh_binaries.ptr_to_idx[binary.meshes_offset]
-        instance.mesh_IDs = list(range(mesh_start_idx, mesh_start_idx + binary.mesh_count))
+        instance.unknown_0x0A   = binary.unknown_0x0A
+        instance.material_ID    = material_binaries.ptr_to_idx[binary.material_offset]
+        instance.mesh_start_ID  = mesh_binaries.ptr_to_idx[binary.meshes_offset]
+        instance.mesh_count     = binary.mesh_count
+        instance.vertex_offset  = binary.vertex_offset
+        instance.vertex_count   = binary.vertex_count
         return instance
     
     def to_binary(self, context):
         binary = MeshGroupBinary(context)
-        binary.is_root = self.is_root
+        binary.is_root        = self.is_root
         binary.parent_bone_ID = self.parent_bone_ID
-        binary.unknown_0x0A = self.unknown_0x0A
+        binary.unknown_0x0A   = self.unknown_0x0A
         # Material offset
         # Mesh offset
-        binary.mesh_count = len(self.mesh_IDs)
+        binary.mesh_count     = self.mesh_count
+        binary.vertex_offset  = self.vertex_offset
+        binary.vertex_count   = self.vertex_count
         return binary
         
 class MeshInterface:
@@ -572,3 +586,4 @@ class UnknownIndicesInterface:
             igb.indices = idx_list
             binary.index_groups.append(igb)
         return binary
+    
