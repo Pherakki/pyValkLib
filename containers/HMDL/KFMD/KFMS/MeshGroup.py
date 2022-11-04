@@ -33,4 +33,5 @@ class MeshGroupBinary(Serializable):
         
         rw.align(0x1A, 0x20)
 
-        rw.assert_equal(self.unknown_0x0A, 0)        
+        rw.assert_equal(self.unknown_0x0A, 0)    
+        assert self.is_root in [0, 1]
