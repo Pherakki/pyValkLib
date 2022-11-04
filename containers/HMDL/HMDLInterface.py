@@ -223,37 +223,16 @@ class KFMDInterface:
         # OBJECT OFFSETS #
         ##################
         # Scene Nodes
-        (
-            binary.scene_node_flags,
-            binary.scene_nodes.data,
-            binary.scene_node_transforms
-        ) = zip(*list(sni.to_binary(ctx) for sni in self.scene_nodes))
         sn_children = [[] for _ in range(len(self.scene_nodes))]
         for i, sni in enumerate(self.scene_nodes):
             if sni.parent_ID > -1:
                 sn_children[sni.parent_ID].append(i)
-        for i, (snb, sni) in enumerate(zip(binary.scene_nodes, self.scene_nodes)):
-            snb.ID = i
-            snb.object_offset_1  = binary.mesh_groups.idx_to_ptr[sni.obj_ID_start_1] if sni.obj_ID_start_1 > -1 else 0
-            snb.object_offset_2  = binary.mesh_groups.idx_to_ptr[sni.obj_ID_start_2] if sni.obj_ID_start_2 > -1 else 0
-            snb.object_offset_3  = binary.mesh_groups.idx_to_ptr[sni.obj_ID_start_3] if sni.obj_ID_start_3 > -1 else 0
-            snb.skeletons_offset = binary.skeletons  .idx_to_ptr[sni.skeleton_idxs]  if sni.skeleton_idxs  > -1 else 0
-            snb.bone_data_offset = binary.bones      .idx_to_ptr[sni.bone_idx]       if sni.bone_idx       > -1 else 0
-            
-            snb.parent_ID        = sni.parent_ID if sni.parent_ID > -1 else 0
-            snb.parent_offset    = binary.scene_nodes.idx_to_ptr[sni.parent_ID] if sni.parent_ID > -1 else 0
-            
-            children = sn_children[i]
-            snb.first_child_offset  = binary.scene_nodes.idx_to_ptr[children[0]] if len(children) > 0 else 0
-            
-            siblings = sn_children[sni.parent_ID] if sni.parent_ID > -1 else [i]
-            own_sibling_idx = siblings.index(i)
-            next_sibling_id = siblings[own_sibling_idx + 1] if own_sibling_idx < (len(siblings) - 1) else -1
-            snb.next_sibling_offset = binary.scene_nodes.idx_to_ptr[next_sibling_id] if next_sibling_id > -1 else 0
-            
-            snb.bounding_box_offset = binary.bounding_boxes.idx_to_ptr[sni.bounding_box_id]         if sni.bounding_box_id > -1 else 0
-            snb.bounding_box_vertex_count = binary.bounding_boxes[sni.bounding_box_id].vertex_count if sni.bounding_box_id > -1 else 0
-            
+        (
+            binary.scene_node_flags,
+            binary.scene_nodes.data,
+            binary.scene_node_transforms
+        ) = zip(*list(sni.to_binary(ctx, i, binary.scene_nodes, binary.mesh_groups, binary.skeletons, binary.bones, binary.bounding_boxes, sn_children) for i, sni in enumerate(self.scene_nodes)))
+        
         # Bones
         sn_count = len(self.scene_nodes)
         binary.bones.data = [bone.to_binary(ctx, sn_count + i, binary.bone_ibpms) for i, bone in enumerate(self.bones)]
@@ -342,7 +321,7 @@ class SceneNodeInterface:
         instance.scale           = transform[8:11]
         return instance
     
-    def to_binary(self, context):
+    def to_binary(self, context, idx, scene_node_binaries, mesh_group_binaries, skeleton_binaries, bone_binaries, bounding_box_binaries, sn_children):
         binary = SceneNodeBinary(context)
         binary.flags        = self.flags_2
         binary.unknown_0x08 = self.unknown_0x08
@@ -354,6 +333,28 @@ class SceneNodeInterface:
         binary.object_count_3 = self.object_count_3
         binary.skeleton_count = self.skeleton_count
         binary.bone_type      = self.bone_type
+        
+        binary.ID = idx
+        binary.object_offset_1  = mesh_group_binaries.idx_to_ptr[self.obj_ID_start_1] if self.obj_ID_start_1 > -1 else 0
+        binary.object_offset_2  = mesh_group_binaries.idx_to_ptr[self.obj_ID_start_2] if self.obj_ID_start_2 > -1 else 0
+        binary.object_offset_3  = mesh_group_binaries.idx_to_ptr[self.obj_ID_start_3] if self.obj_ID_start_3 > -1 else 0
+        binary.skeletons_offset = skeleton_binaries  .idx_to_ptr[self.skeleton_idxs]  if self.skeleton_idxs  > -1 else 0
+        binary.bone_data_offset = bone_binaries      .idx_to_ptr[self.bone_idx]       if self.bone_idx       > -1 else 0
+            
+        binary.parent_ID        = self.parent_ID if self.parent_ID > -1 else 0
+        binary.parent_offset    = scene_node_binaries.idx_to_ptr[self.parent_ID] if self.parent_ID > -1 else 0
+            
+        children = sn_children[idx]
+        binary.first_child_offset  = scene_node_binaries.idx_to_ptr[children[0]] if len(children) > 0 else 0
+            
+        siblings = sn_children[self.parent_ID] if self.parent_ID > -1 else [idx]
+
+        own_sibling_idx = siblings.index(idx)
+        next_sibling_id = siblings[own_sibling_idx + 1] if own_sibling_idx < (len(siblings) - 1) else -1
+        binary.next_sibling_offset = scene_node_binaries.idx_to_ptr[next_sibling_id] if next_sibling_id > -1 else 0
+            
+        binary.bounding_box_offset = bounding_box_binaries.idx_to_ptr[self.bounding_box_id]         if self.bounding_box_id > -1 else 0
+        binary.bounding_box_vertex_count = bounding_box_binaries[self.bounding_box_id].vertex_count if self.bounding_box_id > -1 else 0
         
         return self.flags_1, binary, [*self.position, 0., *self.rotation, *self.scale, 0.]
 
