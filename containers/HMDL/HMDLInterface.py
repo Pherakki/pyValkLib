@@ -12,6 +12,7 @@ from .KFMD.KFMS.Texture import TextureBinary
 from .KFMD.KFMS.UnknownIndices import UnknownIndicesBinary, UnknownIndexGroupBinary
 
 from pyValkLib.serialisation.ReadWriter import OffsetTracker
+from pyValkLib.serialisation.PointerIndexableArray import PointerIndexableArray
 
 
 class KFMDInterface:
@@ -118,11 +119,6 @@ class KFMDInterface:
         binary.model_height      = self.model_height
 
         # Contents
-        (
-            binary.scene_node_flags,
-            scene_nodes,
-            binary.scene_node_transforms
-        ) = zip(*list(sni.to_binary(ctx) for sni in self.scene_nodes))
         binary.unknown_chunk_1  = self.unknown_1s
         binary.unknown_chunk_2  = self.unknown_2s
         binary.unknown_chunk_3  = self.unknown_3s
@@ -164,18 +160,23 @@ class KFMDInterface:
         # CALCULATE OFFSETS #
         #####################
         # Start off by calculating header-level offsets
+        # This could probably be done automatically with smart function calls
+        # in the read_write_contents function of KFMSReadWriter...
+        construct_PIA = PointerIndexableArray.from_placeholder_data
         ot = OffsetTracker()
         binary.header.read_write(ot)
         binary.rw_fileinfo(ot)
         
         binary.scene_node_flags_offset = ot.local_tell() if len(self.scene_nodes) else 0
+        binary.scene_node_flags = [None]*len(self.scene_nodes)
         binary.rw_scene_node_flags(ot)
         
         binary.scene_nodes_offset = ot.local_tell() if len(self.scene_nodes) else 0
-        binary.scene_nodes = binary.scene_nodes.from_data(ctx, scene_nodes, binary.scene_nodes_offset, 0x60)
+        binary.scene_nodes = construct_PIA(ctx, lambda: SceneNodeBinary(ctx), len(self.scene_nodes), binary.scene_nodes_offset, 0x60)
         binary.rw_scene_nodes(ot)
         
         binary.scene_node_transforms_offset = ot.local_tell() if len(self.scene_nodes) else 0
+        binary.scene_node_transforms = [None]*len(self.scene_nodes)*12
         binary.rw_scene_node_transforms(ot)
         
         binary.unknown_offset_1 = ot.local_tell() if len(self.unknown_1s) else 0
@@ -192,12 +193,12 @@ class KFMDInterface:
         binary.rw_bounding_boxes(ot)
         binary.rw_skeletons(ot)
         
-        binary.bones = binary.bones.from_data(ctx, [bone.to_binary(ctx) for bone in self.bones], ot.local_tell(), 0x08)
+        binary.bones = construct_PIA(ctx, lambda: BoneBinary(ctx), len(self.bones), ot.local_tell(), 0x08)
         binary.rw_bones(ot)
         binary.rw_bone_ibpms(ot)
         
         binary.mesh_groups_offset = ot.local_tell() if len(self.mesh_groups) else 0
-        binary.mesh_groups  = binary.mesh_groups.from_data(ctx, [mg.to_binary(ctx) for mg in self.mesh_groups], ot.local_tell(), 0x20)
+        binary.mesh_groups = construct_PIA(ctx, lambda: MeshGroupBinary(ctx), len(self.mesh_groups), ot.local_tell(), 0x20)
         binary.rw_mesh_groups(ot)
         
         binary.materials_offset = ot.local_tell() if len(self.materials) else 0
@@ -222,6 +223,11 @@ class KFMDInterface:
         # OBJECT OFFSETS #
         ##################
         # Scene Nodes
+        (
+            binary.scene_node_flags,
+            binary.scene_nodes.data,
+            binary.scene_node_transforms
+        ) = zip(*list(sni.to_binary(ctx) for sni in self.scene_nodes))
         sn_children = [[] for _ in range(len(self.scene_nodes))]
         for i, sni in enumerate(self.scene_nodes):
             if sni.parent_ID > -1:
@@ -249,12 +255,14 @@ class KFMDInterface:
             snb.bounding_box_vertex_count = binary.bounding_boxes[sni.bounding_box_id].vertex_count if sni.bounding_box_id > -1 else 0
             
         # Bones
+        binary.bones.data = [bone.to_binary(ctx) for bone in self.bones]
         sn_count = len(self.scene_nodes)
         for i, (bb, bi) in enumerate(zip(binary.bones, self.bones)):
             bb.ID = sn_count + i
             bb.ibpm_offset = binary.bone_ibpms.idx_to_ptr[bi.ibpm_idx]
             
         # Mesh Groups
+        binary.mesh_groups.data = [mg.to_binary(ctx) for mg in self.mesh_groups]
         for i, (mgb, mgi) in enumerate(zip(binary.mesh_groups, self.mesh_groups)):
             mgb.ID = i
             mgb.material_offset = binary.materials.idx_to_ptr[mgi.material_ID]
