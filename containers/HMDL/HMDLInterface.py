@@ -80,7 +80,7 @@ class KFMDInterface:
         instance.meshes          = binary.meshes
         instance.vertex_groups   = binary.vertex_groups
         instance.textures        = binary.textures
-        instance.unknown_indices = UnknownIndicesInterface.from_binary(binary.unknown_indices)
+        instance.unknown_indices = binary.unknown_indices#UnknownIndicesInterface.from_binary(binary.unknown_indices)
         instance.unknown_objects = binary.unknown_objects
         
 
@@ -131,8 +131,8 @@ class KFMDInterface:
         binary.meshes           = self.meshes
         binary.vertex_groups    = self.vertex_groups
         binary.textures         = self.textures
-        binary.unknown_indices = UnknownIndicesInterface.to_binary(ctx, self.unknown_indices)
-        binary.unknown_objects = self.unknown_objects
+        binary.unknown_indices  = self.unknown_indices#UnknownIndicesInterface.to_binary(ctx, self.unknown_indices)
+        binary.unknown_objects  = self.unknown_objects
         
         
         binary.scene_node_count  = len(self.scene_nodes)
@@ -214,7 +214,7 @@ class KFMDInterface:
         binary.textures_offset = ot.local_tell() if len(self.textures) else 0
         binary.rw_textures(ot)
         
-        binary.unknown_indices_offset = ot.local_tell() if len(self.unknown_indices) else 0
+        binary.unknown_indices_offset = ot.local_tell()# if len(self.unknown_indices) else 0
         binary.rw_unknown_indices(ot)
         
         binary.unknown_objs_offset = ot.local_tell() if len(self.unknown_objects) else 0
