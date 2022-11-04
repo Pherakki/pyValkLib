@@ -1,4 +1,5 @@
 import copy
+import io
 
 from .ReadWriter import Reader, Writer, Context
 
@@ -19,9 +20,19 @@ class Serializable:
         with Reader(filepath) as rw:
             rw.rw_obj(self)
             
+    def read_mem(self, bytestream):
+        rw = Reader(None)
+        rw.bytestream = bytestream
+        rw.rw_obj(self)
+        
     def write(self, filepath):
         with Writer(filepath) as rw:
             rw.rw_obj(self)
+            
+    def write_mem(self, bytestream):
+        rw = Writer(None)
+        rw.bytestream = bytestream
+        rw.rw_obj(self)
 
     def read_write(self, rw):
         raise NotImplementedError
