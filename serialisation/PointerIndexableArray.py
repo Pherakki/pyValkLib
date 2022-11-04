@@ -21,7 +21,15 @@ class PointerIndexableArray(Serializable):
         instance.ptr_to_idx = {offset + element_size*i : i for i in range(len(data))}
         instance.idx_to_ptr = {i : offset + element_size*i for i in range(len(data))}
         return instance
-        
+                
+    @classmethod
+    def from_placeholder_data(cls, context, ctor, count, offset, element_size=None):
+        instance = cls(context)
+        instance.data = [ctor() for _ in range(count)]
+        instance.ptr_to_idx = {offset + element_size*i : i for i in range(count)}
+        instance.idx_to_ptr = {i : offset + element_size*i for i in range(count)}
+        return instance
+    
     @classmethod
     def from_ragged_data(cls, context, data, offset, *args, **kwargs):
         instance = cls(context)
