@@ -103,6 +103,7 @@ class KFMDInterface:
         # Dump KFMS
         binary = KFMD_binary.KFMS
         ctx = binary.context
+        ctx.endianness = ">" if self.flags & 1 == 1 else "<"
 
         
         #####################
@@ -261,6 +262,8 @@ class KFMDInterface:
         ot.rw_obj(binary.EOFC)
         
         binary.header.contents_length = ot.local_tell() - binary.header.header_length
+        
+        binary.context.endianness = endianness
         
         return binary
     
