@@ -222,10 +222,6 @@ class KFMDInterface:
         ##################
         # OBJECT OFFSETS #
         ##################
-        # Mesh Groups
-        binary.mesh_groups.data = [mg.to_binary(ctx, i, binary.meshes, binary.materials) 
-                                   for i, mg in enumerate(self.mesh_groups)]
-
         # Scene Nodes
         (
             binary.scene_node_flags,
@@ -259,12 +255,13 @@ class KFMDInterface:
             snb.bounding_box_vertex_count = binary.bounding_boxes[sni.bounding_box_id].vertex_count if sni.bounding_box_id > -1 else 0
             
         # Bones
-        binary.bones.data = [bone.to_binary(ctx) for bone in self.bones]
         sn_count = len(self.scene_nodes)
-        for i, (bb, bi) in enumerate(zip(binary.bones, self.bones)):
-            bb.ID = sn_count + i
-            bb.ibpm_offset = binary.bone_ibpms.idx_to_ptr[bi.ibpm_idx]
+        binary.bones.data = [bone.to_binary(ctx, sn_count + i, binary.bone_ibpms) for i, bone in enumerate(self.bones)]
             
+        # Mesh Groups
+        binary.mesh_groups.data = [mg.to_binary(ctx, i, binary.meshes, binary.materials) 
+                                   for i, mg in enumerate(self.mesh_groups)]
+
 
             
         #######################
@@ -403,8 +400,10 @@ class BoneInterface:
         instance.ibpm_idx     = ibpm_binaries.ptr_to_idx[bone.ibpm_offset]
         return instance
     
-    def to_binary(self, context):
+    def to_binary(self, context, idx, ibpm_binaries):
         binary = BoneBinary(context)
+        binary.ibpm_offset = ibpm_binaries.idx_to_ptr[self.ibpm_idx]
+        binary.ID = idx
         binary.unknown_0x04 = self.unknown_0x04
         return binary
 
