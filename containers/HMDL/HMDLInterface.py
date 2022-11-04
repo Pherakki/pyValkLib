@@ -13,6 +13,7 @@ from .KFMD.KFMS.UnknownIndices import UnknownIndicesBinary, UnknownIndexGroupBin
 
 from pyValkLib.serialisation.ReadWriter import OffsetTracker
 
+
 class KFMDInterface:
     def __init__(self):
         # Replace a SceneNode tree with an Armature where appropriate?
@@ -36,7 +37,7 @@ class KFMDInterface:
         self.bounding_boxes  = [] # Should be calculable
         self.skeletons       = []
         self.bones           = []
-        self.ibpms           = [] # Should be calculable
+        self.ibpms           = [] # Calculable, but not byte-exact to originals, so leave for now
         self.mesh_groups     = []
         self.materials       = []
         self.meshes          = []
@@ -71,7 +72,7 @@ class KFMDInterface:
         instance.mesh_defs       = binary.mesh_definitions
         instance.bounding_boxes  = binary.bounding_boxes
         instance.skeletons       = binary.skeletons
-        instance.bones           = binary.bones
+        instance.bones           = [BoneInterface.from_binary(bn, binary.bone_ibpms) for bn in binary.bones]
         instance.ibpms           = binary.bone_ibpms
         instance.mesh_groups     = binary.mesh_groups
         instance.materials       = binary.materials
@@ -84,7 +85,6 @@ class KFMDInterface:
 
 
         # instance.skeletons  = [SkeletonInterface.from_binary(skel) for skel in binary.skeletons]
-        # instance.bones      = [BoneInterface.from_binary(bone) for bone in binary.bones]
         # instance.bounding_boxes = [BoundingBoxInterface.from_binary(bbox) for bbox in binary.bounding_boxes]
         # instance.ibpms      = binary.bone_ibpms
         # instance.meshes     = [MeshInterface.from_binary(mesh, [], [], binary.vertex_groups) for mesh in binary.meshes]
@@ -129,7 +129,6 @@ class KFMDInterface:
         binary.mesh_definitions = self.mesh_defs
         binary.bounding_boxes   = self.bounding_boxes
         binary.skeletons        = self.skeletons
-        binary.bones            = self.bones
         binary.bone_ibpms       = self.ibpms
         binary.mesh_groups      = self.mesh_groups
         binary.materials        = self.materials
@@ -194,6 +193,8 @@ class KFMDInterface:
         # Construct bounding boxes...!
         binary.rw_bounding_boxes(ot)
         binary.rw_skeletons(ot)
+        
+        binary.bones = binary.bones.from_data(ctx, [bone.to_binary(ctx) for bone in self.bones], ot.local_tell(), 0x08)
         binary.rw_bones(ot)
         binary.rw_bone_ibpms(ot)
         
@@ -232,7 +233,6 @@ class KFMDInterface:
             snb.object_offset_3  = binary.mesh_groups.idx_to_ptr[sni.obj_ID_start_3] if sni.obj_ID_start_3 > -1 else 0
             snb.skeletons_offset = binary.skeletons  .idx_to_ptr[sni.skeleton_idxs]  if sni.skeleton_idxs  > -1 else 0
             snb.bone_data_offset = binary.bones      .idx_to_ptr[sni.bone_idx]       if sni.bone_idx       > -1 else 0
-            snb.is_bone          = snb.bone_data_offset > 0
             
             snb.parent_ID        = sni.parent_ID if sni.parent_ID > -1 else 0
             snb.parent_offset    = binary.scene_nodes.idx_to_ptr[sni.parent_ID] if sni.parent_ID > -1 else 0
@@ -247,6 +247,12 @@ class KFMDInterface:
             
             snb.bounding_box_offset = binary.bounding_boxes.idx_to_ptr[sni.bounding_box_id]         if sni.bounding_box_id > -1 else 0
             snb.bounding_box_vertex_count = binary.bounding_boxes[sni.bounding_box_id].vertex_count if sni.bounding_box_id > -1 else 0
+            
+        # Bones
+        sn_count = len(self.scene_nodes)
+        for i, (bb, bi) in enumerate(zip(binary.bones, self.bones)):
+            bb.ID = sn_count + i
+            bb.ibpm_offset = binary.bone_ibpms.idx_to_ptr[bi.ibpm_idx]
             
         #######################
         # HEADER AND METADATA #
@@ -290,6 +296,7 @@ class SceneNodeInterface:
         # Should ideally abstract these out to a dedicated Armature class
         self.skeleton_count = None
         self.skeleton_idxs  = None
+        self.bone_type      = None # Only get type-2 bones when unknown_0x04 active on some bones?
         self.bone_idx       = None
         self.bounding_box_id = None
         
@@ -317,6 +324,7 @@ class SceneNodeInterface:
         instance.obj_ID_start_2  = mesh_group_binaries.ptr_to_idx.get(binary.object_offset_2, -1)
         instance.obj_ID_start_3  = mesh_group_binaries.ptr_to_idx.get(binary.object_offset_3, -1)
         instance.skeleton_idxs   = skeleton_binaries.ptr_to_idx.get(binary.skeletons_offset, -1)
+        instance.bone_type       = binary.bone_type
         instance.bone_idx        = bone_binaries.ptr_to_idx.get(binary.bone_data_offset, -1)
         instance.bounding_box_id = bbox_binaries.ptr_to_idx.get(binary.bounding_box_offset, -1)
         instance.position        = transform[0:3]
@@ -335,6 +343,7 @@ class SceneNodeInterface:
         binary.object_count_2 = self.object_count_2
         binary.object_count_3 = self.object_count_3
         binary.skeleton_count = self.skeleton_count
+        binary.bone_type      = self.bone_type
         
         return self.flags_1, binary, [*self.position, 0., *self.rotation, *self.scale, 0.]
 
@@ -372,11 +381,13 @@ class SkeletonInterface:
 class BoneInterface:
     def __init__(self):
         self.unknown_0x04 = None
+        self.ibpm_idx     = None
         
     @classmethod
-    def from_binary(cls, bone):
+    def from_binary(cls, bone, ibpm_binaries):
         instance = cls()
         instance.unknown_0x04 = bone.unknown_0x04
+        instance.ibpm_idx     = ibpm_binaries.ptr_to_idx[bone.ibpm_offset]
         return instance
     
     def to_binary(self, context):

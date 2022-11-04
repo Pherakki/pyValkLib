@@ -22,7 +22,7 @@ class SceneNodeBinary(Serializable):
         self.object_count_2            = None
         self.object_count_3            = None
         self.skeleton_count            = None
-        self.is_bone                   = None
+        self.bone_type                 = None
         self.object_offset_1           = None
         
         self.object_offset_2           = None
@@ -45,7 +45,7 @@ class SceneNodeBinary(Serializable):
         return f"[KFMS::SceneNode] {flags} {self.ID} {self.parent_ID} {self.unknown_0x08} {self.unknown_0x0C} " \
             f"{self.parent_offset} {self.first_child_offset} {self.next_sibling_offset} {self.bounding_box_offset} " \
             f"{self.bounding_box_vertex_count} {self.object_count_1} {self.object_count_2} {self.object_count_3} " \
-            f"{self.skeleton_count} {self.is_bone} {self.object_offset_1} {self.object_offset_2} {self.object_offset_3} " \
+            f"{self.skeleton_count} {self.bone_type} {self.object_offset_1} {self.object_offset_2} {self.object_offset_3} " \
             f"{self.skeletons_offset} {self.bone_data_offset} {self.unknown_0x44} {self.unknown_0x50}"
     
     def __eq__(self, other):
@@ -66,7 +66,7 @@ class SceneNodeBinary(Serializable):
             self.object_count_2            == other.object_count_2            and \
             self.object_count_3            == other.object_count_3            and \
             self.skeleton_count            == other.skeleton_count            and \
-            self.is_bone                   == other.is_bone                   and \
+            self.bone_type                 == other.bone_type                   and \
             self.object_offset_1           == other.object_offset_1           and \
             \
             self.object_offset_2           == other.object_offset_2           and \
@@ -101,7 +101,7 @@ class SceneNodeBinary(Serializable):
         self.object_count_2            = rw.rw_uint16(self.object_count_2)
         self.object_count_3            = rw.rw_uint16(self.object_count_3)
         self.skeleton_count            = rw.rw_uint16(self.skeleton_count)
-        self.is_bone                   = rw.rw_uint16(self.is_bone)
+        self.bone_type                 = rw.rw_uint16(self.bone_type)
         self.object_offset_1           = rw.rw_pointer(self.object_offset_1)
         
         self.object_offset_2           = rw.rw_pointer(self.object_offset_2)
