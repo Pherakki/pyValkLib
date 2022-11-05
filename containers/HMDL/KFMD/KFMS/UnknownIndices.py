@@ -21,6 +21,8 @@ class UnknownIndicesBinary(Serializable):
         rw.align(0x08, 0x10)
         
         rw.mark_new_contents_array()
+        if self.unknown_objs_offset > 0:
+            rw.assert_local_file_pointer_now_at("Unknown Index Groups", self.unknown_objs_offset)
         self.index_groups = rw.rw_obj_array(self.index_groups, lambda: UnknownIndexGroupBinary(self.context), self.index_group_count)
 
         rw.align(rw.local_tell(), 0x10)
