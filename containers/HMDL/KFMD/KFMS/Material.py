@@ -60,6 +60,48 @@ class MaterialBinary(Serializable):
                f"{self.unknown_0x90} {self.unknown_0x91} {self.unknown_0x92} {self.unknown_0x93}\n" \
                f"{self.unknown_0x94} {self.padding_0x98} {self.unknown_0x9C}"
         
+    def __eq__(self, other):
+        return \
+        self.unknown_0x00     == other.unknown_0x00     and \
+        self.shader_ID        == other.shader_ID        and \
+        self.padding_0x08     == other.padding_0x08     and \
+        self.num_textures     == other.num_textures     and \
+        self.src_blend        == other.src_blend        and \
+        self.dst_blend        == other.dst_blend        and \
+        self.backface_culling == other.backface_culling and \
+        \
+        self.texture_1_offset == other.texture_1_offset and \
+        self.texture_2_offset == other.texture_2_offset and \
+        self.texture_3_offset == other.texture_3_offset and \
+        self.padding_0x1C     == other.padding_0x1C     and \
+        \
+        self.padding_0x20     == other.padding_0x20     and \
+        self.padding_0x24     == other.padding_0x24     and \
+        self.padding_0x28     == other.padding_0x28     and \
+        self.padding_0x2C     == other.padding_0x2C     and \
+        \
+        list(self.color_1)     == list(other.color_1)   and \
+        list(self.color_2)     == list(other.color_2)   and \
+        list(self.color_3)     == list(other.color_3)   and \
+        list(self.color_4)     == list(other.color_4)   and \
+        \
+        self.padding_0x70     == other.padding_0x70     and \
+        self.padding_0x74     == other.padding_0x74     and \
+        self.padding_0x78     == other.padding_0x78     and \
+        self.padding_0x7C     == other.padding_0x7C     and \
+        \
+        self.padding_0x80     == other.padding_0x80     and \
+        self.unknown_0x88     == other.unknown_0x88     and \
+        self.padding_0x8C     == other.padding_0x8C     and \
+        \
+        self.unknown_0x90     == other.unknown_0x90     and \
+        self.unknown_0x91     == other.unknown_0x91     and \
+        self.unknown_0x92     == other.unknown_0x92     and \
+        self.unknown_0x93     == other.unknown_0x93     and \
+        self.unknown_0x94     == other.unknown_0x94     and \
+        self.padding_0x98     == other.padding_0x98     and \
+        self.unknown_0x9C     == other.unknown_0x9C
+        
     def read_write(self, rw):
         self.unknown_0x00     = rw.rw_uint32(self.unknown_0x00)
         self.shader_ID        = rw.rw_uint32(self.shader_ID)
