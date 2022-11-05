@@ -76,7 +76,7 @@ class KFMDInterface:
         instance.bones           = [BoneInterface.from_binary(bn, binary.bone_ibpms) for bn in binary.bones]
         instance.ibpms           = binary.bone_ibpms
         instance.mesh_groups     = [MeshGroupInterface.from_binary(mg, binary.meshes, binary.materials) for mg in binary.mesh_groups]
-        instance.materials       = binary.materials
+        instance.materials       = [MaterialInterface.from_binary(mat, binary.textures) for mat in binary.materials]
         instance.meshes          = binary.meshes
         instance.vertex_groups   = binary.vertex_groups
         instance.textures        = binary.textures
@@ -89,7 +89,6 @@ class KFMDInterface:
         # instance.bounding_boxes = [BoundingBoxInterface.from_binary(bbox) for bbox in binary.bounding_boxes]
         # instance.ibpms      = binary.bone_ibpms
         # instance.meshes     = [MeshInterface.from_binary(mesh, [], [], binary.vertex_groups) for mesh in binary.meshes]
-        # instance.materials  = [MaterialInterface.from_binary(mat, binary.textures) for mat in binary.materials]
         # instance.vertex_groups = binary.vertex_groups
         # instance.textures   = [TextureInterface.from_binary(tex) for tex in binary.textures]
         return instance
@@ -127,7 +126,6 @@ class KFMDInterface:
         binary.bounding_boxes   = self.bounding_boxes
         binary.skeletons        = self.skeletons
         binary.bone_ibpms       = self.ibpms
-        binary.materials        = self.materials
         binary.meshes           = self.meshes
         binary.vertex_groups    = self.vertex_groups
         binary.textures         = self.textures
@@ -203,6 +201,7 @@ class KFMDInterface:
         binary.rw_mesh_groups(ot)
         
         binary.materials_offset = ot.local_tell() if len(self.materials) else 0
+        binary.materials = construct_PIA(ctx, lambda: MaterialBinary(ctx), len(self.materials), ot.local_tell(), 0xA0)
         binary.rw_materials(ot)
         
         binary.meshes_offset = ot.local_tell() if len(self.meshes) else 0
@@ -242,7 +241,8 @@ class KFMDInterface:
         binary.mesh_groups.data = [mg.to_binary(ctx, i, binary.meshes, binary.materials) 
                                    for i, mg in enumerate(self.mesh_groups)]
 
-
+        # Materials
+        binary.materials.data = [mat.to_binary(ctx, binary.textures) for mat in self.materials]
             
         #######################
         # HEADER AND METADATA #
@@ -511,22 +511,22 @@ class MaterialInterface:
         self.color_2          = None
         self.color_3          = None
         self.color_4          = None
-        self.textures         = []
+        self.texture_1_ID     = None
+        self.texture_2_ID     = None
+        self.texture_3_ID     = None
     
     @classmethod
     def from_binary(cls, binary, texture_binaries):
         instance = cls()
+        instance.unknown_0x00     = binary.unknown_0x00
         instance.shader_ID        = binary.shader_ID
         instance.src_blend        = binary.src_blend
         instance.dst_blend        = binary.dst_blend
         instance.backface_culling = binary.backface_culling
         
-        if binary.texture_1_offset:
-            instance.textures.append(texture_binaries.ptr_to_idx[binary.texture_1_offset])
-        if binary.texture_2_offset:
-            instance.textures.append(texture_binaries.ptr_to_idx[binary.texture_2_offset])
-        if binary.texture_3_offset:
-            instance.textures.append(texture_binaries.ptr_to_idx[binary.texture_3_offset])
+        instance.texture_1_ID = texture_binaries.ptr_to_idx.get(binary.texture_1_offset, -1)
+        instance.texture_2_ID = texture_binaries.ptr_to_idx.get(binary.texture_2_offset, -1)
+        instance.texture_3_ID = texture_binaries.ptr_to_idx.get(binary.texture_3_offset, -1)
         
         instance.color_1         = binary.color_1
         instance.color_2         = binary.color_2
@@ -538,16 +538,20 @@ class MaterialInterface:
         
         return instance
 
-    def to_binary(self, context):
+    def to_binary(self, context, texture_binaries):
         binary = MaterialBinary(context)
         
         # Need to fill in offsets after they'e been calculated
-        binary.unknown_0x00     = 0
+        binary.unknown_0x00     = self.unknown_0x00
         binary.shader_ID        = self.shader_ID
-        binary.num_textures     = len(self.textures)
+        binary.num_textures     = sum([t > -1 for t in [self.texture_1_ID, self.texture_2_ID, self.texture_3_ID]])
         binary.src_blend        = self.src_blend
         binary.dst_blend        = self.dst_blend
         binary.backface_culling = self.backface_culling
+        
+        binary.texture_1_offset = texture_binaries.idx_to_ptr[self.texture_1_ID] if self.texture_1_ID > -1 else 0
+        binary.texture_2_offset = texture_binaries.idx_to_ptr[self.texture_2_ID] if self.texture_2_ID > -1 else 0
+        binary.texture_3_offset = texture_binaries.idx_to_ptr[self.texture_3_ID] if self.texture_3_ID > -1 else 0
         
         binary.color_1          = self.color_1
         binary.color_2          = self.color_2
@@ -558,6 +562,7 @@ class MaterialInterface:
         binary.unknown_0x9C     = self.unknown_0x9C
         
         return binary
+    
         
 
 class TextureInterface:

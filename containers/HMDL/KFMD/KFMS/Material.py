@@ -9,7 +9,7 @@ class MaterialBinary(Serializable):
         self.unknown_0x00     = None
         self.shader_ID        = None
         self.padding_0x08     = 0
-        self.num_textures     = None
+        self.num_textures     = 0
         self.src_blend        = None
         self.dst_blend        = None
         self.backface_culling = None
