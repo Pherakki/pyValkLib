@@ -81,7 +81,7 @@ class KFMDInterface:
         instance.meshes          = [MeshInterface.from_binary(mesh, KFMG_binary.vertices, KFMG_binary.faces, binary.vertex_groups) for mesh in binary.meshes]
         instance.vertex_groups   = binary.vertex_groups
         instance.textures        = binary.textures
-        instance.unknown_indices = binary.unknown_indices#UnknownIndicesInterface.from_binary(binary.unknown_indices)
+        instance.unknown_indices = UnknownIndicesInterface.from_binary(binary.unknown_indices)
         instance.unknown_objects = binary.unknown_objects
         
 
@@ -127,7 +127,6 @@ class KFMDInterface:
         binary.bone_ibpms       = self.ibpms
         binary.vertex_groups    = self.vertex_groups
         binary.textures         = self.textures
-        binary.unknown_indices  = self.unknown_indices#UnknownIndicesInterface.to_binary(ctx, self.unknown_indices)
         binary.unknown_objects  = self.unknown_objects
         
         
@@ -211,6 +210,7 @@ class KFMDInterface:
         binary.rw_textures(ot)
         
         binary.unknown_indices_offset = ot.local_tell() if len(self.unknown_indices.index_groups) else 0
+        binary.unknown_indices = self.unknown_indices.to_binary(ctx, binary.unknown_indices_offset)
         binary.rw_unknown_indices(ot)
         
         binary.unknown_objs_offset = ot.local_tell() if len(self.unknown_objects) else 0
@@ -638,17 +638,26 @@ class TextureInterface:
         return binary
 
 class UnknownIndicesInterface:
-    @staticmethod
-    def from_binary(binary):
-        return [list(o.indices) for o in binary.index_groups]
+    def __init__(self):
+        self.index_groups = []
     
-    @staticmethod
-    def to_binary(context, lst):
+    @classmethod
+    def from_binary(cls, binary):
+        instance = cls()
+        instance.index_groups = [list(o.indices) for o in binary.index_groups]
+        return instance
+    
+    def to_binary(self, context, start_offset):
         binary = UnknownIndicesBinary(context)
-        for idx_list in lst:
+        binary.unknown_objs_offset = start_offset + 0x10
+        accumulated_offset = start_offset + 0x10 + len(self.index_groups)*0x08
+        accumulated_offset += (0x10 - (accumulated_offset % 0x10)) % 0x10
+        for idx_group in self.index_groups:
             igb = UnknownIndexGroupBinary(context)
-            igb.count = len(idx_list)
-            igb.indices = idx_list
+            igb.count   = len(idx_group)
+            igb.indices = idx_group
+            igb.offset  = accumulated_offset
             binary.index_groups.append(igb)
+            accumulated_offset += igb.count*0x08
         return binary
     
