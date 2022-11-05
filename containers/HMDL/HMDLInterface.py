@@ -50,6 +50,7 @@ class KFMDInterface:
     @classmethod
     def from_binary(cls, KFMD_binary):
         binary = KFMD_binary.KFMS
+        KFMG_binary = KFMD_binary.KFMG
         
         # Unpack KFMG into verts / indices?
         instance = cls()
@@ -77,7 +78,7 @@ class KFMDInterface:
         instance.ibpms           = binary.bone_ibpms
         instance.mesh_groups     = [MeshGroupInterface.from_binary(mg, binary.meshes, binary.materials) for mg in binary.mesh_groups]
         instance.materials       = [MaterialInterface.from_binary(mat, binary.textures) for mat in binary.materials]
-        instance.meshes          = binary.meshes
+        instance.meshes          = [MeshInterface.from_binary(mesh, KFMG_binary.vertices, KFMG_binary.faces, binary.vertex_groups) for mesh in binary.meshes]
         instance.vertex_groups   = binary.vertex_groups
         instance.textures        = binary.textures
         instance.unknown_indices = binary.unknown_indices#UnknownIndicesInterface.from_binary(binary.unknown_indices)
@@ -93,7 +94,7 @@ class KFMDInterface:
         # instance.textures   = [TextureInterface.from_binary(tex) for tex in binary.textures]
         return instance
         
-    def to_binary(self, endianness, depth, ENRS, CCRS):
+    def to_binary(self, endianness, depth, ENRS, CCRS, validation_mode=True):
         KFMD_binary = KFMDReadWriter(endianness)
         
         # First dump KFMG
@@ -126,7 +127,6 @@ class KFMDInterface:
         binary.bounding_boxes   = self.bounding_boxes
         binary.skeletons        = self.skeletons
         binary.bone_ibpms       = self.ibpms
-        binary.meshes           = self.meshes
         binary.vertex_groups    = self.vertex_groups
         binary.textures         = self.textures
         binary.unknown_indices  = self.unknown_indices#UnknownIndicesInterface.to_binary(ctx, self.unknown_indices)
@@ -148,7 +148,6 @@ class KFMDInterface:
         # # Fill in data
         
         # binary.skeletons.data  = [si.to_binary(ctx) for si in self.skeletons]
-        # binary.meshes.data     = [mi.to_binary(ctx) for mi in self.meshes] # Need a PIA constructor that auto-gens pointers...
         # binary.materials.data  = [mi.to_binary(ctx) for mi in self.materials]
         # binary.textures.data   = [ti.to_binary(ctx) for ti in self.textures]
         
@@ -205,6 +204,7 @@ class KFMDInterface:
         binary.rw_materials(ot)
         
         binary.meshes_offset = ot.local_tell() if len(self.meshes) else 0
+        binary.meshes = construct_PIA(ctx, lambda: MeshBinary(ctx), len(self.meshes), ot.local_tell(), 0x20)
         binary.rw_meshes(ot)
         
         # Construct vertex groups...
@@ -244,6 +244,12 @@ class KFMDInterface:
         # Materials
         binary.materials.data = [mat.to_binary(ctx, binary.textures) for mat in self.materials]
             
+        # Meshes
+        if validation_mode:
+            binary.meshes.data = [mesh.to_validator_binary(ctx, binary.vertex_groups) for mesh in self.meshes]
+        else:
+            binary.meshes.data = [mesh.to_binary(ctx, binary.vertex_groups) for mesh in self.meshes]
+        
         #######################
         # HEADER AND METADATA #
         #######################
@@ -251,8 +257,12 @@ class KFMDInterface:
         binary.header.depth = depth + 1
         
         binary.POF0 = binary.POF0.from_obj(binary)
-        binary.ENRS = ENRS
-        binary.CCRS = CCRS
+        if validation_mode:
+            binary.ENRS = ENRS
+            binary.CCRS = CCRS
+        else:
+            binary.ENRS = binary.ENRS.from_obj(binary)
+            binary.CCRS = binary.CCRS.from_obj(binary)
         binary.MTXS = binary.MTXS.from_obj(binary)
         binary.EOFC.header.depth = binary.header.depth + 1
         ot.rw_obj(binary.POF0)
@@ -467,37 +477,79 @@ class MeshGroupInterface:
         
 class MeshInterface:
     def __init__(self):
-        self.unknown_0x02       = None
-        self.unknown_0x04       = None
-        self.vertex_groups      = []
-        self.vertices           = []
-        self.face_indices       = []
+        self.unknown_0x02            = None
+        self.unknown_0x04            = None
+        self.vertex_group_count      = None
+        self.vertex_group_start_ID   = None
+        self.vertex_count            = None
+        self.kfmg_vertices_idx       = None
+        self.faces_count             = None
+        self.kfmg_faces_idx          = None
+        self.mesh_group_vertices_idx = None
+        
+        self.vertices              = []
+        self.face_indices          = []
         
     @classmethod
     def from_binary(cls, binary, vertex_bank, face_bank, vertex_group_binaries):
         instance = cls()
-        instance.unknown_0x02  = binary.unknown_0x02
-        instance.unknown_0x04  = binary.unknown_0x04
-        instance.vertex_groups = []
-        instance.vertices      = []
-        instance.face_indices  = []
+        instance.unknown_0x02          = binary.unknown_0x02
+        instance.unknown_0x04          = binary.unknown_0x04
+        instance.vertex_group_start_ID = vertex_group_binaries.ptr_to_idx.get(binary.vertex_groups_offset, -1)
+        instance.vertex_group_count    = binary.vertex_group_count
+        
+        # Ver 1
+        instance.vertex_count            = binary.vertex_count
+        instance.kfmg_vertices_idx       = binary.kfmg_vertices_idx
+        instance.faces_count             = binary.faces_count
+        instance.kfmg_faces_idx          = binary.kfmg_faces_idx
+        instance.mesh_group_vertices_idx = binary.mesh_group_vertices_idx
+        
+        # Ver 2
+        instance.vertices      = vertex_bank[binary.kfmg_vertices_idx:binary.kfmg_vertices_idx+binary.vertex_count]
+        instance.face_indices  = vertex_bank[binary.kfmg_faces_idx:binary.kfmg_faces_idx+binary.faces_count]
+        
         return instance
     
-    def to_binary(self, context):
+    def to_binary(self, context, vertex_group_binaries):
         binary = MeshBinary(context)
-        binary.vertex_group_count   = len(self.vertex_groups)
+        binary.vertex_group_count   = self.vertex_group_count
         binary.unknown_0x02         = self.unknown_0x02
         binary.unknown_0x04         = self.unknown_0x04
-        binary.vertex_count         = len(self.vertices)
-        binary.faces_count          = len(self.face_indices)
-        # binary.vertex_groups_offset = None
         
-        # self.kfmg_vertices_idx       = None
-        # self.kfmg_faces_idx          = None
-        # self.mesh_group_vertices_idx = None
+        binary.unknown_0x02          = self.unknown_0x02
+        binary.unknown_0x04          = self.unknown_0x04
+        binary.vertex_groups_offset  = vertex_group_binaries.idx_to_ptr[self.vertex_group_start_ID] if self.vertex_group_start_ID > -1 else 0
+        binary.vertex_group_count    = self.vertex_group_count
+
+        # Ver 2
+        # binary.vertex_count            = len(self.vertices)
+        # binary.faces_count             = len(self.face_indices)
+        # binary.kfmg_vertices_idx       = ???
+        # binary.kfmg_faces_idx          = ???
+        # binary.mesh_group_vertices_idx = ???
+        
         return binary
-
-
+    
+    def to_validator_binary(self, context, vertex_group_binaries):
+        binary = MeshBinary(context)
+        binary.vertex_group_count   = self.vertex_group_count
+        binary.unknown_0x02         = self.unknown_0x02
+        binary.unknown_0x04         = self.unknown_0x04
+        
+        binary.unknown_0x02          = self.unknown_0x02
+        binary.unknown_0x04          = self.unknown_0x04
+        binary.vertex_groups_offset  = vertex_group_binaries.idx_to_ptr[self.vertex_group_start_ID] if self.vertex_group_start_ID > -1 else 0
+        binary.vertex_group_count    = self.vertex_group_count
+        
+        binary.vertex_count            = self.vertex_count
+        binary.kfmg_vertices_idx       = self.kfmg_vertices_idx
+        binary.faces_count             = self.faces_count
+        binary.kfmg_faces_idx          = self.kfmg_faces_idx
+        binary.mesh_group_vertices_idx = self.mesh_group_vertices_idx
+        
+        return binary
+    
 class MaterialInterface:
     def __init__(self):
         self.shader_ID        = None
