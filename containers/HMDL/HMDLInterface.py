@@ -213,7 +213,7 @@ class KFMDInterface:
         binary.textures_offset = ot.local_tell() if len(self.textures) else 0
         binary.rw_textures(ot)
         
-        binary.unknown_indices_offset = ot.local_tell()# if len(self.unknown_indices) else 0
+        binary.unknown_indices_offset = ot.local_tell() if len(self.unknown_indices.index_groups) else 0
         binary.rw_unknown_indices(ot)
         
         binary.unknown_objs_offset = ot.local_tell() if len(self.unknown_objects) else 0
