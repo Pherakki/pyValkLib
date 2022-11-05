@@ -28,6 +28,7 @@ class KFMGReadWriter(ValkSerializable32BH):
     def read_write_contents(self, rw):
         is_big_endian = self.KFMS_ref.flags & 1 == 1
         self.context.endianness = '>' if is_big_endian else '<'
+        
         if self.header.data_length and is_big_endian:
             rw.assert_equal(self.header.flags, 0x18000000, lambda x: hex(x))
         else:
@@ -78,6 +79,9 @@ class Vertex0x2C(Serializable):
         self.UV_2 = None
         self.UV_3 = None
         
+    def __repr__(self):
+        return f"[KFMG::Vertex0x2C] {self.position} {self.unknown} {self.normal} {self.color_1} {self.color_2} {self.UV_1} {self.UV_2} {self.UV_3}"
+        
     def read_write(self, rw):
         self.position = rw.rw_float32s(self.position, 3)
         self.unknown  = rw.rw_vec32(self.unknown) # Tangent?
@@ -103,6 +107,9 @@ class Vertex0x30(Serializable):
         self.normal = None
         self.unknown = None
         
+    def __repr__(self):
+        return f"[KFMG::Vertex0x30] {self.position} {self.vertex_groups} {self.vertex_weights} {self.color} {self.UV_1} {self.UV_2} {self.UV_3} {self.normal} {self.unknown}"
+    
     def read_write(self, rw):
         self.position       = rw.rw_float32s(self.position, 3)
         self.vertex_groups  = rw.rw_uint8s(self.vertex_groups, 4)
