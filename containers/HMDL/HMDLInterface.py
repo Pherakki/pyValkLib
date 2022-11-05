@@ -88,10 +88,8 @@ class KFMDInterface:
 
         # instance.skeletons  = [SkeletonInterface.from_binary(skel) for skel in binary.skeletons]
         # instance.bounding_boxes = [BoundingBoxInterface.from_binary(bbox) for bbox in binary.bounding_boxes]
-        # instance.ibpms      = binary.bone_ibpms
-        # instance.meshes     = [MeshInterface.from_binary(mesh, [], [], binary.vertex_groups) for mesh in binary.meshes]
-        # instance.vertex_groups = binary.vertex_groups
         # instance.textures   = [TextureInterface.from_binary(tex) for tex in binary.textures]
+        
         return instance
         
     def to_binary(self, endianness, depth, ENRS, CCRS, validation_mode=True):
@@ -148,7 +146,6 @@ class KFMDInterface:
         # # Fill in data
         
         # binary.skeletons.data  = [si.to_binary(ctx) for si in self.skeletons]
-        # binary.materials.data  = [mi.to_binary(ctx) for mi in self.materials]
         # binary.textures.data   = [ti.to_binary(ctx) for ti in self.textures]
         
         # # Now construct derived objects
