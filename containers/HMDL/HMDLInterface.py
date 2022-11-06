@@ -380,6 +380,7 @@ class MeshDataInterface:
             initial_idx, initial_count = len(mbs), len(bundle)
             vtx_count = 0
             face_count = 0
+            bundle_vtx_count = total_vtx_count
             for mb in bundle:
                 mbs.append(mb.to_binary(context, total_vtx_count, total_face_count, vtx_count, vertex_group_binaries))
                 vtx_count += len(mb.vertices)
@@ -387,11 +388,11 @@ class MeshDataInterface:
                 
                 KFMG_binary.vertices.data += mb.vertices
                 KFMG_binary.faces.data += mb.face_indices
+                total_vtx_count += len(mb.vertices)
+                total_face_count += len(mb.face_indices)
             
-            bundle_idx_to_mesh_info.append((initial_idx, initial_count, total_vtx_count*mesh_def.bytes_per_vertex, vtx_count))
+            bundle_idx_to_mesh_info.append((initial_idx, initial_count, bundle_vtx_count*mesh_def.bytes_per_vertex, vtx_count))
             
-            total_vtx_count += vtx_count
-            total_face_count += face_count
             
         mgs = [mg.to_binary(context, idx, bundle_idx_to_mesh_info, mesh_binaries, material_binaries) for idx, mg in enumerate(self.groups)]
         mesh_def.faces_offset = 0
