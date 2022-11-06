@@ -307,7 +307,7 @@ class KFMDInterface:
         
         KFMD_binary.header.data_length = 0
         KFMD_binary.header.depth = depth
-        KFMD_binary.header.contents_length = binary.header.contents_length + KFMG_binary.header.contents_length + 0x60
+        KFMD_binary.header.contents_length = sum(c.header.header_length + c.header.contents_length for c in KFMD_binary.get_subcontainers())
         KFMD_binary.EOFC.header.depth = depth + 1
         
         return KFMD_binary
